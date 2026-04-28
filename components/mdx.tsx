@@ -7,7 +7,6 @@ import {
 import type { MDXComponents } from "mdx/types";
 import { getCustomMDXComponents } from "@/components/mdx-custom-components";
 import CopyButton from "@/components/copy-button";
-import { CodeBlock } from "@/components/code-block";
 import { getIconForLanguageExtension } from "@/assets/language/icons";
 
 function cn(...values: Array<string | false | null | undefined>) {
@@ -126,8 +125,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
                 <CopyButton code={code} />
               </div>
               <figure data-rehype-pretty-code-figure="">
-                <div className={cn("rounded-md border bg-background shadow-none", className)}>
-                  <pre className="overflow-x-auto bg-transparent p-0 text-sm" {...props}>
+                <div className="rounded-md border shadow-none">
+                  <pre className={cn("overflow-x-auto bg-transparent p-0 text-sm", className)} {...props}>
                     {children}
                   </pre>
                 </div>

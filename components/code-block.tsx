@@ -49,7 +49,7 @@ export async function CodeBlock({
         </div>
         <figure data-rehype-pretty-code-figure="">
           <div
-            className={cn("bg-background rounded-md border shadow-none", className)}
+            className={cn(className, "rounded-md border shadow-none")}
             dangerouslySetInnerHTML={{ __html: highlightedCode }}
           />
         </figure>
