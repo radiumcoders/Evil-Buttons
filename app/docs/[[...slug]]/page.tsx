@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { getMDXComponents } from "@/components/mdx";
 import { source } from "@/lib/source";
 
@@ -12,7 +11,9 @@ type DocsPageProps = {
 
 export default async function DocsPage({ params }: DocsPageProps) {
   const resolved = await params;
-  const page = source.getPage(resolved.slug);
+  const page = !resolved.slug || resolved.slug.length === 0
+    ? source.getPage(["introduction"])
+    : source.getPage(resolved.slug);
 
   if (!page) notFound();
 
@@ -38,7 +39,9 @@ export async function generateMetadata({
   params,
 }: DocsPageProps): Promise<Metadata> {
   const resolved = await params;
-  const page = source.getPage(resolved.slug);
+  const page = !resolved.slug || resolved.slug.length === 0
+    ? source.getPage(["introduction"])
+    : source.getPage(resolved.slug);
 
   if (!page) {
     return {};
