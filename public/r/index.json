@@ -1,0 +1,16 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "evil-buttons",
+  "homepage": "http://localhost:3000/docs",
+  "items": [
+    {
+      "name": "evil-button",
+      "type": "registry:ui",
+      "title": "Evil Button",
+      "description": "A clean, opinionated button from Evil Buttons.",
+      "files": [
+        "components/evil-buttons/evil-button.tsx"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "evil-button",
+  "type": "registry:ui",
+  "title": "Evil Button",
+  "description": "A clean, opinionated button from Evil Buttons.",
+  "files": [
+    {
+      "path": "components/evil-buttons/evil-button.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/evil-button.tsx",
+      "content": "import type { ButtonHTMLAttributes } from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport function EvilButton({ className, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) {\n  return (\n    <button\n      className={cn(\n        \"inline-flex items-center justify-center rounded-md border border-border bg-foreground px-4 py-2 text-sm font-medium text-background transition-transform hover:-translate-y-0.5 hover:shadow-md\",\n        className,\n      )}\n      {...props}\n    />\n  );\n}\n"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}
