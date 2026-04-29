@@ -4,9 +4,16 @@ import { PreviewCard } from "@/components/preview-card";
 import { CliBlock } from "@/components/cli-block";
 import { CodeBlock } from "@/components/code-block";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
+import StickyButton from "@/components/evil-buttons/sticky";
 
 type CmdProps = {
   children: ReactNode;
+};
+
+type LinkProps = {
+  children: ReactNode;
+  href: string;
+  _blank?: boolean;
 };
 
 function extractText(node: ReactNode): string {
@@ -34,12 +41,37 @@ function Cmd({ children }: CmdProps) {
   return <CliBlock commands={commands} />;
 }
 
+function Link({ children, href, _blank }: LinkProps) {
+  if (_blank) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary"
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <a
+      href={href}
+      className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary"
+    >
+      {children}
+    </a>
+  );
+}
+
 export function getCustomMDXComponents(): MDXComponents {
   return {
     PreviewCard,
     Cmd,
     CodeBlock,
     ClickPowerUp,
+    StickyButton,
     EvilButton: ClickPowerUp,
+    Link,
   };
 }

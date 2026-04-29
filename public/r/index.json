@@ -11,6 +11,15 @@
       "files": [
         "components/evil-buttons/click-powerup.tsx"
       ]
+    },
+    {
+      "name": "sticky",
+      "type": "registry:ui",
+      "title": "StickyButton",
+      "description": "A magnetic button that follows cursor movement with spring physics.",
+      "files": [
+        "components/evil-buttons/sticky.tsx"
+      ]
     }
   ]
 }

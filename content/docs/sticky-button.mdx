@@ -1,0 +1,39 @@
+---
+title: StickyButton
+description: A magnetic button that follows cursor movement with spring physics.
+---
+
+StickyButton is a magnetic button that follows your cursor movement with smooth spring physics. It creates an engaging, playful interaction as the button subtly moves toward your mouse.
+
+## Preview
+
+<PreviewCard title="StickyButton" note="Interactive">
+  <StickyButton>Deploy Doom</StickyButton>
+</PreviewCard>
+
+## Install
+
+Run the registry builder locally, then add the item with the shadcn CLI.
+
+<Cmd>https://evilbuttons.radiumcoders.com/r/sticky.json</Cmd>
+
+## Usage
+
+```tsx
+import StickyButton from "@/components/evil-buttons/sticky";
+
+export function ButtonDemo() {
+  return <StickyButton>Launch</StickyButton>;
+}
+```
+
+## Props
+
+| Prop        | Type              | Default | Description                                  |
+| ----------- | ----------------- | ------- | -------------------------------------------- |
+| `children`  | `React.ReactNode` | -       | The visible button label or content.         |
+| `className` | `string`          | -       | Extra classes passed to the wrapper `div`.    |
+
+## Registry
+
+The registry item includes `components/evil-buttons/sticky.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.

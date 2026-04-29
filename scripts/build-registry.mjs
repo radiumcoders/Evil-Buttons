@@ -5,14 +5,14 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 
-const componentPath = resolve(root, "components/evil-buttons/click-powerup.tsx");
 const registryDir = resolve(root, "public/r");
-const registryItemPath = resolve(registryDir, "click-powerup.json");
 const registryIndexPath = resolve(registryDir, "index.json");
 
-const componentSource = await readFile(componentPath, "utf8");
+// Read both component sources
+const clickPowerupSource = await readFile(resolve(root, "components/evil-buttons/click-powerup.tsx"), "utf8");
+const stickySource = await readFile(resolve(root, "components/evil-buttons/sticky.tsx"), "utf8");
 
-const item = {
+const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
   name: "click-powerup",
   type: "registry:ui",
@@ -23,7 +23,24 @@ const item = {
       path: "components/evil-buttons/click-powerup.tsx",
       type: "registry:ui",
       target: "components/evil-buttons/click-powerup.tsx",
-      content: componentSource,
+      content: clickPowerupSource,
+    },
+  ],
+  dependencies: ["motion", "clsx", "tailwind-merge"],
+};
+
+const stickyItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "sticky",
+  type: "registry:ui",
+  title: "StickyButton",
+  description: "A magnetic button that follows cursor movement with spring physics.",
+  files: [
+    {
+      path: "components/evil-buttons/sticky.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/sticky.tsx",
+      content: stickySource,
     },
   ],
   dependencies: ["motion", "clsx", "tailwind-merge"],
@@ -41,13 +58,22 @@ const index = {
       description: "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
       files: ["components/evil-buttons/click-powerup.tsx"],
     },
+    {
+      name: "sticky",
+      type: "registry:ui",
+      title: "StickyButton",
+      description: "A magnetic button that follows cursor movement with spring physics.",
+      files: ["components/evil-buttons/sticky.tsx"],
+    },
   ],
 };
 
 await mkdir(registryDir, { recursive: true });
-await writeFile(registryItemPath, `${JSON.stringify(item, null, 2)}\n`, "utf8");
+await writeFile(resolve(registryDir, "click-powerup.json"), `${JSON.stringify(clickPowerupItem, null, 2)}\n`, "utf8");
+await writeFile(resolve(registryDir, "sticky.json"), `${JSON.stringify(stickyItem, null, 2)}\n`, "utf8");
 await writeFile(registryIndexPath, `${JSON.stringify(index, null, 2)}\n`, "utf8");
 
 console.log("Registry built:");
 console.log("- public/r/index.json");
 console.log("- public/r/click-powerup.json");
+console.log("- public/r/sticky.json");

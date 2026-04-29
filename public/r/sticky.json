@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sticky",
+  "type": "registry:ui",
+  "title": "StickyButton",
+  "description": "A magnetic button that follows cursor movement with spring physics.",
+  "files": [
+    {
+      "path": "components/evil-buttons/sticky.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/sticky.tsx",
+      "content": "\"use client\";\r\n\r\nimport { cn } from \"@/lib/utils\";\r\nimport { motion } from \"motion/react\";\r\nimport { ReactNode, useRef, useState } from \"react\";\r\n\r\nfunction StickyButton({\r\n  children,\r\n  className,\r\n}: {\r\n  children: ReactNode;\r\n  className?: string;\r\n}) {\r\n  const ref = useRef<HTMLDivElement | null>(null);\r\n  const [position, setPosition] = useState({ x: 0, y: 0 });\r\n\r\n  const mouseMove = (e: React.MouseEvent) => {\r\n    if (!ref.current) return;\r\n    const { clientX, clientY } = e;\r\n    const { height, width, left, top } = ref.current.getBoundingClientRect();\r\n\r\n    const centerX = (clientX - (left + width / 2)) * 0.4;\r\n    const centerY = (clientY - (top + height / 2)) * 0.4;\r\n    setPosition({ x: centerX, y: centerY });\r\n  };\r\n\r\n  const mouseLeave = () => {\r\n    setPosition({ x: 0, y: 0 });\r\n  };\r\n\r\n  const { x, y } = position;\r\n\r\n  return (\r\n    <motion.div\r\n      onMouseMove={mouseMove}\r\n      onMouseLeave={mouseLeave}\r\n      ref={ref}\r\n      animate={{ x, y }}\r\n      transition={{\r\n        type: \"spring\",\r\n        stiffness: 200,\r\n        damping: 20,\r\n        mass: 0.5,\r\n      }}\r\n      className={cn(\r\n        \"border-border border-dashed border-2 rounded px-4 py-2\",\r\n        className,\r\n      )}\r\n    >\r\n      {children}\r\n    </motion.div>\r\n  );\r\n}\r\n\r\nexport default StickyButton;\r\n"
+    }
+  ],
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}
