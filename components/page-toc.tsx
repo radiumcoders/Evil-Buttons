@@ -57,7 +57,7 @@ export function PageToc() {
   }
 
   return (
-    <nav className="space-y-0.5">
+    <nav className="flex flex-col gap-0.5">
       {items.map((item) => (
         <a
           key={item.id}

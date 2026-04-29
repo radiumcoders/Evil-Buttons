@@ -64,10 +64,10 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
       />
     ),
     ul: ({ className, ...props }: ComponentPropsWithoutRef<"ul">) => (
-      <ul className={cn("mt-4 ml-6 list-disc space-y-2 text-muted-foreground", className)} {...props} />
+      <ul className={cn("mt-4 ml-6 flex list-disc flex-col gap-2 text-muted-foreground", className)} {...props} />
     ),
     ol: ({ className, ...props }: ComponentPropsWithoutRef<"ol">) => (
-      <ol className={cn("mt-4 ml-6 list-decimal space-y-2 text-muted-foreground", className)} {...props} />
+      <ol className={cn("mt-4 ml-6 flex list-decimal flex-col gap-2 text-muted-foreground", className)} {...props} />
     ),
     li: ({ className, ...props }: ComponentPropsWithoutRef<"li">) => (
       <li className={cn("pl-1 leading-7", className)} {...props} />

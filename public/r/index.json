@@ -4,12 +4,12 @@
   "homepage": "http://localhost:3000/docs",
   "items": [
     {
-      "name": "evil-button",
+      "name": "click-powerup",
       "type": "registry:ui",
-      "title": "Evil Button",
-      "description": "A clean, opinionated button from Evil Buttons.",
+      "title": "ClickPowerUp",
+      "description": "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
       "files": [
-        "components/evil-buttons/evil-button.tsx"
+        "components/evil-buttons/click-powerup.tsx"
       ]
     }
   ]

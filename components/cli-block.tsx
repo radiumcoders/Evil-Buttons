@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { BunIcon, NpmIcon, PnpmIcon, YarnIcon } from "@/assets/icons";
 import { useConfig, type PackageManager } from "@/hooks/use-config";
 import CopyButton from "@/components/copy-button";
@@ -47,11 +46,7 @@ const managerMeta: Record<
 
 export function CliBlock({ commands }: { commands: string[] }) {
   const { packageManager, setConfig } = useConfig();
-
-  const value = useMemo(
-    () => `${packageCommands[packageManager]} ${commands.join(" ")}`.trim(),
-    [commands, packageManager],
-  );
+  const value = `${packageCommands[packageManager]} ${commands.join(" ")}`.trim();
 
   return (
     <div className="group mt-2 flex flex-col rounded-[8px] bg-[#F5F5F5] p-1 dark:bg-neutral-900/60">

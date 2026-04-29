@@ -5,41 +5,41 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 
-const componentPath = resolve(root, "components/evil-buttons/evil-button.tsx");
+const componentPath = resolve(root, "components/evil-buttons/click-powerup.tsx");
 const registryDir = resolve(root, "public/r");
-const registryItemPath = resolve(registryDir, "evil-button.json");
+const registryItemPath = resolve(registryDir, "click-powerup.json");
 const registryIndexPath = resolve(registryDir, "index.json");
 
 const componentSource = await readFile(componentPath, "utf8");
 
 const item = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
-  name: "evil-button",
+  name: "click-powerup",
   type: "registry:ui",
-  title: "Evil Button",
-  description: "A clean, opinionated button from Evil Buttons.",
+  title: "ClickPowerUp",
+  description: "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
   files: [
     {
-      path: "components/evil-buttons/evil-button.tsx",
+      path: "components/evil-buttons/click-powerup.tsx",
       type: "registry:ui",
-      target: "components/evil-buttons/evil-button.tsx",
+      target: "components/evil-buttons/click-powerup.tsx",
       content: componentSource,
     },
   ],
-  dependencies: ["clsx", "tailwind-merge"],
+  dependencies: ["motion", "clsx", "tailwind-merge"],
 };
 
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
-  homepage: "http://localhost:3000/docs",
+  homepage: "http://evilbuttons.radiumcoders.com/docs",
   items: [
     {
-      name: "evil-button",
+      name: "click-powerup",
       type: "registry:ui",
-      title: "Evil Button",
-      description: "A clean, opinionated button from Evil Buttons.",
-      files: ["components/evil-buttons/evil-button.tsx"],
+      title: "ClickPowerUp",
+      description: "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
+      files: ["components/evil-buttons/click-powerup.tsx"],
     },
   ],
 };
@@ -50,4 +50,4 @@ await writeFile(registryIndexPath, `${JSON.stringify(index, null, 2)}\n`, "utf8"
 
 console.log("Registry built:");
 console.log("- public/r/index.json");
-console.log("- public/r/evil-button.json");
+console.log("- public/r/click-powerup.json");

@@ -17,7 +17,7 @@ export function PreviewCard({
         <p className="text-xs font-medium capitalize text-muted-foreground font-mono">
           {title}
         </p>
-        <p className="text-xs text-muted-foreground font-mono">Preview</p>
+        <p className="text-xs text-muted-foreground font-mono">{note}</p>
       </div>
       <div className="flex items-center justify-center min-h-112 rounded border-border border bg-background">
         {children}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "click-powerup",
+  "type": "registry:ui",
+  "title": "ClickPowerUp",
+  "description": "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
+  "files": [
+    {
+      "path": "components/evil-buttons/click-powerup.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/click-powerup.tsx",
+      "content": "\"use client\";\n\nimport { cn } from \"@/lib/utils\";\nimport { motion } from \"motion/react\";\nimport { useState } from \"react\";\n\r\nexport const ClickPowerUp = ({\r\n  children,\r\n  className,\r\n  tapDuration = 500,\r\n}: {\r\n  children: React.ReactNode;\r\n  className?: string;\r\n  tapDuration?: number;\r\n}) => {\r\n  const [isTapped, setIsTapped] = useState(false);\r\n\r\n  const handleTap = () => {\r\n    if (isTapped) return;\r\n    setIsTapped(true);\r\n    setTimeout(() => setIsTapped(false), tapDuration);\r\n  };\r\n\r\n  const state = isTapped ? \"tap\" : \"rest\";\r\n\r\n  return (\r\n    <motion.div\r\n      initial=\"rest\"\r\n      animate={state}\r\n      whileHover={isTapped ? \"tap\" : \"hover\"}\r\n      onTap={handleTap}\r\n      className=\"relative inline-block cursor-pointer [--pattern:var(--color-neutral-200)] dark:[--pattern:var(--color-neutral-900)]\"\r\n    >\r\n      {/* Corner brackets */}\r\n      {[\r\n        {\r\n          corner: \"top-right\",\r\n          cls: \"absolute top-0 right-0 size-2 border-t border-r z-20\",\r\n        },\r\n        {\r\n          corner: \"top-left\",\r\n          cls: \"absolute top-0 left-0 size-2 border-t border-l z-20\",\r\n        },\r\n        {\r\n          corner: \"bottom-left\",\r\n          cls: \"absolute bottom-0 left-0 size-2 border-b border-l z-20\",\r\n        },\r\n        {\r\n          corner: \"bottom-right\",\r\n          cls: \"absolute right-0 bottom-0 size-2 border-r border-b z-20\",\r\n        },\r\n      ].map(({ corner, cls }) => (\r\n        <motion.div\r\n          key={corner}\r\n          custom={corner}\r\n          variants={{\r\n            rest: () => ({ x: 0, y: 0, borderColor: \"rgb(38 38 38)\" }),\r\n            hover: (c: string) => ({\r\n              x: c.includes(\"right\") ? 3 : -3,\r\n              y: c.includes(\"bottom\") ? 3 : -3,\r\n              borderColor: \"rgb(38 38 38)\",\r\n            }),\r\n            tap: (c: string) => ({\r\n              x: c.includes(\"right\") ? -2 : 2,\r\n              y: c.includes(\"bottom\") ? -2 : 2,\r\n              borderColor: \"#2CD4BD\",\r\n            }),\r\n          }}\r\n          transition={{ type: \"spring\", stiffness: 300, damping: 20 }}\r\n          className={cls}\r\n        />\r\n      ))}\r\n\r\n      <button\r\n        className={cn(\r\n          \"relative overflow-hidden px-10 py-3 font-medium uppercase\",\r\n          className,\r\n        )}\r\n      >\r\n        {/* Pattern */}\r\n        <span className=\"absolute inset-0 z-0 bg-[repeating-linear-gradient(315deg,var(--pattern)_0,var(--pattern)_1px,transparent_0,transparent_50%)] bg-size-[7px_7px]\" />\r\n\r\n        {/* Arm panel */}\r\n        <motion.span\r\n          variants={{\r\n            rest: { scaleX: 0, originX: 0, backgroundColor: \"#171717\" },\r\n            hover: { scaleX: 1, originX: 0, backgroundColor: \"#171717\" },\r\n            tap: { scaleX: 1, originX: 0, backgroundColor: \"#2CD4BD\" },\r\n          }}\r\n          transition={{ type: \"spring\", stiffness: 220, damping: 22 }}\r\n          className=\"absolute inset-0 z-10 origin-left\"\r\n        />\r\n\r\n        {/* Text */}\r\n        <motion.span\r\n          variants={{\r\n            rest: { color: \"var(--color-foreground)\" },\r\n            hover: { color: \"#ffffff\" },\r\n            tap: { color: \"#0a2926\" },\r\n          }}\r\n          transition={{ type: \"spring\", stiffness: 220, damping: 22 }}\r\n          className=\"relative z-20\"\r\n        >\r\n          {children}\r\n        </motion.span>\r\n      </button>\r\n    </motion.div>\r\n  );\r\n};\r\n"
+    }
+  ],
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

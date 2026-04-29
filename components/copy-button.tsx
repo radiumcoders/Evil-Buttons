@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type CopyButtonProps = {
@@ -11,11 +11,28 @@ type CopyButtonProps = {
 
 export default function CopyButton({ code, className, withBlurBg }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
+  const resetTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current !== null) {
+        window.clearTimeout(resetTimerRef.current);
+      }
+    };
+  }, []);
 
   async function onCopy() {
     await navigator.clipboard.writeText(code);
     setCopied(true);
-    window.setTimeout(() => setCopied(false), 1500);
+
+    if (resetTimerRef.current !== null) {
+      window.clearTimeout(resetTimerRef.current);
+    }
+
+    resetTimerRef.current = window.setTimeout(() => {
+      setCopied(false);
+      resetTimerRef.current = null;
+    }, 1500);
   }
 
   return (
