@@ -95,9 +95,7 @@ Contributions are welcome! To add a new button component:
 4. Run `pnpm registry:build` to generate registry files
 
 ## License
-
-MIT
-
+Apache-2.0 license
 ---
 
 Built by [Radium Coders](https://radiumcoders.com)
