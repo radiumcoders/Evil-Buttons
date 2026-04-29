@@ -1,36 +1,135 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Evil Buttons
 
-## Getting Started
+A [shadcn/ui](https://ui.shadcn.com) registry featuring a collection of animated buttons built with [Motion](https://motion.dev/). Each component is designed to add punchy, interactive feedback to your UI with minimal setup.
 
-First, run the development server:
+## Features
+
+- **Animated Button Components** - Motion-powered buttons with hover, tap, and state animations
+- **shadcn Registry** - Install components directly via the shadcn CLI
+- **Type-Safe** - Full TypeScript support
+- **Tailwind CSS** - Styled with Tailwind for easy customization
+- **Dark Mode Ready** - Components support light/dark themes out of the box
+
+## Quick Start
+
+Install any component from the registry using the shadcn CLI:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx shadcn@latest add https://evilbuttons.radiumcoders.com/r/click-powerup.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Available Components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### ClickPowerUp
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+An animated button wrapper with corner brackets, patterned fill, and tap feedback.
 
-## Learn More
+**Features:**
 
-To learn more about Next.js, take a look at the following resources:
+- Animated corner brackets that expand on hover
+- Patterned background with diagonal stripes
+- Smooth panel slide animation on hover
+- Tap state with color feedback (teal accent)
+- Customizable tap duration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Usage:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```tsx
+import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 
-## Deploy on Vercel
+export function ButtonDemo() {
+  return <ClickPowerUp>Launch</ClickPowerUp>;
+}
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Props:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Prop          | Type              | Default | Description                     |
+| ------------- | ----------------- | ------- | ------------------------------- |
+| `children`    | `React.ReactNode` | -       | Button content                  |
+| `className`   | `string`          | -       | Additional CSS classes          |
+| `tapDuration` | `number`          | `500`   | Duration of tap animation in ms |
+
+## Documentation
+
+Visit [evilbuttons.radiumcoders.com/docs](https://evilbuttons.radiumcoders.com/docs) for:
+
+- Live component previews
+- Installation commands
+- Usage examples and code snippets
+
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm (recommended)
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/radiumcoders/evil-buttons.git
+cd evil-buttons
+
+# Install dependencies
+pnpm install
+
+# Run development server
+pnpm dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the docs site.
+
+### Building the Registry
+
+```bash
+pnpm registry:build
+```
+
+This generates the registry JSON files in `public/r/`.
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org) - React framework
+- [Motion](https://motion.dev) - Animation library
+- [shadcn/ui](https://ui.shadcn.com) - Component registry system
+- [Tailwind CSS 4](https://tailwindcss.com) - Styling
+- [Fumadocs](https://fumadocs.dev) - Documentation framework
+
+## Project Structure
+
+```
+evil-buttons/
+├── app/                    # Next.js app router
+│   ├── docs/              # Documentation pages
+│   ├── globals.css        # Global styles
+│   └── layout.tsx         # Root layout
+├── components/
+│   ├── evil-buttons/      # Registry components
+│   │   └── click-powerup.tsx
+│   └── ...                # Docs UI components
+├── content/
+│   └── docs/              # MDX documentation
+├── public/r/              # Registry JSON files
+├── scripts/
+│   └── build-registry.mjs # Registry builder
+└── components.json        # shadcn configuration
+```
+
+## Contributing
+
+Contributions are welcome! To add a new button component:
+
+1. Create your component in `components/evil-buttons/`
+2. Add documentation in `content/docs/`
+3. Update `scripts/build-registry.mjs` to include your component
+4. Run `pnpm registry:build` to generate registry files
+
+## License
+
+MIT
+
+---
+
+Built by [Radium Coders](https://radiumcoders.com)
