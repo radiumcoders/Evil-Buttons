@@ -1,6 +1,12 @@
 "use client";
 
-import { ListIcon, XIcon } from "@phosphor-icons/react";
+import {
+  GithubLogoIcon,
+  HeartIcon,
+  ListIcon,
+  XIcon,
+  XLogoIcon,
+} from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
@@ -18,10 +24,18 @@ type DocsSidebarProps = {
 };
 
 function isPageActive(pathname: string, url: string) {
-  return pathname === url || (pathname === "/docs" && url === "/docs/introduction");
+  return (
+    pathname === url || (pathname === "/docs" && url === "/docs/introduction")
+  );
 }
 
-function DocsNavGroup({ title, pages }: { title: string; pages: DocsNavPage[] }) {
+function DocsNavGroup({
+  title,
+  pages,
+}: {
+  title: string;
+  pages: DocsNavPage[];
+}) {
   const pathname = usePathname();
 
   if (pages.length === 0) {
@@ -30,7 +44,9 @@ function DocsNavGroup({ title, pages }: { title: string; pages: DocsNavPage[] })
 
   return (
     <div className="flex flex-col gap-1 border-t border-border pt-4">
-      <p className="px-2 text-xs font-semibold text-muted-foreground">{title}</p>
+      <p className="px-2 text-xs font-semibold text-muted-foreground">
+        {title}
+      </p>
       <nav className="flex flex-col gap-0.5">
         {pages.map((page) => (
           <Link
@@ -52,7 +68,11 @@ function DocsNavGroup({ title, pages }: { title: string; pages: DocsNavPage[] })
   );
 }
 
-export function DocsSidebar({ introductionPages, componentPages, brand }: DocsSidebarProps) {
+export function DocsSidebar({
+  introductionPages,
+  componentPages,
+  brand,
+}: DocsSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -72,17 +92,46 @@ export function DocsSidebar({ introductionPages, componentPages, brand }: DocsSi
           open ? "translate-x-0" : "translate-x-[-110%] md:translate-x-0",
         )}
       >
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-3 px-2">
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center justify-between px-2 pt-1">
             {brand}
             <button
               type="button"
-              className="inline-flex size-8 items-center justify-center rounded border border-border bg-background text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+              className="inline-flex size-8 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
               onClick={() => setOpen(false)}
               aria-label="Close menu"
             >
-              <XIcon size={15} />
+              <XIcon size={16} />
             </button>
+          </div>
+          <div className="flex items-center gap-1.5 px-2">
+            <a
+              href="https://github.com/radiumcoders/evil-buttons"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors border-border border hover:bg-muted hover:text-foreground"
+              aria-label="GitHub"
+            >
+              <GithubLogoIcon size={15} />
+            </a>
+            <a
+              href="https://x.com/radiumcoders"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex size-7 items-center justify-center rounded-md text-muted-foreground border-border border transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="X (Twitter)"
+            >
+              <XLogoIcon size={15} />
+            </a>
+            <a
+              href="https://github.com/sponsors/radiumcoders"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-md border-border border px-3 py-1.5 text-xs font-medium text-pink-600 transition-colors hover:bg-pink-100 dark:text-pink-400 dark:hover:bg-pink-950/50 duration-75"
+            >
+              <HeartIcon size={12} />
+              Sponsor
+            </a>
           </div>
           <DocsNavGroup title="Introduction" pages={introductionPages} />
           <DocsNavGroup title="Components" pages={componentPages} />
@@ -96,7 +145,9 @@ export function DocsSidebar({ introductionPages, componentPages, brand }: DocsSi
           aria-label="Close sidebar"
         />
       ) : null}
-      <div className={cn("fixed top-4 left-4 z-30 md:hidden", open && "hidden")}>
+      <div
+        className={cn("fixed top-4 left-4 z-30 md:hidden", open && "hidden")}
+      >
         <button
           type="button"
           className="inline-flex size-8 items-center justify-center rounded border border-border bg-background text-muted-foreground shadow-sm transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"

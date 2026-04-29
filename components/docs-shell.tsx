@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { DocsSidebar } from "@/components/docs-sidebar";
 import { ThemeSync } from "@/components/theme-sync";
@@ -14,7 +15,11 @@ type DocsShellProps = {
   children: ReactNode;
 };
 
-export function DocsShell({ introductionPages, componentPages, children }: DocsShellProps) {
+export function DocsShell({
+  introductionPages,
+  componentPages,
+  children,
+}: DocsShellProps) {
   return (
     <div className="flex h-dvh overflow-hidden bg-neutral-50 p-2 dark:bg-neutral-900">
       <ThemeSync />
@@ -24,9 +29,16 @@ export function DocsShell({ introductionPages, componentPages, children }: DocsS
         brand={
           <Link
             href="/docs"
-            className="text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-muted-foreground"
+            className="group flex items-center gap-2 text-lg font-bold tracking-tight text-foreground transition-colors hover:text-muted-foreground"
           >
-            EvilButtons
+            <Image
+              src="/logo.svg"
+              alt="EvilButtons"
+              width={24}
+              height={24}
+              className="dark:invert"
+            />
+            <span>EvilButtons</span>
           </Link>
         }
       />
