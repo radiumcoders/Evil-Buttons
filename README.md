@@ -18,38 +18,6 @@ Install any component from the registry using the shadcn CLI:
 npx shadcn@latest add https://evilbuttons.radiumcoders.com/r/click-powerup.json
 ```
 
-## Available Components
-
-### ClickPowerUp
-
-An animated button wrapper with corner brackets, patterned fill, and tap feedback.
-
-**Features:**
-
-- Animated corner brackets that expand on hover
-- Patterned background with diagonal stripes
-- Smooth panel slide animation on hover
-- Tap state with color feedback (teal accent)
-- Customizable tap duration
-
-**Usage:**
-
-```tsx
-import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-
-export function ButtonDemo() {
-  return <ClickPowerUp>Launch</ClickPowerUp>;
-}
-```
-
-**Props:**
-
-| Prop          | Type              | Default | Description                     |
-| ------------- | ----------------- | ------- | ------------------------------- |
-| `children`    | `React.ReactNode` | -       | Button content                  |
-| `className`   | `string`          | -       | Additional CSS classes          |
-| `tapDuration` | `number`          | `500`   | Duration of tap animation in ms |
-
 ## Documentation
 
 Visit [evilbuttons.radiumcoders.com/docs](https://evilbuttons.radiumcoders.com/docs) for:
