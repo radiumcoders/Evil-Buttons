@@ -11,7 +11,7 @@ function StickyButton({
   children: ReactNode;
   className?: string;
 }) {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef<HTMLButtonElement | null>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const mouseMove = (e: React.MouseEvent) => {
@@ -31,7 +31,7 @@ function StickyButton({
   const { x, y } = position;
 
   return (
-    <motion.div
+    <motion.button
       onMouseMove={mouseMove}
       onMouseLeave={mouseLeave}
       ref={ref}
@@ -48,7 +48,7 @@ function StickyButton({
       )}
     >
       {children}
-    </motion.div>
+    </motion.button>
   );
 }
 
