@@ -43,7 +43,7 @@ function StickyButton({
         mass: 0.5,
       }}
       className={cn(
-        "border-border border-dashed border-2 rounded px-4 py-2",
+        "border-border border-dashed border-2 bg-background text-primary rounded px-4 py-2",
         className,
       )}
     >
