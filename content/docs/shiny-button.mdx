@@ -1,0 +1,38 @@
+---
+title: ShinyButton
+description: A glossy, gradient-styled button with a layered inner glow and press feedback.
+---
+
+ShinyButton is a glossy, gradient-styled button with a layered inner glow effect. It features a smooth press animation with scale and shadow feedback for a polished, tactile feel.
+
+## Preview
+
+<PreviewCard title="ShinyButton" note="Interactive">
+  <ShinyButton>Deploy Doom</ShinyButton>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/shiny-button</Cmd>
+
+## Usage
+
+```tsx
+import ShinyButton from "@/components/evil-buttons/shiny-button";
+
+export function ButtonDemo() {
+  return <ShinyButton>Launch</ShinyButton>;
+}
+```
+
+## Props
+
+| Prop       | Type              | Default | Description                          |
+| ---------- | ----------------- | ------- | ------------------------------------ |
+| `children` | `React.ReactNode` | -       | The visible button label or content. |
+
+## Registry
+
+The registry item includes `components/evil-buttons/shiny-button.tsx`. This is a pure CSS component with no external dependencies.

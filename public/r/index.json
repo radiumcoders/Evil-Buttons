@@ -20,6 +20,15 @@
       "files": [
         "components/evil-buttons/sticky.tsx"
       ]
+    },
+    {
+      "name": "shiny-button",
+      "type": "registry:ui",
+      "title": "ShinyButton",
+      "description": "A glossy, gradient-styled button with a layered inner glow and press feedback.",
+      "files": [
+        "components/evil-buttons/shiny-button.tsx"
+      ]
     }
   ]
 }
