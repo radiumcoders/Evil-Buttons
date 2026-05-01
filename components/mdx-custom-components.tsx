@@ -5,6 +5,7 @@ import { CliBlock } from "@/components/cli-block";
 import { CodeBlock } from "@/components/code-block";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import StickyButton from "@/components/evil-buttons/sticky";
+import ShinyButton from "./evil-buttons/shiny-button";
 
 type CmdProps = {
   children: ReactNode;
@@ -71,6 +72,7 @@ export function getCustomMDXComponents(): MDXComponents {
     CodeBlock,
     ClickPowerUp,
     StickyButton,
+    ShinyButton,
     EvilButton: ClickPowerUp,
     Link,
   };
