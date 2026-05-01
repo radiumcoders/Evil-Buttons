@@ -21,6 +21,10 @@ const shinySource = await readFile(
   resolve(root, "components/evil-buttons/shiny-button.tsx"),
   "utf8",
 );
+const moviePassSource = await readFile(
+  resolve(root, "components/evil-buttons/movie-pass.tsx"),
+  "utf8",
+);
 
 const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -76,6 +80,24 @@ const shinyItem = {
   dependencies: [],
 };
 
+const moviePassItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "movie-pass",
+  type: "registry:ui",
+  title: "MoviePassButton",
+  description:
+    "A ticket-style button with a tear-off animation, like a cinema stub.",
+  files: [
+    {
+      path: "components/evil-buttons/movie-pass.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/movie-pass.tsx",
+      content: moviePassSource,
+    },
+  ],
+  dependencies: ["motion", "clsx", "tailwind-merge"],
+};
+
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
@@ -105,6 +127,14 @@ const index = {
         "A glossy, gradient-styled button with a layered inner glow and press feedback.",
       files: ["components/evil-buttons/shiny-button.tsx"],
     },
+    {
+      name: "movie-pass",
+      type: "registry:ui",
+      title: "MoviePassButton",
+      description:
+        "A ticket-style button with a tear-off animation, like a cinema stub.",
+      files: ["components/evil-buttons/movie-pass.tsx"],
+    },
   ],
 };
 
@@ -125,6 +155,11 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "movie-pass.json"),
+  `${JSON.stringify(moviePassItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   registryIndexPath,
   `${JSON.stringify(index, null, 2)}\n`,
   "utf8",
@@ -135,3 +170,4 @@ console.log("- public/r/index.json");
 console.log("- public/r/click-powerup.json");
 console.log("- public/r/sticky.json");
 console.log("- public/r/shiny-button.json");
+console.log("- public/r/movie-pass.json");
