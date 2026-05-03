@@ -10,7 +10,7 @@ export default function Shadcn({ className }: { className?: string }) {
   return (
     <motion.button
       className={cn(
-        "relative flex items-center justify-center size-14 bg-white rounded-full dark:bg-black border border-neutral-200 dark:border-neutral-800 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer group",
+        "relative flex items-center justify-center size-14 bg-white rounded-full dark:bg-black border border-neutral-200 dark:border-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer group",
         className
       )}
       onHoverStart={() => setIsHovered(true)}

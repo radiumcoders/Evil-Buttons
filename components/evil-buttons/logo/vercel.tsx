@@ -50,7 +50,7 @@ export default function Vercel() {
         whileTap={{ scale: 0.9 }}
         className="relative z-10 flex items-center justify-center size-14 bg-black rounded-full dark:bg-white border border-neutral-800 dark:border-neutral-200 shadow-sm"
       >
-        <Logo className="w-6 h-6 text-white dark:text-black -mt-[3px]" />
+        <Logo className="w-6 h-6 text-white dark:text-black mt-[-3px]" />
       </motion.div>
     </button>
   );
