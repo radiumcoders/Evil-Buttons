@@ -1,18 +1,21 @@
-import type { MDXComponents } from "mdx/types";
-import { isValidElement, type ReactNode } from "react";
-import { PreviewCard } from "@/components/preview-card";
 import { CliBlock } from "@/components/cli-block";
 import { CodeBlock } from "@/components/code-block";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import StickyButton from "@/components/evil-buttons/sticky";
-import ShinyButton from "./evil-buttons/shiny-button";
-import MoviePassButton from "./evil-buttons/movie-pass";
-import MinimalButton from "@/components/evil-buttons/minimal";
-import VercelLogo from "@/components/evil-buttons/logo/vercel";
-import ShadcnLogo from "./evil-buttons/logo/shadcn";
 import TanStackLogo from "@/components/evil-buttons/logo/tanstack";
-import { ScrollBars, ScrollBarsVertical } from "@/components/evil-buttons/scroll-bars";
-import { ScrollBarsPreview, ScrollBarsVerticalPreview } from "@/components/evil-buttons/scroll-bars-preview";
+import VercelLogo from "@/components/evil-buttons/logo/vercel";
+import MinimalButton from "@/components/evil-buttons/minimal";
+import StickyButton from "@/components/evil-buttons/sticky";
+import { PreviewCard } from "@/components/preview-card";
+import {
+  ScrollBarsPreview,
+  ScrollBarsVerticalPreview,
+} from "@/components/scroll-bars-preview";
+import type { MDXComponents } from "mdx/types";
+import { isValidElement, type ReactNode } from "react";
+import ShadcnLogo from "./evil-buttons/logo/shadcn";
+import MoviePassButton from "./evil-buttons/movie-pass";
+import ShinyButton from "./evil-buttons/shiny-button";
+import GridButton from "./evil-buttons/grid-button";
 
 type CmdProps = {
   children: ReactNode;
@@ -88,6 +91,7 @@ export function getCustomMDXComponents(): MDXComponents {
     ScrollBarsPreview: ScrollBarsPreview,
     ScrollBarsVerticalPreview: ScrollBarsVerticalPreview,
     EvilButton: ClickPowerUp,
+    GridButton,
     Link,
   };
 }

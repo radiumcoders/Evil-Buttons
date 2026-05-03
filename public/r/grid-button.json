@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "grid-button",
+  "type": "registry:ui",
+  "title": "GridButton",
+  "description": "A retro-styled button with a pixelated grid icon and tactile press feedback.",
+  "files": [
+    {
+      "path": "components/evil-buttons/grid-button.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/grid-button.tsx",
+      "content": "import { ReactNode } from \"react\";\r\nimport { DotmSquare11 } from \"../ui/dotm-square-11\";\r\n\r\nexport default function GridButton({children} : {children : ReactNode}) {\r\n  return (\r\n    <button className=\"flex items-center justify-center gap-1 border-border bg-border/10 border p-1 rounded active:translate-y-0.5 transition-all duration-75 active:scale-[0.98]\">\r\n      <Box />\r\n      {children}\r\n    </button>\r\n  );\r\n}\r\n\r\nconst Box = () => {\r\n  return (\r\n    <div className=\"bg-amber-500 size-7 rounded flex items-center justify-center\">\r\n      <DotmSquare11 dotSize={2} cellPadding={1} className=\"text-white\" boxSize={21} minSize={16} />\r\n    </div>\r\n  );\r\n};\r\n"
+    }
+  ],
+  "registryDependencies": [
+    "@dotmatrix/dotm-square-11"
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

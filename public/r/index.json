@@ -83,6 +83,15 @@
       "files": [
         "components/evil-buttons/scroll-bars.tsx"
       ]
+    },
+    {
+      "name": "grid-button",
+      "type": "registry:ui",
+      "title": "GridButton",
+      "description": "A retro-styled button with a pixelated grid icon and tactile press feedback.",
+      "files": [
+        "components/evil-buttons/grid-button.tsx"
+      ]
     }
   ]
 }

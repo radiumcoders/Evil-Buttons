@@ -45,6 +45,10 @@ const scrollBarsSource = await readFile(
   resolve(root, "components/evil-buttons/scroll-bars.tsx"),
   "utf8",
 );
+const gridButtonSource = await readFile(
+  resolve(root, "components/evil-buttons/grid-button.tsx"),
+  "utf8",
+);
 
 const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -211,6 +215,25 @@ const scrollBarsItem = {
   dependencies: ["motion", "clsx", "tailwind-merge"],
 };
 
+const gridButtonItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "grid-button",
+  type: "registry:ui",
+  title: "GridButton",
+  description:
+    "A retro-styled button with a pixelated grid icon and tactile press feedback.",
+  files: [
+    {
+      path: "components/evil-buttons/grid-button.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/grid-button.tsx",
+      content: gridButtonSource,
+    },
+  ],
+  registryDependencies: ["@dotmatrix/dotm-square-11"],
+  dependencies: ["clsx", "tailwind-merge"],
+};
+
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
@@ -288,6 +311,14 @@ const index = {
         "Animated scroll progress bars with a vintage audio level meter aesthetic.",
       files: ["components/evil-buttons/scroll-bars.tsx"],
     },
+    {
+      name: "grid-button",
+      type: "registry:ui",
+      title: "GridButton",
+      description:
+        "A retro-styled button with a pixelated grid icon and tactile press feedback.",
+      files: ["components/evil-buttons/grid-button.tsx"],
+    },
   ],
 };
 
@@ -338,6 +369,11 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "grid-button.json"),
+  `${JSON.stringify(gridButtonItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   registryIndexPath,
   `${JSON.stringify(index, null, 2)}\n`,
   "utf8",
@@ -354,3 +390,4 @@ console.log("- public/r/tanstack-logo.json");
 console.log("- public/r/shadcn-logo.json");
 console.log("- public/r/vercel-logo.json");
 console.log("- public/r/scroll-bars.json");
+console.log("- public/r/grid-button.json");

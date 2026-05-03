@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useScroll } from "motion/react";
-import { ScrollBars, ScrollBarsVertical } from "./scroll-bars";
+import { ScrollBars, ScrollBarsVertical } from "./evil-buttons/scroll-bars";
 
 export function ScrollBarsPreview() {
   const containerRef = useRef<HTMLDivElement>(null);

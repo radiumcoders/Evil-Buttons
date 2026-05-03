@@ -22,6 +22,7 @@
     "hooks": "@/hooks"
   },
   "registries": {
-    "@xcn": "https://ui.radiumcoders.com/r/xcn/{name}.json"
+    "@xcn": "https://ui.radiumcoders.com/r/xcn/{name}.json",
+    "@dotmatrix": "https://dotmatrix.zzzzshawn.cloud/r/{name}.json"
   }
 }

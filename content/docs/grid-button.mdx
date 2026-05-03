@@ -1,0 +1,37 @@
+---
+title: GridButton
+description: A retro-styled button with a pixelated grid icon and tactile press feedback.
+---
+
+<PreviewCard title="GridButton" note="Click to feel the press">
+  <GridButton>Deploy Doom</GridButton>
+</PreviewCard>
+
+## Installation
+
+<Cmd>@evilbuttons/grid-button</Cmd>
+
+## Usage
+
+```tsx
+import GridButton from "@/components/evil-buttons/grid-button";
+
+export function ButtonDemo() {
+  return (
+    <GridButton>
+      Deploy Doom
+    </GridButton>
+  );
+}
+```
+
+## Props
+
+| Prop        | Type              | Default | Description                                      |
+| ----------- | ----------------- | ------- | ------------------------------------------------ |
+| `children`  | `ReactNode`       | -       | The visible button label or content.            |
+| `className` | `string`          | -       | Extra classes passed to the wrapper.            |
+
+## Registry
+
+The registry item includes `components/evil-buttons/grid-button.tsx` with no additional dependencies. It uses the `dotm-square-11` icon component for the grid icon.
