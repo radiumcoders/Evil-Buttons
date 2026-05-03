@@ -1,3 +1,5 @@
+"use client";
+
 import type { MDXComponents } from "mdx/types";
 import { isValidElement, type ReactNode } from "react";
 import { PreviewCard } from "@/components/preview-card";
