@@ -47,6 +47,33 @@
       "files": [
         "components/evil-buttons/minimal.tsx"
       ]
+    },
+    {
+      "name": "tanstack-logo",
+      "type": "registry:ui",
+      "title": "TanStackLogo",
+      "description": "An animated TanStack logo button with ripple effects and scale animation.",
+      "files": [
+        "components/evil-buttons/logo/tanstack.tsx"
+      ]
+    },
+    {
+      "name": "shadcn-logo",
+      "type": "registry:ui",
+      "title": "ShadcnLogo",
+      "description": "An animated shadcn/ui logo button with pixel reveal and glow effects.",
+      "files": [
+        "components/evil-buttons/logo/shadcn.tsx"
+      ]
+    },
+    {
+      "name": "vercel-logo",
+      "type": "registry:ui",
+      "title": "VercelLogo",
+      "description": "An animated Vercel logo button with a sleek triangle reveal animation.",
+      "files": [
+        "components/evil-buttons/logo/vercel.tsx"
+      ]
     }
   ]
 }

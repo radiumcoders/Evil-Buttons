@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "vercel-logo",
+  "type": "registry:ui",
+  "title": "VercelLogo",
+  "description": "An animated Vercel logo button with a sleek triangle reveal animation.",
+  "files": [
+    {
+      "path": "components/evil-buttons/logo/vercel.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/logo/vercel.tsx",
+      "content": "\"use client\";\n\nimport { motion, AnimatePresence } from \"motion/react\";\nimport { useState } from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport default function Vercel() {\n  const [isHovered, setIsHovered] = useState(false);\n\n  return (\n    <button\n      className=\"group relative flex items-center justify-center w-32 h-32 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-full cursor-pointer\"\n      onMouseEnter={() => setIsHovered(true)}\n      onMouseLeave={() => setIsHovered(false)}\n      onFocus={() => setIsHovered(true)}\n      onBlur={() => setIsHovered(false)}\n      aria-label=\"Vercel Logo\"\n    >\n      <AnimatePresence>\n        {isHovered && (\n          <motion.div\n            initial={{ opacity: 0, scale: 0.5 }}\n            animate={{ opacity: 1, scale: 1 }}\n            exit={{ opacity: 0, scale: 0.5 }}\n            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}\n            className=\"absolute inset-0 z-0 flex items-center justify-center pointer-events-none\"\n          >\n            <motion.div\n              animate={{ rotate: 360 }}\n              transition={{ repeat: Infinity, ease: \"linear\", duration: 8 }}\n              className=\"flex items-center justify-center size-[110px] rounded-full border border-dashed border-neutral-300 dark:border-neutral-700\"\n            >\n              {[0, 120, 240].map((deg, i) => (\n                <div\n                  key={i}\n                  className=\"absolute\"\n                  style={{\n                    transform: `rotate(${deg}deg) translateY(-55px)`,\n                  }}\n                >\n                  <Logo className=\"w-4 h-4 text-neutral-600 dark:text-neutral-400\" />\n                </div>\n              ))}\n            </motion.div>\n          </motion.div>\n        )}\n      </AnimatePresence>\n\n      <motion.div\n        whileTap={{ scale: 0.9 }}\n        className=\"relative z-10 flex items-center justify-center size-14 bg-black rounded-full dark:bg-white border border-neutral-800 dark:border-neutral-200 shadow-sm\"\n      >\n        <Logo className=\"w-6 h-6 text-white dark:text-black mt-[-3px]\" />\n      </motion.div>\n    </button>\n  );\n}\n\nconst Logo = ({ className }: { className?: string }) => {\n  return (\n    <svg viewBox=\"0 0 256 222\" preserveAspectRatio=\"xMidYMid\" className={cn(className)}>\n      <path fill=\"currentColor\" d=\"m128 0 128 221.705H0z\" />\n    </svg>\n  );\n};\n"
+    }
+  ],
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

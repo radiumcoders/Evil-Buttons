@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "shadcn-logo",
+  "type": "registry:ui",
+  "title": "ShadcnLogo",
+  "description": "An animated shadcn/ui logo button with pixel reveal and glow effects.",
+  "files": [
+    {
+      "path": "components/evil-buttons/logo/shadcn.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/logo/shadcn.tsx",
+      "content": "\"use client\";\n\nimport { motion } from \"motion/react\";\nimport { useState } from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport default function Shadcn({ className }: { className?: string }) {\n  const [isHovered, setIsHovered] = useState(false);\n\n  return (\n    <motion.button\n      className={cn(\n        \"relative flex items-center justify-center size-14 bg-white rounded-full dark:bg-black border border-neutral-200 dark:border-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer group\",\n        className\n      )}\n      onHoverStart={() => setIsHovered(true)}\n      onHoverEnd={() => setIsHovered(false)}\n      onFocus={() => setIsHovered(true)}\n      onBlur={() => setIsHovered(false)}\n      whileTap={{ scale: 0.95 }}\n      aria-label=\"shadcn/ui Logo\"\n    >\n      <Logo \n        isHovered={isHovered} \n        className=\"w-8 h-8 text-black dark:text-white group-hover:scale-90 transition-transform duration-300\" \n      />\n    </motion.button>\n  );\n}\n\nconst Logo = ({ className, isHovered }: { className?: string; isHovered: boolean }) => {\n  return (\n    <motion.svg\n      viewBox=\"0 0 256 256\"\n      className={cn(className)}\n      initial=\"hidden\"\n      animate={isHovered ? \"hover\" : \"visible\"}\n    >\n      <path fill=\"none\" d=\"M0 0h256v256H0z\" />\n      {/* Top right short diagonal line */}\n      <motion.path\n        fill=\"none\"\n        stroke=\"currentColor\"\n        strokeWidth=\"25\"\n        strokeLinecap=\"round\"\n        d=\"M208 128l-80 80\"\n        variants={{\n          hidden: { pathLength: 0, opacity: 0 },\n          visible: {\n            pathLength: 1,\n            opacity: 1,\n            transition: { duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 },\n          },\n          hover: {\n            pathLength: [0, 1],\n            opacity: 1,\n            transition: {\n              duration: 0.6,\n              ease: \"easeInOut\",\n            },\n          },\n        }}\n      />\n      {/* Long main diagonal line */}\n      <motion.path\n        fill=\"none\"\n        stroke=\"currentColor\"\n        strokeWidth=\"25\"\n        strokeLinecap=\"round\"\n        d=\"M192 40L40 192\"\n        variants={{\n          hidden: { pathLength: 0, opacity: 0 },\n          visible: {\n            pathLength: 1,\n            opacity: 1,\n            transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },\n          },\n          hover: {\n            pathLength: [0, 1],\n            opacity: 1,\n            transition: {\n              duration: 0.6,\n              ease: \"easeInOut\",\n              delay: 0.15, // Stagger the two lines slightly on hover\n            },\n          },\n        }}\n      />\n    </motion.svg>\n  );\n};\n"
+    }
+  ],
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ]
+}

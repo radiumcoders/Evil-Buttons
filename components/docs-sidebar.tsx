@@ -136,7 +136,7 @@ export function DocsSidebar({
             </a>
           </div>
           <DocsNavGroup title="Introduction" pages={introductionPages} />
-          <DocsNavGroup title="Components" pages={componentPages} />
+          <DocsNavGroup title="Buttons" pages={componentPages} />
           <DocsNavGroup title="Logos" pages={logoPages} />
         </div>
       </aside>
