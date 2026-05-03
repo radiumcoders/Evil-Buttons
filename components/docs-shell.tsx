@@ -40,7 +40,6 @@ export function DocsShell({
               width={24}
               height={24}
               className="dark:invert"
-              style={{ width: "auto", height: "auto" }}
             />
             <span>EvilButtons</span>
           </Link>
