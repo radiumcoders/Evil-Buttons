@@ -1,10 +1,11 @@
-# Evil Buttons
+# Evil Buttons & Logos
 
-A [shadcn/ui](https://ui.shadcn.com) registry featuring a collection of animated buttons built with [Motion](https://motion.dev/). Each component is designed to add punchy, interactive feedback to your UI with minimal setup.
+A [shadcn/ui](https://ui.shadcn.com) registry featuring a collection of animated buttons and logo components built with [Motion](https://motion.dev/). Each component is designed to add punchy, interactive feedback to your UI with minimal setup.
 
 ## Features
 
-- **Animated Button Components** - Motion-powered buttons with hover, tap, and state animations
+- **Animated Components** - Motion-powered buttons and logos with hover, tap, and state animations
+- **Buttons & Logos** - Interactive components for any UI need
 - **shadcn Registry** - Install components directly via the shadcn CLI
 - **Type-Safe** - Full TypeScript support
 - **Tailwind CSS** - Styled with Tailwind for easy customization
@@ -87,9 +88,9 @@ evil-buttons/
 
 ## Contributing
 
-Contributions are welcome! To add a new button component:
+Contributions are welcome! To add a new component:
 
-1. Create your component in `components/evil-buttons/`
+1. Create your component in `components/evil-buttons/` (buttons or logo subdirectories)
 2. Add documentation in `content/docs/`
 3. Update `scripts/build-registry.mjs` to include your component
 4. Run `pnpm registry:build` to generate registry files
