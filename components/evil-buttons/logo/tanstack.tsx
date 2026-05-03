@@ -4,7 +4,6 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export default function TanStack({ className }: { className?: string }) {
-  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.button
