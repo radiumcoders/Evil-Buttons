@@ -1,0 +1,38 @@
+---
+title: shadcn/ui Logo
+description: The iconic shadcn/ui logo with animated SVG path drawing.
+---
+
+A beautiful implementation of the shadcn/ui logo that features a smooth path-drawing animation when it mounts, and an interactive "erase and redraw" effect on hover.
+
+## Preview
+
+<PreviewCard title="shadcn/ui Logo" note="Interactive">
+  <ShadcnLogo />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/shadcn</Cmd>
+
+## Usage
+
+```tsx
+import ShadcnLogo from "@/components/evil-buttons/logo/shadcn";
+
+export function LogoDemo() {
+  return (
+    <ShadcnLogo />
+  );
+}
+```
+
+## Props
+
+The base component doesn't take props by default, but you can easily extend it to accept `className` and `size` properties.
+
+## Registry
+
+The registry item includes `components/evil-buttons/logo/shadcn.tsx`.
