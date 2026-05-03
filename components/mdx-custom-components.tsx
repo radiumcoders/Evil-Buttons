@@ -1,5 +1,3 @@
-"use client";
-
 import type { MDXComponents } from "mdx/types";
 import { isValidElement, type ReactNode } from "react";
 import { PreviewCard } from "@/components/preview-card";
@@ -11,10 +9,10 @@ import ShinyButton from "./evil-buttons/shiny-button";
 import MoviePassButton from "./evil-buttons/movie-pass";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import VercelLogo from "@/components/evil-buttons/logo/vercel";
-import ShadcnLogo from "@/components/evil-buttons/logo/shadcn";
+import ShadcnLogo from "./evil-buttons/logo/shadcn";
 import TanStackLogo from "@/components/evil-buttons/logo/tanstack";
 import { ScrollBars, ScrollBarsVertical } from "@/components/evil-buttons/scroll-bars";
-import { useScroll } from "motion/react";
+import { ScrollBarsPreview, ScrollBarsVerticalPreview } from "@/components/evil-buttons/scroll-bars-preview";
 
 type CmdProps = {
   children: ReactNode;
@@ -87,14 +85,8 @@ export function getCustomMDXComponents(): MDXComponents {
     VercelLogo,
     ShadcnLogo,
     TanStackLogo,
-    ScrollBarsPreview: () => {
-      const { scrollYProgress } = useScroll();
-      return <ScrollBars scrollYProgress={scrollYProgress} barCount={31} majorEvery={5} />;
-    },
-    ScrollBarsVerticalPreview: () => {
-      const { scrollYProgress } = useScroll();
-      return <ScrollBarsVertical scrollYProgress={scrollYProgress} barCount={31} majorEvery={5} />;
-    },
+    ScrollBarsPreview: ScrollBarsPreview,
+    ScrollBarsVerticalPreview: ScrollBarsVerticalPreview,
     EvilButton: ClickPowerUp,
     Link,
   };
