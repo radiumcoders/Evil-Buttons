@@ -12,12 +12,14 @@ type DocsNavPage = {
 type DocsShellProps = {
   introductionPages: DocsNavPage[];
   componentPages: DocsNavPage[];
+  logoPages: DocsNavPage[];
   children: ReactNode;
 };
 
 export function DocsShell({
   introductionPages,
   componentPages,
+  logoPages,
   children,
 }: DocsShellProps) {
   return (
@@ -26,6 +28,7 @@ export function DocsShell({
       <DocsSidebar
         introductionPages={introductionPages}
         componentPages={componentPages}
+        logoPages={logoPages}
         brand={
           <Link
             href="/docs"

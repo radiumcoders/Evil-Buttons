@@ -11,12 +11,15 @@ export default function DocsLayout({ children }: { children: ReactNode }) {
     url: page.url,
   }));
   const introductionPages = pages.filter((page) => INTRODUCTION_PAGE_URL_SET.has(page.url));
+  const logoPages = pages
+    .filter((page) => page.url.startsWith("/docs/logos"))
+    .sort((a, b) => a.title.localeCompare(b.title));
   const componentPages = pages
-    .filter((page) => !INTRODUCTION_PAGE_URL_SET.has(page.url))
+    .filter((page) => !INTRODUCTION_PAGE_URL_SET.has(page.url) && !page.url.startsWith("/docs/logos"))
     .sort((a, b) => a.title.localeCompare(b.title));
 
   return (
-    <DocsShell introductionPages={introductionPages} componentPages={componentPages}>
+    <DocsShell introductionPages={introductionPages} componentPages={componentPages} logoPages={logoPages}>
       {children}
     </DocsShell>
   );

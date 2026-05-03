@@ -8,6 +8,7 @@ import StickyButton from "@/components/evil-buttons/sticky";
 import ShinyButton from "./evil-buttons/shiny-button";
 import MoviePassButton from "./evil-buttons/movie-pass";
 import MinimalButton from "@/components/evil-buttons/minimal";
+import VercelLogo from "@/components/evil-buttons/logo/vercel";
 
 type CmdProps = {
   children: ReactNode;
@@ -77,6 +78,7 @@ export function getCustomMDXComponents(): MDXComponents {
     ShinyButton,
     MoviePassButton,
     MinimalButton,
+    VercelLogo,
     EvilButton: ClickPowerUp,
     Link,
   };
