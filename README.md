@@ -1,6 +1,6 @@
 # Evil Buttons & Logos
 
-A [shadcn/ui](https://ui.shadcn.com) registry featuring a collection of animated buttons and logo components built with [Motion](https://motion.dev/). Each component is designed to add punchy, interactive feedback to your UI with minimal setup.
+A [shadcn/ui](https://ui.shadcn.com) registry featuring a collection of animated components built with [Motion](https://motion.dev/). Each component is designed to add punchy, interactive feedback to your UI with minimal setup.
 
 ## Features
 
