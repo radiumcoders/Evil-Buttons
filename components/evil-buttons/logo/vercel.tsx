@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -8,40 +8,58 @@ export default function Vercel() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <motion.button
-      className="relative flex items-center justify-center size-14 bg-black rounded-full dark:bg-white border border-border shadow-sm overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+    <button
+      className="group relative flex items-center justify-center w-32 h-32 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-full cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
-      whileTap={{ scale: 0.95 }}
       aria-label="Vercel Logo"
     >
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none"
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, ease: "linear", duration: 8 }}
+              className="flex items-center justify-center size-[110px] rounded-full border border-dashed border-neutral-300 dark:border-neutral-700"
+            >
+              {[0, 120, 240].map((deg, i) => (
+                <div
+                  key={i}
+                  className="absolute"
+                  style={{
+                    transform: `rotate(${deg}deg) translateY(-55px)`,
+                  }}
+                >
+                  <Logo className="w-4 h-4 text-neutral-600 dark:text-neutral-400" />
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div
-        animate={isHovered ? { x: ["0%", "-50%"] } : { x: "0%" }}
-        transition={
-          isHovered
-            ? { repeat: Infinity, ease: "linear", duration: 1.2 }
-            : { duration: 0.4, ease: "easeOut" }
-        }
-        className="flex w-[400%]"
+        whileTap={{ scale: 0.9 }}
+        className="relative z-10 flex items-center justify-center size-14 bg-black rounded-full dark:bg-white border border-neutral-800 dark:border-neutral-200 shadow-sm"
       >
-        {/* We use 4 logos and translate by -50% to create a seamless infinite marquee effect */}
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="w-1/4 flex items-center justify-center">
-            {/* The -mt-[3px] optically centers the triangle since its visual weight is bottom-heavy */}
-            <Logo className="w-6 h-6 dark:invert -mt-[3px]" />
-          </div>
-        ))}
+        <Logo className="w-6 h-6 text-white dark:text-black -mt-[3px]" />
       </motion.div>
-    </motion.button>
+    </button>
   );
 }
 
 const Logo = ({ className }: { className?: string }) => {
   return (
     <svg viewBox="0 0 256 222" preserveAspectRatio="xMidYMid" className={cn(className)}>
-      <path fill="#fff" d="m128 0 128 221.705H0z" />
+      <path fill="currentColor" d="m128 0 128 221.705H0z" />
     </svg>
   );
 };
