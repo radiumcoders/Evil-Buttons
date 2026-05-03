@@ -3,10 +3,13 @@
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-export default function Shadcn() {
+export default function Shadcn({ className }: { className?: string }) {
   return (
     <motion.button
-      className="relative flex items-center justify-center size-14 bg-white rounded-xl dark:bg-black border border-neutral-200 dark:border-neutral-800 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer group"
+      className={cn(
+        "relative flex items-center justify-center size-14 bg-white rounded-full dark:bg-black border border-neutral-200 dark:border-neutral-800 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring cursor-pointer group",
+        className
+      )}
       whileHover="hover"
       whileTap="tap"
       aria-label="shadcn/ui Logo"
@@ -40,10 +43,10 @@ const Logo = ({ className }: { className?: string }) => {
             transition: { duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.1 },
           },
           hover: {
-            pathLength: [1, 0, 1],
-            pathOffset: [0, 1, 0],
+            pathLength: [0, 1],
+            pathOffset: [0, 0],
             transition: {
-              duration: 0.8,
+              duration: 0.6,
               ease: "easeInOut",
             },
           },
@@ -64,12 +67,12 @@ const Logo = ({ className }: { className?: string }) => {
             transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
           },
           hover: {
-            pathLength: [1, 0, 1],
-            pathOffset: [0, 1, 0],
+            pathLength: [0, 1],
+            pathOffset: [0, 0],
             transition: {
-              duration: 0.8,
+              duration: 0.6,
               ease: "easeInOut",
-              delay: 0.1, // Stagger the two lines slightly on hover
+              delay: 0.15, // Stagger the two lines slightly on hover
             },
           },
         }}
