@@ -10,17 +10,19 @@ type DocsNavPage = {
 };
 
 type DocsShellProps = {
+  children: ReactNode;
   introductionPages: DocsNavPage[];
   componentPages: DocsNavPage[];
   logoPages: DocsNavPage[];
-  children: ReactNode;
+  scrollBarsPages: DocsNavPage[];
 };
 
 export function DocsShell({
+  children,
   introductionPages,
   componentPages,
   logoPages,
-  children,
+  scrollBarsPages,
 }: DocsShellProps) {
   return (
     <div className="flex h-dvh overflow-hidden bg-neutral-50 p-2 dark:bg-neutral-900">
@@ -29,6 +31,7 @@ export function DocsShell({
         introductionPages={introductionPages}
         componentPages={componentPages}
         logoPages={logoPages}
+        scrollBarsPages={scrollBarsPages}
         brand={
           <Link
             href="/docs"

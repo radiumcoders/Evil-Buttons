@@ -21,6 +21,7 @@ type DocsSidebarProps = {
   introductionPages: DocsNavPage[];
   componentPages: DocsNavPage[];
   logoPages: DocsNavPage[];
+  scrollBarsPages: DocsNavPage[];
   brand: ReactNode;
 };
 
@@ -73,6 +74,7 @@ export function DocsSidebar({
   introductionPages,
   componentPages,
   logoPages,
+  scrollBarsPages,
   brand,
 }: DocsSidebarProps) {
   const pathname = usePathname();
@@ -137,6 +139,7 @@ export function DocsSidebar({
           </div>
           <DocsNavGroup title="Introduction" pages={introductionPages} />
           <DocsNavGroup title="Buttons" pages={componentPages} />
+          <DocsNavGroup title="Scroll Bars" pages={scrollBarsPages} />
           <DocsNavGroup title="Logos" pages={logoPages} />
         </div>
       </aside>

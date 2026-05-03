@@ -74,6 +74,15 @@
       "files": [
         "components/evil-buttons/logo/vercel.tsx"
       ]
+    },
+    {
+      "name": "scroll-bars",
+      "type": "registry:ui",
+      "title": "ScrollBars",
+      "description": "Animated scroll progress bars with a vintage audio level meter aesthetic.",
+      "files": [
+        "components/evil-buttons/scroll-bars.tsx"
+      ]
     }
   ]
 }

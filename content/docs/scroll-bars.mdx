@@ -1,0 +1,64 @@
+---
+title: ScrollBars
+description: Animated scroll progress bars with a vintage audio level meter aesthetic.
+---
+
+<Preview>
+  <ScrollBarsPreview />
+</Preview>
+
+## Installation
+
+```bash
+npx shadcn@latest add https://evilbuttons.radiumcoders.com/r/scroll-bars.json
+```
+
+## Usage
+
+```tsx
+"use client";
+
+import { useScroll, motion } from "motion";
+import { ScrollBars } from "@/components/evil-buttons/scroll-bars";
+
+export function ScrollBarsPreview() {
+  const { scrollYProgress } = useScroll();
+
+  return (
+    <ScrollBars
+      scrollYProgress={scrollYProgress}
+      barCount={31}
+      majorEvery={5}
+    />
+  );
+}
+```
+
+## Vertical Variant
+
+<Preview>
+  <ScrollBarsVerticalPreview />
+</Preview>
+
+```tsx
+import { ScrollBarsVertical } from "@/components/evil-buttons/scroll-bars";
+
+<ScrollBarsVertical
+  scrollYProgress={scrollYProgress}
+  barCount={31}
+  majorEvery={5}
+/>
+```
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `scrollYProgress` | `MotionValue<number>` | Required | A Motion value from useScroll |
+| `rounded` | `boolean` | `false` | Whether to use rounded corners |
+| `barCount` | `number` | `51` | Number of bar indicators |
+| `majorEvery` | `number` | `5` | Every Nth bar is larger |
+| `className` | `string` | - | Additional className |
+| `accentClassName` | `string` | - | ClassName for the moving indicator |

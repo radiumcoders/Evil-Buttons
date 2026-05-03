@@ -41,6 +41,10 @@ const vercelLogoSource = await readFile(
   resolve(root, "components/evil-buttons/logo/vercel.tsx"),
   "utf8",
 );
+const scrollBarsSource = await readFile(
+  resolve(root, "components/evil-buttons/scroll-bars.tsx"),
+  "utf8",
+);
 
 const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -189,6 +193,24 @@ const vercelLogoItem = {
   dependencies: ["motion", "clsx", "tailwind-merge"],
 };
 
+const scrollBarsItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "scroll-bars",
+  type: "registry:ui",
+  title: "ScrollBars",
+  description:
+    "Animated scroll progress bars with a vintage audio level meter aesthetic.",
+  files: [
+    {
+      path: "components/evil-buttons/scroll-bars.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/scroll-bars.tsx",
+      content: scrollBarsSource,
+    },
+  ],
+  dependencies: ["motion", "clsx", "tailwind-merge"],
+};
+
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
@@ -258,6 +280,14 @@ const index = {
         "An animated Vercel logo button with a sleek triangle reveal animation.",
       files: ["components/evil-buttons/logo/vercel.tsx"],
     },
+    {
+      name: "scroll-bars",
+      type: "registry:ui",
+      title: "ScrollBars",
+      description:
+        "Animated scroll progress bars with a vintage audio level meter aesthetic.",
+      files: ["components/evil-buttons/scroll-bars.tsx"],
+    },
   ],
 };
 
@@ -303,6 +333,11 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "scroll-bars.json"),
+  `${JSON.stringify(scrollBarsItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   registryIndexPath,
   `${JSON.stringify(index, null, 2)}\n`,
   "utf8",
@@ -318,3 +353,4 @@ console.log("- public/r/minimal.json");
 console.log("- public/r/tanstack-logo.json");
 console.log("- public/r/shadcn-logo.json");
 console.log("- public/r/vercel-logo.json");
+console.log("- public/r/scroll-bars.json");
