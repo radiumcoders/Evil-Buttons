@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "minimal",
+  "type": "registry:ui",
+  "title": "MinimalButton",
+  "description": "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+  "files": [
+    {
+      "path": "components/evil-buttons/minimal.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/minimal.tsx",
+      "content": "import { Button } from \"@/components/ui/button\";\nimport { cn } from \"@/lib/utils\";\n\nfunction MinimalButton({\n  children,\n  className,\n}: {\n  children: React.ReactNode;\n  className?: string;\n}) {\n  return (\n    <Button\n      className={cn(\n        className,\n        \"relative w-46 h-13 p-0 [--pattern:var(--color-accent)] shadow-[0px_10px_30px_10px_#00000024] dark:shadow-[0px_10px_30px_10px_#ffffff24]\",\n      )}\n    >\n      <div className=\"h-full w-full border-r border-(--pattern) bg-[repeating-linear-gradient(315deg,var(--pattern)_0,var(--pattern)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] opacity-10\" />\n      <span className=\"relative z-10\">{children}</span>\n      <div className=\"h-full w-full border-l border-(--pattern) bg-[repeating-linear-gradient(315deg,var(--pattern)_0,var(--pattern)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] opacity-10\" />\n    </Button>\n  );\n}\n\nexport default MinimalButton;\n"
+    }
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ]
+}

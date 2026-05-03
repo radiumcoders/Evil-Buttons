@@ -38,6 +38,15 @@
       "files": [
         "components/evil-buttons/movie-pass.tsx"
       ]
+    },
+    {
+      "name": "minimal",
+      "type": "registry:ui",
+      "title": "MinimalButton",
+      "description": "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+      "files": [
+        "components/evil-buttons/minimal.tsx"
+      ]
     }
   ]
 }

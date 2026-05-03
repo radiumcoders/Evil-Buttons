@@ -25,6 +25,10 @@ const moviePassSource = await readFile(
   resolve(root, "components/evil-buttons/movie-pass.tsx"),
   "utf8",
 );
+const minimalSource = await readFile(
+  resolve(root, "components/evil-buttons/minimal.tsx"),
+  "utf8",
+);
 
 const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -98,6 +102,27 @@ const moviePassItem = {
   dependencies: ["motion", "clsx", "tailwind-merge"],
 };
 
+const minimalItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "minimal",
+  type: "registry:ui",
+  title: "MinimalButton",
+  description:
+    "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+  files: [
+    {
+      path: "components/evil-buttons/minimal.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/minimal.tsx",
+      content: minimalSource,
+    },
+  ],
+  registryDependencies: [
+    "button"
+  ],
+  dependencies: ["clsx", "tailwind-merge"],
+};
+
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
@@ -135,6 +160,14 @@ const index = {
         "A ticket-style button with a tear-off animation, like a cinema stub.",
       files: ["components/evil-buttons/movie-pass.tsx"],
     },
+    {
+      name: "minimal",
+      type: "registry:ui",
+      title: "MinimalButton",
+      description:
+        "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+      files: ["components/evil-buttons/minimal.tsx"],
+    },
   ],
 };
 
@@ -160,6 +193,11 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "minimal.json"),
+  `${JSON.stringify(minimalItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   registryIndexPath,
   `${JSON.stringify(index, null, 2)}\n`,
   "utf8",
@@ -171,3 +209,4 @@ console.log("- public/r/click-powerup.json");
 console.log("- public/r/sticky.json");
 console.log("- public/r/shiny-button.json");
 console.log("- public/r/movie-pass.json");
+console.log("- public/r/minimal.json");

@@ -1,0 +1,43 @@
+---
+title: MinimalButton
+description: A sleek, minimal button with a subtle repeating linear gradient pattern.
+---
+
+MinimalButton provides a sleek and minimal aesthetic. It features a simple outline and an understated repeating linear gradient background, keeping the focus on its content while providing an elegant touch to your UI.
+
+## Preview
+
+<PreviewCard title="MinimalButton" note="Interactive">
+  <MinimalButton>Deploy Doom</MinimalButton>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/minimal</Cmd>
+
+## Usage
+
+```tsx
+import MinimalButton from "@/components/evil-buttons/minimal";
+
+export function ButtonDemo() {
+  return (
+    <MinimalButton>
+      Launch
+    </MinimalButton>
+  );
+}
+```
+
+## Props
+
+| Prop        | Type                                   | Default    | Description                                      |
+| ----------- | -------------------------------------- | ---------- | ------------------------------------------------ |
+| `children`  | `React.ReactNode`                      | -          | The visible button label or content.             |
+| `className` | `string`                               | -          | Extra classes passed to the wrapper.             |
+
+## Registry
+
+The registry item includes `components/evil-buttons/minimal.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils` and `Button` from `@/components/ui/button`.
