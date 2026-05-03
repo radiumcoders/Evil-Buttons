@@ -10,6 +10,7 @@ import MoviePassButton from "./evil-buttons/movie-pass";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import VercelLogo from "@/components/evil-buttons/logo/vercel";
 import ShadcnLogo from "@/components/evil-buttons/logo/shadcn";
+import TanStackLogo from "@/components/evil-buttons/logo/tanstack";
 
 type CmdProps = {
   children: ReactNode;
@@ -81,6 +82,7 @@ export function getCustomMDXComponents(): MDXComponents {
     MinimalButton,
     VercelLogo,
     ShadcnLogo,
+    TanStackLogo,
     EvilButton: ClickPowerUp,
     Link,
   };

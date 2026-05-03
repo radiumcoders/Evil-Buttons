@@ -1,0 +1,44 @@
+---
+title: TanStack Logo
+description: The beautiful, highly detailed TanStack ecosystem logo broken down with staggered animations.
+---
+
+A breathtaking implementation of the official TanStack logo. Every layer of the SVG has been extracted and animated using Framer Motion so it constructs itself gracefully when it mounts.
+
+## Preview
+
+<PreviewCard title="TanStack Logo" note="Interactive">
+  <TanStackLogo />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/tanstack</Cmd>
+
+## Usage
+
+```tsx
+import TanStackLogo from "@/components/evil-buttons/logo/tanstack";
+
+export function LogoDemo() {
+  return (
+    <TanStackLogo />
+  );
+}
+```
+
+## Details
+
+Because the SVG is a complex landscape painting involving gradients, masks, and layers, we deconstruct it to animate:
+1. The base sunset background scaling in.
+2. The blue waves floating up from the bottom.
+3. The mountain/rock base sliding up.
+4. The bright sun rising and the flag planting at the end.
+
+On hover, the water ripples infinitely, the sun slowly rotates to spin its rays, and the flag waves in the wind.
+
+## Registry
+
+The registry item includes `components/evil-buttons/logo/tanstack.tsx`.
