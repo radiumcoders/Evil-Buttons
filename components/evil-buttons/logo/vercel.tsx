@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -17,31 +17,23 @@ export default function Vercel() {
       whileTap={{ scale: 0.95 }}
       aria-label="Vercel Logo"
     >
-      <AnimatePresence mode="popLayout" initial={false}>
-        {!isHovered ? (
-          <motion.div
-            key="static-logo"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 20, opacity: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 flex items-center justify-center pt-0.5"
-          >
-            <Logo className="w-6 h-6 dark:invert" />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="hover-logo"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 20, opacity: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute inset-0 flex items-center justify-center pt-0.5"
-          >
-            <Logo className="w-6 h-6 dark:invert" />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.div
+        animate={isHovered ? { x: ["0%", "-50%"] } : { x: "0%" }}
+        transition={
+          isHovered
+            ? { repeat: Infinity, ease: "linear", duration: 1.2 }
+            : { duration: 0.4, ease: "easeOut" }
+        }
+        className="flex w-[400%]"
+      >
+        {/* We use 4 logos and translate by -50% to create a seamless infinite marquee effect */}
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="w-1/4 flex items-center justify-center">
+            {/* The -mt-[3px] optically centers the triangle since its visual weight is bottom-heavy */}
+            <Logo className="w-6 h-6 dark:invert -mt-[3px]" />
+          </div>
+        ))}
+      </motion.div>
     </motion.button>
   );
 }
