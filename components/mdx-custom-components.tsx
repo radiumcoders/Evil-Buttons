@@ -12,7 +12,7 @@ import VercelLogo from "@/components/evil-buttons/logo/vercel";
 import ShadcnLogo from "@/components/evil-buttons/logo/shadcn";
 import TanStackLogo from "@/components/evil-buttons/logo/tanstack";
 import { ScrollBars, ScrollBarsVertical } from "@/components/evil-buttons/scroll-bars";
-import { useScroll, motion } from "motion";
+import { useScroll } from "motion/react";
 
 type CmdProps = {
   children: ReactNode;
