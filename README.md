@@ -16,7 +16,7 @@ A [shadcn/ui](https://ui.shadcn.com) registry featuring a collection of animated
 Install any component from the registry using the shadcn CLI:
 
 ```bash
-npx shadcn@latest add https://evilbuttons.radiumcoders.com/r/click-powerup.json
+npx shadcn@latest add @evilbuttons/click-powerup
 ```
 
 ## Documentation
