@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Copy, ArrowUpRight } from "@phosphor-icons/react";
 import { ThemeSync } from "@/components/theme-sync";
+import { FitToContainer } from "@/components/landing/fit-to-container";
 import { siteConfig } from "@/lib/seo";
 
 import { AquaButton } from "@/components/evil-buttons/aqua-button";
@@ -168,7 +169,7 @@ function ButtonCell({ item }: { item: ButtonShowcase }) {
   return (
     <div className="group relative flex aspect-square flex-col overflow-hidden border-r border-b border-border bg-background transition-colors hover:bg-muted/30">
       <div className="flex flex-1 items-center justify-center p-4">
-        {item.render()}
+        <FitToContainer>{item.render()}</FitToContainer>
       </div>
       <div className="relative flex h-10 items-center justify-center font-mono text-[11px] font-medium text-muted-foreground">
         {item.name}
