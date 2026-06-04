@@ -20,6 +20,7 @@ export function FitToContainer({
   const outer = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
   const scaleRef = useRef(1); // currently-applied scale, written to the DOM as --fit-scale
+  const naturalRef = useRef<{ width: number; height: number } | null>(null); // cached unscaled size
 
   useLayoutEffect(() => {
     const outerEl = outer.current;
@@ -31,27 +32,20 @@ export function FitToContainer({
       const availableHeight = outerEl.clientHeight;
       if (!availableWidth || !availableHeight) return;
 
-      // Rects include the currently-applied transform, so divide it back out to
-      // recover the natural (unscaled) footprint. Re-derived each pass so it
-      // stays correct if the effect re-runs while a scale is already applied.
-      const appliedScale = scaleRef.current || 1;
-      let left = Infinity, top = Infinity, right = -Infinity, bottom = -Infinity;
-      for (const node of [innerEl, ...innerEl.querySelectorAll<HTMLElement>("*")]) {
-        const rect = node.getBoundingClientRect();
-        if (rect.width === 0 && rect.height === 0) continue;
-        if (rect.left < left) left = rect.left;
-        if (rect.top < top) top = rect.top;
-        if (rect.right > right) right = rect.right;
-        if (rect.bottom > bottom) bottom = rect.bottom;
+      // Cache the natural footprint; it only changes when the button reflows,
+      // which clears the cache below. The rect includes the applied transform,
+      // so divide it back out to recover the unscaled size.
+      if (!naturalRef.current) {
+        const bounds = getVisualBounds(innerEl);
+        if (!bounds || !bounds.width || !bounds.height) return;
+        const appliedScale = scaleRef.current || 1;
+        naturalRef.current = { width: bounds.width / appliedScale, height: bounds.height / appliedScale };
       }
-      if (!isFinite(left)) return;
-      const naturalWidth = (right - left) / appliedScale;
-      const naturalHeight = (bottom - top) / appliedScale;
-      if (!naturalWidth || !naturalHeight) return;
 
       // Write straight to the DOM, not state: avoids re-rendering the child on
       // every resize when the value only drives one style.
-      const nextScale = Math.min(max, availableWidth / naturalWidth, availableHeight / naturalHeight);
+      const { width, height } = naturalRef.current;
+      const nextScale = Math.min(max, availableWidth / width, availableHeight / height);
       if (Math.abs(nextScale - scaleRef.current) > 0.005) {
         scaleRef.current = nextScale;
         innerEl.style.setProperty("--fit-scale", String(nextScale));
@@ -60,7 +54,11 @@ export function FitToContainer({
 
     // Measure synchronously: ResizeObserver fires in hidden tabs (rAF doesn't),
     // and we only mutate --fit-scale, never the observed border-box, so no loop.
-    const observer = new ResizeObserver(measure);
+    const observer = new ResizeObserver((entries) => {
+      // Button reflowed → its natural size may have changed; drop the cache.
+      if (entries.some((entry) => entry.target === innerEl)) naturalRef.current = null;
+      measure();
+    });
     observer.observe(outerEl);
     observer.observe(innerEl);
     measure();
@@ -90,4 +88,20 @@ export function FitToContainer({
       </div>
     </div>
   );
+}
+
+/** Bounding box enclosing an element and everything it paints, including children
+ *  that overflow its layout box (glows, negative-inset gradients). Null if empty. */
+function getVisualBounds(root: HTMLElement): { width: number; height: number } | null {
+  let left = Infinity, top = Infinity, right = -Infinity, bottom = -Infinity;
+  for (const node of [root, ...root.querySelectorAll<HTMLElement>("*")]) {
+    const rect = node.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) continue;
+    if (rect.left < left) left = rect.left;
+    if (rect.top < top) top = rect.top;
+    if (rect.right > right) right = rect.right;
+    if (rect.bottom > bottom) bottom = rect.bottom;
+  }
+  if (!isFinite(left)) return null;
+  return { width: right - left, height: bottom - top };
 }
