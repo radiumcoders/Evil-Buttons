@@ -44,7 +44,7 @@ export function CliBlock({ commands }: { commands: string[] }) {
   const value = `${packageCommands[packageManager]} ${commands.join(" ")}`.trim();
 
   return (
-    <div className="group mt-4 overflow-hidden rounded-lg border border-border bg-background">
+    <div className="group mt-4 overflow-hidden border border-border bg-background">
       <div className="flex flex-row items-center justify-between gap-2 px-3 pt-2.5 pb-2">
         <div className="flex min-w-0 items-center gap-1 overflow-x-auto">
           {managers.map((manager) => {

@@ -183,7 +183,7 @@ export function DocsPageActions({
             align="end"
             sideOffset={6}
             className={cn(
-              "z-50 min-w-56 overflow-hidden rounded-xl border border-border bg-popover p-1.5 text-popover-foreground shadow-lg",
+              "z-50 min-w-56 overflow-hidden border border-border bg-popover p-1.5 text-popover-foreground shadow-lg",
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
             )}
           >
@@ -193,7 +193,7 @@ export function DocsPageActions({
                   href={link.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-muted-foreground outline-none transition-colors data-highlighted:bg-muted data-highlighted:text-foreground"
+                  className="flex cursor-pointer items-center gap-2.5 px-2.5 py-2 text-sm text-muted-foreground outline-none transition-colors data-highlighted:bg-muted data-highlighted:text-foreground"
                 >
                   <span className="flex size-4 shrink-0 items-center justify-center text-foreground">
                     {link.icon}

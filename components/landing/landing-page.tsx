@@ -1,0 +1,261 @@
+"use client";
+
+import { type ReactNode, useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Copy, ArrowUpRight } from "@phosphor-icons/react";
+import { ThemeSync } from "@/components/theme-sync";
+import { siteConfig } from "@/lib/seo";
+
+import { AquaButton } from "@/components/evil-buttons/aqua-button";
+import { BrutalButton } from "@/components/evil-buttons/brutal-button";
+import ChromeButton from "@/components/evil-buttons/chrome-button";
+import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
+import { CommandButton } from "@/components/evil-buttons/command-button";
+import { CopyButton } from "@/components/evil-buttons/copy-button";
+import DitherButton from "@/components/evil-buttons/dither-button";
+import EvilEyeButton from "@/components/evil-buttons/evil-eye-button";
+import { FrameButton } from "@/components/evil-buttons/frame-button";
+import GlitchButton from "@/components/evil-buttons/glitch-button";
+import GridButton from "@/components/evil-buttons/grid-button";
+import { HighlightButton } from "@/components/evil-buttons/highlight-button";
+import MinimalButton from "@/components/evil-buttons/minimal";
+import MoviePassButton from "@/components/evil-buttons/movie-pass";
+import { RevealButton } from "@/components/evil-buttons/reveal-button";
+import ShinyButton from "@/components/evil-buttons/shiny-button";
+import StickyButton from "@/components/evil-buttons/sticky";
+import TrollButton from "@/components/evil-buttons/troll-button";
+
+type ButtonShowcase = {
+  name: string;
+  href: string;
+  registryName: string;
+  render: () => ReactNode;
+};
+
+const showcase: ButtonShowcase[] = [
+  {
+    name: "AquaButton",
+    href: "/docs/aqua-button",
+    registryName: "aqua-button",
+    render: () => <AquaButton>Deploy Doom</AquaButton>,
+  },
+  {
+    name: "BrutalButton",
+    href: "/docs/brutal-button",
+    registryName: "brutal-button",
+    render: () => <BrutalButton>Click Me</BrutalButton>,
+  },
+  {
+    name: "ChromeButton",
+    href: "/docs/chrome-button",
+    registryName: "chrome-button",
+    render: () => <ChromeButton>Chromy</ChromeButton>,
+  },
+  {
+    name: "ClickPowerUp",
+    href: "/docs/click-power-up",
+    registryName: "click-powerup",
+    render: () => <ClickPowerUp>Doom</ClickPowerUp>,
+  },
+  {
+    name: "CommandButton",
+    href: "/docs/command-button",
+    registryName: "command-button",
+    render: () => <CommandButton shortcut="mod+s">Save</CommandButton>,
+  },
+  {
+    name: "CopyButton",
+    href: "/docs/copy-button",
+    registryName: "copy-button",
+    render: () => <CopyButton value="npx evil-buttons@latest init" />,
+  },
+  {
+    name: "DitherButton",
+    href: "/docs/dither-button",
+    registryName: "dither-button",
+    render: () => <DitherButton>Run It</DitherButton>,
+  },
+  {
+    name: "EvilEyeButton",
+    href: "/docs/evil-eye-button",
+    registryName: "evil-eye-button",
+    render: () => <EvilEyeButton>Doom</EvilEyeButton>,
+  },
+  {
+    name: "FrameButton",
+    href: "/docs/frame-button",
+    registryName: "frame-button",
+    render: () => <FrameButton>Deploy</FrameButton>,
+  },
+  {
+    name: "GlitchButton",
+    href: "/docs/glitch-button",
+    registryName: "glitch-button",
+    render: () => <GlitchButton>Launch</GlitchButton>,
+  },
+  {
+    name: "GridButton",
+    href: "/docs/grid-button",
+    registryName: "grid-button",
+    render: () => <GridButton>Click</GridButton>,
+  },
+  {
+    name: "HighlightButton",
+    href: "/docs/highlight-button",
+    registryName: "highlight-button",
+    render: () => <HighlightButton>Send</HighlightButton>,
+  },
+  {
+    name: "MinimalButton",
+    href: "/docs/minimal-button",
+    registryName: "minimal",
+    render: () => <MinimalButton>Apply</MinimalButton>,
+  },
+  {
+    name: "MoviePassButton",
+    href: "/docs/movie-pass",
+    registryName: "movie-pass",
+    render: () => <MoviePassButton>Deploy Doom</MoviePassButton>,
+  },
+  {
+    name: "RevealButton",
+    href: "/docs/reveal-button",
+    registryName: "reveal-button",
+    render: () => <RevealButton label="Hold to reveal" />,
+  },
+  {
+    name: "ShinyButton",
+    href: "/docs/shiny-button",
+    registryName: "shiny-button",
+    render: () => <ShinyButton>Search</ShinyButton>,
+  },
+  {
+    name: "StickyButton",
+    href: "/docs/sticky-button",
+    registryName: "sticky",
+    render: () => <StickyButton>Try to Click</StickyButton>,
+  },
+  {
+    name: "TrollButton",
+    href: "/docs/troll-button",
+    registryName: "troll-button",
+    render: () => <TrollButton>Click Me</TrollButton>,
+  },
+];
+
+function ButtonCell({ item }: { item: ButtonShowcase }) {
+  const [copied, setCopied] = useState(false);
+  const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current !== null) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  const command = `npx shadcn@latest add @evilbuttons/${item.registryName}`;
+
+  async function handleCopy(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    await navigator.clipboard.writeText(command);
+    setCopied(true);
+    if (timerRef.current !== null) clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => setCopied(false), 2000);
+  }
+
+  return (
+    <div className="group relative flex aspect-square flex-col overflow-hidden border-r border-b border-border bg-background transition-colors hover:bg-muted/30">
+      <div className="flex flex-1 items-center justify-center p-4">
+        {item.render()}
+      </div>
+      <div className="relative flex h-10 items-center justify-center font-mono text-[11px] font-medium text-muted-foreground">
+        {item.name}
+      </div>
+      <div className="absolute inset-x-0 bottom-0 flex h-10 translate-y-full gap-px border-t border-border bg-background transition-transform duration-300 ease-[cubic-bezier(0.85,0,0.15,1)] group-hover:translate-y-0">
+        <Link
+          href={item.href}
+          className="flex flex-1 items-center justify-center gap-1 text-[11px] font-medium text-foreground transition-colors hover:bg-muted/50"
+        >
+          <ArrowUpRight className="size-3" />
+          Docs
+        </Link>
+        <button
+          onClick={handleCopy}
+          className="flex flex-1 items-center justify-center gap-1 bg-primary text-[11px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+        >
+          <Copy className="size-3" weight={copied ? "fill" : "regular"} />
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function LandingPage() {
+  return (
+    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground xl:flex-row">
+      <ThemeSync />
+
+      <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:border-b-0 xl:border-r xl:border-border xl:px-8 xl:py-10">
+        <div>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-base font-semibold tracking-tight text-foreground transition-colors hover:text-muted-foreground"
+          >
+            <Image
+              src="/logo.svg"
+              alt={siteConfig.name}
+              width={22}
+              height={22}
+              className="dark:invert"
+            />
+            {siteConfig.name}
+          </Link>
+          <h1 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-balance leading-tight xl:mt-8 xl:text-3xl">
+            Animated buttons, built with an evil touch.
+          </h1>
+          <p className="mt-2 max-w-xl text-sm text-muted-foreground text-balance xl:mt-4">
+            A shadcn/ui registry of {showcase.length} interactive button
+            components. Live previews, copy-paste docs, one-command CLI
+            installs.
+          </p>
+          <div className="mt-4 flex items-center gap-2 xl:mt-8 xl:flex-col">
+            <Link
+              href="/docs"
+              className="inline-flex h-9 w-full items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 xl:w-auto"
+            >
+              Browse Docs
+            </Link>
+            <a
+              href={siteConfig.github}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent xl:w-auto"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-4 flex items-center gap-4 xl:mt-0 xl:flex-col xl:items-start xl:gap-2">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            {showcase.length} Components
+          </p>
+          <p className="font-mono text-[11px] text-muted-foreground">
+            © {new Date().getFullYear()} {siteConfig.author.name}
+          </p>
+        </div>
+      </header>
+
+      <main className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-2 border-t border-border md:grid-cols-3 xl:border-l xl:border-t-0">
+          {showcase.map((item) => (
+            <ButtonCell key={item.name} item={item} />
+          ))}
+        </div>
+      </main>
+    </div>
+  );
+}

@@ -150,7 +150,6 @@
   margin-top: 1.5rem;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
   background: var(--card);
 }
 
@@ -197,7 +196,6 @@
 }
 
 .docs-content [data-rehype-pretty-code-figure] [data-highlighted-chars] {
-  border-radius: 0.35rem;
   background: color-mix(in oklab, var(--primary) 18%, transparent);
   box-decoration-break: clone;
 }

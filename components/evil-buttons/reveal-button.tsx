@@ -71,7 +71,7 @@ export const RevealButton = React.forwardRef<
         aria-live="polite"
         data-state={revealed ? "revealed" : "hidden"}
         className={cn(
-          "group relative inline-flex min-w-64 items-center justify-between gap-4 overflow-hidden rounded-md border border-border bg-background px-4 py-2.5 text-sm shadow-sm transition-colors",
+          "group relative inline-flex min-w-40 items-center justify-between gap-3 overflow-hidden rounded-md border border-border bg-background px-3 py-2 text-xs shadow-sm transition-colors sm:min-w-64 sm:gap-4 sm:px-4 sm:py-2.5 sm:text-sm",
           "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60",
           revealed && "border-emerald-500/50 bg-emerald-500/10",
           className,
@@ -90,7 +90,7 @@ export const RevealButton = React.forwardRef<
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               exit={{ y: -6, opacity: 0, filter: "blur(4px)" }}
               transition={{ duration: 0.16 }}
-              className="block max-w-44 truncate font-mono font-semibold text-foreground"
+              className="block max-w-28 truncate font-mono text-xs font-semibold text-foreground sm:max-w-44 sm:text-sm"
             >
               {revealed ? secret : maskedValue}
             </motion.span>
@@ -99,7 +99,7 @@ export const RevealButton = React.forwardRef<
         <span
           aria-hidden
           className={cn(
-            "inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-colors",
+            "inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-colors sm:size-9",
             revealed &&
               "border-emerald-500/40 text-emerald-600 dark:text-emerald-400",
           )}
