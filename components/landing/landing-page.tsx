@@ -224,7 +224,7 @@ export function LandingPage() {
           <div className="mt-4 flex items-center gap-2 xl:mt-8 xl:flex-col">
             <Link
               href="/docs"
-              className="inline-flex h-9 w-full items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 xl:w-auto"
+              className="inline-flex h-9 w-full items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Browse Docs
             </Link>
@@ -232,7 +232,7 @@ export function LandingPage() {
               href={siteConfig.github}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent xl:w-auto"
+              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent"
             >
               GitHub
             </a>
