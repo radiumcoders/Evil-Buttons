@@ -1,12 +1,11 @@
 "use client";
 
-import { type ReactNode, useState, useRef, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Copy, ArrowUpRight } from "@phosphor-icons/react";
-import { ThemeSync } from "@/components/theme-sync";
 import { FitToContainer } from "@/components/landing/fit-to-container";
+import { ThemeSync } from "@/components/theme-sync";
 import { siteConfig } from "@/lib/seo";
+import { ArrowUpRight, Copy } from "@phosphor-icons/react";
+import Link from "next/link";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { BrutalButton } from "@/components/evil-buttons/brutal-button";
