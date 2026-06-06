@@ -56,7 +56,7 @@ function DocsNavGroup({
                 : undefined
             }
             className={cn(
-              "block rounded px-2 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+              "block px-2 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
               isPageActive(pathname, page.url) ||
                 (pathname === "/docs" && page.url === defaultPageUrl)
                 ? "bg-muted text-foreground"
@@ -91,7 +91,7 @@ export function DocsSidebar({
     <>
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-64 shrink-0 overflow-y-auto border-r border-border bg-background p-3 transition-transform duration-200 ease-out md:static md:z-auto md:h-full md:w-56 md:translate-x-0",
+          "docs-sidebar-scroll fixed inset-y-0 left-0 z-50 w-64 shrink-0 overflow-y-auto bg-background p-3 transition-transform duration-200 ease-out md:static md:z-auto md:h-full md:w-56 md:translate-x-0 border-y-0 md:ml-1 md:border md:border-border",
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0",
         )}
       >
@@ -100,7 +100,7 @@ export function DocsSidebar({
             {brand}
             <button
               type="button"
-              className="inline-flex size-8 items-center justify-center rounded-md border border-border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+              className="inline-flex size-8 items-center justify-center border border-border bg-background text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
               onClick={() => setOpen(false)}
               aria-label="Close menu"
             >
@@ -154,7 +154,7 @@ export function DocsSidebar({
       <div className={cn("fixed top-4 left-4 z-50 md:hidden", open && "hidden")}>
         <button
           type="button"
-          className="inline-flex size-8 items-center justify-center rounded border border-border bg-background text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="inline-flex size-8 items-center justify-center border border-border bg-background text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
           aria-label="Open menu"

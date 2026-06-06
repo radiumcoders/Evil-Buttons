@@ -32,7 +32,7 @@ export async function CodeBlock({
       <div
         data-code-block-wrapper=""
         className={cn(
-          "mt-4 overflow-hidden rounded-lg border border-border bg-background",
+          "mt-4 overflow-hidden border border-border bg-background",
           wrapperClassName,
         )}
       >

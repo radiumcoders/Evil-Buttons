@@ -6,12 +6,8 @@ A [shadcn/ui](https://ui.shadcn.com) registry featuring a collection of animated
 ![GitHub Stars](https://www.shieldcn.dev/github/stars/radiumcoders/Evil-Buttons.svg?variant=secondary&size=sm)
 ![GitHub Forks](https://www.shieldcn.dev/github/forks/radiumcoders/Evil-Buttons.svg?variant=secondary&size=sm)
 ![Watchers](https://www.shieldcn.dev/github/watchers/radiumcoders/Evil-Buttons.svg?variant=secondary&size=sm)
-![Branches](https://www.shieldcn.dev/github/branches/radiumcoders/Evil-Buttons.svg?variant=ghost&size=sm)
 ![Contributors](https://www.shieldcn.dev/github/contributors/radiumcoders/Evil-Buttons.svg?theme=emerald&size=sm)
 ![Last commit](https://www.shieldcn.dev/github/last-commit/radiumcoders/Evil-Buttons.svg?variant=secondary&size=sm)
-
-### License
-![License](https://www.shieldcn.dev/github/license/radiumcoders/Evil-Buttons.svg?variant=ghost&size=sm)
 
 ### Tooling
 ![Package mgr · pnpm](https://www.shieldcn.dev/badge/Package_mgr-pnpm-F69220.svg?logo=pnpm&variant=branded&size=sm)

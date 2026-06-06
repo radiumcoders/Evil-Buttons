@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter, Doto } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/json-ld";
 import { cn } from "@/lib/utils";
@@ -23,6 +23,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const dotoVar = Doto({
+  variable: "--font-doto",
+});
+
 export const metadata = rootMetadata;
 
 export default function RootLayout({
@@ -38,6 +42,7 @@ export default function RootLayout({
         geistMono.variable,
         "h-full font-sans",
         inter.variable,
+        dotoVar.variable,
       )}
     >
       <body className="flex h-full flex-col overflow-hidden">

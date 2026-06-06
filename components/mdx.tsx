@@ -82,7 +82,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
       />
     ),
     table: ({ className, ...props }: ComponentPropsWithoutRef<"table">) => (
-      <div className="mt-4 overflow-hidden rounded-lg border border-border bg-background">
+      <div className="mt-4 overflow-hidden border border-border bg-background">
         <div className="overflow-x-auto bg-background">
           <table
             className={cn("w-full border-collapse text-left text-sm", className)}
@@ -119,7 +119,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
           return (
             <div
               data-code-block-wrapper=""
-              className="mt-4 overflow-hidden rounded-lg border border-border bg-background"
+              className="mt-4 overflow-hidden border border-border bg-background"
             >
               <div className="flex items-center justify-between px-4 pt-3 pb-2">
                 <figcaption
@@ -159,7 +159,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
         return (
           <code
             className={cn(
-              "rounded-md bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground",
+              "bg-muted px-1.5 py-0.5 font-mono text-[0.9em] text-foreground",
               className,
             )}
             {...props}

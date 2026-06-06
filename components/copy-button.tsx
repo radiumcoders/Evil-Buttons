@@ -42,7 +42,7 @@ export default function CopyButton({ code, className, withBlurBg }: CopyButtonPr
       type="button"
       onClick={onCopy}
       className={cn(
-        "inline-flex size-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "inline-flex size-8 items-center justify-center text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         copied && "text-foreground",
         withBlurBg && "bg-background/80 shadow-sm backdrop-blur",
         className,

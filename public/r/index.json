@@ -146,6 +146,33 @@
       "files": [
         "components/evil-buttons/glitch-button.tsx"
       ]
+    },
+    {
+      "name": "command-button",
+      "type": "registry:ui",
+      "title": "CommandButton",
+      "description": "A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.",
+      "files": [
+        "components/evil-buttons/command-button.tsx"
+      ]
+    },
+    {
+      "name": "copy-button",
+      "type": "registry:ui",
+      "title": "CopyButton",
+      "description": "A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.",
+      "files": [
+        "components/evil-buttons/copy-button.tsx"
+      ]
+    },
+    {
+      "name": "reveal-button",
+      "type": "registry:ui",
+      "title": "RevealButton",
+      "description": "A button that reveals a hidden secret value on hold or toggle, with a blur-in animation and an eye icon indicator.",
+      "files": [
+        "components/evil-buttons/reveal-button.tsx"
+      ]
     }
   ]
 }

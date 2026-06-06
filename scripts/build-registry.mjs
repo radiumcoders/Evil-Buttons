@@ -71,6 +71,18 @@ const glitchButtonSource = await readFile(
   resolve(root, "components/evil-buttons/glitch-button.tsx"),
   "utf8",
 );
+const commandButtonSource = await readFile(
+  resolve(root, "components/evil-buttons/command-button.tsx"),
+  "utf8",
+);
+const copyButtonSource = await readFile(
+  resolve(root, "components/evil-buttons/copy-button.tsx"),
+  "utf8",
+);
+const revealButtonSource = await readFile(
+  resolve(root, "components/evil-buttons/reveal-button.tsx"),
+  "utf8",
+);
 
 const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -367,6 +379,60 @@ const glitchButtonItem = {
   dependencies: ["clsx", "tailwind-merge"],
 };
 
+const commandButtonItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "command-button",
+  type: "registry:ui",
+  title: "CommandButton",
+  description:
+    "A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.",
+  files: [
+    {
+      path: "components/evil-buttons/command-button.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/command-button.tsx",
+      content: commandButtonSource,
+    },
+  ],
+  dependencies: ["clsx", "tailwind-merge", "motion"],
+};
+
+const copyButtonItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "copy-button",
+  type: "registry:ui",
+  title: "CopyButton",
+  description:
+    "A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.",
+  files: [
+    {
+      path: "components/evil-buttons/copy-button.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/copy-button.tsx",
+      content: copyButtonSource,
+    },
+  ],
+  dependencies: ["clsx", "tailwind-merge", "motion"],
+};
+
+const revealButtonItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "reveal-button",
+  type: "registry:ui",
+  title: "RevealButton",
+  description:
+    "A button that reveals a hidden secret value on hold or toggle, with a blur-in animation and an eye icon indicator.",
+  files: [
+    {
+      path: "components/evil-buttons/reveal-button.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/reveal-button.tsx",
+      content: revealButtonSource,
+    },
+  ],
+  dependencies: ["clsx", "tailwind-merge", "motion"],
+};
+
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
@@ -499,6 +565,30 @@ const index = {
         "A button with randomized RGB-split glitch bursts, a scanline overlay, and a flickering label.",
       files: ["components/evil-buttons/glitch-button.tsx"],
     },
+    {
+      name: "command-button",
+      type: "registry:ui",
+      title: "CommandButton",
+      description:
+        "A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.",
+      files: ["components/evil-buttons/command-button.tsx"],
+    },
+    {
+      name: "copy-button",
+      type: "registry:ui",
+      title: "CopyButton",
+      description:
+        "A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.",
+      files: ["components/evil-buttons/copy-button.tsx"],
+    },
+    {
+      name: "reveal-button",
+      type: "registry:ui",
+      title: "RevealButton",
+      description:
+        "A button that reveals a hidden secret value on hold or toggle, with a blur-in animation and an eye icon indicator.",
+      files: ["components/evil-buttons/reveal-button.tsx"],
+    },
   ],
 };
 
@@ -584,6 +674,21 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "command-button.json"),
+  `${JSON.stringify(commandButtonItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
+  resolve(registryDir, "copy-button.json"),
+  `${JSON.stringify(copyButtonItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
+  resolve(registryDir, "reveal-button.json"),
+  `${JSON.stringify(revealButtonItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   resolve(registryDir, "index.json"),
   `${JSON.stringify(index, null, 2)}\n`,
   "utf8",
@@ -607,3 +712,6 @@ console.log("- public/r/3d-button.json");
 console.log("- public/r/frame-button.json");
 console.log("- public/r/highlight-button.json");
 console.log("- public/r/glitch-button.json");
+console.log("- public/r/command-button.json");
+console.log("- public/r/copy-button.json");
+console.log("- public/r/reveal-button.json");

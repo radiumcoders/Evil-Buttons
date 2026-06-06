@@ -26,20 +26,22 @@ export function DocsShell({
         brand={
           <Link
             href="/"
-            className="group flex items-center gap-2 text-base font-semibold tracking-tight text-foreground transition-colors hover:text-muted-foreground"
+            className="flex items-center justify-center gap-2"
           >
             <Image
-              src="/logo.svg"
+              src="/logo.png"
               alt="EvilButtons"
-              width={22}
-              height={22}
-              className="dark:invert"
+              width={288}
+              height={192}
+              className="h-auto w-8 sm:w-10"
             />
-            <span>EvilButtons</span>
+            <h1 className="text-lg font-doto font-black tracking-tighter">
+              EvilButtons
+            </h1>
           </Link>
         }
       />
-      <main className="min-w-0 flex-1 overflow-y-auto">{children}</main>
+      <main className="min-w-0 flex-1 m-1 border border-border overflow-y-auto">{children}</main>
     </div>
   );
 }

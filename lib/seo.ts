@@ -91,8 +91,7 @@ export const rootMetadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/favicon.ico",
   },
   other: {
     "msapplication-TileColor": "#000000",

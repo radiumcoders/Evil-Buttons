@@ -1,0 +1,83 @@
+---
+title: CopyButton
+description: A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.
+---
+
+CopyButton writes a string to the clipboard via the Clipboard API and cycles through three states: idle, copied, and error. Each state transition is animated, the icon swaps with a spring scale, and the label slides vertically. After a configurable timeout the button resets to idle automatically.
+
+## Preview
+
+<PreviewCard title="CopyButton" note="Click to copy">
+  <CopyButton value="pnpm dlx shadcn@latest add @evilbuttons/copy-button" />
+</PreviewCard>
+
+## Variants
+
+### Custom labels
+
+Override `copyLabel` and `copiedLabel` for different copy contexts.
+
+<PreviewCard title="Custom labels" note="Clone workflow">
+  <CopyButton value="git clone https://github.com/radiumcoders/Evil-Buttons.git" copyLabel="Clone" copiedLabel="Cloned!" />
+</PreviewCard>
+
+### Long timeout
+
+Set `timeout` to keep the copied state visible longer.
+
+<PreviewCard title="Long timeout" note="Stays green for 3 seconds">
+  <CopyButton value="keep-me" copyLabel="Copy token" copiedLabel="Copied!" timeout={3000} />
+</PreviewCard>
+
+### Short timeout
+
+A snappy reset after a brief confirmation.
+
+<PreviewCard title="Short timeout" note="Resets in 800ms">
+  <CopyButton value="short-lived" copyLabel="Copy" copiedLabel="Done" timeout={800} />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/copy-button</Cmd>
+
+## Usage
+
+```tsx
+import { CopyButton } from "@/components/evil-buttons/copy-button";
+
+export function ButtonDemo() {
+  return (
+    <CopyButton
+      value="npm install evil-buttons"
+      onCopy={(v) => console.log("copied:", v)}
+    />
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes except `value` and `onCopy`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | - | The string written to the clipboard on click. Required. |
+| `timeout` | `number` | `1500` | Milliseconds before the button resets from copied or error state back to idle. |
+| `copyLabel` | `React.ReactNode` | `"Copy"` | Label shown in the idle state. |
+| `copiedLabel` | `React.ReactNode` | `"Copied"` | Label shown after a successful copy. |
+| `onCopy` | `(value: string) => void` | - | Callback fired with the copied value on a successful write. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Uses `navigator.clipboard.writeText`. On browsers or contexts where the Clipboard API is unavailable, the button transitions to the error state instead of throwing.
+- Each click resets the auto-reset timer so rapid clicks do not stack timeouts.
+- The `copiedLabel` and `copyLabel` accept `React.ReactNode`, so you can pass icons or custom markup as labels.
+- `aria-live="polite"` announces state changes to screen readers.
+
+## Registry
+
+The registry item includes `components/evil-buttons/copy-button.tsx` and installs `clsx`, `tailwind-merge`, and `motion` as dependencies.

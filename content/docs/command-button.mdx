@@ -1,0 +1,84 @@
+---
+title: CommandButton
+description: A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.
+---
+
+CommandButton listens for a configurable keyboard shortcut on `window` and triggers an animated pulse whenever it fires. The shortcut is formatted and displayed as a `<kbd>` badge inside the button. Both Mac (`⌘`) and cross-platform (`Ctrl`) shortcuts are supported through the normalized `mod` alias.
+
+## Preview
+
+<PreviewCard title="CommandButton" note="Press Cmd+S (or Ctrl+S) to trigger">
+  <CommandButton shortcut="mod+s">Save</CommandButton>
+</PreviewCard>
+
+## Variants
+
+### Search
+
+A common `Ctrl+K` pattern for quick-open or command palettes.
+
+<PreviewCard title="Search" note="Press Ctrl+K to trigger">
+  <CommandButton shortcut="ctrl+k">Search</CommandButton>
+</PreviewCard>
+
+### Run
+
+Shift modifier with a function key.
+
+<PreviewCard title="Run" note="Press Shift+R to trigger">
+  <CommandButton shortcut="shift+r">Run</CommandButton>
+</PreviewCard>
+
+### No badge
+
+Hide the shortcut badge with `showShortcut={false}` for a minimal look (`Cmd+Enter (or Ctrl+Enter)`).
+
+<PreviewCard title="No badge" note="Shortcut still active, badge hidden">
+  <CommandButton shortcut="mod+enter" showShortcut={false}>Submit</CommandButton>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/command-button</Cmd>
+
+## Usage
+
+```tsx
+import { CommandButton } from "@/components/evil-buttons/command-button";
+
+export function ButtonDemo() {
+  return (
+    <CommandButton shortcut="mod+s" onCommand={() => console.log("saved")}>
+      Save
+    </CommandButton>
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `shortcut` | `string` | `"mod+s"` | Keyboard shortcut string. Parts are separated by `+`. Accepts `mod`, `ctrl`, `alt`, `shift`, and any single key. |
+| `onCommand` | `() => void` | - | Callback fired when the keyboard shortcut is triggered. |
+| `preventDefault` | `boolean` | `true` | Whether to call `event.preventDefault()` on the keyboard event. |
+| `showShortcut` | `boolean` | `true` | Whether to render the `<kbd>` shortcut badge inside the button. |
+| `children` | `React.ReactNode` | `"Save"` | The visible button label. |
+| `className` | `string` | - | Extra classes passed to the button. |
+| `disabled` | `boolean` | - | Disables the button and deactivates the keyboard listener. |
+
+## Notes
+
+- The shortcut listener is attached to `window`, so it fires regardless of which element has focus.
+- `mod` resolves to `metaKey || ctrlKey`, making shortcuts work across Mac and Windows without separate definitions.
+- `preventDefault` defaults to `true` to suppress native browser shortcuts like the save dialog on `Cmd+S`. Set it to `false` if you want the browser to also handle the event.
+- The pulse animation fires on keyboard shortcut only. Mouse clicks use standard browser button feedback. Pass `onClick` via props for click handling.
+- Disabling the button also removes the keyboard listener until re-enabled.
+
+## Registry
+
+The registry item includes `components/evil-buttons/command-button.tsx` and installs `clsx`, `tailwind-merge`, and `motion` as dependencies.
