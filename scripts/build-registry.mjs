@@ -55,6 +55,10 @@ const aquaButtonSource = await readFile(
   resolve(root, "components/evil-buttons/aqua-button.tsx"),
   "utf8",
 );
+const threeDButtonSource = await readFile(
+  resolve(root, "components/evil-buttons/3d-button.tsx"),
+  "utf8",
+);
 const frameButtonSource = await readFile(
   resolve(root, "components/evil-buttons/frame-button.tsx"),
   "utf8",
@@ -291,6 +295,23 @@ const aquaButtonItem = {
   dependencies: ["clsx", "tailwind-merge"],
 };
 
+const threeDButtonItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "3d-button",
+  type: "registry:ui",
+  title: "ThreeDButton",
+  description: "A minimal 3D button with a clean deck-style press and sliding click sheen.",
+  files: [
+    {
+      path: "components/evil-buttons/3d-button.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/3d-button.tsx",
+      content: threeDButtonSource,
+    },
+  ],
+  dependencies: ["clsx", "tailwind-merge", "motion"],
+};
+
 const frameButtonItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
   name: "frame-button",
@@ -448,6 +469,13 @@ const index = {
       files: ["components/evil-buttons/aqua-button.tsx"],
     },
     {
+      name: "3d-button",
+      type: "registry:ui",
+      title: "ThreeDButton",
+      description: "A minimal 3D button with a clean deck-style press and sliding click sheen.",
+      files: ["components/evil-buttons/3d-button.tsx"],
+    },
+    {
       name: "frame-button",
       type: "registry:ui",
       title: "FrameButton",
@@ -536,6 +564,11 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "3d-button.json"),
+  `${JSON.stringify(threeDButtonItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   resolve(registryDir, "frame-button.json"),
   `${JSON.stringify(frameButtonItem, null, 2)}\n`,
   "utf8",
@@ -570,6 +603,7 @@ console.log("- public/r/troll-button.json");
 console.log("- public/r/chrome-button.json");
 console.log("- public/r/brutal-button.json");
 console.log("- public/r/aqua-button.json");
+console.log("- public/r/3d-button.json");
 console.log("- public/r/frame-button.json");
 console.log("- public/r/highlight-button.json");
 console.log("- public/r/glitch-button.json");

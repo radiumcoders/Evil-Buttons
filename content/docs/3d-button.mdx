@@ -1,0 +1,51 @@
+---
+title: ThreeDButton
+description: A minimal 3D button with a clean deck-style press and sliding click sheen.
+---
+
+ThreeDButton is a minimal 3D button with a slim dark base, a lifted zinc face, and a sliding click sheen powered by Motion.
+
+## Preview
+
+<PreviewCard title="ThreeDButton" note="Click to press">
+  <ThreeDButton>Continue</ThreeDButton>
+</PreviewCard>
+
+### Custom Label
+
+<PreviewCard title="Custom Label" note="Interactive">
+  <ThreeDButton>Open Panel</ThreeDButton>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/3d-button</Cmd>
+
+## Usage
+
+```tsx
+import { ThreeDButton } from "@/components/evil-buttons/3d-button";
+
+export function ButtonDemo() {
+  return (
+    <ThreeDButton>
+      Continue
+    </ThreeDButton>
+  );
+}
+```
+
+## Props
+
+| Prop        | Type              | Default            | Description                                      |
+| ----------- | ----------------- | ------------------ | ------------------------------------------------ |
+| `children`  | `React.ReactNode` | `"Continue"`       | The visible button label or content.             |
+| `className` | `string`          | -                  | Extra classes passed to the button.              |
+
+All other `<button>` attributes (`onClick`, `disabled`, `type`, etc.) are forwarded.
+
+## Registry
+
+The registry item includes `components/evil-buttons/3d-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.

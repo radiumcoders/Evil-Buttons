@@ -15,6 +15,7 @@ import TrollButton from "./evil-buttons/troll-button";
 import ChromeButton from "./evil-buttons/chrome-button";
 import { BrutalButton } from "./evil-buttons/brutal-button";
 import { AquaButton } from "./evil-buttons/aqua-button";
+import { ThreeDButton } from "./evil-buttons/3d-button";
 import { FrameButton } from "./evil-buttons/frame-button";
 import { HighlightButton } from "./evil-buttons/highlight-button";
 import { GlitchButton } from "./evil-buttons/glitch-button";
@@ -96,6 +97,7 @@ export function getCustomMDXComponents(): MDXComponents {
     ChromeButton,
     BrutalButton,
     AquaButton,
+    ThreeDButton,
     FrameButton,
     HighlightButton,
     GlitchButton,
