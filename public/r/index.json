@@ -112,6 +112,15 @@
       ]
     },
     {
+      "name": "3d-button",
+      "type": "registry:ui",
+      "title": "ThreeDButton",
+      "description": "A minimal 3D button with a clean deck-style press and sliding click sheen.",
+      "files": [
+        "components/evil-buttons/3d-button.tsx"
+      ]
+    },
+    {
       "name": "frame-button",
       "type": "registry:ui",
       "title": "FrameButton",
