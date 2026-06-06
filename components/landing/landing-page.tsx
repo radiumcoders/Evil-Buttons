@@ -36,24 +36,6 @@ type ButtonShowcase = {
 
 const showcase: ButtonShowcase[] = [
   {
-    name: "AquaButton",
-    href: "/docs/aqua-button",
-    registryName: "aqua-button",
-    render: () => <AquaButton>Deploy Doom</AquaButton>,
-  },
-  {
-    name: "BrutalButton",
-    href: "/docs/brutal-button",
-    registryName: "brutal-button",
-    render: () => <BrutalButton>Click Me</BrutalButton>,
-  },
-  {
-    name: "ChromeButton",
-    href: "/docs/chrome-button",
-    registryName: "chrome-button",
-    render: () => <ChromeButton>Chromy</ChromeButton>,
-  },
-  {
     name: "ClickPowerUp",
     href: "/docs/click-power-up",
     registryName: "click-powerup",
@@ -82,6 +64,24 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/evil-eye-button",
     registryName: "evil-eye-button",
     render: () => <EvilEyeButton>Doom</EvilEyeButton>,
+  },
+  {
+    name: "AquaButton",
+    href: "/docs/aqua-button",
+    registryName: "aqua-button",
+    render: () => <AquaButton>Deploy Doom</AquaButton>,
+  },
+  {
+    name: "BrutalButton",
+    href: "/docs/brutal-button",
+    registryName: "brutal-button",
+    render: () => <BrutalButton>Click Me</BrutalButton>,
+  },
+  {
+    name: "ChromeButton",
+    href: "/docs/chrome-button",
+    registryName: "chrome-button",
+    render: () => <ChromeButton>Chromy</ChromeButton>,
   },
   {
     name: "FrameButton",
@@ -118,12 +118,6 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/movie-pass",
     registryName: "movie-pass",
     render: () => <MoviePassButton>Deploy Doom</MoviePassButton>,
-  },
-  {
-    name: "RevealButton",
-    href: "/docs/reveal-button",
-    registryName: "reveal-button",
-    render: () => <RevealButton label="Hold to reveal" />,
   },
   {
     name: "ShinyButton",
@@ -203,16 +197,20 @@ export function LandingPage() {
         <div>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-base font-semibold tracking-tight text-foreground transition-colors hover:text-muted-foreground"
+            className="inline-flex w-fit transition-opacity hover:opacity-85"
           >
-            <Image
-              src="/logo.svg"
-              alt={siteConfig.name}
-              width={22}
-              height={22}
-              className="dark:invert"
-            />
-            {siteConfig.name}
+            <div className="flex items-center justify-center gap-2">
+              <img
+                src="/logo.png"
+                alt={siteConfig.name}
+                width={288}
+                height={192}
+                className="h-auto w-14 sm:w-16"
+              />
+              <h1 className="text-2xl font-doto font-black tracking-tighter leading-5">
+                Evil <br /> Buttons
+              </h1>
+            </div>
           </Link>
           <h1 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-balance leading-tight xl:mt-8 xl:text-3xl">
             Animated buttons, built with an evil touch.
