@@ -33,10 +33,11 @@ export default function OpenGraphImage() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: 44,
+              fontSize: 40,
+              color: "#fff",
             }}
           >
-            🪓
+            EB
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <div style={{ fontSize: 56, fontWeight: 800, letterSpacing: -1 }}>
