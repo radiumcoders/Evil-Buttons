@@ -24,6 +24,7 @@ import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
+import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
 
 type ButtonShowcase = {
@@ -135,6 +136,12 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/sticky-button",
     registryName: "sticky",
     render: () => <StickyButton>Try to Click</StickyButton>,
+  },
+  {
+    name: "ThreeDButton",
+    href: "/docs/3d-button",
+    registryName: "3d-button",
+    render: () => <ThreeDButton>Continue</ThreeDButton>,
   },
   {
     name: "TrollButton",
