@@ -36,10 +36,10 @@ type ButtonShowcase = {
 
 const showcase: ButtonShowcase[] = [
   {
-    name: "ClickPowerUp",
-    href: "/docs/click-power-up",
-    registryName: "click-powerup",
-    render: () => <ClickPowerUp>Doom</ClickPowerUp>,
+    name: "RevealButton",
+    href: "/docs/reveal-button",
+    registryName: "reveal-button",
+    render: () => <RevealButton label="Hold to reveal" />,
   },
   {
     name: "CommandButton",
@@ -52,6 +52,12 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/copy-button",
     registryName: "copy-button",
     render: () => <CopyButton value="npx evil-buttons@latest init" />,
+  },
+  {
+    name: "ClickPowerUp",
+    href: "/docs/click-power-up",
+    registryName: "click-powerup",
+    render: () => <ClickPowerUp>Doom</ClickPowerUp>,
   },
   {
     name: "DitherButton",
