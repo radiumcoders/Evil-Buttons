@@ -1,0 +1,45 @@
+---
+title: DemonicButton
+description: A button with devil horns that spring out on hover and a blood-red flash on click.
+---
+
+DemonicButton sprouts animated devil horns from behind the button when hovered. The horns rise with a snappy spring animation and retract with an ease-back curve on mouse leave. Clicking the button flashes the background blood-red via `whileTap`. Built with `motion/react`.
+
+## Preview
+
+<PreviewCard title="DemonicButton" note="Interactive – hover to reveal horns, click for red flash">
+  <DemonicButton label="Corrupt the World" />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/demonic-button</Cmd>
+
+## Usage
+
+```tsx
+import { DemonicButton } from "@/components/evil-buttons/demonic-button";
+
+export function ButtonDemo() {
+  return <DemonicButton label="Corrupt the World" />;
+}
+```
+
+## Props
+
+| Prop    | Type     | Default | Description                        |
+| ------- | -------- | ------- | ---------------------------------- |
+| `label` | `string` | -       | The visible text inside the button |
+
+## Notes
+
+- The left horn SVG is flipped with `-scale-x-100` for the right horn — no second asset needed.
+- Horns sit behind the button via `z-0` / `z-10` layering and animate with per-variant transitions from `motion/react`.
+- The button enforces `min-w-30` so the horns don't overlap on short labels.
+- The red flash on click uses `whileTap` — it only stays red while the button is pressed.
+
+## Registry
+
+The registry item includes `components/evil-buttons/demonic-button.tsx` and installs `motion` as a dependency.

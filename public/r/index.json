@@ -173,6 +173,15 @@
       "files": [
         "components/evil-buttons/reveal-button.tsx"
       ]
+    },
+    {
+      "name": "demonic-button",
+      "type": "registry:ui",
+      "title": "DemonicButton",
+      "description": "A button with devil horns that spring out on hover and a blood-red flash on click.",
+      "files": [
+        "components/evil-buttons/demonic-button.tsx"
+      ]
     }
   ]
 }

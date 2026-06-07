@@ -83,6 +83,10 @@ const revealButtonSource = await readFile(
   resolve(root, "components/evil-buttons/reveal-button.tsx"),
   "utf8",
 );
+const demonicButtonSource = await readFile(
+  resolve(root, "components/evil-buttons/demonic-button.tsx"),
+  "utf8",
+);
 
 const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -433,6 +437,23 @@ const revealButtonItem = {
   dependencies: ["clsx", "tailwind-merge", "motion"],
 };
 
+const demonicButtonItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "demonic-button",
+  type: "registry:ui",
+  title: "DemonicButton",
+  description: "A button with devil horns that spring out on hover and a blood-red flash on click.",
+  files: [
+    {
+      path: "components/evil-buttons/demonic-button.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/demonic-button.tsx",
+      content: demonicButtonSource,
+    },
+  ],
+  dependencies: ["motion"],
+};
+
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
@@ -589,6 +610,13 @@ const index = {
         "A button that reveals a hidden secret value on hold or toggle, with a blur-in animation and an eye icon indicator.",
       files: ["components/evil-buttons/reveal-button.tsx"],
     },
+    {
+      name: "demonic-button",
+      type: "registry:ui",
+      title: "DemonicButton",
+      description: "A button with devil horns that spring out on hover and a blood-red flash on click.",
+      files: ["components/evil-buttons/demonic-button.tsx"],
+    },
   ],
 };
 
@@ -689,6 +717,11 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "demonic-button.json"),
+  `${JSON.stringify(demonicButtonItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   resolve(registryDir, "index.json"),
   `${JSON.stringify(index, null, 2)}\n`,
   "utf8",
@@ -715,3 +748,4 @@ console.log("- public/r/glitch-button.json");
 console.log("- public/r/command-button.json");
 console.log("- public/r/copy-button.json");
 console.log("- public/r/reveal-button.json");
+console.log("- public/r/demonic-button.json");

@@ -22,6 +22,7 @@ import { GlitchButton } from "./evil-buttons/glitch-button";
 import { CommandButton } from "./evil-buttons/command-button";
 import { CopyButton } from "./evil-buttons/copy-button";
 import { RevealButton } from "./evil-buttons/reveal-button";
+import {DemonicButton} from "./evil-buttons/demonic-button";
 
 type CmdProps = {
   children: ReactNode;
@@ -107,5 +108,6 @@ export function getCustomMDXComponents(): MDXComponents {
     CommandButton,
     CopyButton,
     RevealButton,
+    DemonicButton,
   };
 }
