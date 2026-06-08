@@ -31,7 +31,7 @@ npx shadcn@latest add @evilbuttons/click-powerup
 
 ## Documentation
 
-Visit [evilbuttons.radiumcoders.com/docs](https://evilbuttons.radiumcoders.com/docs) for:
+Visit [evilbuttons.com](https://evilbuttons.com) for:
 
 - Live component previews
 - Installation commands
@@ -40,12 +40,8 @@ Visit [evilbuttons.radiumcoders.com/docs](https://evilbuttons.radiumcoders.com/d
 ## Development
 
 ### Prerequisites
-
-- Node.js 18+
 - pnpm (recommended)
-
 ### Setup
-
 ```bash
 # Clone the repository
 git clone https://github.com/radiumcoders/evil-buttons.git
