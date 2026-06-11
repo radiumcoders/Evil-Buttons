@@ -42,7 +42,7 @@ export function absoluteUrl(path = "/"): string {
 }
 
 export const defaultOgImage = {
-  url: "/opengraph-image",
+  url: "/og-image.png",
   width: 1200,
   height: 630,
   alt: `${siteConfig.name} — ${siteConfig.tagline}`,
