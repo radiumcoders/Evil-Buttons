@@ -37,12 +37,6 @@ type ButtonShowcase = {
 
 const showcase: ButtonShowcase[] = [
   {
-    name: "DemonicButton",
-    href: "/docs/demonic-button",
-    registryName: "demonic-button",
-    render: () => <DemonicButton label="Currupt the World" />,
-  },
-  {
     name: "RevealButton",
     href: "/docs/reveal-button",
     registryName: "reveal-button",
@@ -71,6 +65,12 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/dither-button",
     registryName: "dither-button",
     render: () => <DitherButton>Run It</DitherButton>,
+  },
+  {
+    name: "DemonicButton",
+    href: "/docs/demonic-button",
+    registryName: "demonic-button",
+    render: () => <DemonicButton label="Currupt the World" />,
   },
   {
     name: "EvilEyeButton",
@@ -181,11 +181,11 @@ function ButtonCell({ item }: { item: ButtonShowcase }) {
 
   return (
     <div className="group relative flex aspect-square flex-col overflow-hidden border-r border-b border-border bg-background transition-colors hover:bg-muted/30">
+      <div className="absolute top-0 left-0 z-10 px-3 py-2 font-mono text-[11px] font-medium text-muted-foreground">
+        {item.name}
+      </div>
       <div className="flex flex-1 items-center justify-center p-4">
         <FitToContainer>{item.render()}</FitToContainer>
-      </div>
-      <div className="relative flex h-10 items-center justify-center font-mono text-[11px] font-medium text-muted-foreground">
-        {item.name}
       </div>
       <div className="absolute inset-x-0 bottom-0 flex h-10 translate-y-full gap-px border-t border-border bg-background transition-transform duration-300 ease-[cubic-bezier(0.85,0,0.15,1)] group-hover:translate-y-0">
         <Link
