@@ -8,7 +8,7 @@ export interface TerminalProps {
 export const Terminal = ({ brand, title, caption, accent }: TerminalProps) => (
   <div
     style={{
-      backgroundColor: "#0a0a0a",
+      backgroundColor: "#000000",
       color: "#fafafa",
       display: "flex",
       flexDirection: "column",
@@ -16,8 +16,21 @@ export const Terminal = ({ brand, title, caption, accent }: TerminalProps) => (
       justifyContent: "space-between",
       padding: "80px",
       width: "100%",
+      position: "relative",
+      overflow: "hidden",
     }}
   >
+    <div
+      style={{
+        position: "absolute",
+        bottom: "-20%",
+        right: "-20%",
+        width: "100%",
+        height: "100%",
+        background:
+          "radial-gradient(circle, rgba(239, 68, 68, 0.6) 0%, rgba(185, 28, 28, 0.3) 25%, rgba(127, 29, 29, 0.12) 50%, transparent 70%)",
+      }}
+    />
     <div style={{ alignItems: "center", display: "flex", gap: "20px" }}>
       <div
         style={{
