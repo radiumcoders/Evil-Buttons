@@ -41,13 +41,6 @@ export function absoluteUrl(path = "/"): string {
   return `${getSiteUrl()}${normalized}`;
 }
 
-export const defaultOgImage = {
-  url: "/og-image.png",
-  width: 1200,
-  height: 630,
-  alt: `${siteConfig.name} — ${siteConfig.tagline}`,
-} as const;
-
 export const rootMetadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
   title: {
@@ -71,13 +64,11 @@ export const rootMetadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: [defaultOgImage],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
-    images: [defaultOgImage.url],
   },
   robots: {
     index: true,
@@ -124,13 +115,11 @@ export function createDocsPageMetadata({
       siteName: siteConfig.name,
       title: pageTitle,
       description: pageDescription,
-      images: [defaultOgImage],
     },
     twitter: {
       card: "summary_large_image",
       title: pageTitle,
       description: pageDescription,
-      images: [defaultOgImage.url],
     },
   };
 }
