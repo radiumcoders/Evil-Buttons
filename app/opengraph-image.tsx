@@ -17,7 +17,7 @@ export default function OpenGraphImage() {
           alignItems: "center",
           justifyContent: "center",
           background: "#000000",
-          fontFamily: "ui-sans-serif, system-ui, -apple-system, sans-serif",
+          fontFamily: "ui-monospace, 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace",
           position: "relative",
           overflow: "hidden",
         }}
@@ -32,7 +32,7 @@ export default function OpenGraphImage() {
             height: "160%",
             display: "flex",
             background:
-              "radial-gradient(circle at center, rgba(239, 68, 68, 0.15) 0%, rgba(185, 28, 28, 0.08) 25%, rgba(127, 29, 29, 0.03) 45%, #000000 70%)",
+              "radial-gradient(circle at center, rgba(239, 68, 68, 0.5) 0%, rgba(185, 28, 28, 0.35) 25%, rgba(127, 29, 29, 0.2) 45%, #000000 70%)",
           }}
         />
 
