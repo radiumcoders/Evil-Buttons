@@ -10,215 +10,179 @@ export default function OpenGraphImage() {
     (
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
           width: "100%",
           height: "100%",
-          padding: "80px",
-          background:
-            "radial-gradient(ellipse at 50% 50%, #1a0000 0%, #000000 75%)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          padding: "72px",
+          background: "#050505",
           color: "#fafafa",
           fontFamily: "ui-sans-serif, system-ui, -apple-system, sans-serif",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Diagonal beam — main red shaft */}
+        {/* Beam gradient — diagonal red shaft */}
         <div
           style={{
             position: "absolute",
-            top: "-50%",
-            left: "-20%",
-            width: "180%",
-            height: "200%",
-            background:
-              "linear-gradient(115deg, transparent 30%, rgba(239, 68, 68, 0) 38%, rgba(239, 68, 68, 0.55) 50%, rgba(220, 38, 38, 0.15) 62%, transparent 70%)",
-            transform: "rotate(-12deg)",
+            inset: 0,
             display: "flex",
-            filter: "blur(8px)",
+            background:
+              "linear-gradient(115deg, transparent 35%, rgba(220, 38, 38, 0.05) 45%, rgba(239, 68, 68, 0.45) 50%, rgba(220, 38, 38, 0.05) 55%, transparent 65%)",
           }}
         />
 
-        {/* Secondary thin beam */}
+        {/* Subtle red ambient glow */}
         <div
           style={{
             position: "absolute",
-            top: "-30%",
-            left: "10%",
-            width: "120%",
-            height: "160%",
-            background:
-              "linear-gradient(115deg, transparent 45%, rgba(127, 29, 29, 0) 49%, rgba(185, 28, 28, 0.35) 52%, rgba(127, 29, 29, 0) 55%, transparent 60%)",
-            transform: "rotate(-12deg)",
-            display: "flex",
-            filter: "blur(4px)",
-          }}
-        />
-
-        {/* Top-left glow */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-150px",
-            left: "-150px",
-            width: "500px",
-            height: "500px",
+            top: "20%",
+            left: "15%",
+            width: "700px",
+            height: "700px",
             borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(239, 68, 68, 0.22) 0%, rgba(239, 68, 68, 0) 70%)",
             display: "flex",
+            background:
+              "radial-gradient(circle, rgba(127, 29, 29, 0.25) 0%, rgba(127, 29, 29, 0) 70%)",
+            filter: "blur(40px)",
           }}
         />
 
-        {/* Bottom-right glow */}
+        {/* Top: brand mark */}
         <div
           style={{
-            position: "absolute",
-            bottom: "-200px",
-            right: "-200px",
-            width: "600px",
-            height: "600px",
-            borderRadius: "50%",
-            background:
-              "radial-gradient(circle, rgba(127, 29, 29, 0.35) 0%, rgba(127, 29, 29, 0) 70%)",
             display: "flex",
+            alignItems: "center",
+            gap: 12,
+            position: "relative",
           }}
-        />
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: "50%",
+              background: "#ef4444",
+              display: "flex",
+              boxShadow: "0 0 16px rgba(239, 68, 68, 0.8)",
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              fontSize: 22,
+              fontWeight: 500,
+              letterSpacing: "4px",
+              color: "#a3a3a3",
+              textTransform: "uppercase",
+            }}
+          >
+            {siteConfig.name}
+          </div>
+        </div>
 
-        {/* Content */}
+        {/* Center: heading + description */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            gap: 32,
+            gap: 28,
             position: "relative",
-            zIndex: 1,
-            textAlign: "center",
+            maxWidth: "1000px",
           }}
         >
-          {/* Eyebrow */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 14,
-              fontSize: 20,
-              fontWeight: 600,
-              color: "#ef4444",
-              letterSpacing: "6px",
-              textTransform: "uppercase",
-            }}
-          >
-            <div
-              style={{
-                width: 40,
-                height: 2,
-                background: "#ef4444",
-                display: "flex",
-              }}
-            />
-            Evil Touch
-            <div
-              style={{
-                width: 40,
-                height: 2,
-                background: "#ef4444",
-                display: "flex",
-              }}
-            />
-          </div>
-
-          {/* Heading */}
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              gap: 4,
+              gap: 0,
             }}
           >
             <div
               style={{
                 display: "flex",
-                fontSize: 140,
+                fontSize: 128,
                 fontWeight: 900,
-                letterSpacing: "-6px",
                 lineHeight: 0.95,
+                letterSpacing: "-5px",
                 color: "#ffffff",
               }}
             >
-              {siteConfig.name}
+              Buttons with
             </div>
             <div
               style={{
                 display: "flex",
-                fontSize: 56,
+                fontSize: 128,
                 fontWeight: 900,
-                letterSpacing: "-2px",
-                lineHeight: 1,
+                lineHeight: 0.95,
+                letterSpacing: "-5px",
                 background:
-                  "linear-gradient(90deg, #ef4444 0%, #dc2626 50%, #7f1d1d 100%)",
+                  "linear-gradient(90deg, #ef4444 0%, #b91c1c 100%)",
                 backgroundClip: "text",
                 color: "transparent",
               }}
             >
-              {siteConfig.tagline}
+              an Evil Touch.
             </div>
           </div>
 
-          {/* Description */}
           <div
             style={{
               display: "flex",
-              fontSize: 24,
+              fontSize: 26,
               lineHeight: 1.5,
               color: "#a3a3a3",
-              maxWidth: 760,
-              textAlign: "center",
-              marginTop: 12,
+              maxWidth: "820px",
             }}
           >
             {siteConfig.description}
           </div>
+        </div>
 
-          {/* Meta strip */}
+        {/* Bottom: meta strip */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            position: "relative",
+            paddingTop: 20,
+            borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+          }}
+        >
           <div
             style={{
               display: "flex",
-              gap: 24,
+              gap: 20,
               fontSize: 18,
               color: "#737373",
               fontWeight: 500,
-              letterSpacing: "1px",
-              textTransform: "uppercase",
-              marginTop: 20,
-              paddingTop: 24,
-              borderTop: "1px solid rgba(239, 68, 68, 0.2)",
-              width: 600,
-              justifyContent: "center",
             }}
           >
             <span>shadcn registry</span>
-            <span style={{ color: "#ef4444" }}>•</span>
+            <span style={{ color: "#525252" }}>·</span>
             <span>Motion</span>
-            <span style={{ color: "#ef4444" }}>•</span>
+            <span style={{ color: "#525252" }}>·</span>
             <span>TypeScript</span>
+            <span style={{ color: "#525252" }}>·</span>
+            <span>Tailwind</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 18,
+              color: "#525252",
+              fontWeight: 500,
+            }}
+          >
+            evilbuttons.com
           </div>
         </div>
       </div>
     ),
-    { ...size, fonts: [
-      {
-        name: "Doto",
-        data: await fetch(
-          "https://fonts.gstatic.com/s/doto/v17/LDIbaomQNQcsA88c7O9yZ4KMCoOg4Ko.woff"
-        ).then((res) => res.arrayBuffer()),
-        weight: 900,
-        style: "normal",
-      },
-    ] },
+    { ...size },
   );
 }
