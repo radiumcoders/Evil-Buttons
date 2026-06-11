@@ -5,7 +5,7 @@ export const alt = `${siteConfig.name} — ${siteConfig.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default async function OpenGraphImage() {
+export default function OpenGraphImage() {
   return new ImageResponse(
     (
       <div
@@ -20,7 +20,7 @@ export default async function OpenGraphImage() {
           background:
             "radial-gradient(ellipse at 50% 50%, #1a0000 0%, #000000 75%)",
           color: "#fafafa",
-          fontFamily: "Doto, ui-sans-serif, system-ui, sans-serif",
+          fontFamily: "ui-sans-serif, system-ui, -apple-system, sans-serif",
           position: "relative",
           overflow: "hidden",
         }}
