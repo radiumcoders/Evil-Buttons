@@ -95,7 +95,7 @@ Contributions are welcome! To add a new component:
 4. Run `pnpm registry:build` to generate registry files
 
 ## Star History
-[![RepoStars](https://repostars.dev/api/embed?repo=radiumcoders%2FEvil-Buttons&theme=copper)](https://repostars.dev/?repos=radiumcoders%2FEvil-Buttons&theme=copper)
+[![RepoStars](https://repostars.dev/api/embed?repo=radiumcoders%2FEvil-Buttons&theme=sakura)](https://repostars.dev/?repos=radiumcoders%2FEvil-Buttons&theme=sakura)
 
 ## License
 
