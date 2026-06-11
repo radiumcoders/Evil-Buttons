@@ -212,7 +212,7 @@ export function LandingPage() {
     <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground xl:flex-row">
       <ThemeSync />
 
-      <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:border-b-0 xl:border-r xl:border-border xl:px-8 xl:py-10">
+      <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:border-b-0 xl:px-8 xl:py-10">
         <div>
           <Link
             href="/"
