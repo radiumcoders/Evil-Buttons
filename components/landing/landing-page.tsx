@@ -26,6 +26,7 @@ import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
+import { DemonicButton } from "../evil-buttons/demonic-button";
 
 type ButtonShowcase = {
   name: string;
@@ -35,6 +36,12 @@ type ButtonShowcase = {
 };
 
 const showcase: ButtonShowcase[] = [
+  {
+    name: "DemonicButton",
+    href: "/docs/demonic-button",
+    registryName: "demonic-button",
+    render: () => <DemonicButton label="Currupt the World" />,
+  },
   {
     name: "RevealButton",
     href: "/docs/reveal-button",
