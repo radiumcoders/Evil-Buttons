@@ -182,6 +182,15 @@
       "files": [
         "components/evil-buttons/demonic-button.tsx"
       ]
+    },
+    {
+      "name": "hold-button",
+      "type": "registry:ui",
+      "title": "HoldButton",
+      "description": "A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.",
+      "files": [
+        "components/evil-buttons/hold-button.tsx"
+      ]
     }
   ]
 }

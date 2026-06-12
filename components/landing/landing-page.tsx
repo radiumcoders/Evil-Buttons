@@ -19,6 +19,7 @@ import { FrameButton } from "@/components/evil-buttons/frame-button";
 import GlitchButton from "@/components/evil-buttons/glitch-button";
 import GridButton from "@/components/evil-buttons/grid-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
+import { HoldButton } from "@/components/evil-buttons/hold-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
@@ -65,6 +66,12 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/dither-button",
     registryName: "dither-button",
     render: () => <DitherButton>Run It</DitherButton>,
+  },
+  {
+    name: "HoldButton",
+    href: "/docs/hold-button",
+    registryName: "hold-button",
+    render: () => <HoldButton />,
   },
   {
     name: "DemonicButton",

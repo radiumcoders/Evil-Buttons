@@ -87,6 +87,10 @@ const demonicButtonSource = await readFile(
   resolve(root, "components/evil-buttons/demonic-button.tsx"),
   "utf8",
 );
+const holdButtonSource = await readFile(
+  resolve(root, "components/evil-buttons/hold-button.tsx"),
+  "utf8",
+);
 
 const clickPowerupItem = {
   $schema: "https://ui.shadcn.com/schema/registry-item.json",
@@ -454,6 +458,24 @@ const demonicButtonItem = {
   dependencies: ["motion"],
 };
 
+const holdButtonItem = {
+  $schema: "https://ui.shadcn.com/schema/registry-item.json",
+  name: "hold-button",
+  type: "registry:ui",
+  title: "HoldButton",
+  description:
+    "A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.",
+  files: [
+    {
+      path: "components/evil-buttons/hold-button.tsx",
+      type: "registry:ui",
+      target: "components/evil-buttons/hold-button.tsx",
+      content: holdButtonSource,
+    },
+  ],
+  dependencies: ["clsx", "tailwind-merge"],
+};
+
 const index = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "evil-buttons",
@@ -617,6 +639,14 @@ const index = {
       description: "A button with devil horns that spring out on hover and a blood-red flash on click.",
       files: ["components/evil-buttons/demonic-button.tsx"],
     },
+    {
+      name: "hold-button",
+      type: "registry:ui",
+      title: "HoldButton",
+      description:
+        "A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.",
+      files: ["components/evil-buttons/hold-button.tsx"],
+    },
   ],
 };
 
@@ -722,6 +752,11 @@ await writeFile(
   "utf8",
 );
 await writeFile(
+  resolve(registryDir, "hold-button.json"),
+  `${JSON.stringify(holdButtonItem, null, 2)}\n`,
+  "utf8",
+);
+await writeFile(
   resolve(registryDir, "index.json"),
   `${JSON.stringify(index, null, 2)}\n`,
   "utf8",
@@ -749,3 +784,4 @@ console.log("- public/r/command-button.json");
 console.log("- public/r/copy-button.json");
 console.log("- public/r/reveal-button.json");
 console.log("- public/r/demonic-button.json");
+console.log("- public/r/hold-button.json");

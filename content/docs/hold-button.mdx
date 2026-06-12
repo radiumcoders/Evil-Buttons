@@ -1,0 +1,81 @@
+---
+title: HoldButton
+description: A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.
+---
+
+HoldButton guards destructive actions behind a deliberate press-and-hold gesture. While held, an inner fill wipes across the button from 0% to 100% over a configurable `duration`. Release before it completes and the button shakes, the fill snaps back to 0%, and the operation is aborted. Hold all the way to 100% and the action fires.
+
+## Preview
+
+<PreviewCard title="HoldButton" note="Press and hold to delete">
+  <HoldButton />
+</PreviewCard>
+
+## Variants
+
+### Fast hold
+
+A snappier 800ms hold for low-stakes confirmations.
+
+<PreviewCard title="Fast hold" note="Hold for 800ms">
+  <HoldButton duration={800} label="Hold to dismiss" successLabel="Dismissed" />
+</PreviewCard>
+
+### Slow hold
+
+A longer 2.5s hold for high-stakes, irreversible actions.
+
+<PreviewCard title="Slow hold" note="Hold for 2.5s">
+  <HoldButton duration={2500} label="Hold to wipe account" successLabel="Wiped" />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/hold-button</Cmd>
+
+## Usage
+
+```tsx
+import { HoldButton } from "@/components/evil-buttons/hold-button";
+
+export function ButtonDemo() {
+  return (
+    <HoldButton
+      duration={1500}
+      label="Hold to delete"
+      successLabel="Deleted"
+      onConfirm={() => deleteAccount()}
+      onAbort={(progress) => console.log("aborted at", progress)}
+    />
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes except `onClick` and `onAbort`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `duration` | `number` | `1500` | Milliseconds the user must hold before `onConfirm` fires. |
+| `label` | `React.ReactNode` | `"Hold to delete"` | Label shown in the idle state. |
+| `holdingLabel` | `React.ReactNode` | `"Keep holding…"` | Label shown while the button is being held. |
+| `successLabel` | `React.ReactNode` | `"Deleted"` | Label shown after the hold completes. |
+| `onConfirm` | `() => void` | - | Fired once the fill reaches 100%. |
+| `onAbort` | `(progress: number) => void` | - | Fired when released early, with the progress (0-1) reached. |
+| `resetAfter` | `number` | `1400` | Milliseconds to stay in the success state before resetting to idle. Set to `0` to stay. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Progress is driven by `requestAnimationFrame` for frame-accurate completion, while the fill width and reset use a CSS transition for a smooth snap-back.
+- The fill reveals a knockout white label sized to the full button width via a `ResizeObserver`, so the text stays crisp and undistorted as the fill wipes across.
+- Pointer capture is used so releasing outside the button still aborts the hold; `onLostPointerCapture` and `onPointerCancel` are handled too.
+- Keyboard users can hold <kbd>Space</kbd> or <kbd>Enter</kbd>; releasing the key before 100% aborts just like a pointer release.
+- `aria-live="polite"` and `data-state` (`idle` | `holding` | `success`) expose the current state for screen readers and styling.
+
+## Registry
+
+The registry item includes `components/evil-buttons/hold-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies.
