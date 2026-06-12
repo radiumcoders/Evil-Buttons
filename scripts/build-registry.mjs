@@ -446,7 +446,7 @@ const demonicButtonItem = {
   name: "demonic-button",
   type: "registry:ui",
   title: "DemonicButton",
-  description: "A button with devil horns that spring out on hover and a blood-red flash on click.",
+  description: "A hold-to-charge button: keep pressing to slowly strain the devil horns out while it trembles, spits embers, and flashes between black and blood-red like a filling life meter.",
   files: [
     {
       path: "components/evil-buttons/demonic-button.tsx",
@@ -636,7 +636,7 @@ const index = {
       name: "demonic-button",
       type: "registry:ui",
       title: "DemonicButton",
-      description: "A button with devil horns that spring out on hover and a blood-red flash on click.",
+      description: "A hold-to-charge button: keep pressing to slowly strain the devil horns out while it trembles, spits embers, and flashes between black and blood-red like a filling life meter.",
       files: ["components/evil-buttons/demonic-button.tsx"],
     },
     {
