@@ -73,7 +73,7 @@ export const ClickPowerUp = ({
 
       <button
         className={cn(
-          "relative overflow-hidden px-10 py-3 font-medium uppercase",
+          "relative overflow-hidden bg-background px-10 py-3 font-medium uppercase",
           className,
         )}
       >
