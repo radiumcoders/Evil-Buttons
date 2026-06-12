@@ -146,8 +146,8 @@ export const LiquidChrome: React.FC<LiquidChromeProps> = ({
     }
 
     if (interactive) {
-      container.addEventListener("mousemove", handleMouseMove);
-      container.addEventListener("touchmove", handleTouchMove);
+      container.addEventListener("mousemove", handleMouseMove, { passive: true });
+      container.addEventListener("touchmove", handleTouchMove, { passive: true });
     }
 
     let animationId: number;

@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { motion, useMotionValue } from "motion/react";
 import { ReactNode, useEffect, useRef } from "react";
 
+const MotionButton = motion.create(Button);
+
 function TrollButton({ children }: { children: ReactNode }) {
-  const MotionButton = motion.create(Button);
   const ref = useRef<HTMLButtonElement>(null);
 
   const x = useMotionValue(0);

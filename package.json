@@ -11,8 +11,6 @@
     "registry:test": "node scripts/test-registry.mjs"
   },
   "dependencies": {
-    "@hugeicons/core-free-icons": "^4.1.1",
-    "@hugeicons/react": "^1.1.6",
     "@phosphor-icons/react": "^2.1.10",
     "@types/mdx": "^2.0.13",
     "@vercel/analytics": "^2.0.1",
@@ -22,7 +20,7 @@
     "fumadocs-core": "^16.8.5",
     "fumadocs-mdx": "^14.3.2",
     "motion": "^12.38.0",
-    "next": "16.2.4",
+    "next": "16.2.6",
     "ogl": "^1.0.11",
     "radix-ui": "^1.4.3",
     "react": "19.2.4",
@@ -39,7 +37,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
