@@ -10,6 +10,7 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { BrutalButton } from "@/components/evil-buttons/brutal-button";
+import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import { CommandButton } from "@/components/evil-buttons/command-button";
@@ -182,6 +183,12 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/troll-button",
     registryName: "troll-button",
     render: () => <TrollButton>Click Me</TrollButton>,
+  },
+  {
+    name: "CaptchaButton",
+    href: "/docs/captcha-button",
+    registryName: "captcha-button",
+    render: () => <CaptchaButton>Deploy Doom</CaptchaButton>,
   },
 ];
 
