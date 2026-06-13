@@ -1,0 +1,197 @@
+[
+  {
+    "name": "click-powerup",
+    "exportName": "ClickPowerUp",
+    "docSlug": "click-power-up",
+    "title": "ClickPowerUp",
+    "description": "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
+    "file": "components/evil-buttons/click-powerup.tsx",
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
+  },
+  {
+    "name": "sticky",
+    "exportName": "StickyButton",
+    "docSlug": "sticky-button",
+    "title": "StickyButton",
+    "description": "A magnetic button that follows cursor movement with spring physics.",
+    "file": "components/evil-buttons/sticky.tsx",
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
+  },
+  {
+    "name": "shiny-button",
+    "exportName": "ShinyButton",
+    "docSlug": "shiny-button",
+    "title": "ShinyButton",
+    "description": "A glossy, gradient-styled button with a layered inner glow and press feedback.",
+    "file": "components/evil-buttons/shiny-button.tsx",
+    "dependencies": []
+  },
+  {
+    "name": "movie-pass",
+    "exportName": "MoviePassButton",
+    "docSlug": "movie-pass",
+    "title": "MoviePassButton",
+    "description": "A ticket-style button like a cinema stub.",
+    "file": "components/evil-buttons/movie-pass.tsx",
+    "dependencies": []
+  },
+  {
+    "name": "minimal",
+    "exportName": "MinimalButton",
+    "docSlug": "minimal-button",
+    "title": "MinimalButton",
+    "description": "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+    "file": "components/evil-buttons/minimal.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "grid-button",
+    "exportName": "GridButton",
+    "docSlug": "grid-button",
+    "title": "GridButton",
+    "description": "A retro-styled button with a pixelated grid icon and tactile press feedback.",
+    "file": "components/evil-buttons/grid-button.tsx",
+    "registryDependencies": ["@dotmatrix/dotm-square-11"],
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "dither-button",
+    "exportName": "DitherButton",
+    "docSlug": "dither-button",
+    "title": "DitherButton",
+    "description": "A button with an animated 4x4 ordered-dither wave background and a knockout label.",
+    "file": "components/evil-buttons/dither-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "evil-eye-button",
+    "exportName": "EvilEyeButton",
+    "docSlug": "evil-eye-button",
+    "title": "EvilEyeButton",
+    "description": "A button with a React Bits evil eye shader background and a fiery readable label.",
+    "file": "components/evil-buttons/evil-eye-button.tsx",
+    "registryDependencies": ["@react-bits/EvilEye-TS-TW"],
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "troll-button",
+    "exportName": "TrollButton",
+    "docSlug": "troll-button",
+    "title": "TrollButton",
+    "description": "A button that flees from the user's cursor.",
+    "file": "components/evil-buttons/troll-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["motion"]
+  },
+  {
+    "name": "chrome-button",
+    "exportName": "ChromeButton",
+    "docSlug": "chrome-button",
+    "title": "ChromeButton",
+    "description": "A button with an animated liquid chrome background.",
+    "file": "components/evil-buttons/chrome-button.tsx",
+    "registryDependencies": ["@react-bits/LiquidChrome-TS-TW"],
+    "dependencies": []
+  },
+  {
+    "name": "brutal-button",
+    "exportName": "BrutalButton",
+    "docSlug": "brutal-button",
+    "title": "BrutalButton",
+    "description": "A NeoBrutalism style button with sharp shadows and stark borders.",
+    "file": "components/evil-buttons/brutal-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "aqua-button",
+    "exportName": "AquaButton",
+    "docSlug": "aqua-button",
+    "title": "AquaButton",
+    "description": "A glossy pill button inspired by Apple's Aqua interface, with layered highlights and a soft inner glow.",
+    "file": "components/evil-buttons/aqua-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "3d-button",
+    "exportName": "ThreeDButton",
+    "docSlug": "3d-button",
+    "title": "ThreeDButton",
+    "description": "A minimal 3D button with a clean deck-style press and sliding click sheen.",
+    "file": "components/evil-buttons/3d-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "frame-button",
+    "exportName": "FrameButton",
+    "docSlug": "frame-button",
+    "title": "FrameButton",
+    "description": "A futuristic button with animated corner frames and tactile motion interactions.",
+    "file": "components/evil-buttons/frame-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "highlight-button",
+    "exportName": "HighlightButton",
+    "docSlug": "highlight-button",
+    "title": "HighlightButton",
+    "description": "A button with a mouse-following highlight that darkens light surfaces and expands on click.",
+    "file": "components/evil-buttons/highlight-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "glitch-button",
+    "exportName": "GlitchButton",
+    "docSlug": "glitch-button",
+    "title": "GlitchButton",
+    "description": "A button with randomized RGB-split glitch bursts, a scanline overlay, and a flickering label.",
+    "file": "components/evil-buttons/glitch-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "command-button",
+    "exportName": "CommandButton",
+    "docSlug": "command-button",
+    "title": "CommandButton",
+    "description": "A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.",
+    "file": "components/evil-buttons/command-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "copy-button",
+    "exportName": "CopyButton",
+    "docSlug": "copy-button",
+    "title": "CopyButton",
+    "description": "A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.",
+    "file": "components/evil-buttons/copy-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "reveal-button",
+    "exportName": "RevealButton",
+    "docSlug": "reveal-button",
+    "title": "RevealButton",
+    "description": "A button that reveals a hidden secret value on hold or toggle, with a blur-in animation and an eye icon indicator.",
+    "file": "components/evil-buttons/reveal-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "demonic-button",
+    "exportName": "DemonicButton",
+    "docSlug": "demonic-button",
+    "title": "DemonicButton",
+    "description": "A hold-to-charge button: keep pressing to slowly strain the devil horns out while it trembles, spits embers, and flashes between black and blood-red like a filling life meter.",
+    "file": "components/evil-buttons/demonic-button.tsx",
+    "dependencies": ["motion"]
+  },
+  {
+    "name": "hold-button",
+    "exportName": "HoldButton",
+    "docSlug": "hold-button",
+    "title": "HoldButton",
+    "description": "A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.",
+    "file": "components/evil-buttons/hold-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge"]
+  }
+]

@@ -1,5 +1,6 @@
 "use client";
 
+import { DeferredMount } from "@/components/landing/deferred-mount";
 import { FitToContainer } from "@/components/landing/fit-to-container";
 import { ThemeSync } from "@/components/theme-sync";
 import { siteConfig } from "@/lib/seo";
@@ -35,6 +36,17 @@ type ButtonShowcase = {
   registryName: string;
   render: () => ReactNode;
 };
+
+// Static stand-in shown for the always-on WebGL buttons until their grid cell
+// scrolls into view. Approximates the real button's footprint (rounded, dark
+// pill) so swapping in the live shader causes no layout shift.
+function WebGLPlaceholder({ label }: { label: string }) {
+  return (
+    <span className="inline-flex min-h-16 min-w-52 items-center justify-center rounded-full border border-border bg-neutral-950 px-9 py-4 font-mono text-sm font-medium uppercase tracking-widest text-neutral-500">
+      {label}
+    </span>
+  );
+}
 
 const showcase: ButtonShowcase[] = [
   {
@@ -83,7 +95,11 @@ const showcase: ButtonShowcase[] = [
     name: "EvilEyeButton",
     href: "/docs/evil-eye-button",
     registryName: "evil-eye-button",
-    render: () => <EvilEyeButton>Doom</EvilEyeButton>,
+    render: () => (
+      <DeferredMount placeholder={<WebGLPlaceholder label="Doom" />}>
+        <EvilEyeButton>Doom</EvilEyeButton>
+      </DeferredMount>
+    ),
   },
   {
     name: "AquaButton",
@@ -101,7 +117,11 @@ const showcase: ButtonShowcase[] = [
     name: "ChromeButton",
     href: "/docs/chrome-button",
     registryName: "chrome-button",
-    render: () => <ChromeButton>Chromy</ChromeButton>,
+    render: () => (
+      <DeferredMount placeholder={<WebGLPlaceholder label="Chromy" />}>
+        <ChromeButton>Chromy</ChromeButton>
+      </DeferredMount>
+    ),
   },
   {
     name: "FrameButton",

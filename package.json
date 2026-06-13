@@ -2,13 +2,15 @@
   "name": "evil-buttons",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@11.5.0",
   "scripts": {
     "dev": "node scripts/build-registry.mjs && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "registry:build": "node scripts/build-registry.mjs",
-    "registry:test": "node scripts/test-registry.mjs"
+    "registry:test": "node scripts/test-registry.mjs",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
