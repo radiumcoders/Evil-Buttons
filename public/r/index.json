@@ -200,6 +200,15 @@
       "files": [
         "components/evil-buttons/captcha-button.tsx"
       ]
+    },
+    {
+      "name": "doubt-button",
+      "type": "registry:ui",
+      "title": "DoubtButton",
+      "description": "An escalating-confirmation button that makes you click through increasingly absurd, guilt-tripping prompts before the real action finally fires.",
+      "files": [
+        "components/evil-buttons/doubt-button.tsx"
+      ]
     }
   ]
 }
