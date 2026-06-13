@@ -193,5 +193,15 @@
     "description": "A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.",
     "file": "components/evil-buttons/hold-button.tsx",
     "dependencies": ["clsx", "tailwind-merge"]
+  },
+  {
+    "name": "captcha-button",
+    "exportName": "CaptchaButton",
+    "docSlug": "captcha-button",
+    "title": "CaptchaButton",
+    "description": "A button that makes you pass an absurd 'select all the evil' emoji captcha before the real action fires.",
+    "file": "components/evil-buttons/captcha-button.tsx",
+    "registryDependencies": ["@ncdai/twemoji"],
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
   }
 ]

@@ -1,0 +1,59 @@
+---
+title: CaptchaButton
+description: A button that makes you pass an absurd "select all the evil" emoji captcha before the real action fires.
+---
+
+CaptchaButton guards its action behind a tiny, absurd captcha. Clicking the trigger pops a panel asking you to "select all the demons" (and other rotating prompts) from a 3x3 grid of emoji tiles. The real action only fires once you select exactly the evil tiles. Get it wrong and the grid reshuffles with a fresh taunt.
+
+## Preview
+
+<PreviewCard title="CaptchaButton" note="Click, then prove you're evil">
+  <CaptchaButton>Deploy Doom</CaptchaButton>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/captcha-button</Cmd>
+
+## Usage
+
+```tsx
+import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
+
+export function ButtonDemo() {
+  return (
+    <CaptchaButton
+      successLabel="Access granted"
+      onConfirm={() => launchTheMissiles()}
+    >
+      Deploy Doom
+    </CaptchaButton>
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes except `onClick`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Trigger label. Falls back to `label` when omitted. |
+| `label` | `React.ReactNode` | `"Do something evil"` | Trigger label used when no `children` are provided. |
+| `onConfirm` | `() => void` | - | Fired once the captcha is passed. |
+| `successLabel` | `React.ReactNode` | `"Access granted"` | Label flashed briefly after passing. |
+| `resetAfter` | `number` | `1600` | Milliseconds to stay in the success state before resetting to idle. Set to `0` to stay. |
+| `className` | `string` | - | Extra classes passed to the trigger. |
+
+## Notes
+
+- Each round randomly fills the grid with 2-4 evil tiles mixed with innocent ones; passing requires selecting exactly the evil set.
+- The panel dismisses on outside click or <kbd>Escape</kbd>, and exposes `data-state` (`idle` | `open` | `success`) for styling.
+- Animations (panel pop-in, tile tap, shake on a wrong answer) are skipped when the user prefers reduced motion.
+- Emoji are rendered with Twemoji so the tiles look identical across every OS and browser.
+
+## Registry
+
+The registry item includes `components/evil-buttons/captcha-button.tsx`, installs `clsx`, `tailwind-merge`, and `motion`, and pulls in the `@ncdai/twemoji` registry item for consistent emoji rendering.
