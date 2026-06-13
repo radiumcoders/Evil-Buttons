@@ -1,0 +1,94 @@
+---
+title: DoubtButton
+description: An escalating-confirmation button that makes you click through increasingly absurd, guilt-tripping prompts before the real action finally fires.
+---
+
+DoubtButton never lets you click just once. Each press swaps the label for the next, increasingly absurd confirmation prompt, shakes, and bleeds a little more red. A row of dots tracks how much doubt you have left to power through. Only the click on the final prompt fires `onConfirm`.
+
+## Preview
+
+<PreviewCard title="DoubtButton" note="Keep clicking through the doubt">
+  <DoubtButton>Delete everything</DoubtButton>
+</PreviewCard>
+
+## Variants
+
+### One quick doubt
+
+Pass a single confirmation for a lightweight "are you sure?" gate.
+
+<PreviewCard title="One doubt" note="Two clicks total">
+  <DoubtButton
+    label="Log out"
+    confirmations={["Sure about that?"]}
+    successLabel="Bye."
+  />
+</PreviewCard>
+
+### Maximum dread
+
+A longer chain for the truly irreversible.
+
+<PreviewCard title="Maximum dread" note="Push through every doubt">
+  <DoubtButton
+    label="Self destruct"
+    confirmations={[
+      "Are you sure?",
+      "Like, really?",
+      "No takebacks.",
+      "Think it through.",
+      "Final answer?",
+      "Going once...",
+      "Going twice...",
+    ]}
+    successLabel="Boom."
+  />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/doubt-button</Cmd>
+
+## Usage
+
+```tsx
+import { DoubtButton } from "@/components/evil-buttons/doubt-button";
+
+export function ButtonDemo() {
+  return (
+    <DoubtButton
+      label="Delete everything"
+      successLabel="Too late."
+      onConfirm={() => wipeDatabase()}
+    />
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes except `onClick`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Label shown in the idle state. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Delete everything"` | Idle label used when no children are provided. |
+| `confirmations` | `React.ReactNode[]` | _6 escalating prompts_ | Prompts shown one per click; the last one fires the action. |
+| `successLabel` | `React.ReactNode` | `"Too late."` | Label flashed after the final confirmation. |
+| `onConfirm` | `() => void` | - | Fired only after the last confirmation is clicked. |
+| `resetAfter` | `number` | `1600` | Milliseconds to stay in the success state before resetting. Set to `0` to stay. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- The user must click `confirmations.length + 1` times before `onConfirm` runs; an empty `confirmations` array makes it behave like a normal one-shot button.
+- The accent escalates from a calm tint toward blood-red as you advance, and the button shakes on every click via Motion.
+- An invisible copy of the widest prompt reserves the button's width so the layout never jumps as labels swap.
+- A row of dots fills in to show how many doubts you have answered out of the total.
+- `aria-live="polite"` and `data-state` (`idle` | `doubting` | `success`) expose the current state for screen readers and styling.
+
+## Registry
+
+The registry item includes `components/evil-buttons/doubt-button.tsx` and installs `clsx`, `tailwind-merge`, and `motion` as dependencies.

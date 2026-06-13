@@ -15,6 +15,7 @@ import ChromeButton from "@/components/evil-buttons/chrome-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
+import { DoubtButton } from "@/components/evil-buttons/doubt-button";
 import DitherButton from "@/components/evil-buttons/dither-button";
 import EvilEyeButton from "@/components/evil-buttons/evil-eye-button";
 import { FrameButton } from "@/components/evil-buttons/frame-button";
@@ -189,6 +190,12 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/captcha-button",
     registryName: "captcha-button",
     render: () => <CaptchaButton>Deploy Doom</CaptchaButton>,
+  },
+  {
+    name: "DoubtButton",
+    href: "/docs/doubt-button",
+    registryName: "doubt-button",
+    render: () => <DoubtButton>Delete everything</DoubtButton>,
   },
 ];
 

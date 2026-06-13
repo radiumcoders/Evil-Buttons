@@ -45,7 +45,7 @@ export interface CaptchaButtonProps
   resetAfter?: number;
 }
 
-const EVIL_EMOJIS = ["😈", "👿", "💀", "👹", "🔥", "🦇", "🕷️", "👺"];
+const EVIL_EMOJIS = ["😈", "👿", "💀", "👹", "🦇", "🕷️", "👺"];
 const INNOCENT_EMOJIS = ["😇", "🌸", "🐶", "☁️", "🍦", "🌈", "🐤", "🌻"];
 
 // Each prompt names the "evil" category the user must select.
@@ -53,7 +53,6 @@ const PROMPTS = [
   "Select all the demons",
   "Click every cursed soul",
   "Select all that is evil",
-  "Tap the things that bite back",
   "Select all the nightmares",
   "Click everything unholy",
 ];
