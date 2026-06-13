@@ -1,5 +1,4 @@
 import { CliBlock } from "@/components/cli-block";
-import { CodeBlock } from "@/components/code-block";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import StickyButton from "@/components/evil-buttons/sticky";
@@ -87,7 +86,6 @@ export function getCustomMDXComponents(): MDXComponents {
   return {
     PreviewCard,
     Cmd,
-    CodeBlock,
     ClickPowerUp,
     StickyButton,
     ShinyButton,

@@ -24,7 +24,49 @@ if (index.name !== "evil-buttons") {
   fail("index.json: expected name to be evil-buttons");
 }
 
+const manifest = JSON.parse(
+  await readFile(resolve(root, "registry.components.json"), "utf8"),
+);
+const mdxSource = await readFile(
+  resolve(root, "components/mdx-custom-components.tsx"),
+  "utf8",
+);
+const landingSource = await readFile(
+  resolve(root, "components/landing/landing-page.tsx"),
+  "utf8",
+);
+
 const indexNames = index.items.map((item) => item.name);
+const manifestNames = manifest.map((item) => item.name);
+
+for (const name of manifestNames) {
+  if (!indexNames.includes(name)) {
+    fail(`Manifest item not in index.json: ${name}`);
+  }
+}
+
+for (const name of indexNames) {
+  if (!manifestNames.includes(name)) {
+    fail(`index.json item not in registry.components.json: ${name}`);
+  }
+}
+
+for (const entry of manifest) {
+  // Word-boundary match so "GridButton" doesn't satisfy a "Button" check.
+  const token = new RegExp(`\\b${entry.exportName}\\b`);
+
+  if (!token.test(mdxSource)) {
+    fail(
+      `components/mdx-custom-components.tsx does not reference ${entry.exportName} (${entry.name})`,
+    );
+  }
+
+  if (!token.test(landingSource)) {
+    fail(
+      `components/landing/landing-page.tsx does not reference ${entry.exportName} (${entry.name})`,
+    );
+  }
+}
 const jsonFiles = (await readdir(registryDir))
   .filter((file) => file.endsWith(".json") && file !== "index.json")
   .map((file) => file.replace(/\.json$/, ""));
