@@ -7,6 +7,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "motion/react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type DoubtState = "idle" | "doubting" | "success";
@@ -167,19 +168,19 @@ export const DoubtButton = React.forwardRef<
     const labelKey = isSuccess ? "success" : `step-${index}`;
 
     return (
-      <button
+      <Button
         ref={ref}
         type={type}
+        variant="outline"
         disabled={disabled}
         aria-live="polite"
         data-state={state}
         onClick={handleClick}
         className={cn(
-          "relative inline-flex min-w-48 select-none flex-col items-center justify-center gap-1.5 overflow-hidden rounded-md border px-4 py-2.5 text-sm font-semibold shadow-sm outline-none transition-colors",
-          "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+          "relative h-auto min-w-48 select-none flex-col gap-1.5 overflow-hidden rounded-md px-4 py-2.5 font-semibold shadow-sm",
           isSuccess
             ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 focus-visible:ring-emerald-500 dark:text-emerald-400"
-            : "cursor-pointer text-red-600 dark:text-red-400",
+            : "cursor-pointer text-red-600 hover:text-red-600 dark:text-red-400 dark:hover:text-red-400",
           className,
         )}
         style={
@@ -250,7 +251,7 @@ export const DoubtButton = React.forwardRef<
             ))}
           </span>
         )}
-      </button>
+      </Button>
     );
   },
 );

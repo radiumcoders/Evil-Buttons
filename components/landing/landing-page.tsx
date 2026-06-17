@@ -58,51 +58,53 @@ const showcase: ButtonShowcase[] = [
     name: "RevealButton",
     href: "/docs/reveal-button",
     registryName: "reveal-button",
-    render: () => <RevealButton label="Hold to reveal" />,
+    render: () => <RevealButton label="Evil" />,
   },
   {
     name: "CommandButton",
     href: "/docs/command-button",
     registryName: "command-button",
-    render: () => <CommandButton shortcut="mod+s">Save</CommandButton>,
+    render: () => <CommandButton shortcut="mod+s">Evil</CommandButton>,
   },
   {
     name: "CopyButton",
     href: "/docs/copy-button",
     registryName: "copy-button",
-    render: () => <CopyButton value="npx evil-buttons@latest init" />,
+    render: () => (
+      <CopyButton value="npx evil-buttons@latest init" copyLabel="Evil" />
+    ),
   },
   {
     name: "ClickPowerUp",
     href: "/docs/click-power-up",
     registryName: "click-powerup",
-    render: () => <ClickPowerUp>Doom</ClickPowerUp>,
+    render: () => <ClickPowerUp>Evil</ClickPowerUp>,
   },
   {
     name: "DitherButton",
     href: "/docs/dither-button",
     registryName: "dither-button",
-    render: () => <DitherButton>Run It</DitherButton>,
+    render: () => <DitherButton>Evil</DitherButton>,
   },
   {
     name: "HoldButton",
     href: "/docs/hold-button",
     registryName: "hold-button",
-    render: () => <HoldButton />,
+    render: () => <HoldButton label="Evil" />,
   },
   {
     name: "DemonicButton",
     href: "/docs/demonic-button",
     registryName: "demonic-button",
-    render: () => <DemonicButton label="Currupt the World" />,
+    render: () => <DemonicButton label="Evil" />,
   },
   {
     name: "EvilEyeButton",
     href: "/docs/evil-eye-button",
     registryName: "evil-eye-button",
     render: () => (
-      <DeferredMount placeholder={<WebGLPlaceholder label="Doom" />}>
-        <EvilEyeButton>Doom</EvilEyeButton>
+      <DeferredMount placeholder={<WebGLPlaceholder label="Evil" />}>
+        <EvilEyeButton>Evil</EvilEyeButton>
       </DeferredMount>
     ),
   },
@@ -110,21 +112,21 @@ const showcase: ButtonShowcase[] = [
     name: "AquaButton",
     href: "/docs/aqua-button",
     registryName: "aqua-button",
-    render: () => <AquaButton>Deploy Doom</AquaButton>,
+    render: () => <AquaButton>Evil</AquaButton>,
   },
   {
     name: "BrutalButton",
     href: "/docs/brutal-button",
     registryName: "brutal-button",
-    render: () => <BrutalButton>Click Me</BrutalButton>,
+    render: () => <BrutalButton>Evil</BrutalButton>,
   },
   {
     name: "ChromeButton",
     href: "/docs/chrome-button",
     registryName: "chrome-button",
     render: () => (
-      <DeferredMount placeholder={<WebGLPlaceholder label="Chromy" />}>
-        <ChromeButton>Chromy</ChromeButton>
+      <DeferredMount placeholder={<WebGLPlaceholder label="Evil" />}>
+        <ChromeButton>Evil</ChromeButton>
       </DeferredMount>
     ),
   },
@@ -132,79 +134,79 @@ const showcase: ButtonShowcase[] = [
     name: "FrameButton",
     href: "/docs/frame-button",
     registryName: "frame-button",
-    render: () => <FrameButton>Deploy</FrameButton>,
+    render: () => <FrameButton>Evil</FrameButton>,
   },
   {
     name: "GlitchButton",
     href: "/docs/glitch-button",
     registryName: "glitch-button",
-    render: () => <GlitchButton>Launch</GlitchButton>,
+    render: () => <GlitchButton>Evil</GlitchButton>,
   },
   {
     name: "GridButton",
     href: "/docs/grid-button",
     registryName: "grid-button",
-    render: () => <GridButton>Click</GridButton>,
+    render: () => <GridButton>Evil</GridButton>,
   },
   {
     name: "HighlightButton",
     href: "/docs/highlight-button",
     registryName: "highlight-button",
-    render: () => <HighlightButton>Send</HighlightButton>,
+    render: () => <HighlightButton>Evil</HighlightButton>,
   },
   {
     name: "MinimalButton",
     href: "/docs/minimal-button",
     registryName: "minimal",
-    render: () => <MinimalButton>Apply</MinimalButton>,
+    render: () => <MinimalButton>Evil</MinimalButton>,
   },
   {
     name: "MoviePassButton",
     href: "/docs/movie-pass",
     registryName: "movie-pass",
-    render: () => <MoviePassButton>Deploy Doom</MoviePassButton>,
+    render: () => <MoviePassButton>Evil</MoviePassButton>,
   },
   {
     name: "ShinyButton",
     href: "/docs/shiny-button",
     registryName: "shiny-button",
-    render: () => <ShinyButton>Search</ShinyButton>,
+    render: () => <ShinyButton>Evil</ShinyButton>,
   },
   {
     name: "StickyButton",
     href: "/docs/sticky-button",
     registryName: "sticky",
-    render: () => <StickyButton>Try to Click</StickyButton>,
+    render: () => <StickyButton>Evil</StickyButton>,
   },
   {
     name: "ThreeDButton",
     href: "/docs/3d-button",
     registryName: "3d-button",
-    render: () => <ThreeDButton>Continue</ThreeDButton>,
+    render: () => <ThreeDButton>Evil</ThreeDButton>,
   },
   {
     name: "TrollButton",
     href: "/docs/troll-button",
     registryName: "troll-button",
-    render: () => <TrollButton>Click Me</TrollButton>,
+    render: () => <TrollButton>Evil</TrollButton>,
   },
   {
     name: "CaptchaButton",
     href: "/docs/captcha-button",
     registryName: "captcha-button",
-    render: () => <CaptchaButton>Deploy Doom</CaptchaButton>,
+    render: () => <CaptchaButton>Evil</CaptchaButton>,
   },
   {
     name: "DoubtButton",
     href: "/docs/doubt-button",
     registryName: "doubt-button",
-    render: () => <DoubtButton>Delete everything</DoubtButton>,
+    render: () => <DoubtButton>Evil</DoubtButton>,
   },
   {
     name: "SlideToDetonate",
     href: "/docs/slide-to-detonate",
     registryName: "slide-to-detonate",
-    render: () => <SlideToDetonate>Slide to detonate</SlideToDetonate>,
+    render: () => <SlideToDetonate>Evil</SlideToDetonate>,
   },
   {
     name: "MorphStatusButton",
@@ -214,7 +216,7 @@ const showcase: ButtonShowcase[] = [
       <MorphStatusButton
         onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
       >
-        Save changes
+        Evil
       </MorphStatusButton>
     ),
   },
@@ -222,7 +224,7 @@ const showcase: ButtonShowcase[] = [
     name: "CooldownButton",
     href: "/docs/cooldown-button",
     registryName: "cooldown-button",
-    render: () => <CooldownButton>Send it</CooldownButton>,
+    render: () => <CooldownButton>Evil</CooldownButton>,
   },
 ];
 
