@@ -232,5 +232,15 @@
     "file": "components/evil-buttons/morph-status-button.tsx",
     "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "cooldown-button",
+    "exportName": "CooldownButton",
+    "docSlug": "cooldown-button",
+    "title": "CooldownButton",
+    "description": "A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.",
+    "file": "components/evil-buttons/cooldown-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
   }
 ]

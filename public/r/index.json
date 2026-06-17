@@ -227,6 +227,15 @@
       "files": [
         "components/evil-buttons/morph-status-button.tsx"
       ]
+    },
+    {
+      "name": "cooldown-button",
+      "type": "registry:ui",
+      "title": "CooldownButton",
+      "description": "A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.",
+      "files": [
+        "components/evil-buttons/cooldown-button.tsx"
+      ]
     }
   ]
 }

@@ -14,6 +14,7 @@ import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import { CommandButton } from "@/components/evil-buttons/command-button";
+import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
 import DitherButton from "@/components/evil-buttons/dither-button";
@@ -216,6 +217,12 @@ const showcase: ButtonShowcase[] = [
         Save changes
       </MorphStatusButton>
     ),
+  },
+  {
+    name: "CooldownButton",
+    href: "/docs/cooldown-button",
+    registryName: "cooldown-button",
+    render: () => <CooldownButton>Send it</CooldownButton>,
   },
 ];
 
