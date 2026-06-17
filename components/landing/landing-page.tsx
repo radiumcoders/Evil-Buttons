@@ -27,6 +27,7 @@ import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
+import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
@@ -196,6 +197,12 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/doubt-button",
     registryName: "doubt-button",
     render: () => <DoubtButton>Delete everything</DoubtButton>,
+  },
+  {
+    name: "SlideToDetonate",
+    href: "/docs/slide-to-detonate",
+    registryName: "slide-to-detonate",
+    render: () => <SlideToDetonate>Slide to detonate</SlideToDetonate>,
   },
 ];
 

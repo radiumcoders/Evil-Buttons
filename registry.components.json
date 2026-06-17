@@ -212,5 +212,15 @@
     "description": "An escalating-confirmation button that makes you click through increasingly absurd, guilt-tripping prompts before the real action finally fires.",
     "file": "components/evil-buttons/doubt-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "slide-to-detonate",
+    "exportName": "SlideToDetonate",
+    "docSlug": "slide-to-detonate",
+    "title": "SlideToDetonate",
+    "description": "A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.",
+    "file": "components/evil-buttons/slide-to-detonate.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
   }
 ]

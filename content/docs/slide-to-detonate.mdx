@@ -1,0 +1,61 @@
+---
+title: SlideToDetonate
+description: A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.
+---
+
+SlideToDetonate guards destructive actions behind a deliberate drag gesture. The handle springs back if you let go too early, and only fires `onConfirm` once you cross the threshold. It is the mobile-friendly "slide to unlock" pattern, dressed for demolition.
+
+## Preview
+
+<PreviewCard title="SlideToDetonate" note="Drag the handle all the way">
+  <SlideToDetonate>Slide to detonate</SlideToDetonate>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/slide-to-detonate</Cmd>
+
+## Usage
+
+```tsx
+import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
+
+export function ButtonDemo() {
+  return (
+    <SlideToDetonate
+      successLabel="Detonated"
+      onConfirm={() => launchTheMissiles()}
+    >
+      Slide to detonate
+    </SlideToDetonate>
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes (applied to the handle) except `onClick`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Track label shown while idle. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Slide to detonate"` | Idle label used when no children are provided. |
+| `successLabel` | `React.ReactNode` | `"Detonated"` | Label flashed after the slide completes. |
+| `onConfirm` | `() => void` | - | Fired once the handle is dragged past the threshold. |
+| `threshold` | `number` | `0.95` | Fraction of the track (0-1) the handle must cross to arm the action. |
+| `resetAfter` | `number` | `1600` | Milliseconds to stay in the success state before resetting. Set to `0` to stay. |
+| `className` | `string` | - | Extra classes passed to the track. |
+
+## Notes
+
+- The handle is a shadcn/ui `Button` (size `icon`, default `variant`); pass a different `variant` to restyle it.
+- The handle uses Motion drag with `dragConstraints` clamped to the measured track width, so it can never overshoot the ends.
+- Releasing before `threshold` springs the handle back to the start; crossing it snaps to the end and fires `onConfirm`.
+- A `ResizeObserver` re-measures the track so the drag range stays correct across layout changes.
+- The spring snap-back and label fade are skipped when the user prefers reduced motion, and `data-state` (`idle` | `sliding` | `success`) is exposed for styling.
+
+## Registry
+
+The registry item includes `components/evil-buttons/slide-to-detonate.tsx`, installs `clsx`, `tailwind-merge`, and `motion`, and pulls in the standard shadcn/ui `button` registry item, which it uses as the draggable handle.

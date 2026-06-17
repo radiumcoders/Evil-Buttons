@@ -209,6 +209,15 @@
       "files": [
         "components/evil-buttons/doubt-button.tsx"
       ]
+    },
+    {
+      "name": "slide-to-detonate",
+      "type": "registry:ui",
+      "title": "SlideToDetonate",
+      "description": "A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.",
+      "files": [
+        "components/evil-buttons/slide-to-detonate.tsx"
+      ]
     }
   ]
 }
