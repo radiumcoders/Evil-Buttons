@@ -14,6 +14,7 @@ import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import { CommandButton } from "@/components/evil-buttons/command-button";
+import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
 import DitherButton from "@/components/evil-buttons/dither-button";
@@ -24,9 +25,11 @@ import GridButton from "@/components/evil-buttons/grid-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
+import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
 import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
+import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
@@ -196,6 +199,30 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/doubt-button",
     registryName: "doubt-button",
     render: () => <DoubtButton>Delete everything</DoubtButton>,
+  },
+  {
+    name: "SlideToDetonate",
+    href: "/docs/slide-to-detonate",
+    registryName: "slide-to-detonate",
+    render: () => <SlideToDetonate>Slide to detonate</SlideToDetonate>,
+  },
+  {
+    name: "MorphStatusButton",
+    href: "/docs/morph-status-button",
+    registryName: "morph-status-button",
+    render: () => (
+      <MorphStatusButton
+        onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
+      >
+        Save changes
+      </MorphStatusButton>
+    ),
+  },
+  {
+    name: "CooldownButton",
+    href: "/docs/cooldown-button",
+    registryName: "cooldown-button",
+    render: () => <CooldownButton>Send it</CooldownButton>,
   },
 ];
 

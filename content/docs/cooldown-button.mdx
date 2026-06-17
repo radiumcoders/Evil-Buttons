@@ -1,0 +1,73 @@
+---
+title: CooldownButton
+description: A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.
+---
+
+CooldownButton fires your action, then refuses to cooperate again until a cooldown elapses. A radial sweep drains across the face while a rotating taunt counts down the seconds, so users get clear feedback instead of hammering a dead button. It is rate limiting and double-submit protection, with attitude.
+
+## Preview
+
+<PreviewCard title="CooldownButton" note="Click, then try to click again">
+  <CooldownButton>Send it</CooldownButton>
+</PreviewCard>
+
+## Variants
+
+### Longer leash
+
+Tune `cooldown` and supply your own taunts.
+
+<PreviewCard title="Five second penalty" note="No spamming the API">
+  <CooldownButton
+    cooldown={5000}
+    taunts={["Nope.", "Still waiting.", "Touch grass."]}
+  >
+    Refresh
+  </CooldownButton>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/cooldown-button</Cmd>
+
+## Usage
+
+```tsx
+import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
+
+export function ButtonDemo() {
+  return (
+    <CooldownButton cooldown={3000} onClick={() => sendRequest()}>
+      Send it
+    </CooldownButton>
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Idle label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Send it"` | Idle label used when no children are provided. |
+| `cooldown` | `number` | `3000` | Lockout duration in milliseconds after each click. Set to `0` to disable the cooldown. |
+| `taunts` | `string[]` | _5 defaults_ | Pool of messages; one is picked at random per cooldown. |
+| `showCountdown` | `boolean` | `true` | Append the remaining whole seconds to the taunt while locked. |
+| `onClick` | `(e) => void` | - | Fires immediately on a valid click, before the cooldown begins. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Built on the shadcn/ui `Button`, so it accepts `variant` and `size` (defaults `outline` / `lg`).
+- The button is `disabled` for the full cooldown, so it cannot be double-submitted; clicks during the lockout are ignored.
+- The conic-gradient sweep is driven by a Motion value via `useMotionTemplate`, draining 360deg to 0deg over the cooldown for smooth, accurate progress.
+- Call `e.preventDefault()` inside `onClick` to fire the action without starting a cooldown.
+- The sweep animation is skipped when the user prefers reduced motion, and `data-state` (`idle` | `cooldown`) is exposed for styling.
+
+## Registry
+
+The registry item includes `components/evil-buttons/cooldown-button.tsx`, installs `clsx`, `tailwind-merge`, and `motion`, and pulls in the standard shadcn/ui `button` registry item, which it composes as its base.

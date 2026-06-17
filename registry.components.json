@@ -212,5 +212,35 @@
     "description": "An escalating-confirmation button that makes you click through increasingly absurd, guilt-tripping prompts before the real action finally fires.",
     "file": "components/evil-buttons/doubt-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "slide-to-detonate",
+    "exportName": "SlideToDetonate",
+    "docSlug": "slide-to-detonate",
+    "title": "SlideToDetonate",
+    "description": "A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.",
+    "file": "components/evil-buttons/slide-to-detonate.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "morph-status-button",
+    "exportName": "MorphStatusButton",
+    "docSlug": "morph-status-button",
+    "title": "MorphStatusButton",
+    "description": "A single button that morphs through idle, loading, success, and error states in place, with no layout shift.",
+    "file": "components/evil-buttons/morph-status-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "cooldown-button",
+    "exportName": "CooldownButton",
+    "docSlug": "cooldown-button",
+    "title": "CooldownButton",
+    "description": "A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.",
+    "file": "components/evil-buttons/cooldown-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
   }
 ]

@@ -209,6 +209,33 @@
       "files": [
         "components/evil-buttons/doubt-button.tsx"
       ]
+    },
+    {
+      "name": "slide-to-detonate",
+      "type": "registry:ui",
+      "title": "SlideToDetonate",
+      "description": "A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.",
+      "files": [
+        "components/evil-buttons/slide-to-detonate.tsx"
+      ]
+    },
+    {
+      "name": "morph-status-button",
+      "type": "registry:ui",
+      "title": "MorphStatusButton",
+      "description": "A single button that morphs through idle, loading, success, and error states in place, with no layout shift.",
+      "files": [
+        "components/evil-buttons/morph-status-button.tsx"
+      ]
+    },
+    {
+      "name": "cooldown-button",
+      "type": "registry:ui",
+      "title": "CooldownButton",
+      "description": "A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.",
+      "files": [
+        "components/evil-buttons/cooldown-button.tsx"
+      ]
     }
   ]
 }

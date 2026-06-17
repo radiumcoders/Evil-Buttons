@@ -25,6 +25,13 @@ import {DemonicButton} from "./evil-buttons/demonic-button";
 import { HoldButton } from "./evil-buttons/hold-button";
 import { CaptchaButton } from "./evil-buttons/captcha-button";
 import { DoubtButton } from "./evil-buttons/doubt-button";
+import { SlideToDetonate } from "./evil-buttons/slide-to-detonate";
+import { MorphStatusButton } from "./evil-buttons/morph-status-button";
+import { CooldownButton } from "./evil-buttons/cooldown-button";
+import {
+  MorphStatusButtonDemo,
+  MorphStatusButtonFailDemo,
+} from "./evil-buttons-demos";
 
 type CmdProps = {
   children: ReactNode;
@@ -113,5 +120,10 @@ export function getCustomMDXComponents(): MDXComponents {
     HoldButton,
     CaptchaButton,
     DoubtButton,
+    SlideToDetonate,
+    MorphStatusButton,
+    MorphStatusButtonDemo,
+    MorphStatusButtonFailDemo,
+    CooldownButton,
   };
 }
