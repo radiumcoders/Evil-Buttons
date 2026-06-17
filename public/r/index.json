@@ -218,6 +218,15 @@
       "files": [
         "components/evil-buttons/slide-to-detonate.tsx"
       ]
+    },
+    {
+      "name": "morph-status-button",
+      "type": "registry:ui",
+      "title": "MorphStatusButton",
+      "description": "A single button that morphs through idle, loading, success, and error states in place, with no layout shift.",
+      "files": [
+        "components/evil-buttons/morph-status-button.tsx"
+      ]
     }
   ]
 }

@@ -1,0 +1,83 @@
+---
+title: MorphStatusButton
+description: A single button that morphs through idle, loading, success, and error states in place, with no layout shift.
+---
+
+MorphStatusButton is the one async button you reach for everywhere. Hand it an `onClick` that returns a promise and it auto-transitions to a spinner while in flight, then settles into success or a delightfully blameful error state. The label and icon cross-fade in place, and an invisible widest-label sizer keeps the width rock steady so nothing around it jumps. You can also drive it with a controlled `status` prop.
+
+## Preview
+
+<PreviewCard title="MorphStatusButton" note="Click to run a fake async action">
+  <MorphStatusButtonDemo />
+</PreviewCard>
+
+## Variants
+
+### It fails sometimes
+
+When the returned promise rejects, the button drops into its error state.
+
+<PreviewCard title="Doomed to fail" note="This one always rejects">
+  <MorphStatusButtonFailDemo />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/morph-status-button</Cmd>
+
+## Usage
+
+```tsx
+import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
+
+export function ButtonDemo() {
+  return (
+    <MorphStatusButton
+      successLabel="Saved"
+      onClick={async () => {
+        await saveChanges();
+      }}
+    >
+      Save changes
+    </MorphStatusButton>
+  );
+}
+```
+
+Or drive it from outside with a controlled `status`:
+
+```tsx
+<MorphStatusButton status={isPending ? "loading" : "idle"}>
+  Save changes
+</MorphStatusButton>
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes except `onClick` (which is overloaded to accept an async handler).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Idle label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Save changes"` | Idle label used when no children are provided. |
+| `loadingLabel` | `React.ReactNode` | `"Working…"` | Label shown while the action is in flight. |
+| `successLabel` | `React.ReactNode` | `"Done"` | Label shown after the action resolves. |
+| `errorLabel` | `React.ReactNode` | `"It broke. Your fault."` | Label shown after the action rejects. |
+| `onClick` | `(e) => void \| Promise<unknown>` | - | Click handler. Returning a promise triggers the auto state machine. |
+| `status` | `"idle" \| "loading" \| "success" \| "error"` | - | Controlled status; disables promise-based transitions when set. |
+| `resetAfter` | `number` | `1800` | Milliseconds to stay in success/error before resetting. Set to `0` to stay. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Built on the shadcn/ui `Button`, so it accepts `variant` and `size` (defaults `outline` / `lg`); the error state automatically switches to the `destructive` variant.
+- When `onClick` returns a promise (and `status` is not controlled), the button shows `loading`, then `success` on resolve or `error` on reject.
+- The button is disabled and `aria-busy` while loading so it cannot be double-submitted.
+- An invisible copy of the widest of all four labels reserves the width, so the icon/label swaps never shift surrounding layout.
+- Icon and label cross-fades are skipped when the user prefers reduced motion, and `data-state` exposes the current state for styling.
+
+## Registry
+
+The registry item includes `components/evil-buttons/morph-status-button.tsx`, installs `clsx`, `tailwind-merge`, and `motion`, and pulls in the standard shadcn/ui `button` registry item, which it composes as its base.
