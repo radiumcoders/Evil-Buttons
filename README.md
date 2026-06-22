@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://evilbuttons.com"><img alt="image" src="https://github.com/user-attachments/assets/03bdda8d-cbde-4aa2-b86b-84f3d277a96a" /></a>
+  <a href="https://evilbuttons.com"><img alt="image" src="https://github.com/user-attachments/assets/61004f9a-4cd0-468a-b0c6-2b83a25b0129" /></a>
 </p>
 
 ---
