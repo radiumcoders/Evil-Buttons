@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://evilbuttons.com"><img alt="image" src="https://github.com/user-attachments/assets/b48fe7c7-c4fb-48f6-bf8c-2fee6132b880" /></a>
+  <a href="https://evilbuttons.com"><img alt="image" src="https://github.com/user-attachments/assets/03bdda8d-cbde-4aa2-b86b-84f3d277a96a" /></a>
 </p>
 
 <p align="center">
@@ -22,3 +22,4 @@ shadcn/ui registry of playful, highly animated button components with evil aesth
 <p align="center">
   <picture><source media="(prefers-color-scheme: dark)" srcset="https://shieldcn.dev/chart/github/stars/radiumcoders/Evil-buttons.svg?theme=rose&amp;font=geist&amp;logo=false" /><img alt="chart" src="https://shieldcn.dev/chart/github/stars/radiumcoders/Evil-buttons.svg?mode=light&amp;theme=rose&amp;font=geist&amp;logo=false" /></picture>
 </p>
+
