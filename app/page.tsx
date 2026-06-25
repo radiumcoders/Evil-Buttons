@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LandingPage } from "@/components/landing/landing-page";
+import { ButtonPlayground } from "@/components/button-playground";
 
 export const metadata: Metadata = {
   alternates: {
@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <LandingPage />;
+  return <ButtonPlayground />;
 }

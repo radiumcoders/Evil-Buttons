@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono, Inter, Doto } from "next/font/google";
+import "dialkit/styles.css";
 import "./globals.css";
+import { DialKitRoot } from "@/components/dialkit-root";
 import { JsonLd } from "@/components/seo/json-ld";
 import { cn } from "@/lib/utils";
 import {
@@ -56,6 +58,7 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
         {children}
+        <DialKitRoot />
       </body>
     </html>
   );

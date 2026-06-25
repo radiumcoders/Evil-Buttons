@@ -138,6 +138,24 @@
   vertical-align: -0.1em;
 }
 
+.button-lab-skin :is(button, [role="button"]) {
+  border-width: var(--button-lab-border-width) !important;
+  border-color: var(--button-lab-border) !important;
+  border-radius: var(--button-lab-radius) !important;
+  background: var(--button-lab-bg) !important;
+  color: var(--button-lab-text) !important;
+  box-shadow:
+    var(--button-lab-shadow-size) var(--button-lab-shadow-size) 0
+    var(--button-lab-shadow) !important;
+  padding:
+    var(--button-lab-py)
+    var(--button-lab-px) !important;
+}
+
+.button-lab-skin :is(button, [role="button"]) * {
+  color: inherit !important;
+}
+
 @keyframes highlight-button-ripple {
   from {
     width: 0;
