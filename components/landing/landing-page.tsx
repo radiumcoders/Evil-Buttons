@@ -34,6 +34,7 @@ import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
 import { DemonicButton } from "../evil-buttons/demonic-button";
+import { PillButton } from "@/components/evil-buttons/pill-button";
 
 type ButtonShowcase = {
   name: string;
@@ -223,6 +224,19 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/cooldown-button",
     registryName: "cooldown-button",
     render: () => <CooldownButton>Send it</CooldownButton>,
+  },
+  {
+    name: "PillButton",
+    href: "/docs/pill-button",
+    registryName: "pill-button",
+    render: () => (
+      <PillButton
+        primaryLabel="Off"
+        secondaryLabel="On"
+        primaryClassName="bg-neutral-950 text-neutral-200"
+        secondaryClassName="bg-primary text-primary-foreground"
+      />
+    ),
   },
 ];
 

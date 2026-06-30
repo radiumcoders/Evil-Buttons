@@ -236,6 +236,15 @@
       "files": [
         "components/evil-buttons/cooldown-button.tsx"
       ]
+    },
+    {
+      "name": "pill-button",
+      "type": "registry:ui",
+      "title": "PillButton",
+      "description": "A compact pill toggle that slides between two labeled faces with a rolling hover label animation.",
+      "files": [
+        "components/evil-buttons/pill-button.tsx"
+      ]
     }
   ]
 }
