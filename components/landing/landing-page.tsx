@@ -243,11 +243,7 @@ const showcase: ButtonShowcase[] = [
     name: "HoldConfirmButton",
     href: "/docs/hold-confirm-button",
     registryName: "hold-confirm-button",
-    render: () => (
-      <div className="rounded-xl bg-black p-4">
-        <HoldConfirmButton />
-      </div>
-    ),
+    render: () => <HoldConfirmButton />,
   },
 ];
 

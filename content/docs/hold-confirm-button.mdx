@@ -3,22 +3,18 @@ title: HoldConfirmButton
 description: A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.
 ---
 
-HoldConfirmButton guards actions behind a deliberate press-and-hold. While held, a mint progress ring draws clockwise around the pill and the button scales down to a configurable minimum. Release early and progress rewinds; hold to completion and `onConfirm` fires.
+HoldConfirmButton guards actions behind a deliberate press-and-hold. While held, a thick gooey mint ring draws clockwise around the pill and the button squashes down with a spring. Release early and progress rewinds; hold to completion and `onConfirm` fires.
 
 ## Preview
 
 <PreviewCard title="HoldConfirmButton" note="Press and hold">
-  <div className="rounded-xl bg-black p-10">
-    <HoldConfirmButton />
-  </div>
+  <HoldConfirmButton />
 </PreviewCard>
 
 ### Fast hold
 
 <PreviewCard title="Fast hold" note="Hold for 1.2s">
-  <div className="rounded-xl bg-black p-10">
-    <HoldConfirmButton duration={1200} label="Hold to deploy" />
-  </div>
+  <HoldConfirmButton duration={1200} label="Hold to deploy" />
 </PreviewCard>
 
 ## Install
@@ -34,14 +30,12 @@ import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button
 
 export function ButtonDemo() {
   return (
-    <div className="flex items-center justify-center bg-black p-10">
-      <HoldConfirmButton
-        label="Hold to confirm"
-        duration={2000}
-        onConfirm={() => console.log("confirmed")}
-        onAbort={(progress) => console.log("aborted at", progress)}
-      />
-    </div>
+    <HoldConfirmButton
+      label="Hold to confirm"
+      duration={2000}
+      onConfirm={() => console.log("confirmed")}
+      onAbort={(progress) => console.log("aborted at", progress)}
+    />
   );
 }
 ```
@@ -56,7 +50,7 @@ export function ButtonDemo() {
 | `successLabel` | `React.ReactNode` | `"Confirmed"` | Label shown after a successful hold. |
 | `minScale` | `number` | `0.9` | Smallest scale reached at 100% progress. |
 | `ringSize` | `number` | `200` | Diameter of the progress ring in pixels. |
-| `ringStrokeWidth` | `number` | `3` | Stroke width of the progress ring. |
+| `ringStrokeWidth` | `number` | `12` | Stroke width of the progress ring. |
 | `ringColor` | `string` | `"#5eead4"` | Color of the progress ring. |
 | `onConfirm` | `() => void` | - | Fired when the hold reaches 100%. |
 | `onAbort` | `(progress: number) => void` | - | Fired when released early with progress reached (0-1). |
