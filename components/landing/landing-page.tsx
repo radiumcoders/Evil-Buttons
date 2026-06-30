@@ -35,6 +35,7 @@ import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
 import { DemonicButton } from "../evil-buttons/demonic-button";
 import { PillButton } from "@/components/evil-buttons/pill-button";
+import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 
 type ButtonShowcase = {
   name: string;
@@ -236,6 +237,16 @@ const showcase: ButtonShowcase[] = [
         primaryClassName="bg-neutral-950 text-neutral-200"
         secondaryClassName="bg-primary text-primary-foreground"
       />
+    ),
+  },
+  {
+    name: "HoldConfirmButton",
+    href: "/docs/hold-confirm-button",
+    registryName: "hold-confirm-button",
+    render: () => (
+      <div className="rounded-xl bg-black p-4">
+        <HoldConfirmButton />
+      </div>
     ),
   },
 ];
