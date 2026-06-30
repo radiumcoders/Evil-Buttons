@@ -68,9 +68,9 @@ export const HoldConfirmButton = React.forwardRef<
     ref,
   ) => {
     const [state, setState] = React.useState<HoldConfirmState>("idle");
-    const filterId = React.useId().replace(/:/g, "");
 
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+    const ringRef = React.useRef<SVGSVGElement | null>(null);
     const circleRef = React.useRef<SVGCircleElement | null>(null);
     const animationRef = React.useRef<ReturnType<typeof animate> | null>(null);
     const stateRef = React.useRef<HoldConfirmState>("idle");
@@ -88,8 +88,9 @@ export const HoldConfirmButton = React.forwardRef<
 
     React.useEffect(() => {
       const button = buttonRef.current;
+      const ring = ringRef.current;
       const circle = circleRef.current;
-      if (!button || !circle || disabled) return;
+      if (!button || !ring || !circle || disabled) return;
 
       const progress = motionValue(0);
       const scale = springValue(mapValue(progress, [0, 1], [1, minScale]), {
@@ -98,7 +99,10 @@ export const HoldConfirmButton = React.forwardRef<
         mass: 0.6,
       });
 
+      const ringOpacity = mapValue(progress, [0, 0.01, 1], [0, 1, 1]);
+
       const cancelStyle = styleEffect(button, { scale });
+      const cancelRingOpacity = styleEffect(ring, { opacity: ringOpacity });
       const cancelSvg = svgEffect(circle, { pathLength: progress });
 
       const stopAnimation = () => {
@@ -160,6 +164,7 @@ export const HoldConfirmButton = React.forwardRef<
       return () => {
         cancelPress();
         cancelStyle();
+        cancelRingOpacity();
         cancelSvg();
         stopAnimation();
         if (resetTimeoutRef.current !== null) {
@@ -184,36 +189,13 @@ export const HoldConfirmButton = React.forwardRef<
         style={{ width: ringSize, height: ringSize }}
       >
         <svg
-          className={cn(
-            "pointer-events-none absolute inset-0 -rotate-90 transition-opacity duration-150",
-            state === "idle" ? "opacity-0" : "opacity-100",
-          )}
+          ref={ringRef}
+          className="pointer-events-none absolute inset-0 -rotate-90"
           width={ringSize}
           height={ringSize}
           viewBox={`0 0 ${ringSize} ${ringSize}`}
           aria-hidden
         >
-          <defs>
-            <filter
-              id={`hold-confirm-goo-${filterId}`}
-              x="-40%"
-              y="-40%"
-              width="180%"
-              height="180%"
-              colorInterpolationFilters="sRGB"
-            >
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="4"
-                result="blur"
-              />
-              <feColorMatrix
-                in="blur"
-                type="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8"
-              />
-            </filter>
-          </defs>
           <circle
             ref={circleRef}
             cx={center}
@@ -223,7 +205,10 @@ export const HoldConfirmButton = React.forwardRef<
             stroke={ringColor}
             strokeWidth={ringStrokeWidth}
             strokeLinecap="round"
-            filter={`url(#hold-confirm-goo-${filterId})`}
+            strokeLinejoin="round"
+            style={{
+              filter: `drop-shadow(0 0 6px ${ringColor})`,
+            }}
           />
         </svg>
 
