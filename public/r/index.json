@@ -245,6 +245,15 @@
       "files": [
         "components/evil-buttons/pill-button.tsx"
       ]
+    },
+    {
+      "name": "hold-confirm-button",
+      "type": "registry:ui",
+      "title": "HoldConfirmButton",
+      "description": "A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.",
+      "files": [
+        "components/evil-buttons/hold-confirm-button.tsx"
+      ]
     }
   ]
 }

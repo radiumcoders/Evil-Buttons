@@ -1,0 +1,67 @@
+---
+title: HoldConfirmButton
+description: A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.
+---
+
+HoldConfirmButton guards actions behind a deliberate press-and-hold. While held, a thick gooey mint ring draws clockwise around the pill and the button squashes down with a spring. Release early and progress rewinds; hold to completion and `onConfirm` fires.
+
+## Preview
+
+<PreviewCard title="HoldConfirmButton" note="Press and hold">
+  <HoldConfirmButton />
+</PreviewCard>
+
+### Fast hold
+
+<PreviewCard title="Fast hold" note="Hold for 1.2s">
+  <HoldConfirmButton duration={1200} label="Hold to deploy" />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/hold-confirm-button</Cmd>
+
+## Usage
+
+```tsx
+import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
+
+export function ButtonDemo() {
+  return (
+    <HoldConfirmButton
+      label="Hold to confirm"
+      duration={2000}
+      onConfirm={() => console.log("confirmed")}
+      onAbort={(progress) => console.log("aborted at", progress)}
+    />
+  );
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `duration` | `number` | `2000` | Milliseconds the user must hold before `onConfirm` fires. |
+| `label` | `React.ReactNode` | `"Hold to confirm"` | Label shown while idle. |
+| `holdingLabel` | `React.ReactNode` | `label` | Label shown while holding. |
+| `successLabel` | `React.ReactNode` | `"Confirmed"` | Label shown after a successful hold. |
+| `minScale` | `number` | `0.9` | Smallest scale reached at 100% progress. |
+| `ringSize` | `number` | `280` | Diameter of the progress ring in pixels. |
+| `ringStrokeWidth` | `number` | `12` | Stroke width of the progress ring. |
+| `ringColor` | `string` | `"#5eead4"` | Color of the progress ring. |
+| `onConfirm` | `() => void` | - | Fired when the hold reaches 100%. |
+| `onAbort` | `(progress: number) => void` | - | Fired when released early with progress reached (0-1). |
+| `resetAfter` | `number` | `1600` | Ms to stay in success before resetting. `0` stays. |
+
+## Notes
+
+- Uses Motion [`press`](https://motion.dev/docs/press), [`motionValue`](https://motion.dev/docs/motion-value), [`mapValue`](https://motion.dev/docs/transform), [`styleEffect`](https://motion.dev/docs/motion-value#styleeffect), and [`svgEffect`](https://motion.dev/docs/motion-value#svgeffect) so one progress value drives both the scale and ring.
+- The ring SVG is rotated `-90deg` so progress starts at the top.
+- `data-state` is `idle` | `holding` | `success` for styling hooks.
+
+## Registry
+
+The registry item includes `components/evil-buttons/hold-confirm-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies.
