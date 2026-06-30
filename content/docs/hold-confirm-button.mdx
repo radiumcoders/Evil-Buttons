@@ -7,15 +7,19 @@ HoldConfirmButton guards actions behind a deliberate press-and-hold. While held,
 
 ## Preview
 
-<div className="flex items-center justify-center rounded-xl bg-black p-10">
-  <HoldConfirmButton onConfirm={() => console.log("confirmed")} />
-</div>
+<PreviewCard title="HoldConfirmButton" note="Press and hold">
+  <div className="rounded-xl bg-black p-10">
+    <HoldConfirmButton />
+  </div>
+</PreviewCard>
 
 ### Fast hold
 
-<div className="flex items-center justify-center rounded-xl bg-black p-10">
-  <HoldConfirmButton duration={1200} label="Hold to deploy" />
-</div>
+<PreviewCard title="Fast hold" note="Hold for 1.2s">
+  <div className="rounded-xl bg-black p-10">
+    <HoldConfirmButton duration={1200} label="Hold to deploy" />
+  </div>
+</PreviewCard>
 
 ## Install
 
