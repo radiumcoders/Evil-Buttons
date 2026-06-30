@@ -54,7 +54,7 @@ export const HoldConfirmButton = React.forwardRef<
       holdingLabel,
       successLabel = "Confirmed",
       minScale = 0.9,
-      ringSize = 200,
+      ringSize = 280,
       ringStrokeWidth = 12,
       ringColor = "#5eead4",
       onConfirm,
@@ -173,7 +173,7 @@ export const HoldConfirmButton = React.forwardRef<
       };
     }, [disabled, duration, minScale, onAbort, onConfirm, resetAfter]);
 
-    const radius = ringSize / 2 - ringStrokeWidth - 14;
+    const radius = ringSize / 2 - ringStrokeWidth / 2 - 6;
     const center = ringSize / 2;
     const isHolding = state === "holding";
     const isSuccess = state === "success";
