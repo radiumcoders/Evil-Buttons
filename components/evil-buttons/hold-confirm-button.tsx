@@ -98,13 +98,8 @@ export const HoldConfirmButton = React.forwardRef<
         mass: 0.6,
       });
 
-      const ringOpacity = mapValue(progress, [0, 0.015, 1], [0, 1, 1]);
-
       const cancelStyle = styleEffect(button, { scale });
-      const cancelSvg = svgEffect(circle, {
-        pathLength: progress,
-        opacity: ringOpacity,
-      });
+      const cancelSvg = svgEffect(circle, { pathLength: progress });
 
       const stopAnimation = () => {
         animationRef.current?.stop();
@@ -190,8 +185,8 @@ export const HoldConfirmButton = React.forwardRef<
       >
         <svg
           className={cn(
-            "pointer-events-none absolute inset-0 -rotate-90",
-            state === "idle" && "opacity-0",
+            "pointer-events-none absolute inset-0 -rotate-90 transition-opacity duration-150",
+            state === "idle" ? "opacity-0" : "opacity-100",
           )}
           width={ringSize}
           height={ringSize}
@@ -216,9 +211,7 @@ export const HoldConfirmButton = React.forwardRef<
                 in="blur"
                 type="matrix"
                 values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8"
-                result="goo"
               />
-              <feComposite in="goo" in2="goo" operator="over" />
             </filter>
           </defs>
           <circle
@@ -226,14 +219,10 @@ export const HoldConfirmButton = React.forwardRef<
             cx={center}
             cy={center}
             r={radius}
-            pathLength={1}
             fill="none"
             stroke={ringColor}
             strokeWidth={ringStrokeWidth}
             strokeLinecap="round"
-            strokeDasharray="0 1"
-            strokeDashoffset="0"
-            opacity={0}
             filter={`url(#hold-confirm-goo-${filterId})`}
           />
         </svg>
