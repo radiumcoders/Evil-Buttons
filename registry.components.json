@@ -242,5 +242,14 @@
     "file": "components/evil-buttons/cooldown-button.tsx",
     "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "pill-button",
+    "exportName": "PillButton",
+    "docSlug": "pill-button",
+    "title": "PillButton",
+    "description": "A compact pill toggle that slides between two labeled faces with a rolling hover label animation.",
+    "file": "components/evil-buttons/pill-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
   }
 ]

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pill-button",
+  "type": "registry:ui",
+  "title": "PillButton",
+  "description": "A compact pill toggle that slides between two labeled faces with a rolling hover label animation.",
+  "files": [
+    {
+      "path": "components/evil-buttons/pill-button.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/pill-button.tsx",
+      "content": "\"use client\"\n\nimport { useState } from \"react\"\nimport { motion } from \"motion/react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype RollingLabelProps = {\n  label: string\n}\n\nfunction RollingLabel({ label }: RollingLabelProps) {\n  return (\n    <span className=\"grid h-5 overflow-hidden mask-[linear-gradient(to_bottom,transparent,black_30%,black_70%,transparent)] text-sm leading-5 [-webkit-mask-image:linear-gradient(to_bottom,transparent,black_30%,black_70%,transparent)]\">\n      <motion.span\n        className=\"col-start-1 row-start-1 flex flex-col\"\n        variants={{\n          rest: { y: \"0%\" },\n          hover: { y: \"-50%\" },\n        }}\n        transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1], rotate: { duration: 0.35, ease: [0.33, 1, 0.68, 1] } }}\n      >\n        <span className=\"flex h-5 items-center justify-center\">{label}</span>\n        <span aria-hidden className=\"flex h-5 items-center justify-center\">\n          {label}\n        </span>\n      </motion.span>\n    </span>\n  )\n}\n\ntype PillFaceProps = {\n  label: string\n  className?: string\n}\n\nfunction PillFace({ label, className }: PillFaceProps) {\n  return (\n    <motion.div\n      className={cn(\n        \"flex h-10 w-full shrink-0 items-center justify-center uppercase\",\n        className\n      )}\n      initial=\"rest\"\n      animate=\"rest\"\n      whileHover=\"hover\"\n    >\n      <RollingLabel label={label} />\n    </motion.div>\n  )\n}\n\ntype PillButtonProps = {\n  primaryLabel: string\n  secondaryLabel: string\n  primaryClassName?: string\n  secondaryClassName?: string\n  isOpen?: boolean\n  defaultOpen?: boolean\n  onOpenChange?: (open: boolean) => void\n  className?: string\n  ariaLabel?: string | ((isOpen: boolean) => string)\n}\n\nfunction PillButton({\n  primaryLabel,\n  secondaryLabel,\n  primaryClassName,\n  secondaryClassName,\n  isOpen: isOpenProp,\n  defaultOpen = false,\n  onOpenChange,\n  className,\n  ariaLabel,\n}: PillButtonProps) {\n  const [internalOpen, setInternalOpen] = useState(defaultOpen)\n  const isControlled = isOpenProp !== undefined\n  const isOpen = isControlled ? isOpenProp : internalOpen\n\n  const setOpen = (next: boolean) => {\n    if (!isControlled) {\n      setInternalOpen(next)\n    }\n    onOpenChange?.(next)\n  }\n\n  const toggle = () => setOpen(!isOpen)\n\n  const resolvedAriaLabel =\n    typeof ariaLabel === \"function\"\n      ? ariaLabel(isOpen)\n      : ariaLabel ?? (isOpen ? secondaryLabel : primaryLabel)\n\n  return (\n    <div\n      role=\"button\"\n      tabIndex={0}\n      onClick={toggle}\n      onKeyDown={(e) => {\n        if (e.key === \"Enter\" || e.key === \" \") {\n          e.preventDefault()\n          toggle()\n        }\n      }}\n      className={cn(\n        \"relative h-10 w-20 cursor-pointer overflow-hidden rounded-full\",\n        className\n      )}\n      aria-expanded={isOpen}\n      aria-label={resolvedAriaLabel}\n    >\n      <motion.div\n        className=\"flex flex-col\"\n        animate={{ y: isOpen ? \"-50%\" : \"0%\" }}\n        transition={{ type: \"spring\", stiffness: 500, damping: 35 }}\n      >\n        <PillFace label={primaryLabel} className={primaryClassName} />\n        <PillFace label={secondaryLabel} className={secondaryClassName} />\n      </motion.div>\n    </div>\n  )\n}\n\nexport { PillButton, PillFace, RollingLabel }\nexport type { PillButtonProps, PillFaceProps, RollingLabelProps }"
+    }
+  ],
+  "dependencies": [
+    "clsx",
+    "tailwind-merge",
+    "motion"
+  ]
+}

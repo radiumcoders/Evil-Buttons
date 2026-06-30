@@ -1,0 +1,91 @@
+---
+title: PillButton
+description: A compact pill toggle that slides between two labeled faces with a rolling hover label animation.
+---
+
+PillButton is a compact two-state pill toggle. Click to spring between a primary and secondary face, each with its own label and styling. Hovering either face runs a rolling label animation through a soft vertical mask.
+
+## Preview
+
+<PreviewCard title="PillButton" note="Click to toggle">
+  <PillButton
+    primaryLabel="Off"
+    secondaryLabel="On"
+    primaryClassName="bg-neutral-950 text-neutral-200"
+    secondaryClassName="bg-primary text-primary-foreground"
+  />
+</PreviewCard>
+
+## Variants
+
+### Custom colors
+
+Style each face independently with `primaryClassName` and `secondaryClassName`.
+
+<PreviewCard title="Doom mode" note="Click to arm">
+  <PillButton
+    primaryLabel="Safe"
+    secondaryLabel="Doom"
+    primaryClassName="bg-emerald-600 text-white"
+    secondaryClassName="bg-red-600 text-white"
+  />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/pill-button</Cmd>
+
+## Usage
+
+```tsx
+import { PillButton } from "@/components/evil-buttons/pill-button";
+
+export function ButtonDemo() {
+  return (
+    <PillButton
+      primaryLabel="Off"
+      secondaryLabel="On"
+      primaryClassName="bg-neutral-950 text-neutral-200"
+      secondaryClassName="bg-primary text-primary-foreground"
+      onOpenChange={(open) => console.log("open:", open)}
+    />
+  );
+}
+```
+
+Controlled usage:
+
+```tsx
+<PillButton
+  primaryLabel="Mute"
+  secondaryLabel="Live"
+  isOpen={isLive}
+  onOpenChange={setIsLive}
+/>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `primaryLabel` | `string` | - | Label shown on the closed face. |
+| `secondaryLabel` | `string` | - | Label shown on the open face. |
+| `primaryClassName` | `string` | - | Classes applied to the primary face. |
+| `secondaryClassName` | `string` | - | Classes applied to the secondary face. |
+| `isOpen` | `boolean` | - | Controlled open state. |
+| `defaultOpen` | `boolean` | `false` | Initial open state when uncontrolled. |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when the toggle state changes. |
+| `className` | `string` | - | Extra classes on the outer pill container. |
+| `ariaLabel` | `string \| ((isOpen: boolean) => string)` | label of active face | Accessible name for the toggle. |
+
+## Notes
+
+- The outer element is a `role="button"` toggle with `aria-expanded` and keyboard support for Enter and Space.
+- `PillFace` and `RollingLabel` are also exported if you want to compose the rolling label effect elsewhere.
+- The slide transition uses a spring; the hover label roll uses a eased vertical shift.
+
+## Registry
+
+The registry item includes `components/evil-buttons/pill-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.

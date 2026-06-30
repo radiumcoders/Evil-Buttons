@@ -28,6 +28,7 @@ import { DoubtButton } from "./evil-buttons/doubt-button";
 import { SlideToDetonate } from "./evil-buttons/slide-to-detonate";
 import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
+import { PillButton } from "./evil-buttons/pill-button";
 import {
   MorphStatusButtonDemo,
   MorphStatusButtonFailDemo,
@@ -125,5 +126,6 @@ export function getCustomMDXComponents(): MDXComponents {
     MorphStatusButtonDemo,
     MorphStatusButtonFailDemo,
     CooldownButton,
+    PillButton,
   };
 }
