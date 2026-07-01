@@ -261,5 +261,14 @@
     "file": "components/evil-buttons/confetti-button.tsx",
     "registryDependencies": ["button"],
     "dependencies": ["canvas-confetti", "clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "hold-confirm-button",
+    "exportName": "HoldConfirmButton",
+    "docSlug": "hold-confirm-button",
+    "title": "HoldConfirmButton",
+    "description": "A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.",
+    "file": "components/evil-buttons/hold-confirm-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
   }
 ]

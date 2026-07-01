@@ -36,6 +36,7 @@ import TrollButton from "@/components/evil-buttons/troll-button";
 import { DemonicButton } from "../evil-buttons/demonic-button";
 import { PillButton } from "@/components/evil-buttons/pill-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
+import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 
 type ButtonShowcase = {
   name: string;
@@ -244,6 +245,10 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/confetti-button",
     registryName: "confetti-button",
     render: () => <ConfettiButton>Celebrate</ConfettiButton>,
+    name: "HoldConfirmButton",
+    href: "/docs/hold-confirm-button",
+    registryName: "hold-confirm-button",
+    render: () => <HoldConfirmButton />,
   },
 ];
 
