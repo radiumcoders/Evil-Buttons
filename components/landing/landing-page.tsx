@@ -363,7 +363,7 @@ export function LandingPage() {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto">
+      <main className="docs-scroll flex-1 overflow-y-auto">
         <div className="grid grid-cols-2 border-t border-border md:grid-cols-3 xl:border-l xl:border-t-0">
           {showcase.map((item) => (
             <ButtonCell key={item.name} item={item} />

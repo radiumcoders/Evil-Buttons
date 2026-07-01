@@ -83,7 +83,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     ),
     table: ({ className, ...props }: ComponentPropsWithoutRef<"table">) => (
       <div className="mt-4 overflow-hidden border border-border bg-background">
-        <div className="overflow-x-auto bg-background">
+        <div className="docs-scroll overflow-x-auto bg-background">
           <table
             className={cn("w-full border-collapse text-left text-sm", className)}
             {...props}
@@ -134,7 +134,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
               </div>
               <figure data-rehype-pretty-code-figure="">
                 <div className="bg-background shadow-none">
-                  <pre className={cn("overflow-x-auto bg-transparent p-0 text-sm", className)} {...props}>
+                  <pre className={cn("docs-scroll overflow-x-auto bg-transparent p-0 text-sm", className)} {...props}>
                     {children}
                   </pre>
                 </div>
@@ -145,7 +145,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
       }
 
       return (
-        <pre className={cn("overflow-x-auto bg-transparent p-0 text-sm", className)} {...props}>
+        <pre className={cn("docs-scroll overflow-x-auto bg-transparent p-0 text-sm", className)} {...props}>
           {children}
         </pre>
       );

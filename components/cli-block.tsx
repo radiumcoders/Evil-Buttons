@@ -46,7 +46,7 @@ export function CliBlock({ commands }: { commands: string[] }) {
   return (
     <div className="group mt-4 overflow-hidden border border-border bg-background">
       <div className="flex flex-row items-center justify-between gap-2 px-3 pt-2.5 pb-2">
-        <div className="flex min-w-0 items-center gap-1 overflow-x-auto">
+        <div className="docs-scroll flex min-w-0 items-center gap-1 overflow-x-auto">
           {managers.map((manager) => {
             const { icon: Icon, activeTextClassName } = managerMeta[manager];
 
@@ -69,7 +69,7 @@ export function CliBlock({ commands }: { commands: string[] }) {
         <CopyButton className="shrink-0" code={value} />
       </div>
       <div className="bg-background px-4 pb-4 pt-2 text-[13px] text-foreground">
-        <pre className="overflow-x-auto">
+        <pre className="docs-scroll overflow-x-auto">
           <code className="font-mono">{value}</code>
         </pre>
       </div>
