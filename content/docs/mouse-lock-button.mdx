@@ -1,0 +1,59 @@
+---
+title: MouseLockButton
+description: A warning button that disables all pointer input across the page for five seconds after you click it anyway.
+---
+
+MouseLockButton wears its warning on its sleeve: a pulsing red label that says not to click. Click it anyway and every pointer event on the page is swallowed for five seconds while a full-screen overlay counts down and taunts you.
+
+## Preview
+
+<PreviewCard title="MouseLockButton" note="Seriously, do not click — it locks the whole page">
+  <MouseLockButton />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/mouse-lock-button</Cmd>
+
+## Usage
+
+```tsx
+import { MouseLockButton } from "@/components/evil-buttons/mouse-lock-button";
+
+export function ButtonDemo() {
+  return (
+    <MouseLockButton
+      lockedMessage="I told you so."
+      onLock={() => console.log("Pointer jammed.")}
+      onUnlock={() => console.log("Mouse restored.")}
+    />
+  );
+}
+```
+
+## Props
+
+The component spreads any `<button>` HTML attributes except `onClick`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Warning label shown in the idle state. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Do NOT click this"` | Idle warning used when no children are provided. |
+| `lockDuration` | `number` | `5000` | Milliseconds to block pointer input site-wide after a click. |
+| `lockedMessage` | `React.ReactNode` | `"You were warned."` | Message shown on the lock overlay. |
+| `onLock` | `() => void` | - | Fired when the pointer lock begins. |
+| `onUnlock` | `() => void` | - | Fired when the lock ends. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- A fixed portal overlay and capture-phase listeners block clicks, drags, scroll-wheel, and context menus across the entire document.
+- `cursor: none` is applied to `html` and `body` for the duration so the pointer disappears everywhere.
+- The overlay shows a live second countdown; the trigger button swaps to "Too late." while locked.
+- `aria-live="polite"` on the button and `role="alertdialog"` on the overlay expose state to assistive tech.
+
+## Registry
+
+The registry item includes `components/evil-buttons/mouse-lock-button.tsx` and installs `clsx`, `tailwind-merge`, and `motion` as dependencies.

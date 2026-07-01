@@ -30,6 +30,7 @@ import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
 import { PillButton } from "./evil-buttons/pill-button";
 import { HoldConfirmButton } from "./evil-buttons/hold-confirm-button";
+import { MouseLockButton } from "./evil-buttons/mouse-lock-button";
 import {
   MorphStatusButtonDemo,
   MorphStatusButtonFailDemo,
@@ -129,5 +130,6 @@ export function getCustomMDXComponents(): MDXComponents {
     CooldownButton,
     PillButton,
     HoldConfirmButton,
+    MouseLockButton,
   };
 }

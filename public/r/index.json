@@ -254,6 +254,15 @@
       "files": [
         "components/evil-buttons/hold-confirm-button.tsx"
       ]
+    },
+    {
+      "name": "mouse-lock-button",
+      "type": "registry:ui",
+      "title": "MouseLockButton",
+      "description": "A warning button that disables all pointer input across the page for five seconds after you click it anyway.",
+      "files": [
+        "components/evil-buttons/mouse-lock-button.tsx"
+      ]
     }
   ]
 }
