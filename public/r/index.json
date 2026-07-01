@@ -247,6 +247,15 @@
       ]
     },
     {
+      "name": "confetti-button",
+      "type": "registry:ui",
+      "title": "ConfettiButton",
+      "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+      "files": [
+        "components/evil-buttons/confetti-button.tsx"
+        ]
+    },
+    {
       "name": "hold-confirm-button",
       "type": "registry:ui",
       "title": "HoldConfirmButton",
