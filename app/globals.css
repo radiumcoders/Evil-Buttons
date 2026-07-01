@@ -156,51 +156,25 @@
 }
 
 .docs-scroll {
-  --scroll-thumb: color-mix(in oklab, var(--foreground) 22%, transparent);
-  --scroll-thumb-hover: color-mix(in oklab, var(--foreground) 38%, transparent);
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-  scrollbar-color: var(--scroll-thumb) transparent;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .docs-scroll::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-.docs-scroll::-webkit-scrollbar-button,
-.docs-scroll::-webkit-scrollbar-button:single-button,
-.docs-scroll::-webkit-scrollbar-button:single-button:vertical:decrement,
-.docs-scroll::-webkit-scrollbar-button:single-button:vertical:increment {
   display: none;
   width: 0;
   height: 0;
-}
-
-.docs-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.docs-scroll::-webkit-scrollbar-thumb {
-  min-height: 2.5rem;
-  border: 2px solid transparent;
-  border-radius: 999px;
-  background: var(--scroll-thumb);
-  background-clip: padding-box;
-}
-
-.docs-scroll::-webkit-scrollbar-thumb:hover {
-  background: var(--scroll-thumb-hover);
-  background-clip: padding-box;
-}
-
+.docs-scroll::-webkit-scrollbar-thumb,
+.docs-scroll::-webkit-scrollbar-track,
+.docs-scroll::-webkit-scrollbar-button,
 .docs-scroll::-webkit-scrollbar-corner {
+  display: none;
+  width: 0;
+  height: 0;
   background: transparent;
-}
-
-.docs-scroll--sidebar {
-  --scroll-thumb: color-mix(in oklab, var(--sidebar-foreground) 22%, transparent);
-  --scroll-thumb-hover: color-mix(in oklab, var(--sidebar-foreground) 38%, transparent);
 }
 
 .docs-content [data-rehype-pretty-code-figure] {

@@ -93,7 +93,7 @@ export function DocsSidebar({
     <>
       <aside
         className={cn(
-          "docs-scroll docs-scroll--sidebar fixed inset-y-0 left-0 z-50 w-64 shrink-0 overflow-y-auto bg-sidebar p-4 text-sidebar-foreground transition-transform duration-200 ease-out md:static md:z-auto md:h-full md:w-52 md:translate-x-0 md:border-r md:border-sidebar-border",
+          "docs-scroll fixed inset-y-0 left-0 z-50 w-64 shrink-0 overflow-y-auto bg-sidebar p-4 text-sidebar-foreground transition-transform duration-200 ease-out md:static md:z-auto md:h-full md:w-52 md:translate-x-0 md:border-r md:border-sidebar-border",
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0",
         )}
       >
