@@ -36,7 +36,7 @@ import TrollButton from "@/components/evil-buttons/troll-button";
 import { DemonicButton } from "../evil-buttons/demonic-button";
 import { PillButton } from "@/components/evil-buttons/pill-button";
 import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
-import { MouseLockButton } from "@/components/evil-buttons/mouse-lock-button";
+import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 
 type ButtonShowcase = {
   name: string;
@@ -247,10 +247,10 @@ const showcase: ButtonShowcase[] = [
     render: () => <HoldConfirmButton />,
   },
   {
-    name: "MouseLockButton",
-    href: "/docs/mouse-lock-button",
-    registryName: "mouse-lock-button",
-    render: () => <MouseLockButton />,
+    name: "ConfettiButton",
+    href: "/docs/confetti-button",
+    registryName: "confetti-button",
+    render: () => <ConfettiButton>Celebrate</ConfettiButton>,
   },
 ];
 

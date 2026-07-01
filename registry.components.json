@@ -262,12 +262,13 @@
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
-    "name": "mouse-lock-button",
-    "exportName": "MouseLockButton",
-    "docSlug": "mouse-lock-button",
-    "title": "MouseLockButton",
-    "description": "A warning button that disables all pointer input across the page for five seconds after you click it anyway.",
-    "file": "components/evil-buttons/mouse-lock-button.tsx",
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
+    "name": "confetti-button",
+    "exportName": "ConfettiButton",
+    "docSlug": "confetti-button",
+    "title": "ConfettiButton",
+    "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+    "file": "components/evil-buttons/confetti-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["canvas-confetti", "clsx", "tailwind-merge", "motion"]
   }
 ]

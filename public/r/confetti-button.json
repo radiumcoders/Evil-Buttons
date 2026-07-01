@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "confetti-button",
+  "type": "registry:ui",
+  "title": "ConfettiButton",
+  "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+  "files": [
+    {
+      "path": "components/evil-buttons/confetti-button.tsx",
+      "type": "registry:ui",
+      "target": "components/evil-buttons/confetti-button.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport confetti from \"canvas-confetti\";\nimport { motion, useAnimationControls } from \"motion/react\";\nimport { Button } from \"@/components/ui/button\";\n\nexport interface ConfettiButtonProps\n  extends Omit<React.ComponentProps<typeof Button>, \"onClick\"> {\n  /** Button label. Falls back to `label` when no children are provided. */\n  children?: React.ReactNode;\n  /** Label used when no children are provided. */\n  label?: React.ReactNode;\n  /** Confetti particles per burst. */\n  particleCount?: number;\n  /** Confetti spread in degrees. */\n  spread?: number;\n  /** Extra vertical launch velocity. */\n  startVelocity?: number;\n  /** Custom confetti colors. */\n  colors?: string[];\n  /** Fired after each confetti burst. */\n  onCelebrate?: () => void;\n}\n\nfunction burstFromElement(\n  element: HTMLElement,\n  options: {\n    particleCount: number;\n    spread: number;\n    startVelocity: number;\n    colors?: string[];\n  },\n) {\n  const rect = element.getBoundingClientRect();\n  const x = (rect.left + rect.width / 2) / window.innerWidth;\n  const y = (rect.top + rect.height / 2) / window.innerHeight;\n\n  void confetti({\n    particleCount: options.particleCount,\n    spread: options.spread,\n    startVelocity: options.startVelocity,\n    origin: { x, y },\n    colors: options.colors,\n    disableForReducedMotion: true,\n  });\n}\n\nexport const ConfettiButton = React.forwardRef<\n  HTMLButtonElement,\n  ConfettiButtonProps\n>(\n  (\n    {\n      children,\n      label = \"Continue\",\n      particleCount = 120,\n      spread = 72,\n      startVelocity = 38,\n      colors,\n      onCelebrate,\n      className,\n      disabled,\n      variant,\n      size,\n      type = \"button\",\n      ...props\n    },\n    ref,\n  ) => {\n    const buttonRef = React.useRef<HTMLButtonElement | null>(null);\n    const popControls = useAnimationControls();\n\n    const setButtonRef = (node: HTMLButtonElement | null) => {\n      buttonRef.current = node;\n      if (typeof ref === \"function\") ref(node);\n      else if (ref) ref.current = node;\n    };\n\n    const handleClick = () => {\n      if (disabled || !buttonRef.current) return;\n\n      burstFromElement(buttonRef.current, {\n        particleCount,\n        spread,\n        startVelocity,\n        colors,\n      });\n      onCelebrate?.();\n\n      void popControls\n        .start({\n          scale: 1.12,\n          transition: {\n            type: \"spring\",\n            stiffness: 520,\n            damping: 14,\n            mass: 0.55,\n          },\n        })\n        .then(() =>\n          popControls.start({\n            scale: 1,\n            transition: {\n              type: \"spring\",\n              stiffness: 420,\n              damping: 20,\n              mass: 0.6,\n            },\n          }),\n        );\n    };\n\n    const displayLabel = children ?? label;\n\n    return (\n      <motion.span\n        className=\"inline-flex\"\n        initial={{ scale: 1 }}\n        animate={popControls}\n      >\n        <Button\n          ref={setButtonRef}\n          type={type}\n          variant={variant}\n          size={size}\n          disabled={disabled}\n          onClick={handleClick}\n          className={className}\n          {...props}\n        >\n          {displayLabel}\n        </Button>\n      </motion.span>\n    );\n  },\n);\n\nConfettiButton.displayName = \"ConfettiButton\";\n\nexport default ConfettiButton;"
+    }
+  ],
+  "registryDependencies": [
+    "button"
+  ],
+  "dependencies": [
+    "canvas-confetti",
+    "clsx",
+    "tailwind-merge",
+    "motion"
+  ]
+}

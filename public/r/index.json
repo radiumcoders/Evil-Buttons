@@ -256,12 +256,12 @@
       ]
     },
     {
-      "name": "mouse-lock-button",
+      "name": "confetti-button",
       "type": "registry:ui",
-      "title": "MouseLockButton",
-      "description": "A warning button that disables all pointer input across the page for five seconds after you click it anyway.",
+      "title": "ConfettiButton",
+      "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
       "files": [
-        "components/evil-buttons/mouse-lock-button.tsx"
+        "components/evil-buttons/confetti-button.tsx"
       ]
     }
   ]

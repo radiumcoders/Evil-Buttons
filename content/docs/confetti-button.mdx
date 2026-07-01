@@ -1,0 +1,62 @@
+---
+title: ConfettiButton
+description: A plain shadcn button that pops on click and fires a confetti celebration burst.
+---
+
+ConfettiButton looks like any other default button. Click it and it pops with a spring bounce while confetti erupts from the button — a tiny celebration for doing almost nothing.
+
+## Preview
+
+<PreviewCard title="ConfettiButton" note="Click for confetti">
+  <ConfettiButton />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/confetti-button</Cmd>
+
+## Usage
+
+```tsx
+import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
+
+export function ButtonDemo() {
+  return (
+    <ConfettiButton
+      colors={["#ff577f", "#ff884b", "#ffd384", "#fff9b0"]}
+      onCelebrate={() => console.log("Celebrated!")}
+    >
+      Celebrate
+    </ConfettiButton>
+  );
+}
+```
+
+## Props
+
+The component spreads shadcn `Button` props except `onClick`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Continue"` | Label used when no children are provided. |
+| `particleCount` | `number` | `120` | Confetti particles per burst. |
+| `spread` | `number` | `72` | Confetti spread in degrees. |
+| `startVelocity` | `number` | `38` | Extra vertical launch velocity. |
+| `colors` | `string[]` | - | Custom confetti colors. |
+| `onCelebrate` | `() => void` | - | Fired after each confetti burst. |
+| `variant` | `Button` variant | `"default"` | Passed through to the shadcn button. |
+| `size` | `Button` size | `"default"` | Passed through to the shadcn button. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Built on the shadcn `Button` with default styling so it blends into any UI.
+- Each click runs a spring pop animation and launches confetti from the button center via `canvas-confetti`.
+- Confetti is skipped automatically when the user prefers reduced motion.
+
+## Registry
+
+The registry item includes `components/evil-buttons/confetti-button.tsx`, installs the shadcn `button` registry item, and adds `canvas-confetti`, `clsx`, `tailwind-merge`, and `motion` as dependencies.
