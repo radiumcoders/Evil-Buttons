@@ -35,6 +35,7 @@ import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
 import { DemonicButton } from "../evil-buttons/demonic-button";
 import { PillButton } from "@/components/evil-buttons/pill-button";
+import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 
 type ButtonShowcase = {
   name: string;
@@ -237,6 +238,12 @@ const showcase: ButtonShowcase[] = [
         secondaryClassName="bg-primary text-primary-foreground"
       />
     ),
+  },
+  {
+    name: "ConfettiButton",
+    href: "/docs/confetti-button",
+    registryName: "confetti-button",
+    render: () => <ConfettiButton>Celebrate</ConfettiButton>,
   },
 ];
 

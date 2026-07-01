@@ -251,5 +251,15 @@
     "description": "A compact pill toggle that slides between two labeled faces with a rolling hover label animation.",
     "file": "components/evil-buttons/pill-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "confetti-button",
+    "exportName": "ConfettiButton",
+    "docSlug": "confetti-button",
+    "title": "ConfettiButton",
+    "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+    "file": "components/evil-buttons/confetti-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["canvas-confetti", "clsx", "tailwind-merge", "motion"]
   }
 ]
