@@ -155,29 +155,46 @@
   color: var(--foreground);
 }
 
-.docs-sidebar-scroll {
+.docs-scroll {
+  --scroll-thumb: color-mix(in oklab, var(--foreground) 14%, transparent);
+  --scroll-thumb-hover: color-mix(in oklab, var(--foreground) 26%, transparent);
+  --scroll-track: var(--background);
   scrollbar-gutter: stable;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--sidebar-foreground) 20%, transparent)
-    transparent;
+  scrollbar-color: transparent transparent;
 }
 
-.docs-sidebar-scroll::-webkit-scrollbar {
+.docs-scroll:hover {
+  scrollbar-color: var(--scroll-thumb) transparent;
+}
+
+.docs-scroll::-webkit-scrollbar {
   width: 0.375rem;
+  height: 0.375rem;
 }
 
-.docs-sidebar-scroll::-webkit-scrollbar-track {
+.docs-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.docs-sidebar-scroll::-webkit-scrollbar-thumb {
-  border: 2px solid var(--sidebar);
+.docs-scroll::-webkit-scrollbar-thumb {
+  border: 2px solid var(--scroll-track);
   border-radius: 999px;
-  background: color-mix(in oklab, var(--sidebar-foreground) 16%, transparent);
+  background: transparent;
 }
 
-.docs-sidebar-scroll::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in oklab, var(--sidebar-foreground) 28%, transparent);
+.docs-scroll:hover::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+}
+
+.docs-scroll:hover::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
+}
+
+.docs-scroll--sidebar {
+  --scroll-thumb: color-mix(in oklab, var(--sidebar-foreground) 14%, transparent);
+  --scroll-thumb-hover: color-mix(in oklab, var(--sidebar-foreground) 26%, transparent);
+  --scroll-track: var(--sidebar);
 }
 
 .docs-content [data-rehype-pretty-code-figure] {

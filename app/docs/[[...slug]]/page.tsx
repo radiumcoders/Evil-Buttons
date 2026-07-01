@@ -74,7 +74,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
         <MDX components={getMDXComponents()} />
       </article>
       <aside className="fixed top-8 right-6 hidden w-44 xl:block">
-        <div className="flex max-h-[calc(100dvh-4rem)] flex-col gap-2 overflow-y-auto pl-4">
+        <div className="docs-scroll flex max-h-[calc(100dvh-4rem)] flex-col gap-2 overflow-y-auto pl-4">
           <p className="text-xs text-muted-foreground">On this page</p>
           <PageToc />
         </div>
