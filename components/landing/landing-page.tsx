@@ -245,6 +245,8 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/confetti-button",
     registryName: "confetti-button",
     render: () => <ConfettiButton>Celebrate</ConfettiButton>,
+  },
+  {
     name: "HoldConfirmButton",
     href: "/docs/hold-confirm-button",
     registryName: "hold-confirm-button",
