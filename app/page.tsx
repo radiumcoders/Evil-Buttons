@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { HeroSection } from "@/components/landing/hero-section";
+import { LandingPage } from "@/components/landing/landing-page";
 
 export const metadata: Metadata = {
   alternates: {
@@ -23,5 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <HeroSection />;
+  return <LandingPage />;
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LandingPage } from "@/components/landing/landing-page";
+import { PlaygroundPage as Playground } from "@/components/landing/playground-page";
 
 export const metadata: Metadata = {
   title: "Playground",
@@ -24,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function PlaygroundPage() {
-  return <LandingPage />;
+  return <Playground />;
 }
