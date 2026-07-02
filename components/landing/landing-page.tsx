@@ -4,9 +4,9 @@ import { DeferredMount } from "@/components/landing/deferred-mount";
 import { FitToContainer } from "@/components/landing/fit-to-container";
 import { ThemeSync } from "@/components/theme-sync";
 import { siteConfig } from "@/lib/seo";
-import { ArrowUpRight, Copy } from "@phosphor-icons/react";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import Link from "next/link";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { BrutalButton } from "@/components/evil-buttons/brutal-button";
@@ -37,6 +37,13 @@ import { DemonicButton } from "../evil-buttons/demonic-button";
 import { PillButton } from "@/components/evil-buttons/pill-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type ButtonShowcase = {
   name: string;
@@ -45,9 +52,6 @@ type ButtonShowcase = {
   render: () => ReactNode;
 };
 
-// Static stand-in shown for the always-on WebGL buttons until their grid cell
-// scrolls into view. Approximates the real button's footprint (rounded, dark
-// pill) so swapping in the live shader causes no layout shift.
 function WebGLPlaceholder({ label }: { label: string }) {
   return (
     <span className="inline-flex min-h-16 min-w-52 items-center justify-center rounded-full border border-border bg-neutral-950 px-9 py-4 font-mono text-sm font-medium uppercase tracking-widest text-neutral-500">
@@ -254,122 +258,84 @@ const showcase: ButtonShowcase[] = [
   },
 ];
 
-function ButtonCell({ item }: { item: ButtonShowcase }) {
-  const [copied, setCopied] = useState(false);
-  const timerRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current !== null) clearTimeout(timerRef.current);
-    };
-  }, []);
-
-  const command = `npx shadcn@latest add @evilbuttons/${item.registryName}`;
-
-  async function handleCopy(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    await navigator.clipboard.writeText(command);
-    setCopied(true);
-    if (timerRef.current !== null) clearTimeout(timerRef.current);
-    timerRef.current = window.setTimeout(() => setCopied(false), 2000);
-  }
-
-  return (
-    <div className="group relative flex aspect-square flex-col overflow-hidden border-r border-b border-border bg-background transition-colors hover:bg-muted/30">
-      <div className="absolute top-0 left-0 z-10 px-3 py-2 font-mono text-[11px] font-medium text-muted-foreground">
-        {item.name}
-      </div>
-      <div className="flex flex-1 items-center justify-center p-4">
-        <FitToContainer>{item.render()}</FitToContainer>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 flex h-10 translate-y-full gap-px border-t border-border bg-background transition-transform duration-300 ease-[cubic-bezier(0.85,0,0.15,1)] group-hover:translate-y-0">
-        <Link
-          href={item.href}
-          className="flex flex-1 items-center justify-center gap-1 text-[11px] font-medium text-foreground transition-colors hover:bg-muted/50"
-        >
-          <ArrowUpRight className="size-3" />
-          Docs
-        </Link>
-        <button
-          onClick={handleCopy}
-          className="flex flex-1 items-center justify-center gap-1 bg-primary text-[11px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-        >
-          <Copy className="size-3" weight={copied ? "fill" : "regular"} />
-          {copied ? "Copied" : "Copy"}
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export function LandingPage() {
+  const [selected, setSelected] = useState(showcase[0].registryName);
+  const active = showcase.find((item) => item.registryName === selected) ?? showcase[0];
+
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground xl:flex-row">
+    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground">
       <ThemeSync />
 
-      <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:border-b-0 xl:px-8 xl:py-10">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex w-fit transition-opacity hover:opacity-85"
-          >
-            <div className="flex items-center justify-center gap-2">
-              <img
-                src="/logo.png"
-                alt={siteConfig.name}
-                width={288}
-                height={192}
-                className="h-auto w-14 sm:w-16"
-              />
-              <h1 className="text-2xl font-doto font-black tracking-tighter leading-5">
-                Evil <br /> Buttons
-              </h1>
-            </div>
-          </Link>
-          <h1 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-balance leading-tight xl:mt-8 xl:text-3xl">
-            Animated buttons, built with an evil touch.
-          </h1>
-          <p className="mt-2 max-w-xl text-sm text-muted-foreground text-balance xl:mt-4">
-            A shadcn/ui registry of {showcase.length} interactive button
-            components. Live previews, copy-paste docs, one-command CLI
-            installs.
-          </p>
-          <div className="mt-4 flex items-center gap-2 xl:mt-8 xl:flex-col">
-            <Link
-              href="/docs"
-              className="inline-flex h-9 w-full items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Browse Docs
-            </Link>
-            <a
-              href={siteConfig.github}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
+      <header className="flex shrink-0 items-center justify-between gap-4 border-b border-border px-6 py-4">
+        <Link
+          href="/"
+          className="inline-flex w-fit items-center gap-2 transition-opacity hover:opacity-85"
+        >
+          <img
+            src="/logo.png"
+            alt={siteConfig.name}
+            width={288}
+            height={192}
+            className="h-auto w-10"
+          />
+          <span className="font-doto text-lg font-black tracking-tighter">
+            Evil Buttons
+          </span>
+        </Link>
 
-        <div className="mt-4 flex items-center gap-4 xl:mt-0 xl:flex-col xl:items-start xl:gap-2">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            {showcase.length} Components
-          </p>
-          <p className="font-mono text-[11px] text-muted-foreground">
-            © {new Date().getFullYear()} {siteConfig.author.name}
-          </p>
+        <div className="flex items-center gap-3">
+          <Select value={selected} onValueChange={setSelected}>
+            <SelectTrigger className="w-52">
+              <SelectValue placeholder="Pick a button" />
+            </SelectTrigger>
+            <SelectContent>
+              {showcase.map((item) => (
+                <SelectItem key={item.registryName} value={item.registryName}>
+                  {item.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Link
+            href={active.href}
+            className="hidden items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+          >
+            Docs
+            <ArrowUpRight className="size-3.5" />
+          </Link>
         </div>
       </header>
 
-      <main className="docs-scroll flex-1 overflow-y-auto">
-        <div className="grid grid-cols-2 border-t border-border md:grid-cols-3 xl:border-l xl:border-t-0">
-          {showcase.map((item) => (
-            <ButtonCell key={item.name} item={item} />
-          ))}
+      <main className="relative flex flex-1 items-center justify-center p-8">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <FitToContainer className="h-full max-h-[min(70vh,560px)] w-full max-w-3xl">
+            {active.render()}
+          </FitToContainer>
         </div>
       </main>
+
+      <footer className="flex shrink-0 items-center justify-between border-t border-border px-6 py-3">
+        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          {showcase.length} components
+        </p>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/docs"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Browse Docs
+          </Link>
+          <a
+            href={siteConfig.github}
+            target="_blank"
+            rel="noreferrer"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            GitHub
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
