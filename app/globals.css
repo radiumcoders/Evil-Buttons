@@ -264,21 +264,14 @@ html.dark .docs-content .shiki span {
   left: 1.5rem !important;
 }
 
-@media (max-width: 639px) {
-  .dialkit-root {
-    --dial-panel-offset-top: 0;
-  }
+.dialkit-panel[data-position="bottom-left"] {
+  bottom: 3.75rem !important;
+  left: 1rem !important;
+  max-width: calc(100vw - 2rem);
+}
 
-  .dialkit-panel[data-position="top-left"] {
-    top: auto !important;
-    bottom: 3.75rem !important;
-    left: 1rem !important;
-    max-width: calc(100vw - 2rem);
-  }
-
-  .dialkit-panel[data-position="top-left"] .dialkit-panel-inner {
-    max-width: min(280px, calc(100vw - 2rem));
-  }
+.dialkit-panel[data-position="bottom-left"] .dialkit-panel-inner {
+  max-width: min(280px, calc(100vw - 2rem));
 }
 
 .dialkit-root[data-theme="light"] {

@@ -4,6 +4,7 @@ import { FitToContainer } from "@/components/landing/fit-to-container";
 import { ButtonPreview } from "@/components/landing/previews";
 import { showcase } from "@/components/landing/showcase";
 import { ThemeSync } from "@/components/theme-sync";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { siteConfig } from "@/lib/seo";
 import { ArrowUpRight } from "@phosphor-icons/react";
@@ -45,6 +46,7 @@ export function LandingPage() {
         </Link>
 
         <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:gap-3">
+          <ThemeToggle />
           <Select value={selected} onValueChange={setSelected}>
             <SelectTrigger className="w-full min-w-0 rounded-none sm:w-52">
               <SelectValue placeholder="Pick a button" />
