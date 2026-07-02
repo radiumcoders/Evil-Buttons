@@ -38,8 +38,39 @@ import {
   ThreeDButtonPreview,
   TrollButtonPreview,
 } from "./simple";
+import {
+  StaticRevealButtonPreview,
+  StaticHoldButtonPreview,
+  StaticHoldConfirmButtonPreview,
+  StaticSlideToDetonatePreview,
+  StaticDoubtButtonPreview,
+  StaticCaptchaButtonPreview,
+  StaticCooldownButtonPreview,
+  StaticMorphStatusButtonPreview,
+  StaticBrutalButtonPreview,
+  StaticDitherButtonPreview,
+  StaticGlitchButtonPreview,
+  StaticEvilEyeButtonPreview,
+  StaticAquaButtonPreview,
+  StaticFrameButtonPreview,
+  StaticHighlightButtonPreview,
+  StaticConfettiButtonPreview,
+  StaticCommandButtonPreview,
+  StaticCopyButtonPreview,
+  StaticClickPowerUpPreview,
+  StaticPillButtonPreview,
+  StaticDemonicButtonPreview,
+  StaticChromeButtonPreview,
+  StaticGridButtonPreview,
+  StaticMinimalButtonPreview,
+  StaticMoviePassButtonPreview,
+  StaticShinyButtonPreview,
+  StaticStickyButtonPreview,
+  StaticThreeDButtonPreview,
+  StaticTrollButtonPreview,
+} from "./static";
 
-const buttonPreviews: Record<string, ComponentType> = {
+const dialButtonPreviews: Record<string, ComponentType> = {
   "reveal-button": RevealButtonPreview,
   "command-button": CommandButtonPreview,
   "copy-button": CopyButtonPreview,
@@ -71,8 +102,47 @@ const buttonPreviews: Record<string, ComponentType> = {
   "hold-confirm-button": HoldConfirmButtonPreview,
 };
 
-export function ButtonPreview({ registryName }: { registryName: string }) {
-  const Preview = buttonPreviews[registryName];
+const staticButtonPreviews: Record<string, ComponentType> = {
+  "reveal-button": StaticRevealButtonPreview,
+  "command-button": StaticCommandButtonPreview,
+  "copy-button": StaticCopyButtonPreview,
+  "click-powerup": StaticClickPowerUpPreview,
+  "dither-button": StaticDitherButtonPreview,
+  "hold-button": StaticHoldButtonPreview,
+  "demonic-button": StaticDemonicButtonPreview,
+  "evil-eye-button": StaticEvilEyeButtonPreview,
+  "aqua-button": StaticAquaButtonPreview,
+  "brutal-button": StaticBrutalButtonPreview,
+  "chrome-button": StaticChromeButtonPreview,
+  "frame-button": StaticFrameButtonPreview,
+  "glitch-button": StaticGlitchButtonPreview,
+  "grid-button": StaticGridButtonPreview,
+  "highlight-button": StaticHighlightButtonPreview,
+  minimal: StaticMinimalButtonPreview,
+  "movie-pass": StaticMoviePassButtonPreview,
+  "shiny-button": StaticShinyButtonPreview,
+  sticky: StaticStickyButtonPreview,
+  "3d-button": StaticThreeDButtonPreview,
+  "troll-button": StaticTrollButtonPreview,
+  "captcha-button": StaticCaptchaButtonPreview,
+  "doubt-button": StaticDoubtButtonPreview,
+  "slide-to-detonate": StaticSlideToDetonatePreview,
+  "morph-status-button": StaticMorphStatusButtonPreview,
+  "cooldown-button": StaticCooldownButtonPreview,
+  "pill-button": StaticPillButtonPreview,
+  "confetti-button": StaticConfettiButtonPreview,
+  "hold-confirm-button": StaticHoldConfirmButtonPreview,
+};
+
+export function ButtonPreview({
+  registryName,
+  dial = false,
+}: {
+  registryName: string;
+  dial?: boolean;
+}) {
+  const map = dial ? dialButtonPreviews : staticButtonPreviews;
+  const Preview = map[registryName];
   if (!Preview) return null;
   return <Preview />;
 }

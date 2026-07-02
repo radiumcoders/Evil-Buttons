@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { LandingPage } from "@/components/landing/landing-page";
+import { PlaygroundPage as Playground } from "@/components/landing/playground-page";
 
 export const metadata: Metadata = {
+  title: "Playground",
   alternates: {
-    canonical: "/",
+    canonical: "/playground",
   },
   openGraph: {
-    url: "/",
+    url: "/playground",
     images: [
       {
         url: "/og-image.png",
@@ -22,6 +23,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
-  return <LandingPage />;
+export default function PlaygroundPage() {
+  return <Playground />;
 }
