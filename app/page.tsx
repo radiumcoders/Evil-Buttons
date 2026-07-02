@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HeroSection } from "@/components/landing/hero-section";
 
 export const metadata: Metadata = {
   alternates: {
@@ -22,5 +23,5 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <div className="min-h-dvh bg-background" />;
+  return <HeroSection />;
 }
