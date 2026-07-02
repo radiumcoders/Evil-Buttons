@@ -13,8 +13,8 @@ export function ThemeToggle() {
     <Button
       type="button"
       variant="outline"
-      size="icon-sm"
-      className="shrink-0 rounded-none"
+      size="icon"
+      className="size-8 shrink-0 rounded-none"
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >

@@ -48,7 +48,7 @@ export function LandingPage() {
         <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:gap-3">
           <ThemeToggle />
           <Select value={selected} onValueChange={setSelected}>
-            <SelectTrigger className="w-full min-w-0 rounded-none sm:w-52">
+            <SelectTrigger className="h-8 w-full min-w-0 rounded-none sm:w-52">
               <SelectValue placeholder="Pick a button" />
             </SelectTrigger>
             <SelectContent className="rounded-none">
@@ -66,7 +66,7 @@ export function LandingPage() {
 
           <Link
             href={active.href}
-            className="hidden shrink-0 items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+            className="hidden h-8 shrink-0 items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
           >
             Docs
             <ArrowUpRight className="size-3.5" />
