@@ -251,3 +251,97 @@ html.dark .docs-content .shiki span {
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
 }
+
+/* DialKit — match Evil Buttons page tokens and sharp corners */
+.dialkit-root {
+  --dial-radius: 0;
+  --dial-panel-offset-top: 5.5rem;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.dialkit-panel[data-position="top-left"] {
+  top: var(--dial-panel-offset-top) !important;
+  left: 1.5rem !important;
+}
+
+.dialkit-panel[data-position="bottom-left"] {
+  bottom: 3.75rem !important;
+  left: 1rem !important;
+  max-width: calc(100vw - 2rem);
+}
+
+.dialkit-panel[data-position="bottom-left"] .dialkit-panel-inner {
+  max-width: min(280px, calc(100vw - 2rem));
+}
+
+.dialkit-root[data-theme="light"] {
+  --dial-surface: color-mix(in oklab, var(--foreground) 4%, transparent);
+  --dial-surface-hover: color-mix(in oklab, var(--foreground) 8%, transparent);
+  --dial-surface-active: color-mix(in oklab, var(--foreground) 10%, transparent);
+  --dial-surface-subtle: color-mix(in oklab, var(--foreground) 6%, transparent);
+  --dial-text-root: var(--foreground);
+  --dial-text-section: var(--muted-foreground);
+  --dial-text-label: var(--muted-foreground);
+  --dial-text-focus: var(--foreground);
+  --dial-text-primary: var(--foreground);
+  --dial-text-secondary: var(--muted-foreground);
+  --dial-text-tertiary: color-mix(in oklab, var(--muted-foreground) 70%, transparent);
+  --dial-border: var(--border);
+  --dial-border-hover: color-mix(in oklab, var(--foreground) 18%, transparent);
+  --dial-glass-bg: var(--popover);
+  --dial-dropdown-bg: var(--popover);
+  --dial-backdrop-blur: 0px;
+  --dial-shadow: 0 1px 0 var(--border);
+  --dial-shadow-collapsed: 0 1px 0 var(--border);
+  --dial-shadow-dropdown: 0 8px 24px color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+
+.dialkit-root[data-theme="dark"] {
+  --dial-surface: color-mix(in oklab, var(--foreground) 6%, transparent);
+  --dial-surface-hover: color-mix(in oklab, var(--foreground) 10%, transparent);
+  --dial-surface-active: color-mix(in oklab, var(--foreground) 12%, transparent);
+  --dial-surface-subtle: color-mix(in oklab, var(--foreground) 8%, transparent);
+  --dial-text-root: var(--foreground);
+  --dial-text-section: var(--muted-foreground);
+  --dial-text-label: var(--muted-foreground);
+  --dial-text-focus: var(--foreground);
+  --dial-text-primary: var(--foreground);
+  --dial-text-secondary: var(--muted-foreground);
+  --dial-text-tertiary: color-mix(in oklab, var(--muted-foreground) 70%, transparent);
+  --dial-border: var(--border);
+  --dial-border-hover: color-mix(in oklab, var(--foreground) 22%, transparent);
+  --dial-glass-bg: var(--popover);
+  --dial-dropdown-bg: var(--popover);
+  --dial-backdrop-blur: 0px;
+  --dial-shadow: 0 1px 0 var(--border);
+  --dial-shadow-collapsed: 0 1px 0 var(--border);
+  --dial-shadow-dropdown: 0 12px 32px color-mix(in oklab, black 45%, transparent);
+}
+
+.dialkit-panel-inner {
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding-bottom: 12px !important;
+}
+
+.dialkit-root
+  .dialkit-folder-root
+  > .dialkit-folder-content
+  > .dialkit-folder-inner {
+  padding-bottom: 8px !important;
+}
+
+.dialkit-root .dialkit-panel-inner[data-collapsed="true"] {
+  border-radius: 0 !important;
+}
+
+.dialkit-root .dialkit-toggle-thumb,
+.dialkit-root .dialkit-shortcuts-row,
+.dialkit-root .dialkit-shortcuts-row-key,
+.dialkit-root .dialkit-select-trigger,
+.dialkit-root .dialkit-select-content,
+.dialkit-root .dialkit-preset-item,
+.dialkit-root .dialkit-color-swatch {
+  border-radius: 0 !important;
+}
