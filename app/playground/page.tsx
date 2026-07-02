@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { LandingPage } from "@/components/landing/landing-page";
 
 export const metadata: Metadata = {
+  title: "Playground",
   alternates: {
-    canonical: "/",
+    canonical: "/playground",
   },
   openGraph: {
-    url: "/",
+    url: "/playground",
     images: [
       {
         url: "/og-image.png",
@@ -21,6 +23,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
-  return <div className="min-h-dvh bg-background" />;
+export default function PlaygroundPage() {
+  return <LandingPage />;
 }
