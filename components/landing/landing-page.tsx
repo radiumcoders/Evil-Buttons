@@ -345,6 +345,12 @@ export function LandingPage() {
             >
               Browse Docs
             </Link>
+            <Link
+              href="/playground"
+              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            >
+              Playground
+            </Link>
             <a
               href={siteConfig.github}
               target="_blank"
