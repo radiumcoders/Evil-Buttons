@@ -12,24 +12,25 @@ export function useThemedDialKit<T extends DialConfig>(
   return useDialKit(name, getConfig(isDark), options);
 }
 
+// DialKit color controls require #RRGGBB hex — oklch() breaks the native picker.
 export const themeColors = {
   light: {
-    background: "oklch(1 0 0)",
-    foreground: "oklch(0.145 0 0)",
-    muted: "oklch(0.97 0 0)",
-    primary: "oklch(0.205 0 0)",
-    primaryForeground: "oklch(0.985 0 0)",
-    border: "oklch(0.922 0 0)",
-    accent: "oklch(0.97 0 0)",
+    background: "#ffffff",
+    foreground: "#1a1a1a",
+    muted: "#f5f5f5",
+    primary: "#1a1a1a",
+    primaryForeground: "#fafafa",
+    border: "#e5e5e5",
+    accent: "#f5f5f5",
   },
   dark: {
-    background: "oklch(0.145 0 0)",
-    foreground: "oklch(0.985 0 0)",
-    muted: "oklch(0.269 0 0)",
-    primary: "oklch(0.922 0 0)",
-    primaryForeground: "oklch(0.205 0 0)",
-    border: "oklch(1 0 0 / 10%)",
-    accent: "oklch(0.269 0 0)",
+    background: "#1a1a1a",
+    foreground: "#fafafa",
+    muted: "#404040",
+    primary: "#e5e5e5",
+    primaryForeground: "#1a1a1a",
+    border: "#333333",
+    accent: "#404040",
   },
 } as const;
 

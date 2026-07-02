@@ -27,7 +27,7 @@ export function LandingPage() {
     <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground">
       <ThemeSync />
 
-      <header className="flex shrink-0 items-center justify-between gap-4 px-6 py-4">
+      <header className="grid shrink-0 gap-3 px-4 py-3 sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-6 sm:py-4">
         <Link
           href="/"
           className="inline-flex w-fit items-center gap-2 transition-opacity hover:opacity-85"
@@ -37,16 +37,16 @@ export function LandingPage() {
             alt={siteConfig.name}
             width={288}
             height={192}
-            className="h-auto w-10"
+            className="h-auto w-9 sm:w-10"
           />
-          <span className="font-doto text-lg font-black tracking-tighter">
+          <span className="font-doto text-base font-black tracking-tighter sm:text-lg">
             Evil Buttons
           </span>
         </Link>
 
-        <div className="flex items-center gap-3">
+        <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:gap-3">
           <Select value={selected} onValueChange={setSelected}>
-            <SelectTrigger className="w-52 rounded-none">
+            <SelectTrigger className="w-full min-w-0 rounded-none sm:w-52">
               <SelectValue placeholder="Pick a button" />
             </SelectTrigger>
             <SelectContent className="rounded-none">
@@ -64,7 +64,7 @@ export function LandingPage() {
 
           <Link
             href={active.href}
-            className="hidden items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+            className="hidden shrink-0 items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
           >
             Docs
             <ArrowUpRight className="size-3.5" />
@@ -72,22 +72,20 @@ export function LandingPage() {
         </div>
       </header>
 
-      <main className="relative flex flex-1 items-center justify-center p-8">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <FitToContainer className="h-full max-h-[min(70vh,560px)] w-full max-w-3xl">
-            <ButtonPreview key={`${selected}-${theme}`} registryName={selected} />
-          </FitToContainer>
-        </div>
+      <main className="flex min-h-0 flex-1 items-center justify-center px-4 py-4 sm:px-8 sm:py-8">
+        <FitToContainer className="h-full max-h-[min(52dvh,380px)] w-full max-w-3xl sm:max-h-[min(70vh,560px)]">
+          <ButtonPreview key={`${selected}-${theme}`} registryName={selected} />
+        </FitToContainer>
       </main>
 
-      <footer className="flex shrink-0 items-center justify-between px-6 py-3">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+      <footer className="flex shrink-0 items-center justify-between gap-3 px-4 py-3 sm:px-6">
+        <p className="shrink-0 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground sm:text-[11px] sm:tracking-[0.2em]">
           {showcase.length} components
         </p>
-        <div className="flex items-center gap-4">
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
           <Link
             href="/docs"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="truncate text-xs font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
           >
             Browse Docs
           </Link>
@@ -95,7 +93,7 @@ export function LandingPage() {
             href={siteConfig.github}
             target="_blank"
             rel="noreferrer"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="shrink-0 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
           >
             GitHub
           </a>

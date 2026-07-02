@@ -27,7 +27,7 @@ export function BrutalButtonPreview() {
         radius: [0, 0, 24],
       };
     },
-    { id: "brutal-button" },
+    { id: "brutal-button-v2" },
   );
 
   return (
@@ -105,12 +105,12 @@ export function GlitchButtonPreview() {
 export function EvilEyeButtonPreview() {
   const p = useThemedDialKit(
     "EvilEyeButton",
-    (isDark) => ({
+    () => ({
       label: "Doom",
       effectOpacity: [0.95, 0, 1, 0.01],
       eye: {
         eyeColor: "#ff6f37",
-        backgroundColor: isDark ? "#050000" : "#f5f5f5",
+        backgroundColor: "#000000",
         intensity: [1.65, 0, 3, 0.01],
         pupilSize: [0.62, 0, 1, 0.01],
         irisWidth: [0.22, 0, 1, 0.01],
@@ -121,7 +121,7 @@ export function EvilEyeButtonPreview() {
         flameSpeed: [0.8, 0, 2, 0.01],
       },
     }),
-    { id: "evil-eye-button" },
+    { id: "evil-eye-button-v2" },
   );
 
   return (
@@ -209,7 +209,7 @@ export function HighlightButtonPreview() {
         borderColor: colors.foreground,
       };
     },
-    { id: "highlight-button" },
+    { id: "highlight-button-v2" },
   );
 
   return (
