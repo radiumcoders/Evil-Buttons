@@ -1,0 +1,63 @@
+---
+title: AshBurstButton
+description: A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.
+---
+
+AshBurstButton is the evil twin of ConfettiButton. Click it and the control scorches while ash, blood shards, and skulls erupt — then Matter.js gravity makes them bounce off the button and pile onto its top edge.
+
+## Preview
+
+<PreviewCard title="AshBurstButton" note="Click — ash piles on the button">
+  <AshBurstButton />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/ash-burst-button</Cmd>
+
+## Usage
+
+```tsx
+import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
+
+export function ButtonDemo() {
+  return (
+    <AshBurstButton
+      colors={["#0a0a0a", "#7f1d1d", "#ea580c", "#fef3c7"]}
+      particleCount={120}
+      onDestroy={() => console.log("Burned.")}
+    >
+      Incinerate
+    </AshBurstButton>
+  );
+}
+```
+
+## Props
+
+The component spreads shadcn `Button` props except `onClick`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Destroy"` | Label used when no children are provided. |
+| `particleCount` | `number` | `96` | Physics particles per burst. |
+| `spread` | `number` | `120` | Explosion spread in degrees. |
+| `startVelocity` | `number` | `48` | Launch velocity (mapped into Matter). |
+| `colors` | `string[]` | ash/ember palette | Custom particle colors. |
+| `onDestroy` | `() => void` | - | Fired after each ash burst. |
+| `variant` | `Button` variant | `"destructive"` | Passed through to the shadcn button. |
+| `size` | `Button` size | `"default"` | Passed through to the shadcn button. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Built on the shadcn `Button` with a destructive default so it reads as a kill switch.
+- Each click runs a burn spring and spawns Matter.js bodies on a full-viewport overlay canvas. The button itself is a live static collider (synced every frame), so ash bounces off the sides and settles on top.
+- Physics is skipped when the user prefers reduced motion.
+
+## Registry
+
+The registry item includes `components/evil-buttons/ash-burst-button.tsx`, installs the shadcn `button` registry item, and adds `matter-js`, `clsx`, `tailwind-merge`, and `motion` as dependencies.

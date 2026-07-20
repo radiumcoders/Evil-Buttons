@@ -38,6 +38,8 @@ import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import { PillButton } from "@/components/evil-buttons/pill-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
+import { DontPressButton } from "@/components/evil-buttons/dont-press-button";
+import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
 
 type ButtonShowcase = {
   name: string;
@@ -252,6 +254,18 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/hold-confirm-button",
     registryName: "hold-confirm-button",
     render: () => <HoldConfirmButton />,
+  },
+  {
+    name: "DontPressButton",
+    href: "/docs/dont-press-button",
+    registryName: "dont-press-button",
+    render: () => <DontPressButton />,
+  },
+  {
+    name: "AshBurstButton",
+    href: "/docs/ash-burst-button",
+    registryName: "ash-burst-button",
+    render: () => <AshBurstButton>Destroy</AshBurstButton>,
   },
 ];
 

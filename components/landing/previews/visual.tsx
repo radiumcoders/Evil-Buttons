@@ -8,6 +8,7 @@ import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { FrameButton } from "@/components/evil-buttons/frame-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
+import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
 import { DeferredWebGLPreview } from "./shared";
 import { themeColors, useThemedDialKit } from "./theme";
 
@@ -237,6 +238,28 @@ export function ConfettiButtonPreview() {
 
   return (
     <ConfettiButton
+      label={p.label}
+      particleCount={p.particleCount}
+      spread={p.spread}
+      startVelocity={p.startVelocity}
+    />
+  );
+}
+
+export function AshBurstButtonPreview() {
+  const p = useThemedDialKit(
+    "AshBurstButton",
+    () => ({
+      label: "Destroy",
+      particleCount: [96, 24, 180],
+      spread: [120, 50, 180],
+      startVelocity: [48, 20, 90],
+    }),
+    { id: "ash-burst-button" },
+  );
+
+  return (
+    <AshBurstButton
       label={p.label}
       particleCount={p.particleCount}
       spread={p.spread}

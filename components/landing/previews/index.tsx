@@ -20,6 +20,7 @@ import {
   FrameButtonPreview,
   HighlightButtonPreview,
   ConfettiButtonPreview,
+  AshBurstButtonPreview,
 } from "./visual";
 import {
   CommandButtonPreview,
@@ -37,6 +38,7 @@ import {
   StickyButtonPreview,
   ThreeDButtonPreview,
   TrollButtonPreview,
+  DontPressButtonPreview,
 } from "./simple";
 import {
   StaticRevealButtonPreview,
@@ -55,6 +57,8 @@ import {
   StaticFrameButtonPreview,
   StaticHighlightButtonPreview,
   StaticConfettiButtonPreview,
+  StaticAshBurstButtonPreview,
+  StaticDontPressButtonPreview,
   StaticCommandButtonPreview,
   StaticCopyButtonPreview,
   StaticClickPowerUpPreview,
@@ -100,6 +104,8 @@ const dialButtonPreviews: Record<string, ComponentType> = {
   "pill-button": PillButtonPreview,
   "confetti-button": ConfettiButtonPreview,
   "hold-confirm-button": HoldConfirmButtonPreview,
+  "dont-press-button": DontPressButtonPreview,
+  "ash-burst-button": AshBurstButtonPreview,
 };
 
 const staticButtonPreviews: Record<string, ComponentType> = {
@@ -132,6 +138,8 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   "pill-button": StaticPillButtonPreview,
   "confetti-button": StaticConfettiButtonPreview,
   "hold-confirm-button": StaticHoldConfirmButtonPreview,
+  "dont-press-button": StaticDontPressButtonPreview,
+  "ash-burst-button": StaticAshBurstButtonPreview,
 };
 
 export function ButtonPreview({

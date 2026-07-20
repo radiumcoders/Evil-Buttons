@@ -263,6 +263,24 @@
       "files": [
         "components/evil-buttons/hold-confirm-button.tsx"
       ]
+    },
+    {
+      "name": "dont-press-button",
+      "type": "registry:ui",
+      "title": "DontPressButton",
+      "description": "A reverse-psychology button that begs you not to press it, then grows more tempting the closer your cursor gets.",
+      "files": [
+        "components/evil-buttons/dont-press-button.tsx"
+      ]
+    },
+    {
+      "name": "ash-burst-button",
+      "type": "registry:ui",
+      "title": "AshBurstButton",
+      "description": "A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.",
+      "files": [
+        "components/evil-buttons/ash-burst-button.tsx"
+      ]
     }
   ]
 }

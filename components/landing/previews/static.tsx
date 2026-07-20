@@ -17,6 +17,8 @@ import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { FrameButton } from "@/components/evil-buttons/frame-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
+import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
+import { DontPressButton } from "@/components/evil-buttons/dont-press-button";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
@@ -239,6 +241,21 @@ export function StaticConfettiButtonPreview() {
       startVelocity={38}
     />
   );
+}
+
+export function StaticAshBurstButtonPreview() {
+  return (
+    <AshBurstButton
+      label="Destroy"
+      particleCount={96}
+      spread={120}
+      startVelocity={48}
+    />
+  );
+}
+
+export function StaticDontPressButtonPreview() {
+  return <DontPressButton idleLabel="Don't Press" />;
 }
 
 export function StaticCommandButtonPreview() {

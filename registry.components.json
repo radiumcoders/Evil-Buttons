@@ -270,5 +270,25 @@
     "description": "A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.",
     "file": "components/evil-buttons/hold-confirm-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "dont-press-button",
+    "exportName": "DontPressButton",
+    "docSlug": "dont-press-button",
+    "title": "DontPressButton",
+    "description": "A reverse-psychology button that begs you not to press it, then grows more tempting the closer your cursor gets.",
+    "file": "components/evil-buttons/dont-press-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["clsx", "tailwind-merge", "motion"]
+  },
+  {
+    "name": "ash-burst-button",
+    "exportName": "AshBurstButton",
+    "docSlug": "ash-burst-button",
+    "title": "AshBurstButton",
+    "description": "A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.",
+    "file": "components/evil-buttons/ash-burst-button.tsx",
+    "registryDependencies": ["button"],
+    "dependencies": ["matter-js", "clsx", "tailwind-merge", "motion"]
   }
 ]

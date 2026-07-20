@@ -1,0 +1,58 @@
+---
+title: DontPressButton
+description: A reverse-psychology button that begs you not to press it, then grows more tempting the closer your cursor gets.
+---
+
+DontPressButton is the opposite of a flee-from-cursor troll. It warns you not to click, then leans in as your cursor approaches — labels escalate, the glow heats up, and the variant flips from warning to invitation. Click anyway and it admits you succumbed.
+
+## Preview
+
+<PreviewCard title="DontPressButton" note="Hover, then click">
+  <DontPressButton />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/dont-press-button</Cmd>
+
+## Usage
+
+```tsx
+import { DontPressButton } from "@/components/evil-buttons/dont-press-button";
+
+export function ButtonDemo() {
+  return (
+    <DontPressButton
+      temptLabels={["Don't…", "Seriously", "Fine. Do it."]}
+      onSuccumb={() => console.log("They pressed it.")}
+    />
+  );
+}
+```
+
+## Props
+
+The component spreads shadcn `Button` props except `onClick` and `children`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Idle label. Falls back to `idleLabel`. |
+| `idleLabel` | `React.ReactNode` | `"Don't Press"` | Label before temptation builds. |
+| `temptLabels` | `React.ReactNode[]` | escalating defaults | Labels shown as temptation rises. |
+| `succumbLabel` | `React.ReactNode` | `"You pressed it."` | Label after the click. |
+| `onSuccumb` | `() => void` | - | Fired when the user clicks. |
+| `resetAfter` | `number` | `1600` | Ms to stay succumbed before reset. `0` keeps it. |
+| `variant` | `Button` variant | auto | Override auto destructive → default flip. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Temptation is driven by cursor proximity (within ~140px) and full hover.
+- Reduced-motion users skip the glow/scale spring; labels and click still work.
+- Not a confirmation gate — it *wants* you to click. Pair with a real gate if the action is destructive.
+
+## Registry
+
+The registry item includes `components/evil-buttons/dont-press-button.tsx`, installs the shadcn `button` registry item, and adds `clsx`, `tailwind-merge`, and `motion` as dependencies.
