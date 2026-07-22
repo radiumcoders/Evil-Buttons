@@ -92,6 +92,7 @@ export function DocsSidebar({
   return (
     <>
       <aside
+        id="docs-mobile-nav"
         className={cn(
           "docs-scroll fixed inset-y-0 left-0 z-50 w-64 shrink-0 overflow-y-auto bg-sidebar p-4 text-sidebar-foreground transition-transform duration-200 ease-out md:static md:z-auto md:h-full md:w-52 md:translate-x-0 md:border-r md:border-sidebar-border",
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0",
@@ -159,6 +160,7 @@ export function DocsSidebar({
           className="inline-flex size-8 items-center justify-center rounded-md bg-sidebar text-sidebar-foreground/70 shadow-sm ring-1 ring-sidebar-border transition-colors hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
+          aria-controls="docs-mobile-nav"
           aria-label="Open menu"
         >
           <ListIcon size={16} />

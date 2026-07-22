@@ -4,7 +4,6 @@ import { AppDialRoot } from "@/components/dial-root";
 import { FitToContainer } from "@/components/landing/fit-to-container";
 import { ButtonPreview } from "@/components/landing/previews";
 import { showcase } from "@/components/landing/showcase";
-import { ThemeSync } from "@/components/theme-sync";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { siteConfig } from "@/lib/seo";
@@ -28,8 +27,6 @@ export function PlaygroundPage() {
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground">
-      <ThemeSync />
-
       <header className="grid shrink-0 gap-3 px-4 py-3 sm:flex sm:items-center sm:justify-between sm:gap-4 sm:px-6 sm:py-4">
         <Link
           href="/"
@@ -50,7 +47,10 @@ export function PlaygroundPage() {
         <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:gap-3">
           <ThemeToggle />
           <Select value={selected} onValueChange={setSelected}>
-            <SelectTrigger className="h-8 w-full min-w-0 rounded-none sm:w-52">
+            <SelectTrigger
+              aria-label="Pick a button"
+              className="h-8 w-full min-w-0 rounded-none sm:w-52"
+            >
               <SelectValue placeholder="Pick a button" />
             </SelectTrigger>
             <SelectContent className="rounded-none">

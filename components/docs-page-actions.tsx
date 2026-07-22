@@ -193,7 +193,7 @@ export function DocsPageActions({
                   href={link.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex cursor-pointer items-center gap-2.5 px-2.5 py-2 text-sm text-muted-foreground outline-none transition-colors data-highlighted:bg-muted data-highlighted:text-foreground"
+                  className="flex cursor-pointer items-center gap-2.5 px-2.5 py-2 text-sm text-muted-foreground outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:bg-muted focus-visible:text-foreground data-highlighted:bg-muted data-highlighted:text-foreground"
                 >
                   <span className="flex size-4 shrink-0 items-center justify-center text-foreground">
                     {link.icon}

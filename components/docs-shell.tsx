@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { DocsSidebar } from "@/components/docs-sidebar";
-import { ThemeSync } from "@/components/theme-sync";
 
 type DocsNavPage = {
   title: string;
@@ -20,7 +19,6 @@ export function DocsShell({
 }: DocsShellProps) {
   return (
     <div className="flex h-dvh overflow-hidden bg-background text-foreground">
-      <ThemeSync />
       <DocsSidebar
         componentPages={componentPages}
         brand={

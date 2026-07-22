@@ -54,14 +54,16 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     p: ({ className, ...props }: ComponentPropsWithoutRef<"p">) => (
       <p className={cn("mt-4 text-base leading-8 text-muted-foreground", className)} {...props} />
     ),
-    a: ({ className, ...props }: ComponentPropsWithoutRef<"a">) => (
+    a: ({ className, children, ...props }: ComponentPropsWithoutRef<"a">) => (
       <a
         className={cn(
           "font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary",
           className,
         )}
         {...props}
-      />
+      >
+        {children}
+      </a>
     ),
     ul: ({ className, ...props }: ComponentPropsWithoutRef<"ul">) => (
       <ul className={cn("mt-4 ml-6 flex list-disc flex-col gap-2 text-muted-foreground", className)} {...props} />

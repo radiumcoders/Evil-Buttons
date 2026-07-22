@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono, Inter, Doto } from "next/font/google";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/json-ld";
+import { ThemeProvider } from "@/components/theme-provider";
+import { THEME_STORAGE_KEY } from "@/lib/theme-preference";
 import { cn } from "@/lib/utils";
 import {
   createOrganizationJsonLd,
@@ -29,6 +31,13 @@ const dotoVar = Doto({
 
 export const metadata = rootMetadata;
 
+// Runs before paint so the persisted/system theme is applied without a flash of
+// the wrong color scheme. Kept dependency-free and rendered as the first node in
+// <body> so it executes during HTML parse, before the app content is painted.
+const themeInitScript = `(function(){try{var t=localStorage.getItem(${JSON.stringify(
+  THEME_STORAGE_KEY,
+)});if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.classList.toggle("dark",t==="dark");}catch(e){}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,6 +46,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={cn(
         geistSans.variable,
         geistMono.variable,
@@ -46,6 +56,7 @@ export default function RootLayout({
       )}
     >
       <body className="flex h-full flex-col overflow-hidden">
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <JsonLd
           data={[
             createWebSiteJsonLd(),
@@ -55,7 +66,7 @@ export default function RootLayout({
         />
         <Analytics />
         <SpeedInsights />
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

@@ -2,7 +2,6 @@
 
 import { DeferredMount } from "@/components/landing/deferred-mount";
 import { FitToContainer } from "@/components/landing/fit-to-container";
-import { ThemeSync } from "@/components/theme-sync";
 import { siteConfig } from "@/lib/seo";
 import { ArrowUpRight, Copy } from "@phosphor-icons/react";
 import Link from "next/link";
@@ -323,8 +322,6 @@ export function LandingPage() {
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground xl:flex-row">
-      <ThemeSync />
-
       <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:border-b-0 xl:px-8 xl:py-10">
         <div>
           <Link
@@ -339,9 +336,9 @@ export function LandingPage() {
                 height={192}
                 className="h-auto w-14 sm:w-16"
               />
-              <h1 className="text-2xl font-doto font-black tracking-tighter leading-5">
+              <span className="text-2xl font-doto font-black tracking-tighter leading-5">
                 Evil <br /> Buttons
-              </h1>
+              </span>
             </div>
           </Link>
           <h1 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-balance leading-tight xl:mt-8 xl:text-3xl">

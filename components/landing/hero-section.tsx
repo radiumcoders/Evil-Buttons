@@ -3,7 +3,6 @@
 import Gravity, { MatterBody } from "@/components/physics/gravity";
 import { ButtonPreview } from "@/components/landing/previews";
 import { showcase } from "@/components/landing/showcase";
-import { ThemeSync } from "@/components/theme-sync";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/seo";
 import { ArrowUpRight } from "@phosphor-icons/react";
@@ -34,8 +33,6 @@ type HeroSectionProps = {
 export function HeroSection({ trapped = false }: HeroSectionProps) {
   return (
     <div className="relative h-dvh overflow-hidden bg-background text-foreground">
-      <ThemeSync />
-
       <div className="pointer-events-none relative z-10 flex flex-col gap-4 px-4 py-4 sm:px-6 sm:py-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-2">
