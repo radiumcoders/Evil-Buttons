@@ -4,12 +4,18 @@ import {
   GithubLogoIcon,
   HeartIcon,
   ListIcon,
-  XIcon,
   XLogoIcon,
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 type DocsNavPage = {
@@ -26,7 +32,7 @@ function isPageActive(pathname: string, url: string) {
   return pathname === url;
 }
 
-function DocsNavGroup({
+function DocsNavLinks({
   title,
   pages,
   defaultPageUrl,
@@ -46,7 +52,7 @@ function DocsNavGroup({
       <p className="px-2.5 text-[11px] font-medium tracking-wide text-sidebar-foreground/50">
         {title}
       </p>
-      <nav className="flex flex-col gap-px">
+      <div className="flex flex-col gap-px">
         {pages.map((page) => {
           const active =
             isPageActive(pathname, page.url) ||
@@ -68,15 +74,60 @@ function DocsNavGroup({
             </Link>
           );
         })}
-      </nav>
+      </div>
     </div>
   );
 }
 
-export function DocsSidebar({
-  componentPages,
+function DocsSidebarChrome({
   brand,
-}: DocsSidebarProps) {
+  children,
+}: {
+  brand: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center justify-between px-0.5">{brand}</div>
+      <div className="flex items-center gap-1 px-0.5">
+        <a
+          href="https://github.com/radiumcoders/evil-buttons"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex size-8 items-center justify-center rounded-md text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+          aria-label="GitHub"
+        >
+          <GithubLogoIcon size={15} />
+        </a>
+        <a
+          href="https://x.com/radiumcoders"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex size-8 items-center justify-center rounded-md text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+          aria-label="X (Twitter)"
+        >
+          <XLogoIcon size={15} />
+        </a>
+        <a
+          href="https://github.com/sponsors/radiumcoders"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-auto inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+        >
+          <HeartIcon
+            size={11}
+            weight="fill"
+            className="text-rose-500 dark:text-rose-400"
+          />
+          Sponsor
+        </a>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+export function DocsSidebar({ componentPages, brand }: DocsSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const defaultPageUrl = componentPages[0]?.url;
@@ -89,83 +140,43 @@ export function DocsSidebar({
     return () => window.cancelAnimationFrame(rafId);
   }, [pathname]);
 
+  const nav = (
+    <nav aria-label="Docs">
+      <DocsNavLinks
+        title="Buttons"
+        pages={componentPages}
+        defaultPageUrl={defaultPageUrl}
+      />
+    </nav>
+  );
+
   return (
     <>
-      <aside
-        id="docs-mobile-nav"
-        className={cn(
-          "docs-scroll fixed inset-y-0 left-0 z-50 w-64 shrink-0 overflow-y-auto bg-sidebar p-4 text-sidebar-foreground transition-transform duration-200 ease-out md:static md:z-auto md:h-full md:w-52 md:translate-x-0 md:border-r md:border-sidebar-border",
-          open ? "translate-x-0" : "-translate-x-full md:translate-x-0",
-        )}
-      >
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center justify-between px-0.5">
-            {brand}
-            <button
-              type="button"
-              className="inline-flex size-7 items-center justify-center rounded-md text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring md:hidden"
-              onClick={() => setOpen(false)}
-              aria-label="Close menu"
-            >
-              <XIcon size={16} />
-            </button>
-          </div>
-          <div className="flex items-center gap-1 px-0.5">
-            <a
-              href="https://github.com/radiumcoders/evil-buttons"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex size-7 items-center justify-center rounded-md text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              aria-label="GitHub"
-            >
-              <GithubLogoIcon size={15} />
-            </a>
-            <a
-              href="https://x.com/radiumcoders"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex size-7 items-center justify-center rounded-md text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              aria-label="X (Twitter)"
-            >
-              <XLogoIcon size={15} />
-            </a>
-            <a
-              href="https://github.com/sponsors/radiumcoders"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-auto inline-flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium text-sidebar-foreground/50 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            >
-              <HeartIcon size={11} weight="fill" className="text-rose-500 dark:text-rose-400" />
-              Sponsor
-            </a>
-          </div>
-          <DocsNavGroup
-            title="Buttons"
-            pages={componentPages}
-            defaultPageUrl={defaultPageUrl}
-          />
-        </div>
+      <aside className="docs-scroll hidden h-full w-52 shrink-0 overflow-y-auto border-r border-sidebar-border bg-sidebar p-4 text-sidebar-foreground md:block">
+        <DocsSidebarChrome brand={brand}>{nav}</DocsSidebarChrome>
       </aside>
-      {open ? (
-        <button
-          type="button"
-          className="fixed inset-0 z-40 bg-foreground/15 backdrop-blur-[2px] md:hidden dark:bg-foreground/25"
-          onClick={() => setOpen(false)}
-          aria-label="Close sidebar"
-        />
-      ) : null}
-      <div className={cn("fixed top-4 left-4 z-50 md:hidden", open && "hidden")}>
-        <button
-          type="button"
-          className="inline-flex size-8 items-center justify-center rounded-md bg-sidebar text-sidebar-foreground/70 shadow-sm ring-1 ring-sidebar-border transition-colors hover:text-sidebar-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-controls="docs-mobile-nav"
-          aria-label="Open menu"
+
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            className="fixed top-4 left-4 z-50 bg-sidebar text-sidebar-foreground/70 shadow-sm md:hidden"
+            aria-label="Open menu"
+          >
+            <ListIcon size={16} />
+          </Button>
+        </SheetTrigger>
+        <SheetContent
+          side="left"
+          className="docs-scroll w-64 border-sidebar-border bg-sidebar p-4 text-sidebar-foreground"
+          showCloseButton
         >
-          <ListIcon size={16} />
-        </button>
-      </div>
+          <SheetTitle className="sr-only">Docs</SheetTitle>
+          <DocsSidebarChrome brand={brand}>{nav}</DocsSidebarChrome>
+        </SheetContent>
+      </Sheet>
     </>
   );
 }

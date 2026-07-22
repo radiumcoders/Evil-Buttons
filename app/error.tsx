@@ -5,14 +5,25 @@ import { useEffect } from "react";
 
 export default function Error({
   error,
+  reset,
   unstable_retry,
 }: {
   error: Error & { digest?: string };
+  reset: () => void;
   unstable_retry: () => void;
 }) {
   useEffect(() => {
     console.error(error);
   }, [error]);
+
+  function retry() {
+    // Prefer Next 16.2+ server re-fetch retry; fall back to client reset.
+    if (typeof unstable_retry === "function") {
+      unstable_retry();
+      return;
+    }
+    reset();
+  }
 
   return (
     <main className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 bg-background px-6 py-16 text-center text-foreground">
@@ -37,7 +48,7 @@ export default function Error({
       <div className="flex flex-wrap items-center justify-center gap-2">
         <button
           type="button"
-          onClick={() => unstable_retry()}
+          onClick={retry}
           className="inline-flex h-9 items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           Try again

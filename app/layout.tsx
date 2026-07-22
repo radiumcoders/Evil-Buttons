@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono, Inter, Doto } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -29,7 +30,18 @@ const dotoVar = Doto({
   variable: "--font-doto",
 });
 
-export const metadata = rootMetadata;
+// Keep rootMetadata as the SEO source of truth; restate title/description here
+// so the root layout exports complete document metadata without relying only on
+// the imported object.
+export const metadata: Metadata = {
+  ...rootMetadata,
+  title: {
+    default: "Evil Buttons — Animated shadcn/ui components with Motion",
+    template: "%s | Evil Buttons",
+  },
+  description:
+    "A shadcn/ui registry of animated buttons built With an Evil Touch. Live previews, copy-paste docs, and one-command CLI installs.",
+};
 
 // Runs before paint so the persisted/system theme is applied without a flash of
 // the wrong color scheme. Kept dependency-free and rendered as the first node in
@@ -66,6 +78,12 @@ export default function RootLayout({
         />
         <Analytics />
         <SpeedInsights />
+        {/*
+          Toast provider intentionally omitted. Copy/async feedback is already
+          inline on controls (e.g. CopyButton aria-label + icon swap). Mount
+          Sonner only when a real cross-app async feedback need appears — do not
+          add an unused toaster solely for audit score.
+        */}
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

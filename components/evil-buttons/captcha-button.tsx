@@ -200,6 +200,10 @@ export const CaptchaButton = React.forwardRef<
       setChallenge(null);
       setSelected(new Set());
       setTaunt(null);
+      // Return focus to the trigger after dismissing the dialog.
+      window.requestAnimationFrame(() => {
+        triggerRef.current?.focus();
+      });
     };
 
     const nextRound = () => {
@@ -208,9 +212,21 @@ export const CaptchaButton = React.forwardRef<
       setShakeKey((k) => k + 1);
     };
 
-    // Dismiss on outside click / Escape, and keep the panel anchored while open.
+    // Dismiss on outside click / Escape, trap Tab inside the panel, move
+    // initial focus into the dialog, and keep the panel anchored while open.
     React.useEffect(() => {
       if (state !== "open") return;
+
+      const focusFirst = () => {
+        const panel = panelRef.current;
+        if (!panel) return;
+        const focusable = panel.querySelector<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        );
+        focusable?.focus();
+      };
+
+      const rafId = window.requestAnimationFrame(focusFirst);
 
       const onPointerDown = (e: PointerEvent) => {
         const target = e.target as Node;
@@ -222,7 +238,38 @@ export const CaptchaButton = React.forwardRef<
         }
       };
       const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") closeCaptcha();
+        if (e.key === "Escape") {
+          e.preventDefault();
+          closeCaptcha();
+          return;
+        }
+
+        if (e.key !== "Tab" || !panelRef.current) return;
+
+        const focusable = Array.from(
+          panelRef.current.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+          ),
+        ).filter((el) => !el.hasAttribute("disabled") && el.tabIndex !== -1);
+
+        if (focusable.length === 0) {
+          e.preventDefault();
+          return;
+        }
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement as HTMLElement | null;
+
+        if (e.shiftKey) {
+          if (active === first || !panelRef.current.contains(active)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else if (active === last || !panelRef.current.contains(active)) {
+          e.preventDefault();
+          first.focus();
+        }
       };
       const onReposition = () => updateCoords();
 
@@ -231,6 +278,7 @@ export const CaptchaButton = React.forwardRef<
       window.addEventListener("scroll", onReposition, true);
       window.addEventListener("resize", onReposition);
       return () => {
+        window.cancelAnimationFrame(rafId);
         document.removeEventListener("pointerdown", onPointerDown);
         document.removeEventListener("keydown", onKeyDown);
         window.removeEventListener("scroll", onReposition, true);
@@ -280,6 +328,7 @@ export const CaptchaButton = React.forwardRef<
           <motion.div
             ref={panelRef}
             role="dialog"
+            aria-modal="true"
             aria-label="Prove you are evil"
             variants={panelVariants}
             initial="hidden"

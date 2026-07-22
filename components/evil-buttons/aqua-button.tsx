@@ -64,12 +64,12 @@ export const AquaButton = React.forwardRef<HTMLButtonElement, AquaButtonProps>(
       <button
         ref={ref}
         className={cn(
-          "group relative inline-flex h-[1.75em] min-w-[6em] cursor-pointer items-center justify-center overflow-hidden rounded-full px-[2em] text-base font-medium outline-none will-change-transform",
+          "group relative inline-flex h-[1.75em] min-w-[6em] max-w-full cursor-pointer items-center justify-center overflow-hidden rounded-full px-[2em] text-base font-medium outline-none will-change-transform",
           v.text,
           isSecondary && SECONDARY_THEME_CLASSES,
           "transition-[transform,box-shadow] duration-[320ms] [transition-timing-function:var(--aqua-ease)]",
           "hover:-translate-y-px hover:[box-shadow:var(--aqua-shadow-hover)]",
-          "focus-visible:-translate-y-px focus-visible:[box-shadow:var(--aqua-shadow-focus)]",
+          "focus-visible:-translate-y-px focus-visible:ring-2 focus-visible:ring-white/95 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-500/90 focus-visible:[box-shadow:var(--aqua-shadow-focus)]",
           "active:translate-y-0 active:scale-[0.97] active:duration-[140ms] active:[box-shadow:var(--aqua-shadow-active)]",
           "motion-reduce:transition-none motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0 motion-reduce:active:scale-100",
           className,

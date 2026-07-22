@@ -40,7 +40,7 @@ export function HeroSection({ trapped = false }: HeroSectionProps) {
               <div className="inline-flex items-center gap-2 opacity-85">
                 <img
                   src="/logo.png"
-                  alt={siteConfig.name}
+                  alt="Evil Buttons"
                   width={288}
                   height={192}
                   className="h-auto w-9 sm:w-10"
@@ -56,7 +56,7 @@ export function HeroSection({ trapped = false }: HeroSectionProps) {
               >
                 <img
                   src="/logo.png"
-                  alt={siteConfig.name}
+                  alt="Evil Buttons"
                   width={288}
                   height={192}
                   className="h-auto w-9 sm:w-10"

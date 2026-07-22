@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { DocsCommandMenu } from "@/components/docs-command-menu";
 import { DocsSidebar } from "@/components/docs-sidebar";
 
 type DocsNavPage = {
@@ -40,6 +41,7 @@ export function DocsShell({
         }
       />
       <main className="docs-scroll min-w-0 flex-1 overflow-y-auto">{children}</main>
+      <DocsCommandMenu pages={componentPages} />
     </div>
   );
 }
