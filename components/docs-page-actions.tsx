@@ -11,6 +11,7 @@ import {
 import { DropdownMenu } from "radix-ui";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
+import { trackOutcome } from "@/lib/tracwell";
 import { cn } from "@/lib/utils";
 
 type DocsPageActionsProps = {
@@ -92,6 +93,7 @@ export function DocsPageActions({
     try {
       await navigator.clipboard.writeText(markdown);
       setCopied(true);
+      trackOutcome("markdown_copied", { source: "docs_page" });
 
       if (resetTimerRef.current !== null) {
         window.clearTimeout(resetTimerRef.current);

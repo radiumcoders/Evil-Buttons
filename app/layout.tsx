@@ -13,6 +13,7 @@ import {
 } from "@/lib/seo";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { TracwellAnalytics } from "@/components/tracwell-analytics";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -78,6 +79,7 @@ export default function RootLayout({
         />
         <Analytics />
         <SpeedInsights />
+        <TracwellAnalytics />
         {/*
           Toast provider intentionally omitted. Copy/async feedback is already
           inline on controls (e.g. CopyButton aria-label + icon swap). Mount

@@ -2,15 +2,26 @@
 
 import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
+import type { EventProperties } from "tracwell";
+import { trackOutcome } from "@/lib/tracwell";
 import { cn } from "@/lib/utils";
 
 type CopyButtonProps = {
   code: string;
   className?: string;
   withBlurBg?: boolean;
+  outcome?: {
+    name: string;
+    properties?: EventProperties;
+  };
 };
 
-export default function CopyButton({ code, className, withBlurBg }: CopyButtonProps) {
+export default function CopyButton({
+  code,
+  className,
+  withBlurBg,
+  outcome,
+}: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const resetTimerRef = useRef<number | null>(null);
   const Icon = copied ? CheckIcon : CopyIcon;
@@ -24,8 +35,16 @@ export default function CopyButton({ code, className, withBlurBg }: CopyButtonPr
   }, []);
 
   async function onCopy() {
-    await navigator.clipboard.writeText(code);
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      return;
+    }
+
     setCopied(true);
+    if (outcome) {
+      trackOutcome(outcome.name, outcome.properties);
+    }
 
     if (resetTimerRef.current !== null) {
       window.clearTimeout(resetTimerRef.current);

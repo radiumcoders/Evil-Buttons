@@ -3,6 +3,7 @@
 import { DeferredMount } from "@/components/landing/deferred-mount";
 import { FitToContainer } from "@/components/landing/fit-to-container";
 import { siteConfig } from "@/lib/seo";
+import { trackOutcome } from "@/lib/tracwell";
 import { ArrowUpRight, Copy } from "@phosphor-icons/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -283,8 +284,17 @@ function ButtonCell({ item }: { item: ButtonShowcase }) {
   async function handleCopy(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    await navigator.clipboard.writeText(command);
+    try {
+      await navigator.clipboard.writeText(command);
+    } catch {
+      return;
+    }
     setCopied(true);
+    trackOutcome("install_command_copied", {
+      source: "landing_grid",
+      registry_name: item.registryName,
+      package_manager: "npm",
+    });
     if (timerRef.current !== null) clearTimeout(timerRef.current);
     timerRef.current = window.setTimeout(() => setCopied(false), 2000);
   }
