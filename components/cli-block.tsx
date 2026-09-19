@@ -66,7 +66,18 @@ export function CliBlock({ commands }: { commands: string[] }) {
             );
           })}
         </div>
-        <CopyButton className="shrink-0" code={value} />
+        <CopyButton
+          className="shrink-0"
+          code={value}
+          outcome={{
+            name: "install_command_copied",
+            properties: {
+              source: "docs_cli",
+              package_manager: packageManager,
+              registry_items: commands,
+            },
+          }}
+        />
       </div>
       <div className="bg-background px-4 pb-4 pt-2 text-[13px] text-foreground">
         <pre className="docs-scroll overflow-x-auto">

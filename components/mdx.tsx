@@ -132,7 +132,16 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
                   {getIconForLanguageExtension(language)}
                   <span className="font-mono">{language}</span>
                 </figcaption>
-                <CopyButton code={code} />
+                <CopyButton
+                  code={code}
+                  outcome={{
+                    name: "code_copied",
+                    properties: {
+                      source: "docs_code",
+                      language,
+                    },
+                  }}
+                />
               </div>
               <figure data-rehype-pretty-code-figure="">
                 <div className="bg-background shadow-none">
