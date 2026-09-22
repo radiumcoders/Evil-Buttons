@@ -2,6 +2,7 @@
 
 import { DeferredMount } from "@/components/landing/deferred-mount";
 import { FitToContainer } from "@/components/landing/fit-to-container";
+import { MobileConstructionNotice } from "@/components/landing/mobile-construction-notice";
 import { siteConfig } from "@/lib/seo";
 import { trackOutcome } from "@/lib/tracwell";
 import { ArrowUpRight, Copy } from "@phosphor-icons/react";
@@ -331,8 +332,9 @@ export function LandingPage() {
   const router = useRouter();
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground xl:flex-row">
-      <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:border-b-0 xl:px-8 xl:py-10">
+    <div className="docs-scroll flex h-dvh min-h-0 flex-col overflow-y-auto bg-background text-foreground xl:flex-row xl:overflow-hidden">
+      <MobileConstructionNotice />
+      <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:min-h-0 xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:overflow-y-auto xl:border-b-0 xl:px-8 xl:py-10">
         <div>
           <Link
             href="/"
@@ -359,16 +361,19 @@ export function LandingPage() {
             components. Live previews, copy-paste docs, one-command CLI
             installs.
           </p>
-          <div className="mt-4 flex items-center gap-2 xl:mt-8 xl:flex-col">
+          <nav
+            aria-label="Primary"
+            className="docs-scroll mt-4 flex items-center gap-2 overflow-x-auto overscroll-x-contain xl:mt-8 xl:flex-col xl:overflow-visible"
+          >
             <Link
               href="/docs"
-              className="inline-flex h-9 w-full items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+              className="inline-flex h-9 shrink-0 items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 xl:w-full"
             >
               Browse Docs
             </Link>
             <Link
               href="/playground"
-              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+              className="inline-flex h-9 shrink-0 items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent xl:w-full"
             >
               Playground
             </Link>
@@ -376,7 +381,7 @@ export function LandingPage() {
               href={siteConfig.github}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+              className="inline-flex h-9 shrink-0 items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent xl:w-full"
             >
               GitHub
             </a>
@@ -390,9 +395,9 @@ export function LandingPage() {
               successLabel="Too late."
               resetAfter={0}
               onConfirm={() => router.push("/drop")}
-              className="w-full min-w-0 rounded-none font-doto text-sm font-black uppercase tracking-tight"
+              className="w-auto shrink-0 rounded-none font-doto text-sm font-black uppercase tracking-tight xl:w-full"
             />
-          </div>
+          </nav>
         </div>
 
         <div className="mt-4 flex items-center gap-4 xl:mt-0 xl:flex-col xl:items-start xl:gap-2">
@@ -405,7 +410,7 @@ export function LandingPage() {
         </div>
       </header>
 
-      <main className="docs-scroll flex-1 overflow-y-auto">
+      <main className="xl:docs-scroll xl:min-h-0 xl:flex-1 xl:overflow-y-auto">
         <div className="grid grid-cols-2 border-t border-border md:grid-cols-3 xl:border-l xl:border-t-0">
           {showcase.map((item) => (
             <ButtonCell key={item.name} item={item} />

@@ -40,7 +40,7 @@ export function DocsShell({
           </Link>
         }
       />
-      <main className="docs-scroll min-w-0 flex-1 overflow-y-auto">{children}</main>
+      <main className="docs-scroll min-h-0 min-w-0 flex-1 overflow-y-auto">{children}</main>
       <DocsCommandMenu pages={componentPages} />
     </div>
   );

@@ -170,11 +170,13 @@ export function DocsSidebar({ componentPages, brand }: DocsSidebarProps) {
         </SheetTrigger>
         <SheetContent
           side="left"
-          className="docs-scroll w-64 border-sidebar-border bg-sidebar p-4 text-sidebar-foreground"
+          className="h-dvh max-h-dvh w-64 overflow-hidden border-sidebar-border bg-sidebar p-0 text-sidebar-foreground"
           showCloseButton
         >
-          <SheetTitle className="sr-only">Docs</SheetTitle>
-          <DocsSidebarChrome brand={brand}>{nav}</DocsSidebarChrome>
+          <div className="docs-scroll min-h-0 flex-1 overflow-y-auto overscroll-y-contain p-4">
+            <SheetTitle className="sr-only">Docs</SheetTitle>
+            <DocsSidebarChrome brand={brand}>{nav}</DocsSidebarChrome>
+          </div>
         </SheetContent>
       </Sheet>
     </>
