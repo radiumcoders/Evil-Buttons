@@ -137,16 +137,6 @@ export function CooldownButtonPreview() {
       label: "Send it",
       cooldown: [3000, 1000, 10000],
       showCountdown: true,
-      variant: {
-        type: "select",
-        options: ["outline", "default", "secondary", "ghost", "destructive"],
-        default: "outline",
-      },
-      size: {
-        type: "select",
-        options: ["lg", "default", "sm"],
-        default: "lg",
-      },
       taunts: listFolder([
         "Patience.",
         "Again? Wait.",
@@ -164,10 +154,6 @@ export function CooldownButtonPreview() {
         label={p.label}
         cooldown={p.cooldown}
         showCountdown={p.showCountdown}
-        variant={
-          p.variant as "outline" | "default" | "secondary" | "ghost" | "destructive"
-        }
-        size={p.size as "lg" | "default" | "sm"}
         taunts={fromFolder(p.taunts)}
       />
     </LiveProps>
