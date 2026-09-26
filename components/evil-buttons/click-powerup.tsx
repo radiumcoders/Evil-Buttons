@@ -37,10 +37,12 @@ const bracketVariants: Variants = {
     y: -y * 2,
     opacity: 1,
   }),
+  // Bouncy spring so the brackets overshoot outward, then settle.
   powered: ({ x, y }: { x: number; y: number }) => ({
-    x: [x * 10, x * 5],
-    y: [y * 10, y * 5],
+    x: x * 6,
+    y: y * 6,
     opacity: 1,
+    transition: { type: "spring", stiffness: 600, damping: 11 },
   }),
 };
 
@@ -64,6 +66,8 @@ export const ClickPowerUp = React.forwardRef<
       onClick,
       onPointerEnter,
       onPointerLeave,
+      onPointerDown,
+      onPointerUp,
       style,
       disabled,
       type = "button",
@@ -73,6 +77,7 @@ export const ClickPowerUp = React.forwardRef<
   ) => {
     const reduceMotion = useReducedMotion();
     const [hovered, setHovered] = React.useState(false);
+    const [pressed, setPressed] = React.useState(false);
     const [powered, setPowered] = React.useState(false);
     const poweredTimerRef = React.useRef<number | undefined>(undefined);
 
@@ -91,7 +96,14 @@ export const ClickPowerUp = React.forwardRef<
       );
     };
 
-    const phase: Phase = powered ? "powered" : hovered ? "hover" : "rest";
+    // Pressing wins so every click, even mid power-up, snaps in then bursts out.
+    const phase: Phase = pressed
+      ? "tap"
+      : powered
+        ? "powered"
+        : hovered
+          ? "hover"
+          : "rest";
 
     return (
       <motion.button
@@ -100,8 +112,16 @@ export const ClickPowerUp = React.forwardRef<
         disabled={disabled}
         initial={false}
         animate={phase}
-        whileTap={powered ? undefined : "tap"}
         onClick={handleClick}
+        onPointerDown={(event) => {
+          onPointerDown?.(event);
+          if (event.button === 0) setPressed(true);
+        }}
+        onPointerUp={(event) => {
+          onPointerUp?.(event);
+          setPressed(false);
+        }}
+        onPointerCancel={() => setPressed(false)}
         onPointerEnter={(event) => {
           onPointerEnter?.(event);
           if (event.pointerType !== "touch") setHovered(true);
@@ -109,6 +129,7 @@ export const ClickPowerUp = React.forwardRef<
         onPointerLeave={(event) => {
           onPointerLeave?.(event);
           setHovered(false);
+          setPressed(false);
         }}
         style={{ "--powerup": accentColor, ...style } as React.CSSProperties}
         className={cn(
@@ -146,24 +167,31 @@ export const ClickPowerUp = React.forwardRef<
             transition={SPRING}
             className={cn(
               "pointer-events-none absolute z-10 size-2.5 border-foreground",
-              powered && "border-(--powerup)",
+              phase === "powered" && "border-(--powerup)",
               corner.className,
             )}
           />
         ))}
 
         <motion.span
-          className="relative z-10"
+          className={cn(
+            "relative z-10 transition-colors duration-150",
+            phase === "rest" && "text-foreground",
+            (phase === "hover" || phase === "tap") && "text-background",
+            phase === "powered" && "text-neutral-950",
+          )}
           variants={{
-            rest: { color: "var(--foreground)", scale: 1 },
-            hover: { color: "var(--background)", scale: 1 },
-            tap: { color: "var(--background)", scale: 0.96 },
-            powered: {
-              color: "#0a0a0a",
-              scale: reduceMotion ? 1 : [1, 1.12, 1],
-            },
+            rest: { scale: 1 },
+            hover: { scale: 1 },
+            tap: { scale: 0.94 },
+            powered: reduceMotion
+              ? { scale: 1 }
+              : {
+                  scale: 1,
+                  transition: { type: "spring", stiffness: 600, damping: 12 },
+                },
           }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
+          transition={SPRING}
         >
           {children}
         </motion.span>
