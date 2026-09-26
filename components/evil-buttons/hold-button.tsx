@@ -207,7 +207,11 @@ export const HoldButton = React.forwardRef<HTMLButtonElement, HoldButtonProps>(
         }}
         onContextMenu={(e) => e.preventDefault()}
         className={cn(
-          "relative inline-flex h-9 min-w-44 cursor-pointer items-center justify-center overflow-hidden rounded-md border border-border bg-background px-4 text-sm font-medium text-foreground shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] outline-none select-none transition-colors hover:bg-muted/60",
+          "relative inline-flex h-9 min-w-44 cursor-pointer items-center justify-center overflow-hidden rounded-[10px] px-4 text-sm font-medium text-neutral-50 outline-none select-none",
+          // Graded dark surface matching MinimalButton: dark outer hairline, faint inner ring, top highlight, soft drop.
+          "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+          "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+          "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
           "touch-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
@@ -222,10 +226,10 @@ export const HoldButton = React.forwardRef<HTMLButtonElement, HoldButtonProps>(
         <span
           ref={fillRef}
           aria-hidden
-          className="absolute inset-y-0 left-0 z-20 w-0 overflow-hidden bg-primary"
+          className="absolute inset-y-0 left-0 z-20 w-0 overflow-hidden bg-linear-to-b from-neutral-50 to-neutral-200"
         >
           <span
-            className="absolute inset-y-0 left-0 inline-flex items-center justify-center gap-1.5 text-primary-foreground"
+            className="absolute inset-y-0 left-0 inline-flex items-center justify-center gap-1.5 text-neutral-900"
             style={{ width: width ? `${width}px` : "100%" }}
           >
             {content}
