@@ -15,7 +15,7 @@ export function LandingPage({ categories }: LandingPageProps) {
   const router = useRouter();
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground">
+    <div className="flex h-dvh flex-col overflow-hidden landing-bg text-foreground">
       <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(2.5rem,8dvh,6rem)] text-center">
         <h1 className="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl">
           Animated buttons, built with an{" "}
