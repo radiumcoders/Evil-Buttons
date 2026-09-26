@@ -42,7 +42,8 @@ type AnchorProps = BaseProps &
 export type FrameButtonProps = ButtonProps | AnchorProps;
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  default: "border-foreground bg-foreground text-background shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)]",
+  // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop, plus the shared press.
+  default: "border-transparent text-neutral-50 hover:brightness-110 active:brightness-95 bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)] active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
   secondary:
     "border-border bg-secondary text-secondary-foreground shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] hover:border-foreground hover:bg-foreground hover:text-background",
   outline: "border-border bg-transparent text-foreground hover:bg-foreground/5 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
@@ -74,7 +75,9 @@ export function FrameButton({
   ...props
 }: FrameButtonProps) {
   const classes = cn(
-    "group/frame relative inline-flex cursor-pointer items-center justify-center border px-8 py-3.5 text-xs font-medium tracking-[0.22em] uppercase no-underline outline-none select-none transition-colors duration-300",
+    "group/frame relative inline-flex cursor-pointer items-center justify-center border px-8 py-3.5 text-xs font-medium tracking-[0.22em] uppercase no-underline outline-none select-none",
+    // Press eases in fast; release springs back on the slower base curve.
+    "transition-[scale,filter,box-shadow,background-color,border-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] active:scale-[0.97] active:duration-100 active:ease-out motion-reduce:active:scale-100",
     "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
     VARIANTS[variant],
     className,
