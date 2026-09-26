@@ -254,10 +254,9 @@
     "exportName": "ConfettiButton",
     "docSlug": "confetti-button",
     "title": "ConfettiButton",
-    "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+    "description": "A ringed dark button with a sparkle icon that fires a restrained confetti burst on click.",
     "file": "components/evil-buttons/confetti-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["canvas-confetti", "clsx", "tailwind-merge", "motion"]
+    "dependencies": ["canvas-confetti", "clsx", "tailwind-merge"]
   },
   {
     "name": "hold-confirm-button",
@@ -283,9 +282,8 @@
     "exportName": "AshBurstButton",
     "docSlug": "ash-burst-button",
     "title": "AshBurstButton",
-    "description": "A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.",
+    "description": "A ringed dark button that glows like an ember on click and erupts ash that collides with it via Matter.js physics, piling onto its surface.",
     "file": "components/evil-buttons/ash-burst-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["matter-js", "clsx", "tailwind-merge", "motion"]
+    "dependencies": ["matter-js", "clsx", "tailwind-merge"]
   }
 ]

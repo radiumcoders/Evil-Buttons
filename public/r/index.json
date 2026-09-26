@@ -250,7 +250,7 @@
       "name": "confetti-button",
       "type": "registry:ui",
       "title": "ConfettiButton",
-      "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+      "description": "A ringed dark button with a sparkle icon that fires a restrained confetti burst on click.",
       "files": [
         "components/evil-buttons/confetti-button.tsx"
       ]
@@ -277,7 +277,7 @@
       "name": "ash-burst-button",
       "type": "registry:ui",
       "title": "AshBurstButton",
-      "description": "A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.",
+      "description": "A ringed dark button that glows like an ember on click and erupts ash that collides with it via Matter.js physics, piling onto its surface.",
       "files": [
         "components/evil-buttons/ash-burst-button.tsx"
       ]

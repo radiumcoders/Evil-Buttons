@@ -229,9 +229,9 @@ export function ConfettiButtonPreview() {
     "ConfettiButton",
     () => ({
       label: "Celebrate",
-      particleCount: [120, 20, 300],
-      spread: [72, 20, 180],
-      startVelocity: [38, 10, 80],
+      particleCount: [80, 20, 300],
+      spread: [64, 20, 180],
+      startVelocity: [32, 10, 80],
     }),
     { id: "confetti-button" },
   );
@@ -250,10 +250,10 @@ export function AshBurstButtonPreview() {
   const p = useThemedDialKit(
     "AshBurstButton",
     () => ({
-      label: "Destroy",
-      particleCount: [96, 24, 180],
-      spread: [120, 50, 180],
-      startVelocity: [48, 20, 90],
+      label: "Delete",
+      particleCount: [80, 24, 180],
+      spread: [110, 50, 180],
+      startVelocity: [42, 20, 90],
     }),
     { id: "ash-burst-button" },
   );

@@ -217,9 +217,9 @@ export function StaticConfettiButtonPreview() {
   return (
     <ConfettiButton
       label="Celebrate"
-      particleCount={120}
-      spread={72}
-      startVelocity={38}
+      particleCount={80}
+      spread={64}
+      startVelocity={32}
     />
   );
 }
@@ -227,10 +227,10 @@ export function StaticConfettiButtonPreview() {
 export function StaticAshBurstButtonPreview() {
   return (
     <AshBurstButton
-      label="Destroy"
-      particleCount={96}
-      spread={120}
-      startVelocity={48}
+      label="Delete"
+      particleCount={80}
+      spread={110}
+      startVelocity={42}
     />
   );
 }
