@@ -445,7 +445,7 @@ export const CaptchaButton = React.forwardRef<
             else openCaptcha();
           }}
           className={cn(
-            "relative inline-flex min-w-44 cursor-pointer select-none items-center justify-center gap-2 rounded-md border px-4 py-2.5 text-sm font-semibold shadow-sm outline-none transition-colors",
+            "relative inline-flex min-w-44 cursor-pointer select-none items-center justify-center gap-2 rounded-md border px-4 py-2.5 text-sm font-semibold shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)] outline-none transition-colors",
             "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
             isSuccess
               ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 focus-visible:ring-emerald-500 dark:text-emerald-400"

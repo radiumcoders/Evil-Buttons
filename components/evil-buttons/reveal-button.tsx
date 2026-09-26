@@ -71,7 +71,7 @@ export const RevealButton = React.forwardRef<
         aria-live="polite"
         data-state={revealed ? "revealed" : "hidden"}
         className={cn(
-          "group relative inline-flex min-w-40 items-center justify-between gap-3 overflow-hidden rounded-md border border-border bg-background px-3 py-2 text-xs shadow-sm transition-colors sm:min-w-64 sm:gap-4 sm:px-4 sm:py-2.5 sm:text-sm",
+          "group relative inline-flex min-w-40 items-center justify-between gap-3 overflow-hidden rounded-md border border-border bg-background px-3 py-2 text-xs shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors sm:min-w-64 sm:gap-4 sm:px-4 sm:py-2.5 sm:text-sm",
           "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60",
           revealed && "border-emerald-500/50 bg-emerald-500/10",
           className,

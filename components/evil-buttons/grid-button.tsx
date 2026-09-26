@@ -3,7 +3,7 @@ import { DotmSquare11 } from "../ui/dotm-square-11";
 
 export default function GridButton({children} : {children : ReactNode}) {
   return (
-    <button className="flex items-center justify-center gap-1 border-border bg-background border p-1 rounded active:translate-y-0.5 transition-all duration-75 active:scale-[0.98]">
+    <button className="flex items-center justify-center gap-1 border-border bg-background border p-1 rounded shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] active:translate-y-0.5 transition-all duration-75 active:scale-[0.98]">
       <Box />
       {children}
     </button>

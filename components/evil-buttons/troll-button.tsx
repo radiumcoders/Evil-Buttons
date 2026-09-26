@@ -203,7 +203,7 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
           transition={{ duration: 0.45, ease: "easeOut" }}
           whileTap={state === "tired" ? { scale: 0.96 } : undefined}
           className={cn(
-            "relative inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-xs outline-none select-none transition-colors hover:bg-primary/90",
+            "relative inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)] outline-none select-none transition-colors hover:bg-primary/90",
             "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
             className,
           )}

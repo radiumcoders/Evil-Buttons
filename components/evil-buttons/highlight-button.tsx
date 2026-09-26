@@ -22,10 +22,10 @@ type Ripple = { id: number; x: number; y: number; size: number };
 
 const VARIANTS = {
   default:
-    "border-transparent bg-primary text-primary-foreground hover:bg-primary/90",
+    "border-transparent bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)]",
   secondary:
-    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-  outline: "border-border bg-background text-foreground hover:bg-accent/40",
+    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
+  outline: "border-border bg-background text-foreground hover:bg-accent/40 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
 } as const;
 
 // Paints only the 1px border ring: the content box is cut out of the full box.
@@ -133,7 +133,7 @@ export const HighlightButton = React.forwardRef<
           } as React.CSSProperties
         }
         className={cn(
-          "group/highlight relative inline-flex h-9 cursor-pointer items-center justify-center rounded-md border px-4 text-sm font-medium whitespace-nowrap shadow-xs outline-none select-none transition-colors",
+          "group/highlight relative inline-flex h-9 cursor-pointer items-center justify-center rounded-md border px-4 text-sm font-medium whitespace-nowrap outline-none select-none transition-colors",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
           VARIANTS[variant],
           className,

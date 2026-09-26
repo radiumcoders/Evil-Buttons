@@ -197,7 +197,7 @@ export const DontPressButton = React.forwardRef<
               : "destructive")
           }
           className={cn(
-            "relative min-w-36 overflow-hidden font-medium",
+            "relative min-w-36 overflow-hidden font-medium shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)]",
             temptation > 0.4 && "ring-1 ring-destructive/40",
             className,
           )}

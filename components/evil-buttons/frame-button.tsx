@@ -42,10 +42,10 @@ type AnchorProps = BaseProps &
 export type FrameButtonProps = ButtonProps | AnchorProps;
 
 const VARIANTS: Record<ButtonVariant, string> = {
-  default: "border-foreground bg-foreground text-background",
+  default: "border-foreground bg-foreground text-background shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)]",
   secondary:
-    "border-border bg-secondary text-secondary-foreground hover:border-foreground hover:bg-foreground hover:text-background",
-  outline: "border-border bg-transparent text-foreground hover:bg-foreground/5",
+    "border-border bg-secondary text-secondary-foreground shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] hover:border-foreground hover:bg-foreground hover:text-background",
+  outline: "border-border bg-transparent text-foreground hover:bg-foreground/5 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
 };
 
 const SPRING = { type: "spring", stiffness: 380, damping: 24 } as const;

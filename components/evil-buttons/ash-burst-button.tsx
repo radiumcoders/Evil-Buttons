@@ -544,7 +544,7 @@ export const AshBurstButton = React.forwardRef<
             size={size}
             disabled={disabled}
             onClick={handleClick}
-            className={className}
+            className={`shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)] ${className ?? ""}`}
             {...props}
           >
             {displayLabel}
