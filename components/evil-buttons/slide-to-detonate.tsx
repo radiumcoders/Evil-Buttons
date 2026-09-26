@@ -323,12 +323,12 @@ export const SlideToDetonate = React.forwardRef<
           className,
         )}
       >
-        {/* Ember trail that fills in behind the handle. */}
+        {/* Trail that fills in behind the handle. */}
         <motion.span
           aria-hidden
           className={cn(
             "pointer-events-none absolute top-1 bottom-1 left-1 rounded-full transition-[filter] duration-300",
-            "bg-linear-to-r from-red-950/0 via-red-800/45 to-orange-500/60",
+            "bg-linear-to-r from-white/0 to-white/12",
             "group-data-armed/slide:brightness-125 group-data-[state=success]/slide:brightness-125",
           )}
           style={{ width: trailWidth, opacity: trailOpacity }}
@@ -395,10 +395,10 @@ export const SlideToDetonate = React.forwardRef<
             // Raised handle: graded dark surface, hairline ring, top highlight, soft drop.
             "bg-linear-to-b from-[#3a3a3a] to-[#2a2a2a] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.16),0_1px_2px_rgb(0_0_0/0.3),0_4px_10px_-2px_rgb(0_0_0/0.5)]",
             "transition-[color,filter,box-shadow] duration-200 hover:brightness-110",
-            // Armed: the handle picks up the ember glow of the trail.
-            "data-armed:text-orange-200 data-armed:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(251_146_60/0.35),inset_0_1px_0_rgb(255_255_255/0.16),0_1px_2px_rgb(0_0_0/0.3),0_0_16px_-2px_rgb(249_115_22/0.6)]",
+            // Armed: the handle lights up with a soft white glow.
+            "data-armed:text-neutral-50 data-armed:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.18),inset_0_1px_0_rgb(255_255_255/0.2),0_1px_2px_rgb(0_0_0/0.3),0_0_16px_-2px_rgb(255_255_255/0.35)]",
             "data-[state=success]:text-neutral-50",
-            "focus-visible:ring-2 focus-visible:ring-orange-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1c1c]",
+            "focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1c1c1c]",
             locked ? "cursor-default" : "cursor-grab data-[state=sliding]:cursor-grabbing",
             disabled && "cursor-not-allowed",
           )}
