@@ -1,41 +1,15 @@
 ---
 title: CopyButton
-description: A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.
+description: A copy button that floats the copied text up off itself, so you see exactly what landed on the clipboard.
 category: Utility
 ---
 
-CopyButton writes a string to the clipboard via the Clipboard API and cycles through three states: idle, copied, and error. Each state transition is animated, the icon swaps with a spring scale, and the label slides vertically. After a configurable timeout the button resets to idle automatically.
+CopyButton writes a string to the clipboard and shows you what it copied. On success, a small chip with the copied text lifts off the top of the button and fades away while the clipboard icon springs into a check. If the write fails, the button says so and turns destructive. After `timeout` it settles back to idle.
 
 ## Preview
 
-<PreviewCard title="CopyButton" note="Click to copy">
+<PreviewCard>
   <CopyButton value="pnpm dlx shadcn@latest add @evilbuttons/copy-button" />
-</PreviewCard>
-
-## Variants
-
-### Custom labels
-
-Override `copyLabel` and `copiedLabel` for different copy contexts.
-
-<PreviewCard title="Custom labels" note="Clone workflow">
-  <CopyButton value="git clone https://github.com/radiumcoders/Evil-Buttons.git" copyLabel="Clone" copiedLabel="Cloned!" />
-</PreviewCard>
-
-### Long timeout
-
-Set `timeout` to keep the copied state visible longer.
-
-<PreviewCard title="Long timeout" note="Stays green for 3 seconds">
-  <CopyButton value="keep-me" copyLabel="Copy token" copiedLabel="Copied!" timeout={3000} />
-</PreviewCard>
-
-### Short timeout
-
-A snappy reset after a brief confirmation.
-
-<PreviewCard title="Short timeout" note="Resets in 800ms">
-  <CopyButton value="short-lived" copyLabel="Copy" copiedLabel="Done" timeout={800} />
 </PreviewCard>
 
 ## Install
@@ -53,31 +27,52 @@ export function ButtonDemo() {
   return (
     <CopyButton
       value="npm install evil-buttons"
-      onCopy={(v) => console.log("copied:", v)}
+      onCopy={(text) => console.log("Copied", text)}
     />
   );
 }
 ```
 
+## Variants
+
+### Custom labels
+
+Name the action after what it copies.
+
+<PreviewCard>
+  <CopyButton value="git clone https://github.com/radiumcoders/Evil-Buttons.git" copyLabel="Copy clone URL" copiedLabel="Clone URL copied" />
+</PreviewCard>
+
+### Secret value
+
+Turn off `showValue` when the text shouldn't be flashed on screen, like an API key.
+
+<PreviewCard>
+  <CopyButton value="sk_live_51Hx9example" copyLabel="Copy API key" copiedLabel="API key copied" showValue={false} timeout={3000} />
+</PreviewCard>
+
 ## Props
 
-The component spreads any `<button>` HTML attributes except `value` and `onCopy`.
+The component spreads native `button` props except `value` and `onCopy`, and forwards its ref to the button.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | - | The string written to the clipboard on click. Required. |
-| `timeout` | `number` | `1500` | Milliseconds before the button resets from copied or error state back to idle. |
-| `copyLabel` | `React.ReactNode` | `"Copy"` | Label shown in the idle state. |
+| `value` | `string` | - | Text written to the clipboard. Required. |
+| `timeout` | `number` | `1500` | Milliseconds before the button returns to idle. |
+| `copyLabel` | `React.ReactNode` | `"Copy"` | Label shown before copying. |
 | `copiedLabel` | `React.ReactNode` | `"Copied"` | Label shown after a successful copy. |
-| `onCopy` | `(value: string) => void` | - | Callback fired with the copied value on a successful write. |
+| `errorLabel` | `React.ReactNode` | `"Copy failed"` | Label shown when the clipboard write fails. |
+| `showValue` | `boolean` | `true` | Float a chip with the copied text up off the button. |
+| `onCopy` | `(value: string) => void` | - | Fired with the copied text after a successful write. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
 ## Notes
 
-- Uses `navigator.clipboard.writeText`. On browsers or contexts where the Clipboard API is unavailable, the button transitions to the error state instead of throwing.
-- Each click resets the auto-reset timer so rapid clicks do not stack timeouts.
-- The `copiedLabel` and `copyLabel` accept `React.ReactNode`, so you can pass icons or custom markup as labels.
-- `aria-live="polite"` announces state changes to screen readers.
+- Uses `navigator.clipboard.writeText` on secure pages and falls back to a hidden textarea with `document.execCommand("copy")` elsewhere, so it also works over plain HTTP.
+- Each successful copy launches its own chip, so rapid copies stack instead of cutting each other off.
+- Invisible copies of every label reserve the widest one, so the button never changes width between states.
+- A visually hidden status region announces "Copied to clipboard" or "Copy failed" to screen readers.
+- `prefers-reduced-motion` skips the floating chip; the icon and label still change.
 
 ## Registry
 

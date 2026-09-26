@@ -39,6 +39,7 @@ export function CopyButtonPreview() {
       copyLabel: "Copy",
       copiedLabel: "Copied",
       timeout: [1500, 500, 5000],
+      showValue: true,
     },
     { id: "copy-button" },
   );
@@ -49,6 +50,7 @@ export function CopyButtonPreview() {
       copyLabel={p.copyLabel}
       copiedLabel={p.copiedLabel}
       timeout={p.timeout}
+      showValue={p.showValue}
     />
   );
 }

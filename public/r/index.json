@@ -160,7 +160,7 @@
       "name": "copy-button",
       "type": "registry:ui",
       "title": "CopyButton",
-      "description": "A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.",
+      "description": "A copy button that floats the copied text up off itself, so you see exactly what landed on the clipboard.",
       "files": [
         "components/evil-buttons/copy-button.tsx"
       ]
