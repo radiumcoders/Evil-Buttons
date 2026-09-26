@@ -1,10 +1,10 @@
 ---
 title: CaptchaButton
-description: A button that makes you pass an absurd "select all the evil" emoji captcha before the real action fires.
+description: A button that makes you pass an absurd "select all the evil" icon captcha before the real action fires.
 category: Interactive
 ---
 
-CaptchaButton guards its action behind a tiny, absurd captcha. It looks like a calm, ringed dark button with a shield icon. Clicking it opens a dark verification panel asking you to "select all the demons" (and other rotating prompts) from a 3x3 grid of emoji tiles. The real action only fires once you select exactly the evil tiles. Get it wrong and the grid reshuffles with a fresh taunt. The refresh button deals a new grid if you'd rather not commit.
+CaptchaButton guards its action behind a tiny, absurd captcha. It looks like a calm, ringed dark button with a shield icon. Clicking it opens a dark verification panel asking you to "select all the demons" (and other rotating prompts) from a 3x3 grid of line-icon tiles (skulls and daggers mixed with suns and tulips). The real action only fires once you select exactly the evil tiles. Get it wrong and the grid reshuffles with a fresh taunt. The refresh button deals a new grid if you'd rather not commit.
 
 ## Preview
 
@@ -54,8 +54,8 @@ The component spreads any `<button>` HTML attributes except `onClick`.
 - The panel dismisses on outside click or <kbd>Escape</kbd>, and exposes `data-state` (`idle` | `open` | `success`) for styling.
 - Animations (panel pop-in, tile tap, shake on a wrong answer) are skipped when the user prefers reduced motion.
 - Shares the graded dark surface, hairline ring, and spring press used by MinimalButton and CommandButton. The panel uses the same dark surface, marks selected tiles with a corner check, and stays dark in both themes.
-- Emoji are rendered with Twemoji so the tiles look identical across every OS and browser.
+- Tile icons are inline SVGs drawn with one stroke weight, so they look identical on every OS and need no emoji font or CDN.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/captcha-button.tsx`, installs `clsx`, `tailwind-merge`, and `motion`, and pulls in the `@ncdai/twemoji` registry item for consistent emoji rendering.
+The registry item includes `components/evil-buttons/captcha-button.tsx`, and installs `clsx`, `tailwind-merge`, and `motion`.

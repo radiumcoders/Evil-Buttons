@@ -196,7 +196,7 @@
       "name": "captcha-button",
       "type": "registry:ui",
       "title": "CaptchaButton",
-      "description": "A button that makes you pass an absurd 'select all the evil' emoji captcha before the real action fires.",
+      "description": "A button that makes you pass an absurd 'select all the evil' icon captcha before the real action fires.",
       "files": [
         "components/evil-buttons/captcha-button.tsx"
       ]

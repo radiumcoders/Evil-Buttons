@@ -196,9 +196,8 @@
     "exportName": "CaptchaButton",
     "docSlug": "captcha-button",
     "title": "CaptchaButton",
-    "description": "A button that makes you pass an absurd 'select all the evil' emoji captcha before the real action fires.",
+    "description": "A button that makes you pass an absurd 'select all the evil' icon captcha before the real action fires.",
     "file": "components/evil-buttons/captcha-button.tsx",
-    "registryDependencies": ["@ncdai/twemoji"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {

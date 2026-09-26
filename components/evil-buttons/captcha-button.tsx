@@ -9,13 +9,12 @@ import {
   type Variants,
 } from "motion/react";
 import { cn } from "@/lib/utils";
-import { Twemoji } from "@/components/twemoji";
 
 type CaptchaState = "idle" | "open" | "success";
 
 type Tile = {
   id: number;
-  emoji: string;
+  icon: IconName;
   evil: boolean;
 };
 
@@ -45,8 +44,91 @@ export interface CaptchaButtonProps
   resetAfter?: number;
 }
 
-const EVIL_EMOJIS = ["😈", "👿", "💀", "👹", "🦇", "🕷️", "👺"];
-const INNOCENT_EMOJIS = ["😇", "🌸", "🐶", "☁️", "🍦", "🌈", "🐤", "🌻"];
+/** 24px line icons, drawn with the same stroke so every tile reads as one set. */
+const ICONS = {
+  skull: (
+    <>
+      <path d="M12 3a7 7 0 0 0-7 7c0 2.4 1.2 4 2.5 5v3a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-3c1.3-1 2.5-2.6 2.5-5a7 7 0 0 0-7-7Z" />
+      <circle cx="9.5" cy="11" r="1.5" />
+      <circle cx="14.5" cy="11" r="1.5" />
+      <path d="M10.5 19v-2M13.5 19v-2" />
+    </>
+  ),
+  flame: (
+    <path d="M12 3c.5 3-2 4.5-3.5 6.5S7 13 7 15a5 5 0 0 0 10 0c0-2-1-3.5-2-4.5 0 1.5-.8 2.5-2 3 .8-3.5-.2-7.5-1-10.5Z" />
+  ),
+  ghost: (
+    <>
+      <path d="M6 20V10a6 6 0 0 1 12 0v10l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 20Z" />
+      <path d="M10 10v1M14 10v1" />
+    </>
+  ),
+  devil: (
+    <>
+      <circle cx="12" cy="13.5" r="6" />
+      <path d="M7.6 9.4 6 4.5l4 2.9M16.4 9.4 18 4.5l-4 2.9" />
+      <path d="m9 12 1.5.75M15 12l-1.5.75M9.5 16c1.5 1 3.5 1 5 0" />
+    </>
+  ),
+  dagger: (
+    <>
+      <path d="M12 2.5 14 6v8h-4V6l2-3.5Z" />
+      <path d="M8 14h8M12 14v5" />
+      <circle cx="12" cy="20.5" r="1" />
+    </>
+  ),
+  spider: (
+    <>
+      <circle cx="12" cy="14" r="3" />
+      <circle cx="12" cy="9.25" r="1.75" />
+      <path d="M9.4 12.5 6 10l-1-4.5M14.6 12.5 18 10l1-4.5M9 14H5l-1.5 3M15 14h4l1.5 3M9.8 16.2 7 19l-.5 2.5M14.2 16.2 17 19l.5 2.5" />
+    </>
+  ),
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" />
+    </>
+  ),
+  tulip: (
+    <>
+      <path d="M7 5l2.5 2L12 4l2.5 3L17 5v4a5 5 0 0 1-10 0V5Z" />
+      <path d="M12 14v7M12 18.5c1.5-2 3.5-2.5 5-2.5-.5 2-2.5 3.5-5 3.5" />
+    </>
+  ),
+  cloud: (
+    <path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6.1 10.5 3.75 3.75 0 0 0 7 18Z" />
+  ),
+  heart: (
+    <path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z" />
+  ),
+  star: (
+    <path d="m12 3.5 2.6 5.3 5.9.9-4.25 4.1 1 5.8L12 16.9l-5.25 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5Z" />
+  ),
+  leaf: (
+    <>
+      <path d="M5 19c0-8 5-14 14-14 0 9-6 14-14 14Z" />
+      <path d="m5 19 8-8" />
+    </>
+  ),
+  cup: (
+    <>
+      <path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5V9Z" />
+      <path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H16M9 3.5v2.5M12.5 3.5v2.5" />
+    </>
+  ),
+  balloon: (
+    <>
+      <path d="M12 3a5 5.5 0 0 0-5 5.5c0 3.2 2.5 6 5 6s5-2.8 5-6A5 5.5 0 0 0 12 3Z" />
+      <path d="M12 14.5c-1 1.5 1 3 0 6.5" />
+    </>
+  ),
+} satisfies Record<string, React.ReactNode>;
+
+type IconName = keyof typeof ICONS;
+
+const EVIL_ICONS: IconName[] = ["skull", "flame", "ghost", "devil", "dagger", "spider"];
+const INNOCENT_ICONS: IconName[] = ["sun", "tulip", "cloud", "heart", "star", "leaf", "cup", "balloon"];
 
 // Each prompt names the "evil" category the user must select.
 const PROMPTS = [
@@ -94,15 +176,15 @@ function buildChallenge(): Challenge {
   const evilCount = 2 + Math.floor(Math.random() * 3);
   const innocentCount = 9 - evilCount;
 
-  const evilTiles: Tile[] = pick(EVIL_EMOJIS, evilCount).map((emoji, i) => ({
+  const evilTiles: Tile[] = pick(EVIL_ICONS, evilCount).map((icon, i) => ({
     id: i,
-    emoji,
+    icon,
     evil: true,
   }));
-  const innocentTiles: Tile[] = pick(INNOCENT_EMOJIS, innocentCount).map(
-    (emoji, i) => ({
+  const innocentTiles: Tile[] = pick(INNOCENT_ICONS, innocentCount).map(
+    (icon, i) => ({
       id: evilCount + i,
-      emoji,
+      icon,
       evil: false,
     }),
   );
@@ -391,23 +473,33 @@ export const CaptchaButton = React.forwardRef<
                     key={tile.id}
                     type="button"
                     aria-pressed={active}
+                    aria-label={tile.icon}
                     onClick={() => toggleTile(tile.id)}
                     whileTap={reduceMotion ? undefined : { scale: 0.92 }}
                     className={cn(
-                      "relative flex aspect-square cursor-pointer items-center justify-center rounded-lg text-2xl outline-none transition-[background-color,box-shadow] duration-150 focus-visible:ring-2 focus-visible:ring-white/30",
+                      "relative flex aspect-square cursor-pointer items-center justify-center rounded-lg outline-none transition-[background-color,box-shadow] duration-150 focus-visible:ring-2 focus-visible:ring-white/30",
                       active
                         ? "bg-white/10 inset-ring-2 inset-ring-neutral-50/80"
                         : "bg-white/4 inset-ring inset-ring-white/6 hover:bg-white/8",
                     )}
                   >
-                    <Twemoji
+                    <svg
+                      aria-hidden
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       className={cn(
-                        "size-[1.3em] transition-transform duration-150",
-                        active && "scale-90",
+                        "size-7 transition-[transform,color] duration-150",
+                        active
+                          ? "scale-90 text-neutral-50"
+                          : "text-neutral-50/60",
                       )}
                     >
-                      {tile.emoji}
-                    </Twemoji>
+                      {ICONS[tile.icon]}
+                    </svg>
                     <span
                       aria-hidden
                       className={cn(
