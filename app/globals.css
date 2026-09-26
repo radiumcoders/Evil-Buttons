@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-doto: var(--font-doto);
   --color-background: var(--background);
@@ -16,7 +16,7 @@
   --color-primary: var(--primary);
   --color-card: var(--card);
   --radius-lg: 0.75rem;
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -110,8 +110,8 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.922 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
@@ -155,6 +155,26 @@
   color: var(--foreground);
 }
 
+@keyframes docs-dot-swing {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+  45% {
+    transform: translateX(-6px) scale(0.7);
+  }
+}
+
+.docs-dot-swing {
+  animation: docs-dot-swing 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-dot-swing {
+    animation: none;
+  }
+}
+
 .docs-scroll {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -181,6 +201,7 @@
   margin-top: 1.5rem;
   overflow: hidden;
   border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
   background: var(--card);
 }
 
@@ -192,7 +213,7 @@
 }
 
 .docs-content [data-code-block-wrapper] [data-rehype-pretty-code-figure] pre {
-  padding: 1rem;
+  padding: 1rem 3rem 1rem 1rem;
 }
 
 .docs-content [data-code-block-wrapper] [data-rehype-pretty-code-figure] [data-line] {
@@ -207,7 +228,12 @@
 
 .docs-content h2,
 .docs-content h3 {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 2rem;
+}
+
+.docs-content [data-rehype-pretty-code-figure] pre {
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .docs-content [data-rehype-pretty-code-figure] code {
@@ -256,7 +282,7 @@ html.dark .docs-content .shiki span {
 .dialkit-root {
   --dial-radius: 0;
   --dial-panel-offset-top: 5.5rem;
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 .dialkit-panel[data-position="top-left"] {

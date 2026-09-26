@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Inter, Doto } from "next/font/google";
+import { Geist, Geist_Mono, Doto } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -14,8 +14,6 @@ import {
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TracwellAnalytics } from "@/components/tracwell-analytics";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,8 +61,7 @@ export default function RootLayout({
       className={cn(
         geistSans.variable,
         geistMono.variable,
-        "h-full font-sans",
-        inter.variable,
+        "h-full font-sans antialiased",
         dotoVar.variable,
       )}
     >

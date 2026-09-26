@@ -61,7 +61,7 @@ export default function CopyButton({
       type="button"
       onClick={onCopy}
       className={cn(
-        "inline-flex size-8 items-center justify-center text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         copied && "text-foreground",
         withBlurBg && "bg-background/80 shadow-sm backdrop-blur",
         className,
@@ -69,7 +69,7 @@ export default function CopyButton({
       aria-label={copied ? "Copied" : "Copy code"}
       title={copied ? "Copied" : "Copy code"}
     >
-      <Icon size={15} weight={copied ? "bold" : "regular"} />
+      <Icon size={14} weight={copied ? "bold" : "regular"} />
     </button>
   );
 }

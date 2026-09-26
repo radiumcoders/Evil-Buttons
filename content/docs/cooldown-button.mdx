@@ -1,6 +1,7 @@
 ---
 title: CooldownButton
 description: A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.
+category: Interactive
 ---
 
 CooldownButton fires your action, then refuses to cooperate again until a cooldown elapses. A radial sweep drains across the face while a rotating taunt counts down the seconds, so users get clear feedback instead of hammering a dead button. It is rate limiting and double-submit protection, with attitude.
@@ -22,7 +23,7 @@ Tune `cooldown` and supply your own taunts.
     cooldown={5000}
     taunts={["Nope.", "Still waiting.", "Touch grass."]}
   >
-    Refresh
+    {"Refresh"}
   </CooldownButton>
 </PreviewCard>
 

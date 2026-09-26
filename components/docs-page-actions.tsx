@@ -156,8 +156,9 @@ export function DocsPageActions({
     <div className="flex items-center gap-2">
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="sm"
+        className="h-8 rounded-md bg-muted/60 px-3 text-[13px] text-muted-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted"
         onClick={onCopy}
         aria-label="Copy page as Markdown"
       >
@@ -171,7 +172,13 @@ export function DocsPageActions({
 
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
-          <Button type="button" variant="outline" size="sm" aria-label="Open this page in…">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-8 rounded-md bg-muted/60 px-3 text-[13px] text-muted-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted"
+            aria-label="Open this page in…"
+          >
             Open
             <CaretDownIcon
               {...ICON_PROPS}
@@ -185,7 +192,7 @@ export function DocsPageActions({
             align="end"
             sideOffset={6}
             className={cn(
-              "z-50 min-w-56 overflow-hidden border border-border bg-popover p-1.5 text-popover-foreground shadow-lg",
+              "z-50 min-w-56 overflow-hidden rounded-xl border border-border bg-popover p-1.5 text-popover-foreground shadow-[0_12px_32px_-12px_rgb(0_0_0/0.18)]",
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:zoom-out-95",
             )}
           >
@@ -195,7 +202,7 @@ export function DocsPageActions({
                   href={link.href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex cursor-pointer items-center gap-2.5 px-2.5 py-2 text-sm text-muted-foreground outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:bg-muted focus-visible:text-foreground data-highlighted:bg-muted data-highlighted:text-foreground"
+                  className="flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-[13px] text-muted-foreground outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:bg-muted focus-visible:text-foreground data-highlighted:bg-muted data-highlighted:text-foreground"
                 >
                   <span className="flex size-4 shrink-0 items-center justify-center text-foreground">
                     {link.icon}

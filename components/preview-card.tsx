@@ -1,27 +1,18 @@
 import type { ReactNode } from "react";
+import { DocsFrame } from "@/components/docs-frame";
 
 type PreviewCardProps = {
+  /** Kept for existing MDX usage; no longer rendered. */
   title?: string;
+  /** Kept for existing MDX usage; no longer rendered. */
   note?: string;
   children: ReactNode;
 };
 
-export function PreviewCard({
-  title = "Preview",
-  note = "Preview",
-  children,
-}: PreviewCardProps) {
+export function PreviewCard({ children }: PreviewCardProps) {
   return (
-    <div className="mt-4 overflow-hidden border border-border bg-background">
-      <div className="flex items-center justify-between px-4 pt-3 pb-2">
-        <p className="font-mono text-xs font-medium capitalize text-muted-foreground">
-          {title}
-        </p>
-        <p className="font-mono text-xs text-muted-foreground">{note}</p>
-      </div>
-      <div className="flex min-h-112 items-center justify-center bg-background px-6 pb-6 pt-3">
-        {children}
-      </div>
-    </div>
+    <DocsFrame innerClassName="flex min-h-104 items-center justify-center px-6 py-10">
+      {children}
+    </DocsFrame>
   );
 }
