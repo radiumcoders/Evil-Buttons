@@ -547,38 +547,3 @@ html.dark .docs-content .shiki span {
   background: color-mix(in oklab, var(--foreground) 8%, transparent);
   color: var(--dial-text-primary);
 }
-
-/* Tracwell credit — a single wash of Tracwell's brand blue fading into the page. */
-.tracwell-card {
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, #357dff 9%, var(--background)) 0%,
-    var(--background) 75%
-  );
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, #357dff 16%, var(--border)),
-    0 1px 2px rgb(0 0 0 / 0.04);
-}
-
-.tracwell-card:hover {
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, #357dff 32%, var(--border)),
-    0 4px 12px -6px rgb(53 125 255 / 0.25);
-}
-
-.dark .tracwell-card {
-  background: linear-gradient(
-    180deg,
-    color-mix(in oklab, #357dff 14%, var(--background)) 0%,
-    var(--background) 75%
-  );
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, #357dff 22%, var(--border)),
-    0 1px 2px rgb(0 0 0 / 0.3);
-}
-
-.dark .tracwell-card:hover {
-  box-shadow:
-    0 0 0 1px color-mix(in oklab, #8cb4ff 35%, var(--border)),
-    0 4px 12px -6px rgb(53 125 255 / 0.35);
-}
