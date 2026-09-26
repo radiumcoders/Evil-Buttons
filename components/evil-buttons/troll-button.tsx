@@ -201,9 +201,14 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
               : undefined
           }
           transition={{ duration: 0.45, ease: "easeOut" }}
-          whileTap={state === "tired" ? { scale: 0.96 } : undefined}
           className={cn(
-            "relative inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)] outline-none select-none transition-colors hover:bg-primary/90",
+            "relative inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-[10px] px-4 text-sm font-medium text-neutral-50 outline-none select-none",
+            // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
+            "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+            // Motion owns `transform` for the dodge, lean, and squash, so the press animates the separate `scale` property.
+            "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+            // Press eases in fast and settles the shadow; release springs back on the slower base curve.
+            "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
             "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
             className,
           )}
@@ -241,7 +246,7 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
           {/* Stamina drains while the button is being chased. */}
           <motion.span
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left bg-primary-foreground/50"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left bg-neutral-50/35"
             style={{
               scaleX: stamina,
               opacity: state === "fleeing" ? staminaOpacity : 0,

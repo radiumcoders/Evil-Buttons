@@ -63,6 +63,7 @@ The component spreads native `button` props and forwards its ref to the button.
 - Distance is measured from the button's resting slot plus its current offset, so dodges don't jitter as it moves.
 - On touch there is no hover, so tapping makes it dodge instead, and those taps count toward the timer.
 - Keyboard activation always goes through, and `prefers-reduced-motion` turns the fleeing off entirely.
+- Shares the graded dark surface, hairline ring, and spring press used by MinimalButton and CommandButton. The stamina bar drains along its bottom edge while it's chased.
 
 ## Registry
 
