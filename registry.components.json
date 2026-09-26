@@ -206,7 +206,6 @@
     "title": "MorphStatusButton",
     "description": "A single button that morphs through idle, loading, success, and error states in place, with no layout shift.",
     "file": "components/evil-buttons/morph-status-button.tsx",
-    "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
