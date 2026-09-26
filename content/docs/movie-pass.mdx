@@ -76,6 +76,7 @@ The component spreads native `button` props.
 
 - The corner notches are punched with a CSS mask, so the ticket shape works on any background.
 - Each half is notched on all four corners, which forms the half-circle punches at the perforation.
+- The ticket uses the graded dark surface and spring press shared by MinimalButton and CommandButton. Because the notch masks would clip a box-shadow, the hairline ring and soft drop are `drop-shadow` filters that follow the ticket's outline, notches included.
 - Animations are disabled when the user prefers reduced motion; the ticket still toggles between torn and intact.
 
 ## Registry

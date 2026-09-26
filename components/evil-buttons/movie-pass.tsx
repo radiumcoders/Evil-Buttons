@@ -162,8 +162,12 @@ export const MoviePassButton = React.forwardRef<
         aria-pressed={resetDelay === null ? torn : undefined}
         style={style}
         className={cn(
-          "group relative inline-flex h-11 items-stretch bg-transparent p-0 text-sm font-medium text-primary-foreground outline-none select-none",
-          "transition-transform duration-100 active:scale-[0.97]",
+          "group relative inline-flex h-11 cursor-pointer items-stretch bg-transparent p-0 text-sm font-medium text-neutral-50 outline-none select-none",
+          // The halves are masked for the notches, which clips box-shadow, so the hairline ring and soft drop are drop-shadows that follow the ticket's outline.
+          "[filter:drop-shadow(0_0_0.5px_rgb(0_0_0/0.9))_drop-shadow(0_0_0.5px_rgb(0_0_0/0.9))_drop-shadow(0_1px_1px_rgb(0_0_0/0.25))_drop-shadow(0_4px_5px_rgb(0_0_0/0.25))]",
+          "transition-[scale,filter] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)]",
+          // Press eases in fast and settles the drop; release springs back on the slower base curve.
+          "active:scale-[0.97] active:duration-100 active:ease-out active:[filter:drop-shadow(0_0_0.5px_rgb(0_0_0/0.9))_drop-shadow(0_0_0.5px_rgb(0_0_0/0.9))_drop-shadow(0_0_1px_rgb(0_0_0/0.2))_drop-shadow(0_1px_1.5px_rgb(0_0_0/0.2))] motion-reduce:active:scale-100",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "disabled:pointer-events-none disabled:opacity-50",
           className,
@@ -175,7 +179,7 @@ export const MoviePassButton = React.forwardRef<
           animate={pose.main}
           transition={transition}
           style={{ ...notchStyle, transformOrigin: "100% 100%" }}
-          className="flex items-center bg-primary px-6"
+          className="flex items-center px-6 bg-linear-to-b from-[#353535] to-[#272727] shadow-[inset_0_1px_0_rgb(255_255_255/0.14)] transition-[filter] duration-300 group-hover:brightness-110 group-active:brightness-95"
         >
           {children}
         </motion.span>
@@ -185,7 +189,7 @@ export const MoviePassButton = React.forwardRef<
           animate={pose.stub}
           transition={transition}
           style={{ ...notchStyle, transformOrigin: "0% 100%" }}
-          className="relative flex min-w-12 items-center justify-center bg-primary px-3 font-mono text-xs"
+          className="relative flex min-w-12 items-center justify-center px-3 font-mono text-xs text-neutral-50/70 bg-linear-to-b from-[#353535] to-[#272727] shadow-[inset_0_1px_0_rgb(255_255_255/0.14)] transition-[filter] duration-300 group-hover:brightness-110 group-active:brightness-95"
         >
           {/* Perforation along the tear line. */}
           <span className="absolute inset-y-2 left-0 w-px bg-[linear-gradient(to_bottom,currentColor_50%,transparent_50%)] bg-size-[1px_5px] opacity-40" />
