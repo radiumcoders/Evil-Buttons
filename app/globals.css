@@ -556,49 +556,36 @@ html.dark .docs-content .shiki span {
 }
 
 /*
- * Landing backdrop: a paper-toned page that warms into sunset bands (rose,
- * peach, butter, a hint of sage) along the bottom, under a faint grid.
- * Dark mode swaps the bands for embers.
+ * Landing backdrop, built only from theme tokens: the page background under a
+ * faint foreground grid, warming into brand-red bands along the bottom. The
+ * same mixes work in both themes because they follow --background.
  */
 .landing-bg {
-  --landing-paper: oklch(0.988 0.006 80);
-  --landing-band-1: oklch(0.84 0.09 15);
-  --landing-band-2: oklch(0.86 0.09 55);
-  --landing-band-3: oklch(0.9 0.09 90);
-  --landing-band-4: oklch(0.89 0.05 130);
-  --landing-grid: oklch(0.2 0.02 60 / 0.035);
+  --landing-grid: color-mix(in oklch, var(--foreground) 4%, transparent);
+  --landing-band-1: color-mix(in oklch, var(--brand) 8%, var(--background));
+  --landing-band-2: color-mix(in oklch, var(--brand) 18%, var(--background));
+  --landing-band-3: color-mix(in oklch, var(--brand) 30%, var(--background));
 
-  background-color: var(--landing-paper);
+  background-color: var(--background);
   background-image:
     linear-gradient(to right, var(--landing-grid) 1px, transparent 1px),
     linear-gradient(to bottom, var(--landing-grid) 1px, transparent 1px),
     radial-gradient(
       120% 60% at 50% 100%,
       transparent 55%,
-      color-mix(in oklch, var(--landing-paper) 60%, transparent) 100%
+      color-mix(in oklch, var(--background) 60%, transparent) 100%
     ),
     linear-gradient(
       to bottom,
-      transparent 0%,
-      transparent 58%,
-      color-mix(in oklch, var(--landing-band-1) 55%, transparent) 72%,
-      var(--landing-band-1) 80%,
-      var(--landing-band-2) 90%,
-      var(--landing-band-3) 97%,
-      var(--landing-band-4) 100%
+      var(--background) 0%,
+      var(--background) 58%,
+      var(--landing-band-1) 72%,
+      var(--landing-band-2) 86%,
+      var(--landing-band-3) 100%
     );
   background-size:
     4px 4px,
     4px 4px,
     100% 100%,
     100% 100%;
-}
-
-.dark .landing-bg {
-  --landing-paper: oklch(0.145 0.004 40);
-  --landing-band-1: oklch(0.3 0.09 20);
-  --landing-band-2: oklch(0.38 0.11 35);
-  --landing-band-3: oklch(0.46 0.11 55);
-  --landing-band-4: oklch(0.42 0.06 80);
-  --landing-grid: oklch(1 0 0 / 0.03);
 }
