@@ -78,7 +78,6 @@ export function StaticSlideToDetonatePreview() {
   return (
     <SlideToDetonate
       label="Slide to detonate"
-      successLabel="Detonated"
       threshold={0.9}
       resistance={0.35}
       smoothness={0.4}

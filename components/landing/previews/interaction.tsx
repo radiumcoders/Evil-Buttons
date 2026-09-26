@@ -101,7 +101,6 @@ export function SlideToDetonatePreview() {
     "SlideToDetonate",
     {
       label: "Slide to detonate",
-      successLabel: "Detonated",
       threshold: [0.9, 0.5, 1, 0.01],
       resistance: [0.35, 0, 1, 0.05],
       smoothness: [0.4, 0, 1, 0.05],
@@ -118,7 +117,6 @@ export function SlideToDetonatePreview() {
   return (
     <SlideToDetonate
       label={p.label}
-      successLabel={p.successLabel}
       threshold={p.threshold}
       resistance={p.resistance}
       smoothness={p.smoothness}

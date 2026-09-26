@@ -28,8 +28,6 @@ export interface SlideToDetonateProps
   children?: React.ReactNode;
   /** Idle label used when no children are provided. */
   label?: React.ReactNode;
-  /** Label shown once the slide reaches the end and the action fires. */
-  successLabel?: React.ReactNode;
   /** Fired once the handle is released past the threshold. */
   onConfirm?: () => void;
   /**
@@ -63,7 +61,7 @@ export type SlideToDetonateVariant = "dark" | "light";
 
 const VARIANTS: Record<
   SlideToDetonateVariant,
-  { track: string; trail: string; handle: string; success: string; shimmer: string }
+  { track: string; trail: string; handle: string; shimmer: string }
 > = {
   dark: {
     // Recessed track: dark hairline, faint inner ring, soft inner shadow from the top.
@@ -80,7 +78,6 @@ const VARIANTS: Record<
       "data-[state=success]:text-neutral-50",
       "focus-visible:ring-white/40 focus-visible:ring-offset-[#1c1c1c]",
     ),
-    success: "text-neutral-50",
     shimmer: "250 250 250",
   },
   light: {
@@ -98,7 +95,6 @@ const VARIANTS: Record<
       "data-[state=success]:text-neutral-900",
       "focus-visible:ring-black/25 focus-visible:ring-offset-neutral-100",
     ),
-    success: "text-neutral-900",
     shimmer: "23 23 23",
   },
 };
@@ -174,7 +170,6 @@ export const SlideToDetonate = React.forwardRef<
     {
       children,
       label = "Slide to detonate",
-      successLabel = "Detonated",
       onConfirm,
       threshold = 0.9,
       resetAfter = 1600,
@@ -383,25 +378,10 @@ export const SlideToDetonate = React.forwardRef<
           style={{ width: trailWidth, opacity: trailOpacity }}
         />
 
-        {/* Label centered in the free part of the track: right of the handle while idle, left of it once it has slid to the end. */}
-        <span
-          className={cn(
-            "pointer-events-none absolute inset-0 flex items-center justify-center text-sm font-medium",
-            isSuccess ? "pr-11" : "pl-11",
-          )}
-        >
-          {isSuccess ? (
+        {/* Label centered in the free part of the track, right of the handle. Once detonated only the handle's check remains. */}
+        <span className="pointer-events-none absolute inset-0 flex items-center justify-center pl-11 text-sm font-medium">
+          {isSuccess ? null : (
             <motion.span
-              key="success"
-              initial={reduceMotion ? false : { opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={styles.success}
-            >
-              {successLabel}
-            </motion.span>
-          ) : (
-            <motion.span
-              key="idle"
               style={{
                 opacity: labelOpacity,
                 backgroundImage: `linear-gradient(90deg, rgb(${styles.shimmer} / 0.4) 0%, rgb(${styles.shimmer} / 0.4) 40%, rgb(${styles.shimmer} / 0.95) 50%, rgb(${styles.shimmer} / 0.4) 60%, rgb(${styles.shimmer} / 0.4) 100%)`,
