@@ -120,9 +120,12 @@ export const CopyButton = React.forwardRef<HTMLButtonElement, CopyButtonProps>(
         onClick={handleClick}
         data-state={state}
         className={cn(
-          "relative inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border border-border bg-background px-4 text-sm font-medium text-foreground shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] outline-none select-none transition-colors hover:bg-muted/60",
+          "relative inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-[10px] px-4 text-sm font-medium outline-none select-none",
+          // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
+          "bg-linear-to-b from-[#353535] to-[#272727] text-neutral-50 shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+          "transition-[filter,transform] duration-150 hover:brightness-115 active:translate-y-px active:brightness-95",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
-          "data-[state=error]:text-destructive",
+          "data-[state=error]:text-red-300",
           className,
         )}
         {...props}

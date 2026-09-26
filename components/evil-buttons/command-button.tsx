@@ -179,7 +179,10 @@ export const CommandButton = React.forwardRef<
           fire();
         }}
         className={cn(
-          "relative inline-flex h-9 cursor-pointer items-center justify-center gap-2.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)] outline-none select-none transition-colors hover:bg-primary/90",
+          "relative inline-flex h-9 cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 text-sm font-medium outline-none select-none",
+          // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
+          "bg-linear-to-b from-[#353535] to-[#272727] text-neutral-50 shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+          "transition-[filter,transform] duration-150 hover:brightness-115 active:translate-y-px active:brightness-95",
           showShortcut && "pr-2",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
@@ -198,8 +201,8 @@ export const CommandButton = React.forwardRef<
                 aria-hidden
                 data-pressed={firing || held.has(part) || undefined}
                 className={cn(
-                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-primary-foreground/10 px-1 text-[11px] leading-none font-medium text-primary-foreground/70 transition-[transform,background-color,color] duration-100",
-                  "data-pressed:translate-y-px data-pressed:bg-primary-foreground/25 data-pressed:text-primary-foreground",
+                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-white/8 px-1 text-[11px] leading-none font-medium text-neutral-50/55 inset-ring inset-ring-white/6 transition-[transform,background-color,color] duration-100",
+                  "data-pressed:translate-y-px data-pressed:bg-white/20 data-pressed:text-neutral-50",
                 )}
               >
                 {formatPart(part, isApple)}
