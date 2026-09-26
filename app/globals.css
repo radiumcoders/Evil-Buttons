@@ -398,8 +398,7 @@ html.dark .docs-content .shiki span {
     .dialkit-text-control,
     .dialkit-labeled-control,
     .dialkit-color-control,
-    .dialkit-button,
-    .dialkit-segmented
+    .dialkit-button
   ) {
   border-radius: var(--dial-radius) !important;
   box-shadow:
@@ -459,10 +458,53 @@ html.dark .docs-content .shiki span {
 
 .dialkit-root[data-mode="inline"] :is(
     .dialkit-select-content,
-    .dialkit-preset-item,
-    .dialkit-segmented-pill
+    .dialkit-preset-item
   ) {
   border-radius: calc(var(--dial-radius) - 2px) !important;
+}
+
+/* Segmented (Off / On): recessed track with a raised active pill */
+.dialkit-root[data-mode="inline"] .dialkit-segmented {
+  gap: 0;
+  padding: 2px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  box-shadow: inset 0 1px 2px color-mix(in oklab, black 8%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-labeled-control .dialkit-segmented {
+  margin-right: -4px;
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-segmented-pill {
+  top: 2px;
+  bottom: 2px;
+  border-radius: 6px;
+  background: var(--background);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 1px 2px color-mix(in oklab, black 12%, transparent);
+}
+
+.dialkit-root[data-mode="inline"][data-theme="dark"] .dialkit-segmented-pill {
+  background: color-mix(in oklab, var(--foreground) 14%, var(--background));
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, black 30%, transparent),
+    0 1px 2px color-mix(in oklab, black 40%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-segmented-button {
+  min-width: 40px;
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* The docs frame already draws the border; drop the panel's own chrome. */
+.dialkit-root[data-mode="inline"] .dialkit-panel-inner {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 
 .dialkit-root[data-mode="inline"] .dialkit-color-swatch {
