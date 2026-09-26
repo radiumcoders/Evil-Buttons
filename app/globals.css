@@ -350,3 +350,117 @@ html.dark .docs-content .shiki span {
 .dialkit-root .dialkit-color-swatch {
   border-radius: 0 !important;
 }
+
+/* DialKit inline (docs live preview) — rounded, raised controls */
+.dialkit-root[data-mode="inline"] {
+  --dial-radius: 10px;
+  --dial-row-height: 38px;
+  --dial-row-gap: 8px;
+  --dial-control-border: color-mix(in oklab, var(--foreground) 9%, transparent);
+  --dial-control-shadow:
+    0 1px 2px color-mix(in oklab, black 6%, transparent),
+    inset 0 1px 0 color-mix(in oklab, white 55%, transparent);
+  --dial-knob-shadow:
+    0 0 0 1px color-mix(in oklab, black 8%, transparent),
+    0 1px 3px color-mix(in oklab, black 18%, transparent),
+    0 2px 6px color-mix(in oklab, black 8%, transparent);
+  --dial-surface: color-mix(in oklab, var(--foreground) 3%, var(--background));
+  --dial-surface-hover: color-mix(in oklab, var(--foreground) 6%, var(--background));
+  --dial-glass-bg: transparent;
+}
+
+.dialkit-root[data-mode="inline"][data-theme="dark"] {
+  --dial-control-border: color-mix(in oklab, var(--foreground) 10%, transparent);
+  --dial-control-shadow:
+    0 1px 2px color-mix(in oklab, black 40%, transparent),
+    inset 0 1px 0 color-mix(in oklab, white 5%, transparent);
+  --dial-knob-shadow:
+    0 0 0 1px color-mix(in oklab, black 30%, transparent),
+    0 1px 3px color-mix(in oklab, black 50%, transparent),
+    0 2px 8px color-mix(in oklab, black 30%, transparent);
+  --dial-surface: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --dial-surface-hover: color-mix(in oklab, var(--foreground) 8%, var(--background));
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-panel-inner {
+  padding: 12px 14px 14px !important;
+}
+
+.dialkit-root[data-mode="inline"] :is(
+    .dialkit-slider,
+    .dialkit-toggle,
+    .dialkit-select-trigger,
+    .dialkit-text-control,
+    .dialkit-labeled-control,
+    .dialkit-color-control,
+    .dialkit-button,
+    .dialkit-segmented
+  ) {
+  border-radius: var(--dial-radius) !important;
+  box-shadow:
+    0 0 0 1px var(--dial-control-border),
+    var(--dial-control-shadow);
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.dialkit-root[data-mode="inline"] :is(
+    .dialkit-slider,
+    .dialkit-toggle,
+    .dialkit-select-trigger,
+    .dialkit-text-control,
+    .dialkit-button
+  ):hover {
+  background: var(--dial-surface-hover);
+}
+
+/* Slider: soft gradient fill and a raised pill handle */
+.dialkit-root[data-mode="inline"] .dialkit-slider-fill {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--foreground) 7%, transparent),
+    color-mix(in oklab, var(--foreground) 10%, transparent)
+  );
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-active .dialkit-slider-fill {
+  background: color-mix(in oklab, var(--foreground) 13%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-handle {
+  width: 6px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--background);
+  box-shadow: var(--dial-knob-shadow);
+}
+
+/* Toggle: rounded track with a lifted thumb */
+.dialkit-root[data-mode="inline"] .dialkit-toggle-track {
+  border-radius: 999px;
+  box-shadow: inset 0 1px 2px color-mix(in oklab, black 12%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-toggle[data-checked="true"] .dialkit-toggle-track {
+  background: var(--foreground);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-toggle-thumb {
+  border-radius: 999px !important;
+  background: var(--background);
+  box-shadow: var(--dial-knob-shadow);
+}
+
+.dialkit-root[data-mode="inline"] :is(
+    .dialkit-select-content,
+    .dialkit-preset-item,
+    .dialkit-segmented-pill
+  ) {
+  border-radius: calc(var(--dial-radius) - 2px) !important;
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-color-swatch {
+  border-radius: 6px !important;
+  box-shadow: var(--dial-knob-shadow);
+}
