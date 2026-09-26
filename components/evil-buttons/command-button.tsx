@@ -175,12 +175,9 @@ export const CommandButton = React.forwardRef<
             part === "mod" ? (isApple ? "Meta" : "Control") : part,
           )
           .join("+")}
-        onClick={(event) => {
-          onClick?.(event);
-          fire();
-        }}
+        onClick={onClick}
         className={cn(
-          "relative inline-flex h-9 cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 text-sm font-medium outline-none select-none",
+          "group/cmd relative inline-flex h-9 cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 text-sm font-medium outline-none select-none",
           // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
           "bg-linear-to-b from-[#353535] to-[#272727] text-neutral-50 shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
           "transition-[transform,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
@@ -204,10 +201,13 @@ export const CommandButton = React.forwardRef<
               <span
                 key={part}
                 aria-hidden
-                data-pressed={firing || held.has(part) || undefined}
+                data-pressed={held.has(part) || undefined}
                 className={cn(
-                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-white/8 px-1 text-[11px] leading-none font-medium text-neutral-50/55 inset-ring inset-ring-white/6 transition-[transform,background-color,color] duration-100",
-                  "data-pressed:translate-y-px data-pressed:bg-white/20 data-pressed:text-neutral-50",
+                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-white/8 px-1 text-[11px] leading-none font-medium text-neutral-50/55 inset-ring inset-ring-white/6 transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)]",
+                  // Same states and timing as the button's press, so caps and button move on the same frame.
+                  "data-pressed:translate-y-px data-pressed:bg-white/20 data-pressed:text-neutral-50 data-pressed:duration-100 data-pressed:ease-out",
+                  "group-active/cmd:translate-y-px group-active/cmd:bg-white/20 group-active/cmd:text-neutral-50 group-active/cmd:duration-100 group-active/cmd:ease-out",
+                  "group-data-firing/cmd:translate-y-px group-data-firing/cmd:bg-white/20 group-data-firing/cmd:text-neutral-50 group-data-firing/cmd:duration-100 group-data-firing/cmd:ease-out",
                 )}
               >
                 {formatPart(part, isApple)}
