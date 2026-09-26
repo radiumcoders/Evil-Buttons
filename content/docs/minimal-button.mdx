@@ -1,15 +1,15 @@
 ---
 title: MinimalButton
-description: A sleek, minimal button with a subtle repeating linear gradient pattern.
+description: A quiet dark button with a hairline ring, inner highlight, soft drop shadow, and a chevron that nudges on hover.
 category: Styles
 ---
 
-MinimalButton provides a sleek and minimal aesthetic. It features a simple outline and an understated repeating linear gradient background, keeping the focus on its content while providing an elegant touch to your UI.
+MinimalButton is built from light and edge rather than color. A graded dark surface sits inside a black hairline ring, a faint inner ring and a brighter top highlight catch the light, and a small soft shadow lifts it off the page. A muted chevron trails the label and nudges forward on hover.
 
 ## Preview
 
-<PreviewCard title="MinimalButton" note="Interactive">
-  <MinimalButton>Deploy Doom</MinimalButton>
+<PreviewCard>
+  <MinimalButton>Browse components</MinimalButton>
 </PreviewCard>
 
 ## Install
@@ -24,21 +24,33 @@ Add the item with the shadcn CLI.
 import MinimalButton from "@/components/evil-buttons/minimal";
 
 export function ButtonDemo() {
-  return (
-    <MinimalButton>
-      Launch
-    </MinimalButton>
-  );
+  return <MinimalButton>Browse components</MinimalButton>;
 }
 ```
 
+## Variants
+
+### No arrow
+
+<PreviewCard>
+  <MinimalButton arrow={false}>Save draft</MinimalButton>
+</PreviewCard>
+
 ## Props
 
-| Prop        | Type                                   | Default    | Description                                      |
-| ----------- | -------------------------------------- | ---------- | ------------------------------------------------ |
-| `children`  | `React.ReactNode`                      | -          | The visible button label or content.             |
-| `className` | `string`                               | -          | Extra classes passed to the wrapper.             |
+The component spreads native `button` props and forwards its ref to the button.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | The button label. |
+| `arrow` | `boolean` | `true` | Show a trailing chevron that nudges forward on hover. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- The ring, inner highlight, and drop shadow are one layered `box-shadow`, so the button needs no extra wrapper elements.
+- The surface stays dark in both themes; the black hairline and inner ring keep its edge crisp on dark pages.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/minimal.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils` and `Button` from `@/components/ui/button`.
+The registry item includes `components/evil-buttons/minimal.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.

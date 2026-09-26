@@ -43,7 +43,7 @@
       "name": "minimal",
       "type": "registry:ui",
       "title": "MinimalButton",
-      "description": "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+      "description": "A quiet dark button with a hairline ring, inner highlight, soft drop shadow, and a chevron that nudges on hover.",
       "files": [
         "components/evil-buttons/minimal.tsx"
       ]
