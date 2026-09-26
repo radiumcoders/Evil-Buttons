@@ -129,7 +129,7 @@ function ShowcaseCard({
   };
 
   return (
-    <article className="rounded-xl border border-border bg-muted p-1 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)] dark:bg-[color-mix(in_oklch,var(--muted)_45%,var(--background))]">
+    <article className="rounded-xl bg-muted p-1 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)] dark:bg-[color-mix(in_oklch,var(--muted)_45%,var(--background))]">
       <header className="flex h-9 items-center justify-between gap-3 pr-1 pl-2.5">
         <h3 className="truncate text-sm font-medium">{item.name}</h3>
       </header>
