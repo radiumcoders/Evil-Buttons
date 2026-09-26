@@ -317,7 +317,7 @@ export function StaticMinimalButtonPreview() {
 }
 
 export function StaticMoviePassButtonPreview() {
-  return <MoviePassButton>Deploy Doom</MoviePassButton>;
+  return <MoviePassButton>Admit One</MoviePassButton>;
 }
 
 export function StaticShinyButtonPreview() {

@@ -1,15 +1,15 @@
 ---
 title: MoviePass Button
-description: A ticket-style button like a cinema stub.
+description: A cinema ticket button that tears along its perforation on click, hinging open or snapping apart.
 category: Styles
 ---
 
-MoviePassButton is a ticket-style button. When clicked, it shrinks like a standard button. Perfect for purchase, booking, or confirmation flows.
+MoviePassButton is a cinema ticket with a tear-off stub. Click it and the ticket rips along the dashed perforation: the default `tilt` variant hinges both halves outward so they only touch at the bottom, while `snap` splits cleanly with a small gap. It mends itself after a moment, ready to be torn again.
 
 ## Preview
 
-<PreviewCard title="MoviePassButton" note="Interactive">
-  <MoviePassButton>Deploy Doom</MoviePassButton>
+<PreviewCard>
+  <MoviePassButton>Admit One</MoviePassButton>
 </PreviewCard>
 
 ## Install
@@ -25,20 +25,59 @@ import MoviePassButton from "@/components/evil-buttons/movie-pass";
 
 export function ButtonDemo() {
   return (
-    <MoviePassButton>
+    <MoviePassButton variant="snap" onTear={() => console.log("Ripped!")}>
       Admit One
     </MoviePassButton>
   );
 }
 ```
 
+## Variants
+
+### Tilt
+
+Both halves pivot on their shared bottom corners, opening a V along the tear.
+
+<PreviewCard>
+  <MoviePassButton variant="tilt">Book Seat</MoviePassButton>
+</PreviewCard>
+
+### Snap
+
+The stub breaks off in a straight line and leaves a small gap.
+
+<PreviewCard>
+  <MoviePassButton variant="snap">Book Seat</MoviePassButton>
+</PreviewCard>
+
+### Keep it torn
+
+Pass `resetDelay={null}` to leave the ticket torn until it is clicked again, and swap the stub content with `stub`.
+
+<PreviewCard>
+  <MoviePassButton variant="tilt" resetDelay={null} stub="VIP">{"Backstage"}</MoviePassButton>
+</PreviewCard>
+
 ## Props
 
-| Prop        | Type                                   | Default    | Description                                      |
-| ----------- | -------------------------------------- | ---------- | ------------------------------------------------ |
-| `children`  | `React.ReactNode`                      | -          | The visible button label or content.             |
-| `className` | `string`                               | -          | Extra classes passed to the wrapper.             |
+The component spreads native `button` props.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Label printed on the main part of the ticket. |
+| `variant` | `"tilt" \| "snap"` | `"tilt"` | How the ticket tears on click. |
+| `stub` | `React.ReactNode` | `NO. 01` | Content of the tear-off stub. |
+| `resetDelay` | `number \| null` | `1800` | Milliseconds before the ticket mends. `null` keeps it torn until the next click. |
+| `onTear` | `() => void` | - | Fired each time the ticket tears. |
+| `onClick` | `React.MouseEventHandler` | - | Native click handler. Call `preventDefault()` to skip the tear. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- The corner notches are punched with a CSS mask, so the ticket shape works on any background.
+- Each half is notched on all four corners, which forms the half-circle punches at the perforation.
+- Animations are disabled when the user prefers reduced motion; the ticket still toggles between torn and intact.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/movie-pass.tsx`. The component imports `cn` from `@/lib/utils`.
+The registry item includes `components/evil-buttons/movie-pass.tsx` and adds `motion`, `clsx`, and `tailwind-merge` as dependencies.

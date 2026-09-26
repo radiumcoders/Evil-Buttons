@@ -31,9 +31,9 @@
     "exportName": "MoviePassButton",
     "docSlug": "movie-pass",
     "title": "MoviePassButton",
-    "description": "A ticket-style button like a cinema stub.",
+    "description": "A cinema ticket button that tears along its perforation on click, hinging open or snapping apart.",
     "file": "components/evil-buttons/movie-pass.tsx",
-    "dependencies": []
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
   {
     "name": "minimal",

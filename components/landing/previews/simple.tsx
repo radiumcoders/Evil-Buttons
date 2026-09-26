@@ -5,7 +5,9 @@ import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
 import GridButton from "@/components/evil-buttons/grid-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
-import MoviePassButton from "@/components/evil-buttons/movie-pass";
+import MoviePassButton, {
+  type MoviePassVariant,
+} from "@/components/evil-buttons/movie-pass";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
@@ -52,11 +54,22 @@ export function MinimalButtonPreview() {
 export function MoviePassButtonPreview() {
   const p = useDialKit(
     "MoviePassButton",
-    { label: "Deploy Doom" },
+    {
+      label: "Admit One",
+      variant: {
+        type: "select",
+        options: ["tilt", "snap"],
+        default: "tilt",
+      },
+    },
     { id: "movie-pass" },
   );
 
-  return <MoviePassButton>{p.label}</MoviePassButton>;
+  return (
+    <MoviePassButton variant={p.variant as MoviePassVariant}>
+      {p.label}
+    </MoviePassButton>
+  );
 }
 
 export function ShinyButtonPreview() {

@@ -34,7 +34,7 @@
       "name": "movie-pass",
       "type": "registry:ui",
       "title": "MoviePassButton",
-      "description": "A ticket-style button like a cinema stub.",
+      "description": "A cinema ticket button that tears along its perforation on click, hinging open or snapping apart.",
       "files": [
         "components/evil-buttons/movie-pass.tsx"
       ]
