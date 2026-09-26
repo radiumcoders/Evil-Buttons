@@ -40,24 +40,6 @@ const DEFAULT_CONFIRMATIONS: string[] = [
   "Last chance. Absolutely certain?",
 ];
 
-const WarningIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="size-4 shrink-0"
-    aria-hidden
-  >
-    <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
-    <path d="M12 9v4" />
-    <path d="M12 17h.01" />
-  </svg>
-);
-
 const CheckIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +49,7 @@ const CheckIcon = () => (
     strokeWidth="2.25"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="size-4 shrink-0"
+    className="size-3.5 shrink-0"
     aria-hidden
   >
     <path d="M20 6 9 17l-5-5" />
@@ -152,10 +134,8 @@ export const DoubtButton = React.forwardRef<
 
     const isSuccess = state === "success";
 
-    // 0 (calm) -> 1 (maximum dread) used to escalate the accent toward red.
-    const t = steps === 0 ? 0 : index / steps;
-    const accentAlpha = 0.12 + t * 0.55;
-    const ringAlpha = 0.35 + t * 0.5;
+    // Share of doubts answered, drawn as a hairline along the bottom edge.
+    const progress = isSuccess ? 1 : steps === 0 ? 0 : index / steps;
 
     const currentLabel: React.ReactNode = isSuccess
       ? successLabel
@@ -175,21 +155,10 @@ export const DoubtButton = React.forwardRef<
         data-state={state}
         onClick={handleClick}
         className={cn(
-          "relative inline-flex min-w-48 select-none flex-col items-center justify-center gap-1.5 overflow-hidden rounded-md border px-4 py-2.5 text-sm font-semibold shadow-sm outline-none transition-colors",
-          "focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
-          isSuccess
-            ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 focus-visible:ring-emerald-500 dark:text-emerald-400"
-            : "cursor-pointer text-red-600 dark:text-red-400",
+          "relative inline-flex h-9 min-w-48 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground outline-none select-none transition-[background-color,opacity] hover:bg-primary/90",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
-        style={
-          isSuccess
-            ? undefined
-            : {
-                borderColor: `rgba(239, 68, 68, ${ringAlpha})`,
-                backgroundColor: `rgba(239, 68, 68, ${accentAlpha})`,
-              }
-        }
         {...props}
       >
         <motion.span
@@ -197,12 +166,12 @@ export const DoubtButton = React.forwardRef<
           animate={
             reduceMotion || shakeKey === 0 || isSuccess
               ? undefined
-              : { x: [0, -6, 6, -4, 4, -2, 2, 0] }
+              : { x: [0, -4, 4, -2, 2, 0] }
           }
-          transition={{ duration: 0.38, ease: "easeInOut" }}
-          className="inline-flex items-center gap-2"
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="inline-flex items-center gap-1.5"
         >
-          {isSuccess ? <CheckIcon /> : <WarningIcon />}
+          {isSuccess ? <CheckIcon /> : null}
           <span className="relative inline-grid">
             {/* Invisible widest prompt reserves width so the button never jumps. */}
             <span
@@ -234,21 +203,12 @@ export const DoubtButton = React.forwardRef<
           </span>
         </motion.span>
 
-        {steps > 0 && !isSuccess && (
-          <span className="flex items-center gap-1" aria-hidden>
-            {Array.from({ length: steps }).map((_, i) => (
-              <span
-                key={i}
-                className="size-1.5 rounded-full transition-colors"
-                style={{
-                  backgroundColor:
-                    i < index
-                      ? "rgb(239, 68, 68)"
-                      : "rgba(239, 68, 68, 0.25)",
-                }}
-              />
-            ))}
-          </span>
+        {steps > 0 && (
+          <span
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-current opacity-50 transition-transform duration-300 ease-out"
+            style={{ transform: `scaleX(${progress})` }}
+          />
         )}
       </button>
     );

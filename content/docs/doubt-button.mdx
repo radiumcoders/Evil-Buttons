@@ -4,7 +4,7 @@ description: An escalating-confirmation button that makes you click through incr
 category: Interactive
 ---
 
-DoubtButton never lets you click just once. Each press swaps the label for the next, increasingly absurd confirmation prompt, shakes, and bleeds a little more red. A row of dots tracks how much doubt you have left to power through. Only the click on the final prompt fires `onConfirm`.
+DoubtButton never lets you click just once. Each press swaps the label for the next, increasingly absurd confirmation prompt and gives a small shake, while a hairline along the bottom edge tracks how much doubt you have left to power through. Only the click on the final prompt fires `onConfirm`.
 
 ## Preview
 
@@ -85,9 +85,10 @@ The component spreads any `<button>` HTML attributes except `onClick`.
 ## Notes
 
 - The user must click `confirmations.length + 1` times before `onConfirm` runs; an empty `confirmations` array makes it behave like a normal one-shot button.
-- The accent escalates from a calm tint toward blood-red as you advance, and the button shakes on every click via Motion.
+- The button shakes on every click via Motion, and the prompt slides in from below.
 - An invisible copy of the widest prompt reserves the button's width so the layout never jumps as labels swap.
-- A row of dots fills in to show how many doubts you have answered out of the total.
+- A hairline progress bar along the bottom edge fills in as you answer each doubt.
+- Styling uses the `primary` tokens, so it follows your theme; override with `className`.
 - `aria-live="polite"` and `data-state` (`idle` | `doubting` | `success`) expose the current state for screen readers and styling.
 
 ## Registry

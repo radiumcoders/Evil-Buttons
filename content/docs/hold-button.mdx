@@ -72,7 +72,7 @@ The component spreads any `<button>` HTML attributes except `onClick` and `onAbo
 ## Notes
 
 - Progress is driven by `requestAnimationFrame` for frame-accurate completion, while the fill width and reset use a CSS transition for a smooth snap-back.
-- The fill reveals a knockout white label sized to the full button width via a `ResizeObserver`, so the text stays crisp and undistorted as the fill wipes across.
+- The fill reveals a knockout label in `primary-foreground` sized to the full button width via a `ResizeObserver`, so the text stays crisp and undistorted as the fill wipes across.
 - Pointer capture is used so releasing outside the button still aborts the hold; `onLostPointerCapture` and `onPointerCancel` are handled too.
 - Keyboard users can hold <kbd>Space</kbd> or <kbd>Enter</kbd>; releasing the key before 100% aborts just like a pointer release.
 - `aria-live="polite"` and `data-state` (`idle` | `holding` | `success`) expose the current state for screen readers and styling.
