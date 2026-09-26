@@ -1,7 +1,7 @@
 "use client";
 
 import { useDialKit } from "dialkit";
-import { useThemedDialKit } from "./theme";
+import { fromFolder, listFolder, useThemedDialKit } from "./theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
 import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
@@ -133,6 +133,14 @@ export function DoubtButtonPreview() {
       label: "Delete everything",
       successLabel: "Too late.",
       resetAfter: [1600, 0, 5000],
+      confirmations: listFolder([
+        "Are you sure?",
+        "Really, truly sure?",
+        "There is no undo. Still?",
+        "Think of the consequences.",
+        "I am obligated to ask again.",
+        "Last chance. Absolutely certain?",
+      ]),
     },
     { id: "doubt-button" },
   );
@@ -142,6 +150,7 @@ export function DoubtButtonPreview() {
       label={p.label}
       successLabel={p.successLabel}
       resetAfter={p.resetAfter}
+      confirmations={fromFolder(p.confirmations)}
     />
   );
 }
@@ -154,6 +163,23 @@ export function CooldownButtonPreview() {
       label: "Send it",
       cooldown: [3000, 1000, 10000],
       showCountdown: true,
+      variant: {
+        type: "select",
+        options: ["outline", "default", "secondary", "ghost", "destructive"],
+        default: "outline",
+      },
+      size: {
+        type: "select",
+        options: ["lg", "default", "sm"],
+        default: "lg",
+      },
+      taunts: listFolder([
+        "Patience.",
+        "Again? Wait.",
+        "Not so fast.",
+        "Cool it.",
+        "Hold your horses.",
+      ]),
     },
     { id: "cooldown-button" },
   );
@@ -163,6 +189,11 @@ export function CooldownButtonPreview() {
       label={p.label}
       cooldown={p.cooldown}
       showCountdown={p.showCountdown}
+      variant={
+        p.variant as "outline" | "default" | "secondary" | "ghost" | "destructive"
+      }
+      size={p.size as "lg" | "default" | "sm"}
+      taunts={fromFolder(p.taunts)}
     />
   );
 }
@@ -176,6 +207,17 @@ export function MorphStatusButtonPreview() {
       successLabel: "Done",
       errorLabel: "It broke. Your fault.",
       resetAfter: [1800, 0, 5000],
+      status: {
+        type: "select",
+        options: [
+          { value: "auto", label: "Auto (click)" },
+          "idle",
+          "loading",
+          "success",
+          "error",
+        ],
+        default: "auto",
+      },
     },
     { id: "morph-status-button" },
   );
@@ -187,6 +229,11 @@ export function MorphStatusButtonPreview() {
       successLabel={p.successLabel}
       errorLabel={p.errorLabel}
       resetAfter={p.resetAfter}
+      status={
+        p.status === "auto"
+          ? undefined
+          : (p.status as "idle" | "loading" | "success" | "error")
+      }
       onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
     />
   );

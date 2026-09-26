@@ -38,6 +38,7 @@ export function CopyButtonPreview() {
       value: "npx evil-buttons@latest init",
       copyLabel: "Copy",
       copiedLabel: "Copied",
+      errorLabel: "Failed",
       timeout: [1500, 500, 5000],
       showValue: true,
     },
@@ -49,6 +50,7 @@ export function CopyButtonPreview() {
       value={p.value}
       copyLabel={p.copyLabel}
       copiedLabel={p.copiedLabel}
+      errorLabel={p.errorLabel}
       timeout={p.timeout}
       showValue={p.showValue}
     />
@@ -61,11 +63,16 @@ export function ClickPowerUpPreview() {
     {
       label: "Doom",
       tapDuration: [500, 200, 2000],
+      accentColor: { type: "color", default: "#2CD4BD" },
     },
     { id: "click-powerup" },
   );
 
-  return <ClickPowerUp tapDuration={p.tapDuration}>{p.label}</ClickPowerUp>;
+  return (
+    <ClickPowerUp tapDuration={p.tapDuration} accentColor={p.accentColor}>
+      {p.label}
+    </ClickPowerUp>
+  );
 }
 
 export function PillButtonPreview() {

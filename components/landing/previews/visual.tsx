@@ -11,7 +11,12 @@ import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
 import { DeferredWebGLPreview } from "./shared";
-import { themeColors, useThemedDialKit } from "./theme";
+import {
+  colorFolder,
+  fromFolder,
+  themeColors,
+  useThemedDialKit,
+} from "./theme";
 
 export function BrutalButtonPreview() {
   const p = useThemedDialKit(
@@ -210,6 +215,10 @@ export function HighlightButtonPreview() {
         default: "default",
       },
       highlightSize: [90, 30, 200],
+      // Off = the component's currentColor-derived defaults.
+      customColors: false,
+      highlightColor: { type: "color", default: "#a3a3a3" },
+      borderColor: { type: "color", default: "#e5e5e5" },
     },
     { id: "highlight-button-v3" },
   );
@@ -218,6 +227,8 @@ export function HighlightButtonPreview() {
     <HighlightButton
       variant={p.variant as "default" | "secondary" | "outline"}
       highlightSize={p.highlightSize}
+      highlightColor={p.customColors ? p.highlightColor : undefined}
+      borderColor={p.customColors ? p.borderColor : undefined}
     >
       {p.label}
     </HighlightButton>
@@ -232,6 +243,15 @@ export function ConfettiButtonPreview() {
       particleCount: [80, 20, 300],
       spread: [64, 20, 180],
       startVelocity: [32, 10, 80],
+      icon: true,
+      colors: colorFolder([
+        "#fafafa",
+        "#d4d4d4",
+        "#a3a3a3",
+        "#93c5fd",
+        "#c4b5fd",
+        "#fcd34d",
+      ]),
     }),
     { id: "confetti-button" },
   );
@@ -242,6 +262,8 @@ export function ConfettiButtonPreview() {
       particleCount={p.particleCount}
       spread={p.spread}
       startVelocity={p.startVelocity}
+      icon={p.icon}
+      colors={fromFolder(p.colors)}
     />
   );
 }
@@ -254,6 +276,17 @@ export function AshBurstButtonPreview() {
       particleCount: [80, 24, 180],
       spread: [110, 50, 180],
       startVelocity: [42, 20, 90],
+      icon: true,
+      colors: colorFolder([
+        "#171717",
+        "#262626",
+        "#404040",
+        "#525252",
+        "#737373",
+        "#a3a3a3",
+        "#b91c1c",
+        "#f97316",
+      ]),
     }),
     { id: "ash-burst-button" },
   );
@@ -264,6 +297,8 @@ export function AshBurstButtonPreview() {
       particleCount={p.particleCount}
       spread={p.spread}
       startVelocity={p.startVelocity}
+      icon={p.icon}
+      colors={fromFolder(p.colors)}
     />
   );
 }

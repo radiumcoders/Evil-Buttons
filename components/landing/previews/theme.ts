@@ -45,3 +45,24 @@ export function pillClassNames(isDark: boolean) {
         secondaryClassName: "bg-primary text-primary-foreground",
       };
 }
+/**
+ * DialKit has no list control, so array props become a folder of numbered
+ * fields (`item1`, `item2`, …). Clearing a text field drops it from the list.
+ */
+export function listFolder<T extends string>(items: readonly T[]) {
+  return Object.fromEntries(
+    items.map((item, i) => [`item${i + 1}`, item]),
+  ) as Record<string, T>;
+}
+
+export function colorFolder(colors: readonly string[]) {
+  return Object.fromEntries(
+    colors.map((color, i) => [`color${i + 1}`, { type: "color", default: color }]),
+  ) as Record<string, { type: "color"; default: string }>;
+}
+
+export function fromFolder(folder: Record<string, unknown>) {
+  return Object.values(folder).filter(
+    (value): value is string => typeof value === "string" && value.trim() !== "",
+  );
+}

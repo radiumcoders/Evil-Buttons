@@ -16,11 +16,11 @@ import { DeferredWebGLPreview } from "./shared";
 export function DemonicButtonPreview() {
   const p = useDialKit(
     "DemonicButton",
-    { label: "Corrupt the World" },
+    { label: "Corrupt the World", holdDuration: [2200, 500, 6000] },
     { id: "demonic-button" },
   );
 
-  return <DemonicButton label={p.label} />;
+  return <DemonicButton label={p.label} holdDuration={p.holdDuration} />;
 }
 
 export function ChromeButtonPreview() {
@@ -39,9 +39,13 @@ export function ChromeButtonPreview() {
 
 
 export function MinimalButtonPreview() {
-  const p = useDialKit("MinimalButton", { label: "Apply" }, { id: "minimal" });
+  const p = useDialKit(
+    "MinimalButton",
+    { label: "Apply", arrow: true },
+    { id: "minimal" },
+  );
 
-  return <MinimalButton>{p.label}</MinimalButton>;
+  return <MinimalButton arrow={p.arrow}>{p.label}</MinimalButton>;
 }
 
 export function MoviePassButtonPreview() {
@@ -54,12 +58,19 @@ export function MoviePassButtonPreview() {
         options: ["tilt", "snap"],
         default: "tilt",
       },
+      stub: { type: "text", default: "", placeholder: "NO. 01" },
+      autoReset: true,
+      resetDelay: [1800, 300, 5000],
     },
     { id: "movie-pass" },
   );
 
   return (
-    <MoviePassButton variant={p.variant as MoviePassVariant}>
+    <MoviePassButton
+      variant={p.variant as MoviePassVariant}
+      stub={p.stub.trim() ? p.stub : undefined}
+      resetDelay={p.autoReset ? p.resetDelay : null}
+    >
       {p.label}
     </MoviePassButton>
   );
@@ -68,11 +79,11 @@ export function MoviePassButtonPreview() {
 export function ShinyButtonPreview() {
   const p = useDialKit(
     "ShinyButton",
-    { label: "Search" },
+    { label: "Search", shineDuration: [650, 200, 2000] },
     { id: "shiny-button" },
   );
 
-  return <ShinyButton>{p.label}</ShinyButton>;
+  return <ShinyButton shineDuration={p.shineDuration}>{p.label}</ShinyButton>;
 }
 
 export function StickyButtonPreview() {
@@ -119,6 +130,7 @@ export function TrollButtonPreview() {
       giveUpAfter: [3500, 1000, 10000],
       fleeRadius: [56, 16, 160],
       range: [140, 40, 300],
+      resetAfter: [1500, 0, 5000],
     },
     { id: "troll-button" },
   );
@@ -129,6 +141,7 @@ export function TrollButtonPreview() {
       giveUpAfter={p.giveUpAfter}
       fleeRadius={p.fleeRadius}
       range={p.range}
+      resetAfter={p.resetAfter}
     >
       {p.label}
     </TrollButton>
