@@ -178,7 +178,7 @@
       "name": "demonic-button",
       "type": "registry:ui",
       "title": "DemonicButton",
-      "description": "A hold-to-charge button: keep pressing to slowly strain the devil horns out while it trembles, spits embers, and flashes between black and blood-red like a filling life meter.",
+      "description": "A hold-to-summon button: keep pressing to raise ridged devil horns from behind it while a canvas fire builds into a roar.",
       "files": [
         "components/evil-buttons/demonic-button.tsx"
       ]

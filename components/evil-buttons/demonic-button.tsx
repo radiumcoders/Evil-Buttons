@@ -1,235 +1,462 @@
-"use client"
-import React, { useEffect, useRef, useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+"use client";
 
-// How long (ms) the user must hold before the horns fully grow out.
-const HORN_GROW_DURATION = 2600
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
-const HornSvg = ({ className }: { className?: string }) => {
+export interface DemonicButtonProps
+  extends Omit<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    "children" | "onClick"
+  > {
+  /** Button label. Falls back to `label`. */
+  children?: React.ReactNode;
+  /** Label used when no children are provided. */
+  label?: React.ReactNode;
+  /** Milliseconds of holding needed to fully summon the demon. */
+  holdDuration?: number;
+  /** Fired once each time the charge reaches 100%. */
+  onSummon?: () => void;
+}
+
+/** Extra canvas room around the button so flames can spill past its edges. */
+const FIRE_BLEED_X = 40;
+const FIRE_HEIGHT = 150;
+/** Charge drains this many times faster than it fills once released. */
+const DRAIN_RATE = 2.4;
+
+type Particle = {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  age: number;
+  life: number;
+  size: number;
+  seed: number;
+};
+
+// Blackbody-ish ramp: white-hot core, through orange and red, into smoke.
+const FIRE_RAMP: [number, [number, number, number, number]][] = [
+  [0, [255, 244, 214, 1]],
+  [0.18, [255, 196, 92, 0.95]],
+  [0.42, [255, 118, 38, 0.8]],
+  [0.68, [206, 48, 24, 0.5]],
+  [0.86, [96, 24, 18, 0.22]],
+  [1, [40, 20, 20, 0]],
+];
+
+const SPRITE_STEPS = 24;
+const SPRITE_SIZE = 64;
+
+function sampleRamp(t: number) {
+  for (let i = 1; i < FIRE_RAMP.length; i++) {
+    const [t1, c1] = FIRE_RAMP[i];
+    if (t <= t1) {
+      const [t0, c0] = FIRE_RAMP[i - 1];
+      const k = (t - t0) / (t1 - t0);
+      return c0.map((v, j) => v + (c1[j] - v) * k) as [
+        number,
+        number,
+        number,
+        number,
+      ];
+    }
+  }
+  return FIRE_RAMP[FIRE_RAMP.length - 1][1];
+}
+
+/** Pre-rendered soft radial blobs, one per step of the fire ramp. */
+function createSprites() {
+  return Array.from({ length: SPRITE_STEPS }, (_, i) => {
+    const [r, g, b, a] = sampleRamp(i / (SPRITE_STEPS - 1));
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = SPRITE_SIZE;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      const half = SPRITE_SIZE / 2;
+      const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
+      gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${a})`);
+      gradient.addColorStop(0.45, `rgba(${r}, ${g}, ${b}, ${a * 0.55})`);
+      gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, SPRITE_SIZE, SPRITE_SIZE);
+    }
+    return canvas;
+  });
+}
+
+function Horn({ side }: { side: "left" | "right" }) {
+  const id = React.useId().replace(/:/g, "");
+  // Outer edge sweeps out and up to the tip, inner edge curls back to the base.
+  const shape =
+    "M13 64 C6 50 1.5 33 6.5 15 C8 9.5 10.5 5 13 2 C12.5 12 15 26 21 38 C24.5 45 28.5 53 31 64 Z";
+
   return (
-    <svg width="109" height="25" viewBox="0 0 109 90" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <path d="M3.03185 86.9125L90.1135 84.1034C93.5217 83.9935 94.2609 78.7889 91.0479 77.6469C71.5795 70.7269 42.1955 58.6135 35.3203 46.5C29.2868 35.8695 28.041 22.1022 28.0728 12.3131C28.083 9.16839 23.7337 7.66104 22.0945 10.3448C16.177 20.0327 7.95496 35.0668 4.32007 49C-0.17992 66.2492 -0.180022 78.9989 0.10125 84.2962C0.182932 85.8345 1.49214 86.9622 3.03185 86.9125Z" fill="#DC2627" />
-      <path d="M28.2443 51.71C28.9249 50.206 30.6856 49.5252 32.201 50.1801C33.7349 50.843 34.441 52.6238 33.7781 54.1577L22.4095 80.4645C21.2245 83.2066 20.632 84.5776 19.4766 85.3893C18.3212 86.201 16.8304 86.2935 13.849 86.4784L13.5 86.5C13.0313 86.5 12.7191 86.016 12.9123 85.5891L28.2443 51.71Z" fill="white" />
-      <path d="M41.7587 71.8909C42.4484 70.2952 44.3011 69.5607 45.8969 70.2503C47.3828 70.8924 48.1395 72.5569 47.6464 74.0987L44.7401 83.186C44.2941 84.5804 43.0362 85.5567 41.5748 85.6427L38.443 85.827C37.1299 85.9042 36.2218 84.5358 36.8032 83.3558L41.7587 71.8909Z" fill="white" />
+    <svg
+      viewBox="0 0 34 66"
+      className={cn("h-full w-full", side === "right" && "-scale-x-100")}
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id={`${id}-body`} x1="0.5" y1="1" x2="0.2" y2="0">
+          <stop offset="0" stopColor="#1c0907" />
+          <stop offset="0.45" stopColor="#4a120d" />
+          <stop offset="0.8" stopColor="#8a3a24" />
+          <stop offset="1" stopColor="#e9d6bf" />
+        </linearGradient>
+        <linearGradient id={`${id}-shade`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.18" />
+          <stop offset="0.35" stopColor="#ffffff" stopOpacity="0" />
+          <stop offset="0.75" stopColor="#000000" stopOpacity="0" />
+          <stop offset="1" stopColor="#000000" stopOpacity="0.45" />
+        </linearGradient>
+        <clipPath id={`${id}-clip`}>
+          <path d={shape} />
+        </clipPath>
+      </defs>
+      <path d={shape} fill={`url(#${id}-body)`} />
+      <g clipPath={`url(#${id}-clip)`}>
+        <rect width="34" height="66" fill={`url(#${id}-shade)`} />
+        {/* Growth ridges wrapping around the horn. */}
+        <g
+          fill="none"
+          stroke="#000000"
+          strokeOpacity="0.38"
+          strokeWidth="0.9"
+          strokeLinecap="round"
+        >
+          <path d="M3 56 Q17 50 32 58" />
+          <path d="M2 48 Q15 42 28 49" />
+          <path d="M2 40 Q13 35 25 41" />
+          <path d="M2.5 32 Q12 28 21.5 33" />
+          <path d="M3.5 25 Q11 21.5 18.5 25.5" />
+          <path d="M5 18 Q10.5 15.5 16 18.5" />
+          <path d="M7 12 Q10.5 10.5 14.5 12.5" />
+        </g>
+        <path
+          d="M8 58 C4 44 3 30 7.5 16"
+          fill="none"
+          stroke="#ffd9b8"
+          strokeOpacity="0.28"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
+      </g>
     </svg>
-  )
+  );
 }
 
-type Ember = {
-  id: number
-  side: -1 | 1
-  dx: number
-  dy: number
-  size: number
-  duration: number
-  color: string
-}
+export const DemonicButton = React.forwardRef<
+  HTMLButtonElement,
+  DemonicButtonProps
+>(
+  (
+    {
+      children,
+      label = "Summon",
+      holdDuration = 2200,
+      onSummon,
+      className,
+      disabled,
+      type = "button",
+      ...props
+    },
+    ref,
+  ) => {
+    const wrapperRef = React.useRef<HTMLDivElement>(null);
+    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+    const canvasRef = React.useRef<HTMLCanvasElement>(null);
+    const glowRef = React.useRef<HTMLSpanElement>(null);
+    const leftHornRef = React.useRef<HTMLSpanElement>(null);
+    const rightHornRef = React.useRef<HTMLSpanElement>(null);
 
-const EMBER_COLORS = ["#DC2626", "#F97316", "#FACC15", "#FB923C"]
+    const holdingRef = React.useRef(false);
+    const progressRef = React.useRef(0);
+    const summonedRef = React.useRef(false);
+    const particlesRef = React.useRef<Particle[]>([]);
+    const spawnDebtRef = React.useRef(0);
+    const spritesRef = React.useRef<HTMLCanvasElement[] | null>(null);
+    const rafRef = React.useRef<number | null>(null);
+    const lastTimeRef = React.useRef(0);
+    const sizeRef = React.useRef({ width: 0, height: 0, dpr: 1 });
+    const reduceMotionRef = React.useRef(false);
+    const onSummonRef = React.useRef(onSummon);
+    const [summoned, setSummoned] = React.useState(false);
 
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-const easeOut = (t: number) => 1 - (1 - t) * (1 - t)
+    React.useEffect(() => {
+      onSummonRef.current = onSummon;
+    }, [onSummon]);
 
-// Blend from black to a hot blood-red as `amount` goes 0 -> 1.
-const bloodColor = (amount: number) => {
-  const r = Math.round(lerp(0, 220, amount))
-  const g = Math.round(lerp(0, 38, amount))
-  const b = Math.round(lerp(0, 38, amount))
-  return `rgb(${r}, ${g}, ${b})`
-}
+    const setButtonRef = (node: HTMLButtonElement | null) => {
+      buttonRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
+    };
 
-export const DemonicButton = ({ label }: { label: string }) => {
-  const [frame, setFrame] = useState({ p: 0, t: 0 })
-  const [holding, setHolding] = useState(false)
-  const [grown, setGrown] = useState(false)
-  const [embers, setEmbers] = useState<Ember[]>([])
+    // Keep the canvas backing store matched to its CSS size and DPR.
+    React.useEffect(() => {
+      const wrapper = wrapperRef.current;
+      const canvas = canvasRef.current;
+      if (!wrapper || !canvas) return;
 
-  const holdingRef = useRef(false)
-  const progressRef = useRef(0)
-  const grownRef = useRef(false)
-  const rafRef = useRef<number | null>(null)
-  const lastTimeRef = useRef(0)
-  const lastSpawnRef = useRef(0)
-  const emberIdRef = useRef(0)
+      const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+      reduceMotionRef.current = query.matches;
+      const onMotionChange = () => {
+        reduceMotionRef.current = query.matches;
+      };
+      query.addEventListener("change", onMotionChange);
 
-  const spawnEmbers = (count: number, power: number) => {
-    setEmbers((prev) => {
-      const next = [...prev]
-      for (let i = 0; i < count; i++) {
-        const side: -1 | 1 = Math.random() > 0.5 ? 1 : -1
-        next.push({
-          id: emberIdRef.current++,
-          side,
-          dx: side * (6 + Math.random() * 22 * power) + (Math.random() - 0.5) * 14,
-          dy: -(18 + Math.random() * 46 * power),
-          size: 3 + Math.random() * 4,
-          duration: 0.5 + Math.random() * 0.45,
-          color: EMBER_COLORS[(Math.random() * EMBER_COLORS.length) | 0],
-        })
+      const resize = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const width = wrapper.offsetWidth + FIRE_BLEED_X * 2;
+        sizeRef.current = { width, height: FIRE_HEIGHT, dpr };
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(FIRE_HEIGHT * dpr);
+      };
+      resize();
+      const observer = new ResizeObserver(resize);
+      observer.observe(wrapper);
+
+      return () => {
+        observer.disconnect();
+        query.removeEventListener("change", onMotionChange);
+        if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      };
+    }, []);
+
+    const paint = (progress: number, now: number) => {
+      const eased = 1 - Math.pow(1 - progress, 3);
+      // Slight overshoot as the horns break free, then settle.
+      const pop =
+        progress > 0.85 ? Math.sin(((progress - 0.85) / 0.15) * Math.PI) * 0.06 : 0;
+      const tremble =
+        reduceMotionRef.current || !holdingRef.current || progress >= 1
+          ? 0
+          : progress * progress;
+      const shakeX = (Math.sin(now * 0.09) + Math.sin(now * 0.137)) * 1.2 * tremble;
+      const shakeY = Math.cos(now * 0.113) * 0.8 * tremble;
+
+      const hornY = 26 * (1 - eased);
+      const hornScale = 0.55 + 0.45 * eased + pop;
+      const hornTilt = 18 * (1 - eased);
+      if (leftHornRef.current) {
+        leftHornRef.current.style.transform = `translateY(${hornY}px) rotate(${-hornTilt}deg) scale(${hornScale})`;
+        leftHornRef.current.style.opacity = String(Math.min(1, progress * 3));
       }
-      // Cap the pool so we never leak nodes.
-      return next.slice(-48)
-    })
-  }
+      if (rightHornRef.current) {
+        rightHornRef.current.style.transform = `translateY(${hornY}px) rotate(${hornTilt}deg) scale(${hornScale})`;
+        rightHornRef.current.style.opacity = String(Math.min(1, progress * 3));
+      }
+      if (buttonRef.current) {
+        buttonRef.current.style.transform = `translate(${shakeX}px, ${shakeY}px)`;
+      }
+      if (glowRef.current) {
+        const flicker = reduceMotionRef.current
+          ? 0
+          : (Math.sin(now * 0.021) + Math.sin(now * 0.047)) * 0.05;
+        glowRef.current.style.opacity = String(
+          Math.max(0, Math.min(1, eased * 0.9 + flicker * eased)),
+        );
+      }
+    };
 
-  const loop = (now: number) => {
-    const last = lastTimeRef.current || now
-    const dt = Math.min((now - last) / 1000, 0.05)
-    lastTimeRef.current = now
+    const drawFire = (intensity: number, dt: number, now: number) => {
+      const canvas = canvasRef.current;
+      const ctx = canvas?.getContext("2d");
+      const button = buttonRef.current;
+      if (!canvas || !ctx || !button) return;
 
-    const dir = holdingRef.current ? 1 : -1
-    let p = progressRef.current + (dir * dt) / (HORN_GROW_DURATION / 1000)
-    p = Math.max(0, Math.min(1, p))
-    progressRef.current = p
+      spritesRef.current ??= createSprites();
+      const sprites = spritesRef.current;
+      const { width, height, dpr } = sizeRef.current;
+      const particles = particlesRef.current;
+      const baseY = height - button.offsetHeight / 2;
+      const left = FIRE_BLEED_X + 6;
+      const right = width - FIRE_BLEED_X - 6;
+      const center = width / 2;
 
-    // Climax: first frame we reach full charge, erupt with a burst.
-    if (p >= 1 && !grownRef.current) {
-      grownRef.current = true
-      setGrown(true)
-      spawnEmbers(26, 1.6)
-    }
-    if (p < 1 && grownRef.current) {
-      grownRef.current = false
-      setGrown(false)
-    }
+      if (intensity > 0.02 && !reduceMotionRef.current) {
+        spawnDebtRef.current += dt * (70 + 260 * intensity);
+        while (spawnDebtRef.current >= 1) {
+          spawnDebtRef.current -= 1;
+          // Bias spawns toward the middle so the flame has a body.
+          const spread = (Math.random() + Math.random()) / 2;
+          const life = 0.45 + Math.random() * 0.55 * (0.6 + intensity);
+          particles.push({
+            x: left + spread * (right - left),
+            y: baseY + Math.random() * 6,
+            vx: (Math.random() - 0.5) * 18,
+            vy: -(35 + Math.random() * 55) * (0.55 + intensity),
+            age: 0,
+            life,
+            size: (9 + Math.random() * 13) * (0.55 + 0.6 * intensity),
+            seed: Math.random() * 1000,
+          });
+        }
+      }
 
-    // Stream embers from the horn tips while they are pushing out.
-    if (holdingRef.current && p > 0.04 && p < 1 && now - lastSpawnRef.current > 55) {
-      lastSpawnRef.current = now
-      spawnEmbers(2, 0.4 + p)
-    }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, width, height);
 
-    setFrame({ p, t: now })
+      let alive = 0;
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.age += dt;
+        if (p.age >= p.life) continue;
 
-    if (p <= 0 && !holdingRef.current) {
-      rafRef.current = null
-      return
-    }
-    rafRef.current = requestAnimationFrame(loop)
-  }
+        // Buoyancy, a gentle pull to the centerline, and turbulent sway.
+        p.vy -= 60 * dt;
+        p.vx += (center - p.x) * 0.9 * dt;
+        p.vx += Math.sin(now * 0.004 + p.seed) * 40 * dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        particles[alive++] = p;
 
-  const ensureLoop = () => {
-    if (rafRef.current === null) {
-      lastTimeRef.current = 0
-      rafRef.current = requestAnimationFrame(loop)
-    }
-  }
+        const t = p.age / p.life;
+        const radius = p.size * (1 - t * 0.55);
+        const sprite = sprites[Math.min(SPRITE_STEPS - 1, Math.floor(t * SPRITE_STEPS))];
+        ctx.globalAlpha = Math.min(1, (1 - t) * 1.4);
+        ctx.drawImage(sprite, p.x - radius, p.y - radius, radius * 2, radius * 2);
+      }
+      particles.length = alive;
+      ctx.globalAlpha = 1;
+    };
 
-  const startHold = () => {
-    holdingRef.current = true
-    setHolding(true)
-    ensureLoop()
-  }
+    const loop = (now: number) => {
+      const last = lastTimeRef.current || now;
+      const dt = Math.min((now - last) / 1000, 0.05);
+      lastTimeRef.current = now;
 
-  const stopHold = () => {
-    holdingRef.current = false
-    setHolding(false)
-    ensureLoop()
-  }
+      const holding = holdingRef.current;
+      const step = dt / (holdDuration / 1000);
+      let progress = progressRef.current + (holding ? step : -step * DRAIN_RATE);
+      progress = Math.max(0, Math.min(1, progress));
+      progressRef.current = progress;
 
-  useEffect(() => {
-    return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current)
-    }
-  }, [])
+      if (progress >= 1 && !summonedRef.current) {
+        summonedRef.current = true;
+        setSummoned(true);
+        onSummonRef.current?.();
+      } else if (progress < 1 && summonedRef.current) {
+        summonedRef.current = false;
+        setSummoned(false);
+      }
 
-  const { p, t } = frame
-  const charging = holding && p < 1
+      // Flames build slowly, then roar once the demon is summoned.
+      const intensity = progress >= 1 ? 1 : Math.pow(progress, 1.6) * 0.85;
+      paint(progress, now);
+      drawFire(intensity, dt, now);
 
-  // Trembling intensity ramps up as the horns strain to push out, and a
-  // faint shiver lingers once the demon is fully awake.
-  const intensity = charging ? 0.2 + p * 0.8 : grown ? 0.18 : 0
-  const shakeX = (Math.sin(t * 0.07) + Math.sin(t * 0.123)) * 2.4 * intensity
-  const shakeY = Math.cos(t * 0.111) * 1.8 * intensity
+      if (!holding && progress <= 0 && particlesRef.current.length === 0) {
+        rafRef.current = null;
+        lastTimeRef.current = 0;
+        return;
+      }
+      rafRef.current = requestAnimationFrame(loop);
+    };
 
-  // Heartbeat flash between the black base and red — faster and fuller as the
-  // life meter fills, then a strong steady pulse once it's alive.
-  const flashPulse = Math.sin(t * 0.006 * (1 + p * 4)) * 0.5 + 0.5
-  const redAmount = grown
-    ? 0.55 + flashPulse * 0.45
-    : Math.min(1, p * 0.5 + flashPulse * p * 0.5)
-  const bg = bloodColor(redAmount)
-  const glow = redAmount * (grown ? 28 : 18)
+    const ensureLoop = () => {
+      if (rafRef.current === null) {
+        lastTimeRef.current = 0;
+        rafRef.current = requestAnimationFrame(loop);
+      }
+    };
 
-  const hornY = lerp(14, -18, easeOut(p))
-  const hornScale = lerp(0.6, 1.05, p)
-  const hornRot = lerp(22, 0, easeOut(p)) + shakeX * 0.4
+    const startHold = () => {
+      if (disabled) return;
+      holdingRef.current = true;
+      ensureLoop();
+    };
 
-  return (
-    <div className="relative w-fit select-none">
-      {/* Ember / particle layer */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-visible">
-        <AnimatePresence>
-          {embers.map((e) => (
-            <motion.span
-              key={e.id}
-              className="absolute rounded-full"
-              style={{
-                top: -8,
-                ...(e.side === -1 ? { left: -4 } : { right: -4 }),
-                width: e.size,
-                height: e.size,
-                backgroundColor: e.color,
-                boxShadow: `0 0 6px ${e.color}`,
-              }}
-              initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-              animate={{ opacity: 0, x: e.dx, y: e.dy, scale: 0.2 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: e.duration, ease: "easeOut" }}
-              onAnimationComplete={() =>
-                setEmbers((prev) => prev.filter((x) => x.id !== e.id))
-              }
-            />
-          ))}
-        </AnimatePresence>
+    const stopHold = () => {
+      if (!holdingRef.current) return;
+      holdingRef.current = false;
+      ensureLoop();
+    };
+
+    return (
+      <div ref={wrapperRef} className="relative inline-flex select-none">
+        <canvas
+          ref={canvasRef}
+          aria-hidden
+          className="pointer-events-none absolute bottom-1/2 z-0"
+          style={{
+            left: -FIRE_BLEED_X,
+            width: `calc(100% + ${FIRE_BLEED_X * 2}px)`,
+            height: FIRE_HEIGHT,
+          }}
+        />
+
+        <span
+          ref={leftHornRef}
+          aria-hidden
+          className="pointer-events-none absolute bottom-[45%] left-[14%] z-[1] h-11 w-6 origin-bottom opacity-0"
+          style={{ transform: "translateY(26px) rotate(-18deg) scale(0.55)" }}
+        >
+          <Horn side="left" />
+        </span>
+        <span
+          ref={rightHornRef}
+          aria-hidden
+          className="pointer-events-none absolute right-[14%] bottom-[45%] z-[1] h-11 w-6 origin-bottom opacity-0"
+          style={{ transform: "translateY(26px) rotate(18deg) scale(0.55)" }}
+        >
+          <Horn side="right" />
+        </span>
+
+        <button
+          ref={setButtonRef}
+          type={type}
+          disabled={disabled}
+          data-state={summoned ? "summoned" : "idle"}
+          aria-live="polite"
+          onPointerDown={(e) => {
+            if (e.button !== 0 && e.pointerType === "mouse") return;
+            e.currentTarget.setPointerCapture?.(e.pointerId);
+            startHold();
+          }}
+          onPointerUp={stopHold}
+          onPointerCancel={stopHold}
+          onLostPointerCapture={stopHold}
+          onKeyDown={(e) => {
+            if ((e.key === " " || e.key === "Enter") && !e.repeat) {
+              e.preventDefault();
+              startHold();
+            }
+          }}
+          onKeyUp={(e) => {
+            if (e.key === " " || e.key === "Enter") {
+              e.preventDefault();
+              stopHold();
+            }
+          }}
+          onBlur={stopHold}
+          onContextMenu={(e) => e.preventDefault()}
+          className={cn(
+            "relative z-10 inline-flex h-10 min-w-36 cursor-pointer touch-none items-center justify-center overflow-hidden rounded-lg bg-neutral-950 px-5 text-sm font-medium text-neutral-100 outline-none",
+            "shadow-[inset_0_1px_0_rgb(255_255_255/0.08),0_1px_2px_rgb(0_0_0/0.3)] ring-1 ring-white/10",
+            "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+            className,
+          )}
+          {...props}
+        >
+          {/* Ember glow that rises from the bottom as the charge builds. */}
+          <span
+            ref={glowRef}
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-0"
+            style={{
+              background:
+                "radial-gradient(120% 90% at 50% 130%, rgb(255 140 50 / 0.55), rgb(200 40 20 / 0.28) 45%, transparent 75%)",
+            }}
+          />
+          <span className="relative">{children ?? label}</span>
+        </button>
       </div>
+    );
+  },
+);
 
-      <motion.div
-        className="absolute -left-5 bottom-[60%] z-0 h-auto w-10 origin-bottom"
-        style={{ y: hornY, scaleX: hornScale, scaleY: hornScale, rotate: hornRot }}
-      >
-        <HornSvg />
-      </motion.div>
-      <motion.div
-        className="absolute -right-5 bottom-[60%] z-0 h-auto w-10 origin-bottom"
-        style={{ y: hornY, scaleX: -hornScale, scaleY: hornScale, rotate: -hornRot }}
-      >
-        <HornSvg />
-      </motion.div>
+DemonicButton.displayName = "DemonicButton";
 
-      <motion.button
-        type="button"
-        className="relative z-10 min-w-30 rounded-xl px-6 py-2 font-medium text-white focus:outline-none"
-        style={{
-          x: shakeX,
-          y: shakeY,
-          backgroundColor: bg,
-          boxShadow: glow > 0.5 ? `0 0 ${glow}px rgba(220, 38, 38, ${redAmount * 0.85})` : "none",
-        }}
-        onPointerDown={(e) => {
-          if (e.button !== 0 && e.pointerType === "mouse") return
-          e.currentTarget.setPointerCapture?.(e.pointerId)
-          startHold()
-        }}
-        onPointerUp={stopHold}
-        onPointerCancel={stopHold}
-        onLostPointerCapture={stopHold}
-        onKeyDown={(e) => {
-          if ((e.key === " " || e.key === "Enter") && !e.repeat) {
-            e.preventDefault()
-            startHold()
-          }
-        }}
-        onKeyUp={(e) => {
-          if (e.key === " " || e.key === "Enter") {
-            e.preventDefault()
-            stopHold()
-          }
-        }}
-        onContextMenu={(e) => e.preventDefault()}
-      >
-        {label}
-      </motion.button>
-    </div>
-  )
-}
+export default DemonicButton;

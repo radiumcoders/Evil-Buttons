@@ -1,14 +1,14 @@
 ---
 title: DemonicButton
-description: A button with devil horns that spring out on hover and a blood-red flash on click.
+description: A hold-to-summon button that raises ridged devil horns from behind it while a canvas fire builds into a roar.
 category: Mischief
 ---
 
-DemonicButton sprouts animated devil horns from behind the button when hovered. The horns rise with a snappy spring animation and retract with an ease-back curve on mouse leave. Clicking the button flashes the background blood-red via `whileTap`. Built with `motion/react`.
+DemonicButton is a hold-to-summon ritual. Press and hold and a pair of shaded, ridged horns slowly push up from behind the button while it trembles and an ember glow rises inside it. Flames build from a flicker into a full blaze, and once the charge completes the demon is summoned. Let go and everything sinks back into the dark.
 
 ## Preview
 
-<PreviewCard title="DemonicButton" note="Interactive – hover to reveal horns, click for red flash">
+<PreviewCard>
   <DemonicButton label="Corrupt the World" />
 </PreviewCard>
 
@@ -24,23 +24,45 @@ Add the item with the shadcn CLI.
 import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 
 export function ButtonDemo() {
-  return <DemonicButton label="Corrupt the World" />;
+  return (
+    <DemonicButton holdDuration={1800} onSummon={() => console.log("Summoned")}>
+      Corrupt the World
+    </DemonicButton>
+  );
 }
 ```
 
+## Variants
+
+### Quick summon
+
+Shorten `holdDuration` for a faster ritual.
+
+<PreviewCard>
+  <DemonicButton holdDuration={900} label="Sell Soul" />
+</PreviewCard>
+
 ## Props
 
-| Prop    | Type     | Default | Description                        |
-| ------- | -------- | ------- | ---------------------------------- |
-| `label` | `string` | -       | The visible text inside the button |
+The component spreads native `button` props except `onClick`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Summon"` | Label used when no children are provided. |
+| `holdDuration` | `number` | `2200` | Milliseconds of holding needed to fully summon. |
+| `onSummon` | `() => void` | - | Fired once each time the charge reaches 100%. |
+| `className` | `string` | - | Extra classes passed to the button. |
 
 ## Notes
 
-- The left horn SVG is flipped with `-scale-x-100` for the right horn — no second asset needed.
-- Horns sit behind the button via `z-0` / `z-10` layering and animate with per-variant transitions from `motion/react`.
-- The button enforces `min-w-30` so the horns don't overlap on short labels.
-- The red flash on click uses `whileTap` — it only stays red while the button is pressed.
+- Fire is a small canvas particle system: soft sprites are pre-rendered along a white-hot to red to smoke color ramp, then pushed up by buoyancy, pulled toward the centerline, and swayed by turbulence.
+- The horns are inline SVG with a keratin gradient, side shading, and growth ridges, rising and untilting from behind the button as the charge builds.
+- One `requestAnimationFrame` loop drives the charge, horns, glow, and fire by writing styles directly, so React does not re-render every frame. The loop stops once everything has settled.
+- Releasing drains the charge faster than it fills. Hold with the pointer, <kbd>Space</kbd>, or <kbd>Enter</kbd>.
+- With reduced motion enabled, the trembling and flames are skipped; the horns and glow still follow the charge.
+- `data-state` is `summoned` at full charge and `idle` otherwise.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/demonic-button.tsx` and installs `motion` as a dependency.
+The registry item includes `components/evil-buttons/demonic-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies.

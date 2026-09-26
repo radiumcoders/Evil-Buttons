@@ -18,7 +18,7 @@ import { DeferredWebGLPreview } from "./shared";
 export function DemonicButtonPreview() {
   const p = useDialKit(
     "DemonicButton",
-    { label: "Currupt the World" },
+    { label: "Corrupt the World" },
     { id: "demonic-button" },
   );
 
