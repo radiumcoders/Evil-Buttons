@@ -180,7 +180,7 @@ export const CommandButton = React.forwardRef<
           "group/cmd relative inline-flex h-9 cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 text-sm font-medium outline-none select-none",
           // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
           "bg-linear-to-b from-[#353535] to-[#272727] text-neutral-50 shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
-          "transition-[transform,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+          "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
           // Press eases in fast and settles the shadow; release springs back on the slower base curve.
           "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
           // The shortcut has no :active state, so data-firing plays the same press.
@@ -203,7 +203,7 @@ export const CommandButton = React.forwardRef<
                 aria-hidden
                 data-pressed={held.has(part) || undefined}
                 className={cn(
-                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-white/8 px-1 text-[11px] leading-none font-medium text-neutral-50/55 inset-ring inset-ring-white/6 transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)]",
+                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-white/8 px-1 text-[11px] leading-none font-medium text-neutral-50/55 inset-ring inset-ring-white/6 transition-[translate,background-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)]",
                   // Same states and timing as the button's press, so caps and button move on the same frame.
                   "data-pressed:translate-y-px data-pressed:bg-white/20 data-pressed:text-neutral-50 data-pressed:duration-100 data-pressed:ease-out",
                   "group-active/cmd:translate-y-px group-active/cmd:bg-white/20 group-active/cmd:text-neutral-50 group-active/cmd:duration-100 group-active/cmd:ease-out",
