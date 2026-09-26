@@ -1,14 +1,14 @@
 ---
 title: ShinyButton
-description: A glossy, gradient-styled button with a layered inner glow and press feedback.
+description: A glossy, gradient-styled button with a layered inner glow and a glint that sweeps across on every click.
 category: Styles
 ---
 
-ShinyButton is a glossy, gradient-styled button with a layered inner glow effect. It features a smooth press animation with scale and shadow feedback for a polished, tactile feel.
+ShinyButton is a glossy, candy-like button: a bright indigo rim, lit from below, wraps a flatter, deeper inner face, so the face reads as sunk into the rim. Every click sends a bright glint sweeping across the rim and face while the surface briefly flares, and the button sinks slightly with a tighter shadow for a tactile press.
 
 ## Preview
 
-<PreviewCard title="ShinyButton" note="Interactive">
+<PreviewCard>
   <ShinyButton>Deploy Doom</ShinyButton>
 </PreviewCard>
 
@@ -24,16 +24,35 @@ Add the item with the shadcn CLI.
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 
 export function ButtonDemo() {
-  return <ShinyButton>Launch</ShinyButton>;
+  return <ShinyButton onClick={() => console.log("Shiny")}>Launch</ShinyButton>;
 }
 ```
 
+## Variants
+
+### Slow glint
+
+A longer `shineDuration` gives a lazier, more luxurious sweep.
+
+<PreviewCard>
+  <ShinyButton shineDuration={1200}>Polish</ShinyButton>
+</PreviewCard>
+
 ## Props
 
-| Prop       | Type              | Default | Description                          |
-| ---------- | ----------------- | ------- | ------------------------------------ |
-| `children` | `React.ReactNode` | -       | The visible button label or content. |
+The component spreads native `button` props and forwards its ref to the button.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | The button label or content. |
+| `shineDuration` | `number` | `650` | Milliseconds the glint takes to sweep across on click. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- The glint runs on the Web Animations API, so it needs no animation library and restarts cleanly on rapid clicks.
+- `prefers-reduced-motion` skips the glint and flare; the press feedback stays.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/shiny-button.tsx`. This is a pure CSS component with no external dependencies.
+The registry item includes `components/evil-buttons/shiny-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.

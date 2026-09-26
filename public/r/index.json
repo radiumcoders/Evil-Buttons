@@ -25,7 +25,7 @@
       "name": "shiny-button",
       "type": "registry:ui",
       "title": "ShinyButton",
-      "description": "A glossy, gradient-styled button with a layered inner glow and press feedback.",
+      "description": "A glossy, gradient-styled button with a layered inner glow and a glint that sweeps across on every click.",
       "files": [
         "components/evil-buttons/shiny-button.tsx"
       ]

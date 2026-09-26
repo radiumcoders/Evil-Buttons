@@ -22,9 +22,9 @@
     "exportName": "ShinyButton",
     "docSlug": "shiny-button",
     "title": "ShinyButton",
-    "description": "A glossy, gradient-styled button with a layered inner glow and press feedback.",
+    "description": "A glossy, gradient-styled button with a layered inner glow and a glint that sweeps across on every click.",
     "file": "components/evil-buttons/shiny-button.tsx",
-    "dependencies": []
+    "dependencies": ["clsx", "tailwind-merge"]
   },
   {
     "name": "movie-pass",
