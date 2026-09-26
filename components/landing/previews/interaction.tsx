@@ -105,6 +105,11 @@ export function SlideToDetonatePreview() {
       threshold: [0.9, 0.5, 1, 0.01],
       resistance: [0.35, 0, 1, 0.05],
       smoothness: [0.4, 0, 1, 0.05],
+      variant: {
+        type: "select",
+        options: ["dark", "light"],
+        default: "dark",
+      },
       resetAfter: [1600, 0, 5000],
     },
     { id: "slide-to-detonate" },
@@ -117,6 +122,7 @@ export function SlideToDetonatePreview() {
       threshold={p.threshold}
       resistance={p.resistance}
       smoothness={p.smoothness}
+      variant={p.variant as "dark" | "light"}
       resetAfter={p.resetAfter}
     />
   );

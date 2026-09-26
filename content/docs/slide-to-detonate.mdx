@@ -4,7 +4,7 @@ description: A slide-to-confirm safety gate that makes you drag a handle across 
 category: Interactive
 ---
 
-SlideToDetonate guards destructive actions behind a deliberate drag gesture. A raised handle sits in a recessed dark track, a soft white trail fills in behind it as you drag, and the handle glows once the fuse is armed. Let go too early and it springs back; release past the threshold and `onConfirm` fires. Tune how hard the fuse pushes back with `resistance` and how softly the handle follows your finger with `smoothness`.
+SlideToDetonate guards destructive actions behind a deliberate drag gesture. A raised handle sits in a recessed track (dark or light), a soft white trail fills in behind it as you drag, and the handle glows once the fuse is armed. Let go too early and it springs back; release past the threshold and `onConfirm` fires. Tune how hard the fuse pushes back with `resistance` and how softly the handle follows your finger with `smoothness`.
 
 ## Preview
 
@@ -36,6 +36,14 @@ export function ButtonDemo() {
 ```
 
 ## Variants
+
+### Light
+
+`variant="light"` swaps the dark groove for a light one with a white handle.
+
+<PreviewCard>
+  <SlideToDetonate variant="light">Slide to detonate</SlideToDetonate>
+</PreviewCard>
 
 ### Heavy fuse
 
@@ -74,6 +82,7 @@ The component spreads native `button` props onto the handle, except `onClick` an
 | `threshold` | `number` | `0.9` | Fraction of the track (0-1) the handle must cross to arm the action. |
 | `resistance` | `number` | `0.35` | How hard the fuse pushes back (0-1). `0` tracks the pointer one to one; higher values make the handle lag further behind toward the end. |
 | `smoothness` | `number` | `0.4` | How softly the handle follows the pointer (0-1). `0` locks it to the pointer; higher values glide behind on a looser spring. |
+| `variant` | `"dark" \| "light"` | `"dark"` | Surface style: a recessed dark groove or a light one. |
 | `resetAfter` | `number` | `1600` | Milliseconds to stay in the success state before resetting. Set to `0` to stay. |
 | `disabled` | `boolean` | `false` | Locks the handle and dims the track. |
 | `className` | `string` | - | Extra classes passed to the track. |
