@@ -138,19 +138,6 @@
   vertical-align: -0.1em;
 }
 
-@keyframes highlight-button-ripple {
-  from {
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  to {
-    width: 200%;
-    height: 200%;
-    opacity: 0;
-  }
-}
-
 .docs-content {
   color: var(--foreground);
 }

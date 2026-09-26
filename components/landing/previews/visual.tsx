@@ -1,4 +1,5 @@
 "use client";
+import { useDialKit } from "dialkit";
 
 import { BrutalButton } from "@/components/evil-buttons/brutal-button";
 import DitherButton from "@/components/evil-buttons/dither-button";
@@ -199,25 +200,24 @@ export function FrameButtonPreview() {
 }
 
 export function HighlightButtonPreview() {
-  const p = useThemedDialKit(
+  const p = useDialKit(
     "HighlightButton",
-    (isDark) => {
-      const colors = isDark ? themeColors.dark : themeColors.light;
-      return {
-        label: "Send",
-        highlightColor: colors.foreground,
-        highlightSize: [56, 20, 120],
-        borderColor: colors.foreground,
-      };
+    {
+      label: "Send",
+      variant: {
+        type: "select",
+        options: ["default", "secondary", "outline"],
+        default: "default",
+      },
+      highlightSize: [90, 30, 200],
     },
-    { id: "highlight-button-v2" },
+    { id: "highlight-button-v3" },
   );
 
   return (
     <HighlightButton
-      highlightColor={p.highlightColor}
+      variant={p.variant as "default" | "secondary" | "outline"}
       highlightSize={p.highlightSize}
-      borderColor={p.borderColor}
     >
       {p.label}
     </HighlightButton>

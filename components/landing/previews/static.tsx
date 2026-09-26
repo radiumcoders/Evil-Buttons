@@ -218,18 +218,7 @@ export function StaticFrameButtonPreview() {
 }
 
 export function StaticHighlightButtonPreview() {
-  const isDark = useIsDarkMode();
-  const colors = isDark ? themeColors.dark : themeColors.light;
-
-  return (
-    <HighlightButton
-      highlightColor={colors.foreground}
-      highlightSize={56}
-      borderColor={colors.foreground}
-    >
-      Send
-    </HighlightButton>
-  );
+  return <HighlightButton>Send</HighlightButton>;
 }
 
 export function StaticConfettiButtonPreview() {

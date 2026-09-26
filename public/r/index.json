@@ -133,7 +133,7 @@
       "name": "highlight-button",
       "type": "registry:ui",
       "title": "HighlightButton",
-      "description": "A button with a mouse-following highlight that darkens light surfaces and expands on click.",
+      "description": "A button with a cursor spotlight, a border that lights up near the pointer, and a ripple from wherever you click.",
       "files": [
         "components/evil-buttons/highlight-button.tsx"
       ]
