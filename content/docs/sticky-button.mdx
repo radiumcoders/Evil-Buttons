@@ -1,14 +1,14 @@
 ---
 title: StickyButton
-description: A magnetic button that follows cursor movement with spring physics.
+description: A magnetic button whose body and label are pulled toward the cursor from a wide field, with parallax depth and tilt.
 category: Mischief
 ---
 
-StickyButton is a magnetic button that follows your cursor movement with smooth spring physics. It creates an engaging, playful interaction as the button subtly moves toward your mouse.
+StickyButton grabs the cursor before it even arrives. Once the pointer comes within `radius` pixels of the button's edge, the body is pulled toward it, and the pull gets stronger the closer you get. The label drifts a little further toward the cursor on a looser spring, staying inside the button's padding, so the two layers separate like a parallax card, while the body tilts toward the cursor and a soft spotlight follows it across the face.
 
 ## Preview
 
-<PreviewCard title="StickyButton" note="Interactive">
+<PreviewCard>
   <StickyButton>Deploy Doom</StickyButton>
 </PreviewCard>
 
@@ -28,12 +28,43 @@ export function ButtonDemo() {
 }
 ```
 
+## Variants
+
+### Clingy
+
+A wider field and a stronger pull make the button chase the cursor from far away.
+
+<PreviewCard>
+  <StickyButton radius={220} strength={0.7} parallax={0.6}>Can't Escape</StickyButton>
+</PreviewCard>
+
+### Subtle
+
+A tight field with no tilt, for a gentle magnetic nudge.
+
+<PreviewCard>
+  <StickyButton radius={60} strength={0.25} parallax={0.2} tilt={0}>Barely Sticky</StickyButton>
+</PreviewCard>
+
 ## Props
 
-| Prop        | Type              | Default | Description                                  |
-| ----------- | ----------------- | ------- | -------------------------------------------- |
-| `children`  | `React.ReactNode` | -       | The visible button label or content.         |
-| `className` | `string`          | -       | Extra classes passed to the wrapper `div`.    |
+The component spreads native `button` props and forwards its ref to the button.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | The button label or content. |
+| `radius` | `number` | `120` | Distance in px beyond the button's edge where the pull starts. |
+| `strength` | `number` | `0.45` | How far the body follows the cursor, as a fraction of the cursor offset. |
+| `parallax` | `number` | `0.35` | How far the label drifts inside the body, from `0` (fixed to the body) to `1` (the edge of its padding). |
+| `tilt` | `number` | `8` | Maximum tilt in degrees while the body is pulled. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- The pull eases out with a smoothstep curve, so it is at full strength over the button and fades to zero at the edge of the field instead of snapping.
+- Distance is measured from a wrapper that never moves, so the button being pulled doesn't change where the field is.
+- Everything runs on motion values and springs, with no React re-renders on pointer move.
+- Touch input and `prefers-reduced-motion` skip the magnetic effect, and so does a disabled button.
 
 ## Registry
 

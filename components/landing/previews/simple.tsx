@@ -85,11 +85,26 @@ export function ShinyButtonPreview() {
 export function StickyButtonPreview() {
   const p = useDialKit(
     "StickyButton",
-    { label: "Try to Click" },
+    {
+      label: "Try to Click",
+      radius: [120, 0, 300],
+      strength: [0.45, 0, 1],
+      parallax: [0.35, 0, 1],
+      tilt: [8, 0, 20],
+    },
     { id: "sticky" },
   );
 
-  return <StickyButton>{p.label}</StickyButton>;
+  return (
+    <StickyButton
+      radius={p.radius}
+      strength={p.strength}
+      parallax={p.parallax}
+      tilt={p.tilt}
+    >
+      {p.label}
+    </StickyButton>
+  );
 }
 
 export function ThreeDButtonPreview() {

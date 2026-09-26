@@ -16,7 +16,7 @@
       "name": "sticky",
       "type": "registry:ui",
       "title": "StickyButton",
-      "description": "A magnetic button that follows cursor movement with spring physics.",
+      "description": "A magnetic button whose body and label are pulled toward the cursor from a wide field, with parallax depth and tilt.",
       "files": [
         "components/evil-buttons/sticky.tsx"
       ]

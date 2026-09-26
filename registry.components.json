@@ -13,7 +13,7 @@
     "exportName": "StickyButton",
     "docSlug": "sticky-button",
     "title": "StickyButton",
-    "description": "A magnetic button that follows cursor movement with spring physics.",
+    "description": "A magnetic button whose body and label are pulled toward the cursor from a wide field, with parallax depth and tilt.",
     "file": "components/evil-buttons/sticky.tsx",
     "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
