@@ -464,3 +464,39 @@ html.dark .docs-content .shiki span {
   border-radius: 6px !important;
   box-shadow: var(--dial-knob-shadow);
 }
+
+/* Select menu: solid popover surface; the panel itself stays transparent */
+.dialkit-root[data-mode="inline"] .dialkit-select-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  background: var(--popover);
+  border: 1px solid var(--dial-control-border);
+  border-radius: var(--dial-radius);
+  box-shadow:
+    0 4px 12px color-mix(in oklab, black 8%, transparent),
+    0 12px 32px color-mix(in oklab, black 10%, transparent);
+}
+
+.dialkit-root[data-mode="inline"][data-theme="dark"] .dialkit-select-dropdown {
+  box-shadow:
+    0 4px 12px color-mix(in oklab, black 35%, transparent),
+    0 12px 32px color-mix(in oklab, black 45%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-select-option {
+  min-height: 32px;
+  padding: 6px 10px;
+  border-radius: calc(var(--dial-radius) - 4px);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-select-option:is(:hover, :focus-visible) {
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--dial-text-primary);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-select-option[data-selected="true"] {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+  color: var(--dial-text-primary);
+}
