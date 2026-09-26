@@ -1,14 +1,14 @@
 ---
 title: TrollButton
-description: A button that playfully flees from the user's cursor.
+description: A button that dodges the cursor until it runs out of stamina, then gives up and lets you click it.
 category: Mischief
 ---
 
-TrollButton is a highly evasive component that actively moves away from the user's cursor as they try to click it. It creates a fun, frustrating, and playful interaction using precise motion physics to jump out of reach whenever hovered.
+TrollButton refuses to be clicked, at first. As the cursor closes in it springs out of the way, leaning into each dodge, and when it's backed into a corner it slips past you to the other side. Every chase drains a thin stamina bar along its bottom edge. After a few seconds it runs out of breath, slumps back into place, and finally lets you click it.
 
 ## Preview
 
-<PreviewCard title="TrollButton" note="Interactive">
+<PreviewCard>
   <TrollButton>Catch Me</TrollButton>
 </PreviewCard>
 
@@ -24,16 +24,46 @@ Add the item with the shadcn CLI.
 import TrollButton from "@/components/evil-buttons/troll-button";
 
 export function ButtonDemo() {
-  return <TrollButton>Click If You Can</TrollButton>;
+  return (
+    <TrollButton giveUpAfter={3000} onClick={() => console.log("Caught it")}>
+      Click If You Can
+    </TrollButton>
+  );
 }
 ```
 
+## Variants
+
+### Stubborn
+
+A long chase over a wide area before it gives in.
+
+<PreviewCard>
+  <TrollButton giveUpAfter={8000} range={220} fleeRadius={90} surrenderLabel="Okay, you win">Never</TrollButton>
+</PreviewCard>
+
 ## Props
 
-| Prop       | Type              | Default | Description                          |
-| ---------- | ----------------- | ------- | ------------------------------------ |
-| `children` | `React.ReactNode` | -       | The visible button label or content. |
+The component spreads native `button` props and forwards its ref to the button.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Click Me"` | Label used when no children are provided. |
+| `surrenderLabel` | `React.ReactNode` | `"Fine, click me"` | Label shown once the button gives up. |
+| `giveUpAfter` | `number` | `3500` | Milliseconds of chasing before it gives up. The timer starts on the first dodge. |
+| `fleeRadius` | `number` | `56` | How close in px the cursor can get to the button's edge before it dodges. |
+| `range` | `number` | `140` | Maximum distance in px it strays from its resting spot. |
+| `resetAfter` | `number` | `1500` | Milliseconds after a successful click before it starts fleeing again. `0` keeps it caught. |
+| `onClick` | `(event) => void` | - | Only fires once the button has given up. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Notes
+
+- Distance is measured from the button's resting slot plus its current offset, so dodges don't jitter as it moves.
+- On touch there is no hover, so tapping makes it dodge instead, and those taps count toward the timer.
+- Keyboard activation always goes through, and `prefers-reduced-motion` turns the fleeing off entirely.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/troll-button.tsx` and installs `motion` as a dependency. It relies on the standard `Button` component from shadcn/ui.
+The registry item includes `components/evil-buttons/troll-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.

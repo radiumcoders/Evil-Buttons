@@ -79,10 +79,9 @@
     "exportName": "TrollButton",
     "docSlug": "troll-button",
     "title": "TrollButton",
-    "description": "A button that flees from the user's cursor.",
+    "description": "A button that dodges the cursor until it runs out of stamina, then gives up and lets you click it.",
     "file": "components/evil-buttons/troll-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["motion"]
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
   {
     "name": "chrome-button",

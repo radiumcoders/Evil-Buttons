@@ -120,11 +120,26 @@ export function ThreeDButtonPreview() {
 export function TrollButtonPreview() {
   const p = useDialKit(
     "TrollButton",
-    { label: "Click Me" },
+    {
+      label: "Click Me",
+      surrenderLabel: "Fine, click me",
+      giveUpAfter: [3500, 1000, 10000],
+      fleeRadius: [56, 16, 160],
+      range: [140, 40, 300],
+    },
     { id: "troll-button" },
   );
 
-  return <TrollButton>{p.label}</TrollButton>;
+  return (
+    <TrollButton
+      surrenderLabel={p.surrenderLabel}
+      giveUpAfter={p.giveUpAfter}
+      fleeRadius={p.fleeRadius}
+      range={p.range}
+    >
+      {p.label}
+    </TrollButton>
+  );
 }
 
 export function DontPressButtonPreview() {
