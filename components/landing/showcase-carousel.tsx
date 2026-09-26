@@ -23,24 +23,34 @@ const IDLE_MS = 5000;
 const ease = [0.32, 0.72, 0, 1] as const;
 
 /**
- * Slot offsets from the center card: -1 before, 0 main, 1 after. ±2 are the
- * off-stage spots cards enter from and exit to.
+ * Slot offsets from the center card: 0 main, ±1 before/after, ±2 the faded,
+ * blurred outer pair. ±3 are the off-stage spots cards enter from and exit to.
+ * `x` is in card widths, placing each slot a small gap past its scaled
+ * neighbour.
  */
+const slots = [
+  { x: 0, scale: 1, opacity: 1, blur: 0 },
+  { x: 0.94, scale: 0.8, opacity: 0.75, blur: 0 },
+  { x: 1.7, scale: 0.64, opacity: 0.4, blur: 3 },
+  { x: 2.32, scale: 0.52, opacity: 0, blur: 6 },
+];
+
 function slotStyle(offset: number) {
   const distance = Math.abs(offset);
+  const slot = slots[distance];
   return {
-    x: `${offset * 96}%`,
-    scale: distance === 0 ? 1 : distance === 1 ? 0.82 : 0.7,
-    opacity: distance === 0 ? 1 : distance === 1 ? 0.5 : 0,
+    x: `${Math.sign(offset) * slot.x * 100}%`,
+    scale: slot.scale,
+    opacity: slot.opacity,
+    filter: `blur(${slot.blur}px)`,
     zIndex: 10 - distance,
   };
 }
 
 const cardVariants: Variants = {
   // `direction` is +1 when the row shifts left (next), -1 when it shifts right.
-  enter: (direction: number) => slotStyle(2 * direction),
-  slot: (offset: number) => slotStyle(offset),
-  exit: (direction: number) => slotStyle(-2 * direction),
+  enter: (direction: number) => slotStyle(3 * direction),
+  exit: (direction: number) => slotStyle(-3 * direction),
 };
 
 function wrap(index: number) {
@@ -121,7 +131,7 @@ function ShowcaseCard({
         <h3 className="truncate text-sm font-medium">{item.name}</h3>
       </header>
       <div className="overflow-hidden rounded-lg border border-border bg-background">
-        <div className="relative h-72 p-6 sm:h-80">
+        <div className="relative h-[clamp(14rem,42dvh,24rem)] p-6">
           {category ? (
             <span className="absolute top-3 left-3 font-mono text-[10px] tracking-[0.18em] text-muted-foreground uppercase">
               {category}
@@ -193,7 +203,7 @@ function GlowBackdrop() {
 }
 
 /**
- * Three live cards — before, main, after. Left idle, the row drifts right:
+ * Five live cards — two before, the main one, two after. Left idle, the row drifts right:
  * the main card shrinks into the after slot, the before card grows into the
  * middle, and the next one slides in behind it. Hovering or focusing the
  * stage holds the rotation; only the main card is interactive.
@@ -213,7 +223,7 @@ export function ShowcaseCarousel({
   const autoplay = !held && !reducedMotion;
 
   const step = (delta: number) =>
-    setState((prev) => ({ active: wrap(prev.active + delta), direction: delta }));
+    setState((prev) => ({ active: wrap(prev.active + delta), direction: Math.sign(delta) }));
 
   // Restarts on every move, so the idle clock always counts from the last one.
   useEffect(() => {
@@ -222,7 +232,7 @@ export function ShowcaseCarousel({
     return () => window.clearTimeout(timeout);
   }, [autoplay, active]);
 
-  const slots = [-1, 0, 1].map((offset) => ({
+  const visible = [-2, -1, 0, 1, 2].map((offset) => ({
     offset,
     item: showcase[wrap(active + offset)],
   }));
@@ -240,10 +250,10 @@ export function ShowcaseCarousel({
         onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false);
         }}
-        className="relative mx-auto grid w-[min(26rem,calc(100vw-3rem))] items-end"
+        className="relative mx-auto grid w-[min(30rem,calc(100vw-3rem))] items-end"
       >
         <AnimatePresence initial={false} custom={direction}>
-          {slots.map(({ offset, item }) => {
+          {visible.map(({ offset, item }) => {
             const main = offset === 0;
 
             return (
