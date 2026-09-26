@@ -365,12 +365,14 @@ export const DemonicButton = React.forwardRef<
     const startHold = () => {
       if (disabled) return;
       holdingRef.current = true;
+      buttonRef.current?.setAttribute("data-holding", "");
       ensureLoop();
     };
 
     const stopHold = () => {
       if (!holdingRef.current) return;
       holdingRef.current = false;
+      buttonRef.current?.removeAttribute("data-holding");
       ensureLoop();
     };
 
@@ -433,8 +435,14 @@ export const DemonicButton = React.forwardRef<
           onBlur={stopHold}
           onContextMenu={(e) => e.preventDefault()}
           className={cn(
-            "relative z-10 inline-flex h-10 min-w-36 cursor-pointer touch-none items-center justify-center overflow-hidden rounded-lg bg-neutral-950 px-5 text-sm font-medium text-neutral-100 outline-none",
-            "shadow-[inset_0_1px_0_rgb(255_255_255/0.08),0_1px_2px_rgb(0_0_0/0.3)] ring-1 ring-white/10",
+            "relative z-10 inline-flex h-9 min-w-36 cursor-pointer touch-none items-center justify-center overflow-hidden rounded-[10px] px-5 text-sm font-medium text-neutral-50 outline-none",
+            // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
+            "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+            // The loop writes `transform` every frame for the tremble, so the press animates the separate `scale` property.
+            "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+            // Press eases in fast and settles the shadow; release springs back on the slower base curve.
+            // data-holding covers pointer, touch, and Space/Enter holds, where :active is unreliable.
+            "data-holding:scale-[0.97] data-holding:brightness-95 data-holding:duration-100 data-holding:ease-out data-holding:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:data-holding:scale-100",
             "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
             className,
           )}
