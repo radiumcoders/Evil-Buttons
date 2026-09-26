@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { ArrowUpRight, Check, Copy } from "@phosphor-icons/react";
 import {
   AnimatePresence,
   motion,
@@ -8,13 +8,13 @@ import {
   type Variants,
 } from "motion/react";
 import Link from "next/link";
-import { useState } from "react";
-import { packageCommands, PackageManagerTabs } from "@/components/cli-block";
-import CopyButton from "@/components/copy-button";
+import { useEffect, useRef, useState } from "react";
+import { packageCommands } from "@/components/cli-block";
 import { FitToContainer } from "@/components/landing/fit-to-container";
 import { ShowcasePreview } from "@/components/landing/showcase-preview";
 import { showcase, type ShowcaseEntry } from "@/components/landing/showcase";
 import { type PackageManager, useConfig } from "@/hooks/use-config";
+import { trackOutcome } from "@/lib/tracwell";
 import { cn } from "@/lib/utils";
 
 /** How long the carousel sits untouched before rotating. */
@@ -93,19 +93,32 @@ function ShowcaseCard({
   packageManager: PackageManager;
 }) {
   const [variant, setVariant] = useState(item.variants?.[0]);
-  const command = `${packageCommands[packageManager]} @evilbuttons/${item.registryName}`;
+  const [copied, setCopied] = useState(false);
+  const copiedTimeout = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(copiedTimeout.current), []);
+
+  const copy = async () => {
+    const command = `${packageCommands[packageManager]} @evilbuttons/${item.registryName}`;
+    try {
+      await navigator.clipboard.writeText(command);
+    } catch {
+      return;
+    }
+    setCopied(true);
+    trackOutcome("install_command_copied", {
+      source: "landing_carousel",
+      registry_name: item.registryName,
+      package_manager: packageManager,
+    });
+    window.clearTimeout(copiedTimeout.current);
+    copiedTimeout.current = window.setTimeout(() => setCopied(false), 1500);
+  };
 
   return (
     <article className="rounded-xl bg-muted/50 p-1 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)] dark:bg-muted/25">
       <header className="flex h-9 items-center justify-between gap-3 pr-1 pl-2.5">
         <h3 className="truncate text-sm font-medium">{item.name}</h3>
-        <Link
-          href={item.href}
-          className="inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-        >
-          Docs
-          <ArrowUpRight className="size-3" />
-        </Link>
       </header>
       <div className="overflow-hidden rounded-lg border border-border bg-background">
         <div className="relative h-72 p-6 sm:h-80">
@@ -130,25 +143,52 @@ function ShowcaseCard({
             />
           </FitToContainer>
         </div>
-        <div className="flex items-center gap-2 border-t border-border py-1 pr-1 pl-3">
-          <code className="docs-scroll min-w-0 flex-1 overflow-x-auto font-mono text-xs whitespace-nowrap text-foreground/80">
-            {command}
-          </code>
-          <CopyButton
-            className="shrink-0"
-            code={command}
-            outcome={{
-              name: "install_command_copied",
-              properties: {
-                source: "landing_carousel",
-                registry_name: item.registryName,
-                package_manager: packageManager,
-              },
-            }}
-          />
+        <div className="grid grid-cols-2 border-t border-border">
+          <Link
+            href={item.href}
+            className="inline-flex h-10 items-center justify-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+          >
+            Docs
+            <ArrowUpRight className="size-3" />
+          </Link>
+          <button
+            type="button"
+            onClick={copy}
+            className="inline-flex h-10 items-center justify-center gap-1.5 border-l border-border text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
+          >
+            {copied ? (
+              <Check className="size-3" weight="bold" />
+            ) : (
+              <Copy className="size-3" />
+            )}
+            {copied ? "Copied" : "Copy command"}
+          </button>
         </div>
       </div>
     </article>
+  );
+}
+
+/** Soft blurred light behind the stage, drawn in the theme's foreground. */
+function GlowBackdrop() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 1200 600"
+      preserveAspectRatio="xMidYMid slice"
+      className="pointer-events-none absolute inset-x-0 -top-24 -bottom-24 -z-0 mx-auto h-[calc(100%+12rem)] w-full max-w-6xl text-foreground"
+    >
+      <defs>
+        <filter id="showcase-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="70" />
+        </filter>
+      </defs>
+      <g filter="url(#showcase-glow)" fill="currentColor">
+        <ellipse cx="600" cy="330" rx="260" ry="150" opacity="0.07" />
+        <ellipse cx="380" cy="380" rx="170" ry="100" opacity="0.04" />
+        <ellipse cx="820" cy="380" rx="170" ry="100" opacity="0.04" />
+      </g>
+    </svg>
   );
 }
 
@@ -169,11 +209,18 @@ export function ShowcaseCarousel({
   });
   const [held, setHeld] = useState(false);
   const reducedMotion = useReducedMotion();
-  const { packageManager, setConfig } = useConfig();
+  const { packageManager } = useConfig();
   const autoplay = !held && !reducedMotion;
 
   const step = (delta: number) =>
     setState((prev) => ({ active: wrap(prev.active + delta), direction: delta }));
+
+  // Restarts on every move, so the idle clock always counts from the last one.
+  useEffect(() => {
+    if (!autoplay) return;
+    const timeout = window.setTimeout(() => step(-1), IDLE_MS);
+    return () => window.clearTimeout(timeout);
+  }, [autoplay, active]);
 
   const slots = [-1, 0, 1].map((offset) => ({
     offset,
@@ -181,7 +228,8 @@ export function ShowcaseCarousel({
   }));
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
+      <GlowBackdrop />
       <div
         role="region"
         aria-roledescription="carousel"
@@ -192,7 +240,7 @@ export function ShowcaseCarousel({
         onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false);
         }}
-        className="mx-auto grid w-[min(26rem,calc(100vw-3rem))] items-end"
+        className="relative mx-auto grid w-[min(26rem,calc(100vw-3rem))] items-end"
       >
         <AnimatePresence initial={false} custom={direction}>
           {slots.map(({ offset, item }) => {
@@ -231,52 +279,6 @@ export function ShowcaseCarousel({
             );
           })}
         </AnimatePresence>
-      </div>
-
-      <div className="mx-auto mt-6 w-[min(26rem,calc(100vw-3rem))]">
-        <div className="h-px overflow-hidden bg-border">
-          {autoplay ? (
-            <motion.div
-              key={active}
-              className="h-full origin-left bg-foreground/60"
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: IDLE_MS / 1000, ease: "linear" }}
-              onAnimationComplete={() => step(-1)}
-            />
-          ) : null}
-        </div>
-        <div className="mt-3 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={() => step(-1)}
-              aria-label="Previous button"
-              className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              <CaretLeft className="size-3.5" weight="bold" />
-            </button>
-            <button
-              type="button"
-              onClick={() => step(1)}
-              aria-label="Next button"
-              className="inline-flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            >
-              <CaretRight className="size-3.5" weight="bold" />
-            </button>
-            <p
-              aria-live="polite"
-              className="ml-2 font-mono text-[11px] tabular-nums text-muted-foreground"
-            >
-              {String(active + 1).padStart(2, "0")} /{" "}
-              {String(showcase.length).padStart(2, "0")}
-            </p>
-          </div>
-          <PackageManagerTabs
-            value={packageManager}
-            onChange={(manager) => setConfig({ packageManager: manager })}
-          />
-        </div>
       </div>
     </div>
   );

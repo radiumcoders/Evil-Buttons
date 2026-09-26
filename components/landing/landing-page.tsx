@@ -101,21 +101,6 @@ export function LandingPage({ categories }: LandingPageProps) {
         <ShowcaseCarousel categories={categories} />
       </section>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-6 font-mono text-[11px] text-muted-foreground">
-          <p>
-            © {new Date().getFullYear()} {siteConfig.author.name}
-          </p>
-          <a
-            href={siteConfig.github}
-            target="_blank"
-            rel="noreferrer"
-            className="transition-colors hover:text-foreground"
-          >
-            GitHub
-          </a>
-        </div>
-      </footer>
     </div>
   );
 }
