@@ -21,8 +21,9 @@ export interface HighlightButtonProps extends Omit<
 type Ripple = { id: number; x: number; y: number; size: number };
 
 const VARIANTS = {
+  // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
   default:
-    "border-transparent bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)]",
+    "border-transparent text-neutral-50 hover:brightness-110 active:brightness-95 bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)] active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
   secondary:
     "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
   outline: "border-border bg-background text-foreground hover:bg-accent/40 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
@@ -119,8 +120,6 @@ export const HighlightButton = React.forwardRef<
       <motion.button
         ref={setRefs}
         type={type}
-        whileTap={{ scale: 0.97 }}
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
         onPointerMove={handlePointerMove}
         onPointerDown={handlePointerDown}
         onClick={handleClick}
@@ -133,7 +132,9 @@ export const HighlightButton = React.forwardRef<
           } as React.CSSProperties
         }
         className={cn(
-          "group/highlight relative inline-flex h-9 cursor-pointer items-center justify-center rounded-md border px-4 text-sm font-medium whitespace-nowrap outline-none select-none transition-colors",
+          "group/highlight relative inline-flex h-9 cursor-pointer items-center justify-center rounded-[10px] border px-4 text-sm font-medium whitespace-nowrap outline-none select-none",
+          // Press eases in fast and settles; release springs back on the slower base curve.
+          "transition-[scale,filter,box-shadow,background-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] active:scale-[0.97] active:duration-100 active:ease-out motion-reduce:active:scale-100",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
           VARIANTS[variant],
           className,
