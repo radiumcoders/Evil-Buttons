@@ -151,7 +151,7 @@
       "name": "command-button",
       "type": "registry:ui",
       "title": "CommandButton",
-      "description": "A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.",
+      "description": "A button with a global keyboard shortcut, shown as keycaps that sink as you hold each key.",
       "files": [
         "components/evil-buttons/command-button.tsx"
       ]
