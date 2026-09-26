@@ -22,7 +22,7 @@ function TracwellLogo({ className }: { className?: string }) {
 export function TracwellCard() {
   return (
     <a
-      href="https://tracwell.app/"
+      href="https://tracwell.app/?utm_source=evilbuttons&utm_medium=referral&utm_campaign=powered_by"
       target="_blank"
       rel="noopener noreferrer"
       className="group flex items-center gap-2 rounded-lg border border-border bg-linear-to-br from-[#357dff]/10 via-[#8b95f9]/5 to-transparent px-3 py-2.5 text-xs text-muted-foreground transition-colors hover:border-[#357dff]/30 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring dark:from-[#357dff]/15 dark:via-[#8b95f9]/8"
