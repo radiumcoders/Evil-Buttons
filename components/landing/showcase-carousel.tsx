@@ -93,6 +93,9 @@ function VariantPicker({
   );
 }
 
+const actionPill =
+  "inline-flex h-7 items-center gap-1.5 rounded-full border border-border bg-background/80 px-3 text-xs font-medium text-muted-foreground shadow-[0_1px_2px_rgb(0_0_0/0.04),0_4px_12px_-4px_rgb(0_0_0/0.12)] backdrop-blur-md transition-[color,transform,box-shadow] hover:-translate-y-px hover:text-foreground hover:shadow-[0_1px_2px_rgb(0_0_0/0.05),0_8px_16px_-6px_rgb(0_0_0/0.18)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+
 function ShowcaseCard({
   item,
   category,
@@ -131,7 +134,7 @@ function ShowcaseCard({
         <h3 className="truncate text-sm font-medium">{item.name}</h3>
       </header>
       <div className="overflow-hidden rounded-lg border border-border bg-background">
-        <div className="relative h-[clamp(14rem,42dvh,24rem)] p-6">
+        <div className="relative h-[clamp(14rem,42dvh,24rem)] px-6 pt-8 pb-14">
           {category ? (
             <span className="absolute top-3 left-3 font-mono text-[10px] tracking-[0.18em] text-muted-foreground uppercase">
               {category}
@@ -152,27 +155,20 @@ function ShowcaseCard({
               variant={variant}
             />
           </FitToContainer>
-        </div>
-        <div className="grid grid-cols-2 border-t border-border">
-          <Link
-            href={item.href}
-            className="inline-flex h-10 items-center justify-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
-          >
-            Docs
-            <ArrowUpRight className="size-3" />
-          </Link>
-          <button
-            type="button"
-            onClick={copy}
-            className="inline-flex h-10 items-center justify-center gap-1.5 border-l border-border text-xs font-medium text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
-          >
-            {copied ? (
-              <Check className="size-3" weight="bold" />
-            ) : (
-              <Copy className="size-3" />
-            )}
-            {copied ? "Copied" : "Copy command"}
-          </button>
+          <div className="absolute inset-x-0 bottom-3 z-10 flex justify-center gap-2">
+            <Link href={item.href} className={actionPill}>
+              Docs
+              <ArrowUpRight className="size-3" />
+            </Link>
+            <button type="button" onClick={copy} className={actionPill}>
+              {copied ? (
+                <Check className="size-3" weight="bold" />
+              ) : (
+                <Copy className="size-3" />
+              )}
+              {copied ? "Copied" : "Copy command"}
+            </button>
+          </div>
         </div>
       </div>
     </article>
