@@ -154,14 +154,14 @@
     "title": "CommandButton",
     "description": "A button with a global keyboard shortcut, shown as keycaps that sink as you hold each key.",
     "file": "components/evil-buttons/command-button.tsx",
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
+    "dependencies": ["clsx", "tailwind-merge"]
   },
   {
     "name": "copy-button",
     "exportName": "CopyButton",
     "docSlug": "copy-button",
     "title": "CopyButton",
-    "description": "A copy button that floats the copied text up off itself, so you see exactly what landed on the clipboard.",
+    "description": "A copy button that briefly shows the copied text above itself, so you see exactly what landed on the clipboard.",
     "file": "components/evil-buttons/copy-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },

@@ -4,7 +4,7 @@ description: A button with a global keyboard shortcut, shown as keycaps that sin
 category: Utility
 ---
 
-CommandButton binds a keyboard shortcut on `window` and shows it as a row of physical keycaps inside the button. The caps follow your hands: hold ⌘ and the ⌘ cap sinks, add Shift and that one goes down too, and when the final key lands every cap bottoms out, the button dips, and `onCommand` fires. `mod` shows as ⌘ on Apple devices and Ctrl everywhere else.
+CommandButton binds a keyboard shortcut on `window` and shows it as a row of physical keycaps inside the button. The caps follow your hands: hold ⌘ and the ⌘ cap sinks, add Shift and that one goes down too, and when the final key lands every cap presses and `onCommand` fires. `mod` shows as ⌘ on Apple devices and Ctrl everywhere else.
 
 ## Preview
 
@@ -86,4 +86,4 @@ The component spreads native `button` props and forwards its ref to the button.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/command-button.tsx` and installs `clsx`, `tailwind-merge`, and `motion` as dependencies.
+The registry item includes `components/evil-buttons/command-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies.

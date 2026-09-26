@@ -1,10 +1,10 @@
 ---
 title: CopyButton
-description: A copy button that floats the copied text up off itself, so you see exactly what landed on the clipboard.
+description: A copy button that briefly shows the copied text above itself, so you see exactly what landed on the clipboard.
 category: Utility
 ---
 
-CopyButton writes a string to the clipboard and shows you what it copied. On success, a small chip with the copied text lifts off the top of the button and fades away while the clipboard icon springs into a check. If the write fails, the button says so and turns destructive. After `timeout` it settles back to idle.
+CopyButton writes a string to the clipboard and shows you what it copied. On success, the clipboard icon turns into a check and a small chip above the button shows the exact text that was copied. If the write fails, the button says so in the destructive color. After `timeout` it settles back to idle.
 
 ## Preview
 
@@ -61,18 +61,16 @@ The component spreads native `button` props except `value` and `onCopy`, and for
 | `timeout` | `number` | `1500` | Milliseconds before the button returns to idle. |
 | `copyLabel` | `React.ReactNode` | `"Copy"` | Label shown before copying. |
 | `copiedLabel` | `React.ReactNode` | `"Copied"` | Label shown after a successful copy. |
-| `errorLabel` | `React.ReactNode` | `"Copy failed"` | Label shown when the clipboard write fails. |
-| `showValue` | `boolean` | `true` | Float a chip with the copied text up off the button. |
+| `errorLabel` | `React.ReactNode` | `"Failed"` | Label shown when the clipboard write fails. |
+| `showValue` | `boolean` | `true` | Show the copied text in a small chip above the button after copying. |
 | `onCopy` | `(value: string) => void` | - | Fired with the copied text after a successful write. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
 ## Notes
 
 - Uses `navigator.clipboard.writeText` on secure pages and falls back to a hidden textarea with `document.execCommand("copy")` elsewhere, so it also works over plain HTTP.
-- Each successful copy launches its own chip, so rapid copies stack instead of cutting each other off.
-- Invisible copies of every label reserve the widest one, so the button never changes width between states.
+- Every icon and label stays mounted and crossfades in place, so the button never changes width or jumps between states.
 - A visually hidden status region announces "Copied to clipboard" or "Copy failed" to screen readers.
-- `prefers-reduced-motion` skips the floating chip; the icon and label still change.
 
 ## Registry
 

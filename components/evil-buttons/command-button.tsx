@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export interface CommandButtonProps extends Omit<
@@ -104,12 +103,10 @@ export const CommandButton = React.forwardRef<
     },
     ref,
   ) => {
-    const reduceMotion = useReducedMotion();
     const parts = React.useMemo(() => parseShortcut(shortcut), [shortcut]);
     const [isApple, setIsApple] = React.useState(false);
     const [held, setHeld] = React.useState<ReadonlySet<string>>(new Set());
     const [firing, setFiring] = React.useState(false);
-    const [fireCount, setFireCount] = React.useState(0);
     const fireTimerRef = React.useRef<number | undefined>(undefined);
     const onCommandRef = React.useRef(onCommand);
 
@@ -121,7 +118,6 @@ export const CommandButton = React.forwardRef<
     React.useEffect(() => setIsApple(detectApple()), []);
 
     const fire = React.useCallback(() => {
-      setFireCount((count) => count + 1);
       setFiring(true);
       window.clearTimeout(fireTimerRef.current);
       fireTimerRef.current = window.setTimeout(() => setFiring(false), FIRE_MS);
@@ -168,7 +164,7 @@ export const CommandButton = React.forwardRef<
     const label = parts.map((part) => formatPart(part, isApple)).join(" ");
 
     return (
-      <motion.button
+      <button
         ref={ref}
         type={type}
         disabled={disabled}
@@ -182,55 +178,36 @@ export const CommandButton = React.forwardRef<
           onClick?.(event);
           fire();
         }}
-        animate={
-          fireCount && !reduceMotion ? { scale: firing ? 0.97 : 1 } : undefined
-        }
-        transition={{ type: "spring", stiffness: 600, damping: 26 }}
         className={cn(
-          "relative inline-flex h-9 cursor-pointer items-center justify-center gap-3 overflow-hidden rounded-md bg-primary pl-4 text-sm font-medium text-primary-foreground shadow-xs outline-none select-none transition-colors hover:bg-primary/90",
-          showShortcut ? "pr-1.5" : "pr-4",
+          "relative inline-flex h-9 cursor-pointer items-center justify-center gap-2.5 rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground outline-none select-none transition-colors hover:bg-primary/90",
+          showShortcut && "pr-2",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
         {...props}
       >
-        {/* Brief sheen across the face each time the command fires. */}
-        {fireCount > 0 && !reduceMotion ? (
-          <motion.span
-            key={fireCount}
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-primary-foreground"
-            initial={{ opacity: 0.18 }}
-            animate={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-          />
-        ) : null}
-        <span className="relative">{children}</span>
+        <span>{children}</span>
         {showShortcut ? (
           <kbd
             aria-label={label}
-            className="relative inline-flex items-center gap-1 font-sans"
+            className="inline-flex items-center gap-0.5 font-sans"
           >
-            {parts.map((part) => {
-              const down = firing || held.has(part);
-              return (
-                <span
-                  key={part}
-                  aria-hidden
-                  className={cn(
-                    "inline-flex h-6 min-w-6 items-center justify-center rounded-[5px] bg-primary-foreground/12 px-1.5 font-mono text-[11px] leading-none text-primary-foreground/85 inset-ring inset-ring-primary-foreground/15 transition-[transform,box-shadow,background-color] duration-75",
-                    down
-                      ? "translate-y-0.5 bg-primary-foreground/20 shadow-none"
-                      : "shadow-[0_2px_0_color-mix(in_oklab,var(--primary-foreground)_12%,black)]",
-                  )}
-                >
-                  {formatPart(part, isApple)}
-                </span>
-              );
-            })}
+            {parts.map((part) => (
+              <span
+                key={part}
+                aria-hidden
+                data-pressed={firing || held.has(part) || undefined}
+                className={cn(
+                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-primary-foreground/10 px-1 text-[11px] leading-none font-medium text-primary-foreground/70 transition-[transform,background-color,color] duration-100",
+                  "data-pressed:translate-y-px data-pressed:bg-primary-foreground/25 data-pressed:text-primary-foreground",
+                )}
+              >
+                {formatPart(part, isApple)}
+              </span>
+            ))}
           </kbd>
         ) : null}
-      </motion.button>
+      </button>
     );
   },
 );
