@@ -2,9 +2,72 @@ import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
+// ESLint 10 removed the deprecated rule-context accessors and moved them onto
+// `context.sourceCode`. eslint-plugin-react@7.37.5 is the only plugin pulled in
+// by eslint-config-next that still calls the old ones unconditionally (in
+// `lib/util/version.js`, `lib/rules/jsx-filename-extension.js` and
+// `lib/rules/forward-ref-uses-ref.js`), which crashes every lint run.
+//
+// Rather than pinning ESLint back to 9, restore the two accessors the plugin
+// needs on top of a prototype chain, which is the same technique ESLint uses
+// internally in `FileContext.extend`. Delete this shim once
+// eslint-plugin-react ships ESLint 10 support.
+const LEGACY_CONTEXT_ACCESSORS = {
+  getFilename: (context) => context.filename,
+  getPhysicalFilename: (context) => context.physicalFilename,
+  getSourceCode: (context) => context.sourceCode,
+};
+
+function withLegacyContextAccessors(rule) {
+  if (typeof rule?.create !== "function") {
+    return rule;
+  }
+
+  return {
+    ...rule,
+    create(context) {
+      const compat = Object.create(context);
+
+      for (const [name, read] of Object.entries(LEGACY_CONTEXT_ACCESSORS)) {
+        if (typeof context[name] !== "function") {
+          compat[name] = () => read(context);
+        }
+      }
+
+      return rule.create(compat);
+    },
+  };
+}
+
+function withPluginCompat(configs, pluginName) {
+  return configs.map((config) => {
+    const plugin = config.plugins?.[pluginName];
+
+    if (!plugin) {
+      return config;
+    }
+
+    return {
+      ...config,
+      plugins: {
+        ...config.plugins,
+        [pluginName]: {
+          ...plugin,
+          rules: Object.fromEntries(
+            Object.entries(plugin.rules ?? {}).map(([name, rule]) => [
+              name,
+              withLegacyContextAccessors(rule),
+            ]),
+          ),
+        },
+      },
+    };
+  });
+}
+
 const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
+  ...withPluginCompat(nextVitals, "react"),
+  ...withPluginCompat(nextTs, "react"),
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

@@ -8,6 +8,7 @@ import {
   useContext,
   useEffect,
   useImperativeHandle,
+  useId,
   useRef,
   useState,
 } from "react";
@@ -91,12 +92,12 @@ export const MatterBody = ({
   ...props
 }: MatterBodyProps) => {
   const elementRef = useRef<HTMLDivElement>(null);
-  const idRef = useRef(Math.random().toString(36).substring(7));
+  const id = useId();
   const context = useContext(GravityContext);
 
   useEffect(() => {
     if (!elementRef.current || !context) return;
-    context.registerElement(idRef.current, elementRef.current, {
+    context.registerElement(id, elementRef.current, {
       children,
       matterBodyOptions,
       bodyType,
@@ -108,8 +109,20 @@ export const MatterBody = ({
       ...props,
     });
 
-    return () => context.unregisterElement(idRef.current);
-  }, [props, children, matterBodyOptions, isDraggable, bodyType, sampleLength, x, y, angle]);
+    return () => context.unregisterElement(id);
+  }, [
+    id,
+    context,
+    props,
+    children,
+    matterBodyOptions,
+    isDraggable,
+    bodyType,
+    sampleLength,
+    x,
+    y,
+    angle,
+  ]);
 
   return (
     <div
@@ -225,6 +238,11 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       }
     }, []);
 
+    // The render loop re-schedules itself, so it cannot reference
+    // `updateElements` directly from inside its own definition. The ref is
+    // seeded in an effect that runs before the loop is first started.
+    const updateElementsRef = useRef<() => void>(() => {});
+
     const updateElements = useCallback(() => {
       bodiesMap.current.forEach(({ element, body }) => {
         const { x, y } = body.position;
@@ -235,8 +253,26 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
         }px, ${y - element.offsetHeight / 2}px) rotate(${rotation}deg)`;
       });
 
-      frameId.current = requestAnimationFrame(updateElements);
+      frameId.current = requestAnimationFrame(() =>
+        updateElementsRef.current(),
+      );
     }, []);
+
+    useEffect(() => {
+      updateElementsRef.current = updateElements;
+    }, [updateElements]);
+
+    const startEngine = useCallback(() => {
+      if (runner.current) {
+        runner.current.enabled = true;
+        Runner.run(runner.current, engine.current);
+      }
+      if (render.current) {
+        Render.run(render.current);
+      }
+      frameId.current = requestAnimationFrame(updateElements);
+      isRunning.current = true;
+    }, [updateElements]);
 
     const initializeRenderer = useCallback(() => {
       if (!canvas.current) return;
@@ -350,7 +386,16 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
         runner.current.enabled = true;
         startEngine();
       }
-    }, [updateElements, debug, autoStart, gravity.x, gravity.y, addTopWall, grabCursor]);
+    }, [
+      updateElements,
+      startEngine,
+      debug,
+      autoStart,
+      gravity.x,
+      gravity.y,
+      addTopWall,
+      grabCursor,
+    ]);
 
     const clearRenderer = useCallback(() => {
       if (frameId.current) {
@@ -390,18 +435,6 @@ const Gravity = forwardRef<GravityRef, GravityProps>(
       clearRenderer();
       initializeRenderer();
     }, [clearRenderer, initializeRenderer, resetOnResize]);
-
-    const startEngine = useCallback(() => {
-      if (runner.current) {
-        runner.current.enabled = true;
-        Runner.run(runner.current, engine.current);
-      }
-      if (render.current) {
-        Render.run(render.current);
-      }
-      frameId.current = requestAnimationFrame(updateElements);
-      isRunning.current = true;
-    }, [updateElements]);
 
     const stopEngine = useCallback(() => {
       if (!isRunning.current) return;
