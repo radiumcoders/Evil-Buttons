@@ -71,16 +71,22 @@ export const RevealButton = React.forwardRef<
         aria-live="polite"
         data-state={revealed ? "revealed" : "hidden"}
         className={cn(
-          "group relative inline-flex min-w-40 items-center justify-between gap-3 overflow-hidden rounded-md border border-border bg-background px-3 py-2 text-xs shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] transition-colors sm:min-w-64 sm:gap-4 sm:px-4 sm:py-2.5 sm:text-sm",
-          "hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60",
-          revealed && "border-emerald-500/50 bg-emerald-500/10",
+          "group relative inline-flex min-w-40 cursor-pointer items-center justify-between gap-3 overflow-hidden rounded-xl px-3 py-2 text-xs text-neutral-50 outline-none select-none sm:min-w-64 sm:gap-4 sm:px-4 sm:py-2.5 sm:text-sm",
+          // Graded dark surface matching MinimalButton: dark outer hairline, faint inner ring, top highlight, soft drop.
+          "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+          "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+          "active:scale-[0.98] active:brightness-95 active:duration-100 active:ease-out motion-reduce:active:scale-100",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+          // Revealed: an emerald inner ring replaces the neutral one.
+          revealed &&
+            "shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(52_211_153/0.35),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(16_185_129/0.35)]",
           className,
         )}
         {...pressHandlers}
         {...props}
       >
         <span className="flex min-w-0 flex-col items-start">
-          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <span className="text-xs font-medium uppercase tracking-wider text-neutral-400">
             {revealed ? label : hiddenLabel}
           </span>
           <AnimatePresence initial={false} mode="wait">
@@ -90,7 +96,7 @@ export const RevealButton = React.forwardRef<
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
               exit={{ y: -6, opacity: 0, filter: "blur(4px)" }}
               transition={{ duration: 0.16 }}
-              className="block max-w-28 truncate font-mono text-xs font-semibold text-foreground sm:max-w-44 sm:text-sm"
+              className="block max-w-28 truncate font-mono text-xs font-semibold text-neutral-50 sm:max-w-44 sm:text-sm"
             >
               {revealed ? secret : maskedValue}
             </motion.span>
@@ -99,9 +105,10 @@ export const RevealButton = React.forwardRef<
         <span
           aria-hidden
           className={cn(
-            "inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground transition-colors sm:size-9",
+            // Recessed chip: darker well with an inner shadow and a faint rim.
+            "inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-black/25 text-neutral-400 shadow-[inset_0_1px_2px_rgb(0_0_0/0.45),0_0_0_1px_rgb(255_255_255/0.07)] transition-colors sm:size-9",
             revealed &&
-              "border-emerald-500/40 text-emerald-600 dark:text-emerald-400",
+              "text-emerald-400 shadow-[inset_0_1px_2px_rgb(0_0_0/0.45),0_0_0_1px_rgb(52_211_153/0.3)]",
           )}
         >
           {revealed ? (
