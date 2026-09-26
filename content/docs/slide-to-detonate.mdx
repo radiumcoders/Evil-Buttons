@@ -4,7 +4,7 @@ description: A slide-to-confirm safety gate that makes you drag a handle across 
 category: Interactive
 ---
 
-SlideToDetonate guards destructive actions behind a deliberate drag gesture. The handle springs back if you let go too early, and only fires `onConfirm` once you cross the threshold. It is the mobile-friendly "slide to unlock" pattern, dressed for demolition.
+SlideToDetonate guards destructive actions behind a deliberate drag gesture. A raised handle sits in a recessed dark track, an ember trail burns in behind it as you drag, and the handle glows once the fuse is armed. Let go too early and it springs back; release past the threshold and `onConfirm` fires. Tune how hard the fuse pushes back with `resistance` and how softly the handle follows your finger with `smoothness`.
 
 ## Preview
 
@@ -35,28 +35,59 @@ export function ButtonDemo() {
 }
 ```
 
+## Variants
+
+### Heavy fuse
+
+High `resistance` makes the handle lag further behind the pointer the closer it gets to the end.
+
+<PreviewCard>
+  <SlideToDetonate resistance={0.85}>Push through</SlideToDetonate>
+</PreviewCard>
+
+### Locked to the pointer
+
+`smoothness={0}` and `resistance={0}` give a direct, one-to-one drag with no spring.
+
+<PreviewCard>
+  <SlideToDetonate smoothness={0} resistance={0}>Slide to detonate</SlideToDetonate>
+</PreviewCard>
+
+### Floaty
+
+High `smoothness` lets the handle glide behind the pointer on a loose spring.
+
+<PreviewCard>
+  <SlideToDetonate smoothness={0.9}>Slide to detonate</SlideToDetonate>
+</PreviewCard>
+
 ## Props
 
-The component spreads any `<button>` HTML attributes (applied to the handle) except `onClick`.
+The component spreads native `button` props onto the handle, except `onClick` and `style`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | - | Track label shown while idle. Falls back to `label`. |
 | `label` | `React.ReactNode` | `"Slide to detonate"` | Idle label used when no children are provided. |
-| `successLabel` | `React.ReactNode` | `"Detonated"` | Label flashed after the slide completes. |
-| `onConfirm` | `() => void` | - | Fired once the handle is dragged past the threshold. |
-| `threshold` | `number` | `0.95` | Fraction of the track (0-1) the handle must cross to arm the action. |
+| `successLabel` | `React.ReactNode` | `"Detonated"` | Label shown after the slide completes. |
+| `onConfirm` | `() => void` | - | Fired once the handle is released past the threshold. |
+| `threshold` | `number` | `0.9` | Fraction of the track (0-1) the handle must cross to arm the action. |
+| `resistance` | `number` | `0.35` | How hard the fuse pushes back (0-1). `0` tracks the pointer one to one; higher values make the handle lag further behind toward the end. |
+| `smoothness` | `number` | `0.4` | How softly the handle follows the pointer (0-1). `0` locks it to the pointer; higher values glide behind on a looser spring. |
 | `resetAfter` | `number` | `1600` | Milliseconds to stay in the success state before resetting. Set to `0` to stay. |
+| `disabled` | `boolean` | `false` | Locks the handle and dims the track. |
 | `className` | `string` | - | Extra classes passed to the track. |
 
 ## Notes
 
-- The handle is a shadcn/ui `Button` (size `icon`, default `variant`); pass a different `variant` to restyle it.
-- The handle uses Motion drag with `dragConstraints` clamped to the measured track width, so it can never overshoot the ends.
-- Releasing before `threshold` springs the handle back to the start; crossing it snaps to the end and fires `onConfirm`.
+- Resistance bends the pointer-to-handle curve rather than capping it, so a heavy fuse still reaches the end if you drag all the way.
+- Smoothness maps to the follow spring: `0` sets the position directly, and higher values lower the stiffness and damping so the handle trails and settles.
+- Pulling back past the start rubber-bands a few pixels instead of stopping dead.
+- The handle is a `role="slider"` with live `aria-valuenow`. <kbd>←</kbd>/<kbd>→</kbd> step by 10%, <kbd>Home</kbd> resets, and <kbd>End</kbd> or stepping past the threshold detonates. Keyboard progress snaps back when focus leaves.
+- Crossing the threshold arms the fuse: the handle glows, the trail brightens, and phones get a short vibration where supported. `data-state` (`idle` | `sliding` | `success`) and `data-armed` are exposed on both the track and the handle.
 - A `ResizeObserver` re-measures the track so the drag range stays correct across layout changes.
-- The spring snap-back and label fade are skipped when the user prefers reduced motion, and `data-state` (`idle` | `sliding` | `success`) is exposed for styling.
+- With reduced motion, springs and the label shimmer are skipped; the handle moves directly.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/slide-to-detonate.tsx`, installs `clsx`, `tailwind-merge`, and `motion`, and pulls in the standard shadcn/ui `button` registry item, which it uses as the draggable handle.
+The registry item includes `components/evil-buttons/slide-to-detonate.tsx` and installs `clsx`, `tailwind-merge`, and `motion`.

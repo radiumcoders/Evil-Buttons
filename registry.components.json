@@ -197,7 +197,6 @@
     "title": "SlideToDetonate",
     "description": "A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.",
     "file": "components/evil-buttons/slide-to-detonate.tsx",
-    "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
