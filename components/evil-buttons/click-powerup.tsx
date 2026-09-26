@@ -1,109 +1,175 @@
 "use client";
 
+import * as React from "react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import { cn } from "@/lib/utils";
-import { motion } from "motion/react";
-import { useState } from "react";
 
-export const ClickPowerUp = ({
-  children,
-  className,
-  tapDuration = 500,
-}: {
-  children: React.ReactNode;
-  className?: string;
+export interface ClickPowerUpProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart"
+> {
+  /** Milliseconds the powered-up flash lasts after a click. */
   tapDuration?: number;
-}) => {
-  const [isTapped, setIsTapped] = useState(false);
+  /** Color of the powered-up flash. */
+  accentColor?: string;
+}
 
-  const handleTap = () => {
-    if (isTapped) return;
-    setIsTapped(true);
-    setTimeout(() => setIsTapped(false), tapDuration);
-  };
+type Phase = "rest" | "hover" | "tap" | "powered";
 
-  const state = isTapped ? "tap" : "rest";
+const SPRING = { type: "spring", stiffness: 320, damping: 22 } as const;
 
-  return (
-    <motion.div
-      initial="rest"
-      animate={state}
-      whileHover={isTapped ? "tap" : "hover"}
-      onTap={handleTap}
-      className="relative inline-block cursor-pointer [--pattern:var(--color-neutral-200)] dark:[--pattern:var(--color-neutral-900)]"
-    >
-      {/* Corner brackets */}
-      {[
-        {
-          corner: "top-right",
-          cls: "absolute top-0 right-0 size-2 border-t border-r z-20",
-        },
-        {
-          corner: "top-left",
-          cls: "absolute top-0 left-0 size-2 border-t border-l z-20",
-        },
-        {
-          corner: "bottom-left",
-          cls: "absolute bottom-0 left-0 size-2 border-b border-l z-20",
-        },
-        {
-          corner: "bottom-right",
-          cls: "absolute right-0 bottom-0 size-2 border-r border-b z-20",
-        },
-      ].map(({ corner, cls }) => (
-        <motion.div
-          key={corner}
-          custom={corner}
-          variants={{
-            rest: () => ({ x: 0, y: 0, borderColor: "rgb(38 38 38)" }),
-            hover: (c: string) => ({
-              x: c.includes("right") ? 3 : -3,
-              y: c.includes("bottom") ? 3 : -3,
-              borderColor: "rgb(38 38 38)",
-            }),
-            tap: (c: string) => ({
-              x: c.includes("right") ? -2 : 2,
-              y: c.includes("bottom") ? -2 : 2,
-              borderColor: "#2CD4BD",
-            }),
-          }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className={cls}
-        />
-      ))}
+const CORNERS = [
+  { key: "tl", x: -1, y: -1, className: "top-0 left-0 border-t border-l" },
+  { key: "tr", x: 1, y: -1, className: "top-0 right-0 border-t border-r" },
+  { key: "bl", x: -1, y: 1, className: "bottom-0 left-0 border-b border-l" },
+  { key: "br", x: 1, y: 1, className: "right-0 bottom-0 border-r border-b" },
+] as const;
 
-      <button
+const bracketVariants: Variants = {
+  rest: { x: 0, y: 0, opacity: 0.45 },
+  hover: ({ x, y }: { x: number; y: number }) => ({
+    x: x * 4,
+    y: y * 4,
+    opacity: 1,
+  }),
+  tap: ({ x, y }: { x: number; y: number }) => ({
+    x: -x * 2,
+    y: -y * 2,
+    opacity: 1,
+  }),
+  powered: ({ x, y }: { x: number; y: number }) => ({
+    x: [x * 10, x * 5],
+    y: [y * 10, y * 5],
+    opacity: 1,
+  }),
+};
+
+const panelVariants: Variants = {
+  rest: { scaleX: 0 },
+  hover: { scaleX: 1 },
+  tap: { scaleX: 1 },
+  powered: { scaleX: 1 },
+};
+
+export const ClickPowerUp = React.forwardRef<
+  HTMLButtonElement,
+  ClickPowerUpProps
+>(
+  (
+    {
+      children,
+      className,
+      tapDuration = 500,
+      accentColor = "#2CD4BD",
+      onClick,
+      onPointerEnter,
+      onPointerLeave,
+      style,
+      disabled,
+      type = "button",
+      ...props
+    },
+    ref,
+  ) => {
+    const reduceMotion = useReducedMotion();
+    const [hovered, setHovered] = React.useState(false);
+    const [powered, setPowered] = React.useState(false);
+    const poweredTimerRef = React.useRef<number | undefined>(undefined);
+
+    React.useEffect(
+      () => () => window.clearTimeout(poweredTimerRef.current),
+      [],
+    );
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event);
+      setPowered(true);
+      window.clearTimeout(poweredTimerRef.current);
+      poweredTimerRef.current = window.setTimeout(
+        () => setPowered(false),
+        tapDuration,
+      );
+    };
+
+    const phase: Phase = powered ? "powered" : hovered ? "hover" : "rest";
+
+    return (
+      <motion.button
+        ref={ref}
+        type={type}
+        disabled={disabled}
+        initial={false}
+        animate={phase}
+        whileTap={powered ? undefined : "tap"}
+        onClick={handleClick}
+        onPointerEnter={(event) => {
+          onPointerEnter?.(event);
+          if (event.pointerType !== "touch") setHovered(true);
+        }}
+        onPointerLeave={(event) => {
+          onPointerLeave?.(event);
+          setHovered(false);
+        }}
+        style={{ "--powerup": accentColor, ...style } as React.CSSProperties}
         className={cn(
-          "relative overflow-hidden bg-background px-10 py-3 font-medium uppercase",
+          "group/powerup relative inline-flex cursor-pointer items-center justify-center px-10 py-3 text-sm font-medium tracking-[0.18em] uppercase outline-none select-none",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
+        {...props}
       >
-        {/* Pattern */}
-        <span className="absolute inset-0 z-0 bg-[repeating-linear-gradient(315deg,var(--pattern)_0,var(--pattern)_1px,transparent_0,transparent_50%)] bg-size-[7px_7px]" />
+        {/* Face: hatched surface with a panel that wipes in when armed. */}
+        <span
+          aria-hidden
+          className="absolute inset-0 overflow-hidden bg-background [--hatch:color-mix(in_oklab,var(--foreground)_10%,transparent)]"
+        >
+          <span className="absolute inset-0 bg-[repeating-linear-gradient(315deg,var(--hatch)_0,var(--hatch)_1px,transparent_0,transparent_50%)] bg-size-[7px_7px]" />
+          <motion.span
+            variants={panelVariants}
+            transition={SPRING}
+            className="absolute inset-0 origin-left bg-foreground"
+          />
+          <motion.span
+            className="absolute inset-0 bg-(--powerup)"
+            initial={false}
+            animate={{ opacity: powered ? 1 : 0 }}
+            transition={{ duration: powered ? 0.08 : 0.3 }}
+          />
+        </span>
 
-        {/* Arm panel */}
-        <motion.span
-          variants={{
-            rest: { scaleX: 0, originX: 0, backgroundColor: "#171717" },
-            hover: { scaleX: 1, originX: 0, backgroundColor: "#171717" },
-            tap: { scaleX: 1, originX: 0, backgroundColor: "#2CD4BD" },
-          }}
-          transition={{ type: "spring", stiffness: 220, damping: 22 }}
-          className="absolute inset-0 z-10 origin-left"
-        />
+        {CORNERS.map((corner) => (
+          <motion.span
+            key={corner.key}
+            aria-hidden
+            custom={corner}
+            variants={reduceMotion ? undefined : bracketVariants}
+            transition={SPRING}
+            className={cn(
+              "pointer-events-none absolute z-10 size-2.5 border-foreground",
+              powered && "border-(--powerup)",
+              corner.className,
+            )}
+          />
+        ))}
 
-        {/* Text */}
         <motion.span
+          className="relative z-10"
           variants={{
-            rest: { color: "var(--color-foreground)" },
-            hover: { color: "#ffffff" },
-            tap: { color: "#0a2926" },
+            rest: { color: "var(--foreground)", scale: 1 },
+            hover: { color: "var(--background)", scale: 1 },
+            tap: { color: "var(--background)", scale: 0.96 },
+            powered: {
+              color: "#0a0a0a",
+              scale: reduceMotion ? 1 : [1, 1.12, 1],
+            },
           }}
-          transition={{ type: "spring", stiffness: 220, damping: 22 }}
-          className="relative z-20"
+          transition={{ duration: 0.25, ease: "easeOut" }}
         >
           {children}
         </motion.span>
-      </button>
-    </motion.div>
-  );
-};
+      </motion.button>
+    );
+  },
+);
+
+ClickPowerUp.displayName = "ClickPowerUp";

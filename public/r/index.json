@@ -7,7 +7,7 @@
       "name": "click-powerup",
       "type": "registry:ui",
       "title": "ClickPowerUp",
-      "description": "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
+      "description": "A bracketed button that arms on hover and powers up with an accent flash and bracket burst on every click.",
       "files": [
         "components/evil-buttons/click-powerup.tsx"
       ]
