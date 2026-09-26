@@ -12,6 +12,7 @@ import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
 import { DeferredWebGLPreview } from "./shared";
+import { LiveProps } from "./live-props";
 
 export function DemonicButtonPreview() {
   const p = useDialKit(
@@ -20,7 +21,11 @@ export function DemonicButtonPreview() {
     { id: "demonic-button" },
   );
 
-  return <DemonicButton label={p.label} holdDuration={p.holdDuration} />;
+  return (
+    <LiveProps>
+      <DemonicButton label={p.label} holdDuration={p.holdDuration} />
+    </LiveProps>
+  );
 }
 
 export function ChromeButtonPreview() {
@@ -32,7 +37,9 @@ export function ChromeButtonPreview() {
 
   return (
     <DeferredWebGLPreview label={p.label}>
-      <ChromeButton>{p.label}</ChromeButton>
+      <LiveProps>
+        <ChromeButton>{p.label}</ChromeButton>
+      </LiveProps>
     </DeferredWebGLPreview>
   );
 }
@@ -45,7 +52,11 @@ export function MinimalButtonPreview() {
     { id: "minimal" },
   );
 
-  return <MinimalButton arrow={p.arrow}>{p.label}</MinimalButton>;
+  return (
+    <LiveProps>
+      <MinimalButton arrow={p.arrow}>{p.label}</MinimalButton>
+    </LiveProps>
+  );
 }
 
 export function MoviePassButtonPreview() {
@@ -66,13 +77,15 @@ export function MoviePassButtonPreview() {
   );
 
   return (
-    <MoviePassButton
-      variant={p.variant as MoviePassVariant}
-      stub={p.stub.trim() ? p.stub : undefined}
-      resetDelay={p.autoReset ? p.resetDelay : null}
-    >
-      {p.label}
-    </MoviePassButton>
+    <LiveProps>
+      <MoviePassButton
+        variant={p.variant as MoviePassVariant}
+        stub={p.stub.trim() ? p.stub : undefined}
+        resetDelay={p.autoReset ? p.resetDelay : null}
+      >
+        {p.label}
+      </MoviePassButton>
+    </LiveProps>
   );
 }
 
@@ -83,7 +96,11 @@ export function ShinyButtonPreview() {
     { id: "shiny-button" },
   );
 
-  return <ShinyButton shineDuration={p.shineDuration}>{p.label}</ShinyButton>;
+  return (
+    <LiveProps>
+      <ShinyButton shineDuration={p.shineDuration}>{p.label}</ShinyButton>
+    </LiveProps>
+  );
 }
 
 export function StickyButtonPreview() {
@@ -100,14 +117,16 @@ export function StickyButtonPreview() {
   );
 
   return (
-    <StickyButton
-      radius={p.radius}
-      strength={p.strength}
-      parallax={p.parallax}
-      tilt={p.tilt}
-    >
-      {p.label}
-    </StickyButton>
+    <LiveProps>
+      <StickyButton
+        radius={p.radius}
+        strength={p.strength}
+        parallax={p.parallax}
+        tilt={p.tilt}
+      >
+        {p.label}
+      </StickyButton>
+    </LiveProps>
   );
 }
 
@@ -118,7 +137,11 @@ export function ThreeDButtonPreview() {
     { id: "3d-button" },
   );
 
-  return <ThreeDButton>{p.label}</ThreeDButton>;
+  return (
+    <LiveProps>
+      <ThreeDButton>{p.label}</ThreeDButton>
+    </LiveProps>
+  );
 }
 
 export function TrollButtonPreview() {
@@ -136,14 +159,16 @@ export function TrollButtonPreview() {
   );
 
   return (
-    <TrollButton
-      surrenderLabel={p.surrenderLabel}
-      giveUpAfter={p.giveUpAfter}
-      fleeRadius={p.fleeRadius}
-      range={p.range}
-      resetAfter={p.resetAfter}
-    >
-      {p.label}
-    </TrollButton>
+    <LiveProps>
+      <TrollButton
+        surrenderLabel={p.surrenderLabel}
+        giveUpAfter={p.giveUpAfter}
+        fleeRadius={p.fleeRadius}
+        range={p.range}
+        resetAfter={p.resetAfter}
+      >
+        {p.label}
+      </TrollButton>
+    </LiveProps>
   );
 }

@@ -49,6 +49,17 @@ export default async function DocsPage({ params }: DocsPageProps) {
         )}`
       : undefined;
 
+  const importLine = getUsageImport(page.path);
+  const liveSource =
+    registryName !== null && hasRegistryItem && importLine !== null
+      ? {
+          registryName,
+          installCommand: `npx shadcn@latest add ${absoluteUrl(`/r/${registryName}.json`)}`,
+          importLine,
+          docsUrl: absoluteUrl(page.url),
+        }
+      : undefined;
+
   return (
     <div className="flex w-full justify-center gap-10">
       <div className="min-h-dvh w-full max-w-4xl min-w-0 px-6 pt-16 pb-24 md:border-x md:border-dashed md:border-border md:px-10 md:pt-12">
@@ -85,7 +96,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
           <MDX
             components={getMDXComponents({
               PreviewCard: (props: ComponentProps<typeof PreviewCard>) => (
-                <PreviewCard {...props} registryName={registryName ?? undefined} />
+                <PreviewCard {...props} source={liveSource} />
               ),
             })}
           />
@@ -139,6 +150,25 @@ function getRegistryItemName(mdxPath: string): string | null {
       new RegExp(`${siteConfig.registryNamespace}/([a-z0-9-]+)`, "i"),
     );
     return match?.[1] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The component import from the page's Usage snippet, e.g.
+ * `import { HoldButton } from "@/components/evil-buttons/hold-button";`.
+ */
+function getUsageImport(mdxPath: string): string | null {
+  try {
+    const contents = readFileSync(
+      join(process.cwd(), "content", "docs", mdxPath),
+      "utf8",
+    );
+    const match = contents.match(
+      /^import .+ from "@\/components\/evil-buttons\/[^"]+";$/m,
+    );
+    return match?.[0] ?? null;
   } catch {
     return null;
   }

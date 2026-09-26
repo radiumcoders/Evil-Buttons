@@ -17,6 +17,7 @@ import {
   themeColors,
   useThemedDialKit,
 } from "./theme";
+import { LiveProps } from "./live-props";
 
 export function BrutalButtonPreview() {
   const p = useThemedDialKit(
@@ -38,17 +39,19 @@ export function BrutalButtonPreview() {
   );
 
   return (
-    <BrutalButton
-      color={p.color}
-      textColor={p.textColor}
-      borderColor={p.borderColor}
-      shadowColor={p.shadowColor}
-      hasBorder={p.hasBorder}
-      hasShadow={p.hasShadow}
-      radius={p.radius}
-    >
-      {p.label}
-    </BrutalButton>
+    <LiveProps>
+      <BrutalButton
+        color={p.color}
+        textColor={p.textColor}
+        borderColor={p.borderColor}
+        shadowColor={p.shadowColor}
+        hasBorder={p.hasBorder}
+        hasShadow={p.hasShadow}
+        radius={p.radius}
+      >
+        {p.label}
+      </BrutalButton>
+    </LiveProps>
   );
 }
 
@@ -65,13 +68,15 @@ export function DitherButtonPreview() {
   );
 
   return (
-    <DitherButton
-      ditherColor={p.ditherColor}
-      ditherOpacity={p.ditherOpacity}
-      ditherSize={p.ditherSize}
-    >
-      {p.label}
-    </DitherButton>
+    <LiveProps>
+      <DitherButton
+        ditherColor={p.ditherColor}
+        ditherOpacity={p.ditherOpacity}
+        ditherSize={p.ditherSize}
+      >
+        {p.label}
+      </DitherButton>
+    </LiveProps>
   );
 }
 
@@ -96,16 +101,18 @@ export function GlitchButtonPreview() {
   );
 
   return (
-    <GlitchButton
-      glitchInterval={p.glitchInterval}
-      glitchDuration={p.glitchDuration}
-      colors={[p.channelA, p.channelB]}
-      intensity={p.intensity}
-      trigger={p.trigger as "auto" | "hover" | "always"}
-      scanlines={p.scanlines}
-    >
-      {p.label}
-    </GlitchButton>
+    <LiveProps>
+      <GlitchButton
+        glitchInterval={p.glitchInterval}
+        glitchDuration={p.glitchDuration}
+        colors={[p.channelA, p.channelB]}
+        intensity={p.intensity}
+        trigger={p.trigger as "auto" | "hover" | "always"}
+        scanlines={p.scanlines}
+      >
+        {p.label}
+      </GlitchButton>
+    </LiveProps>
   );
 }
 
@@ -133,21 +140,23 @@ export function EvilEyeButtonPreview() {
 
   return (
     <DeferredWebGLPreview label={p.label}>
-      <EvilEyeButton
-        effectOpacity={p.effectOpacity}
-        eyeColor={p.eye.eyeColor}
-        backgroundColor={p.eye.backgroundColor}
-        intensity={p.eye.intensity}
-        pupilSize={p.eye.pupilSize}
-        irisWidth={p.eye.irisWidth}
-        glowIntensity={p.eye.glowIntensity}
-        scale={p.eye.scale}
-        noiseScale={p.eye.noiseScale}
-        pupilFollow={p.eye.pupilFollow}
-        flameSpeed={p.eye.flameSpeed}
-      >
-        {p.label}
-      </EvilEyeButton>
+      <LiveProps>
+        <EvilEyeButton
+          effectOpacity={p.effectOpacity}
+          eyeColor={p.eye.eyeColor}
+          backgroundColor={p.eye.backgroundColor}
+          intensity={p.eye.intensity}
+          pupilSize={p.eye.pupilSize}
+          irisWidth={p.eye.irisWidth}
+          glowIntensity={p.eye.glowIntensity}
+          scale={p.eye.scale}
+          noiseScale={p.eye.noiseScale}
+          pupilFollow={p.eye.pupilFollow}
+          flameSpeed={p.eye.flameSpeed}
+        >
+          {p.label}
+        </EvilEyeButton>
+      </LiveProps>
     </DeferredWebGLPreview>
   );
 }
@@ -167,9 +176,11 @@ export function AquaButtonPreview() {
   );
 
   return (
-    <AquaButton variant={p.variant as "primary" | "secondary"}>
-      {p.label}
-    </AquaButton>
+    <LiveProps>
+      <AquaButton variant={p.variant as "primary" | "secondary"}>
+        {p.label}
+      </AquaButton>
+    </LiveProps>
   );
 }
 
@@ -192,15 +203,17 @@ export function FrameButtonPreview() {
   );
 
   return (
-    <FrameButton
-      variant={p.variant as "default" | "secondary" | "outline"}
-      glow={p.glow}
-      size={p.size}
-      offset={p.offset}
-      hoverOffset={p.hoverOffset}
-    >
-      {p.label}
-    </FrameButton>
+    <LiveProps>
+      <FrameButton
+        variant={p.variant as "default" | "secondary" | "outline"}
+        glow={p.glow}
+        size={p.size}
+        offset={p.offset}
+        hoverOffset={p.hoverOffset}
+      >
+        {p.label}
+      </FrameButton>
+    </LiveProps>
   );
 }
 
@@ -224,14 +237,16 @@ export function HighlightButtonPreview() {
   );
 
   return (
-    <HighlightButton
-      variant={p.variant as "default" | "secondary" | "outline"}
-      highlightSize={p.highlightSize}
-      highlightColor={p.customColors ? p.highlightColor : undefined}
-      borderColor={p.customColors ? p.borderColor : undefined}
-    >
-      {p.label}
-    </HighlightButton>
+    <LiveProps>
+      <HighlightButton
+        variant={p.variant as "default" | "secondary" | "outline"}
+        highlightSize={p.highlightSize}
+        highlightColor={p.customColors ? p.highlightColor : undefined}
+        borderColor={p.customColors ? p.borderColor : undefined}
+      >
+        {p.label}
+      </HighlightButton>
+    </LiveProps>
   );
 }
 
@@ -257,14 +272,16 @@ export function ConfettiButtonPreview() {
   );
 
   return (
-    <ConfettiButton
-      label={p.label}
-      particleCount={p.particleCount}
-      spread={p.spread}
-      startVelocity={p.startVelocity}
-      icon={p.icon}
-      colors={fromFolder(p.colors)}
-    />
+    <LiveProps>
+      <ConfettiButton
+        label={p.label}
+        particleCount={p.particleCount}
+        spread={p.spread}
+        startVelocity={p.startVelocity}
+        icon={p.icon}
+        colors={fromFolder(p.colors)}
+      />
+    </LiveProps>
   );
 }
 
@@ -292,13 +309,15 @@ export function AshBurstButtonPreview() {
   );
 
   return (
-    <AshBurstButton
-      label={p.label}
-      particleCount={p.particleCount}
-      spread={p.spread}
-      startVelocity={p.startVelocity}
-      icon={p.icon}
-      colors={fromFolder(p.colors)}
-    />
+    <LiveProps>
+      <AshBurstButton
+        label={p.label}
+        particleCount={p.particleCount}
+        spread={p.spread}
+        startVelocity={p.startVelocity}
+        icon={p.icon}
+        colors={fromFolder(p.colors)}
+      />
+    </LiveProps>
   );
 }

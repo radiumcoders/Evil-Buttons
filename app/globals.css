@@ -383,7 +383,12 @@ html.dark .docs-content .shiki span {
 }
 
 .dialkit-root[data-mode="inline"] .dialkit-panel-inner {
-  padding: 12px 14px 14px !important;
+  padding: 10px 14px 14px !important;
+}
+
+/* The docs header above the panel carries the title, reset and copy actions. */
+.dialkit-root[data-mode="inline"] .dialkit-folder-root > .dialkit-panel-header {
+  display: none;
 }
 
 .dialkit-root[data-mode="inline"] :is(

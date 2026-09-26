@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { DocsFrame } from "@/components/docs-frame";
-import { LivePreview } from "@/components/live-preview";
+import { LivePreview, type LiveSource } from "@/components/live-preview";
 
 type PreviewCardProps = {
   /** Kept for existing MDX usage; no longer rendered. */
@@ -9,16 +9,16 @@ type PreviewCardProps = {
   note?: string;
   /**
    * Swap the children for the page's dial-backed preview with live prop
-   * controls below it. Needs `registryName`, which the docs page injects.
+   * controls below it. Needs `source`, which the docs page injects.
    */
   live?: boolean;
-  registryName?: string;
+  source?: LiveSource;
   children: ReactNode;
 };
 
-export function PreviewCard({ live, registryName, children }: PreviewCardProps) {
-  if (live && registryName) {
-    return <LivePreview registryName={registryName} fallback={children} />;
+export function PreviewCard({ live, source, children }: PreviewCardProps) {
+  if (live && source) {
+    return <LivePreview source={source} fallback={children} />;
   }
 
   return (

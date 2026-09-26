@@ -9,6 +9,7 @@ import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
+import { LiveProps } from "./live-props";
 
 export function RevealButtonPreview() {
   const p = useDialKit(
@@ -28,13 +29,15 @@ export function RevealButtonPreview() {
   );
 
   return (
-    <RevealButton
-      label={p.label}
-      hiddenLabel={p.hiddenLabel}
-      maskedValue={p.maskedValue}
-      secret={p.secret}
-      revealMode={p.revealMode as "hold" | "toggle"}
-    />
+    <LiveProps>
+      <RevealButton
+        label={p.label}
+        hiddenLabel={p.hiddenLabel}
+        maskedValue={p.maskedValue}
+        secret={p.secret}
+        revealMode={p.revealMode as "hold" | "toggle"}
+      />
+    </LiveProps>
   );
 }
 
@@ -52,13 +55,15 @@ export function HoldButtonPreview() {
   );
 
   return (
-    <HoldButton
-      label={p.label}
-      holdingLabel={p.holdingLabel}
-      successLabel={p.successLabel}
-      duration={p.duration}
-      resetAfter={p.resetAfter}
-    />
+    <LiveProps>
+      <HoldButton
+        label={p.label}
+        holdingLabel={p.holdingLabel}
+        successLabel={p.successLabel}
+        duration={p.duration}
+        resetAfter={p.resetAfter}
+      />
+    </LiveProps>
   );
 }
 
@@ -82,17 +87,19 @@ export function HoldConfirmButtonPreview() {
   );
 
   return (
-    <HoldConfirmButton
-      label={p.label}
-      holdingLabel={p.holdingLabel}
-      successLabel={p.successLabel}
-      duration={p.duration}
-      resetAfter={p.resetAfter}
-      minScale={p.minScale}
-      ringSize={p.ring.size}
-      ringStrokeWidth={p.ring.strokeWidth}
-      ringColor={p.ring.color}
-    />
+    <LiveProps>
+      <HoldConfirmButton
+        label={p.label}
+        holdingLabel={p.holdingLabel}
+        successLabel={p.successLabel}
+        duration={p.duration}
+        resetAfter={p.resetAfter}
+        minScale={p.minScale}
+        ringSize={p.ring.size}
+        ringStrokeWidth={p.ring.strokeWidth}
+        ringColor={p.ring.color}
+      />
+    </LiveProps>
   );
 }
 
@@ -115,14 +122,16 @@ export function SlideToDetonatePreview() {
   );
 
   return (
-    <SlideToDetonate
-      label={p.label}
-      threshold={p.threshold}
-      resistance={p.resistance}
-      smoothness={p.smoothness}
-      variant={p.variant as "dark" | "light"}
-      resetAfter={p.resetAfter}
-    />
+    <LiveProps>
+      <SlideToDetonate
+        label={p.label}
+        threshold={p.threshold}
+        resistance={p.resistance}
+        smoothness={p.smoothness}
+        variant={p.variant as "dark" | "light"}
+        resetAfter={p.resetAfter}
+      />
+    </LiveProps>
   );
 }
 
@@ -146,12 +155,14 @@ export function DoubtButtonPreview() {
   );
 
   return (
-    <DoubtButton
-      label={p.label}
-      successLabel={p.successLabel}
-      resetAfter={p.resetAfter}
-      confirmations={fromFolder(p.confirmations)}
-    />
+    <LiveProps>
+      <DoubtButton
+        label={p.label}
+        successLabel={p.successLabel}
+        resetAfter={p.resetAfter}
+        confirmations={fromFolder(p.confirmations)}
+      />
+    </LiveProps>
   );
 }
 
@@ -185,16 +196,18 @@ export function CooldownButtonPreview() {
   );
 
   return (
-    <CooldownButton
-      label={p.label}
-      cooldown={p.cooldown}
-      showCountdown={p.showCountdown}
-      variant={
-        p.variant as "outline" | "default" | "secondary" | "ghost" | "destructive"
-      }
-      size={p.size as "lg" | "default" | "sm"}
-      taunts={fromFolder(p.taunts)}
-    />
+    <LiveProps>
+      <CooldownButton
+        label={p.label}
+        cooldown={p.cooldown}
+        showCountdown={p.showCountdown}
+        variant={
+          p.variant as "outline" | "default" | "secondary" | "ghost" | "destructive"
+        }
+        size={p.size as "lg" | "default" | "sm"}
+        taunts={fromFolder(p.taunts)}
+      />
+    </LiveProps>
   );
 }
 
@@ -223,18 +236,20 @@ export function MorphStatusButtonPreview() {
   );
 
   return (
-    <MorphStatusButton
-      label={p.label}
-      loadingLabel={p.loadingLabel}
-      successLabel={p.successLabel}
-      errorLabel={p.errorLabel}
-      resetAfter={p.resetAfter}
-      status={
-        p.status === "auto"
-          ? undefined
-          : (p.status as "idle" | "loading" | "success" | "error")
-      }
-      onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
-    />
+    <LiveProps>
+      <MorphStatusButton
+        label={p.label}
+        loadingLabel={p.loadingLabel}
+        successLabel={p.successLabel}
+        errorLabel={p.errorLabel}
+        resetAfter={p.resetAfter}
+        status={
+          p.status === "auto"
+            ? undefined
+            : (p.status as "idle" | "loading" | "success" | "error")
+        }
+        onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
+      />
+    </LiveProps>
   );
 }

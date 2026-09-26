@@ -7,6 +7,7 @@ import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import { PillButton } from "@/components/evil-buttons/pill-button";
+import { LiveProps } from "./live-props";
 
 export function CommandButtonPreview() {
   const p = useDialKit(
@@ -21,13 +22,15 @@ export function CommandButtonPreview() {
   );
 
   return (
-    <CommandButton
-      shortcut={p.shortcut}
-      showShortcut={p.showShortcut}
-      preventDefault={p.preventDefault}
-    >
-      {p.label}
-    </CommandButton>
+    <LiveProps>
+      <CommandButton
+        shortcut={p.shortcut}
+        showShortcut={p.showShortcut}
+        preventDefault={p.preventDefault}
+      >
+        {p.label}
+      </CommandButton>
+    </LiveProps>
   );
 }
 
@@ -46,14 +49,16 @@ export function CopyButtonPreview() {
   );
 
   return (
-    <CopyButton
-      value={p.value}
-      copyLabel={p.copyLabel}
-      copiedLabel={p.copiedLabel}
-      errorLabel={p.errorLabel}
-      timeout={p.timeout}
-      showValue={p.showValue}
-    />
+    <LiveProps>
+      <CopyButton
+        value={p.value}
+        copyLabel={p.copyLabel}
+        copiedLabel={p.copiedLabel}
+        errorLabel={p.errorLabel}
+        timeout={p.timeout}
+        showValue={p.showValue}
+      />
+    </LiveProps>
   );
 }
 
@@ -69,9 +74,11 @@ export function ClickPowerUpPreview() {
   );
 
   return (
-    <ClickPowerUp tapDuration={p.tapDuration} accentColor={p.accentColor}>
-      {p.label}
-    </ClickPowerUp>
+    <LiveProps>
+      <ClickPowerUp tapDuration={p.tapDuration} accentColor={p.accentColor}>
+        {p.label}
+      </ClickPowerUp>
+    </LiveProps>
   );
 }
 
@@ -89,12 +96,14 @@ export function PillButtonPreview() {
   const classes = pillClassNames(isDark);
 
   return (
-    <PillButton
-      primaryLabel={p.primaryLabel}
-      secondaryLabel={p.secondaryLabel}
-      defaultOpen={p.defaultOpen}
-      primaryClassName={classes.primaryClassName}
-      secondaryClassName={classes.secondaryClassName}
-    />
+    <LiveProps>
+      <PillButton
+        primaryLabel={p.primaryLabel}
+        secondaryLabel={p.secondaryLabel}
+        defaultOpen={p.defaultOpen}
+        primaryClassName={classes.primaryClassName}
+        secondaryClassName={classes.secondaryClassName}
+      />
+    </LiveProps>
   );
 }
