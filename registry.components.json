@@ -45,16 +45,6 @@
     "dependencies": ["clsx", "tailwind-merge"]
   },
   {
-    "name": "grid-button",
-    "exportName": "GridButton",
-    "docSlug": "grid-button",
-    "title": "GridButton",
-    "description": "A retro-styled button with a pixelated grid icon and tactile press feedback.",
-    "file": "components/evil-buttons/grid-button.tsx",
-    "registryDependencies": ["@dotmatrix/dotm-square-11"],
-    "dependencies": ["clsx", "tailwind-merge"]
-  },
-  {
     "name": "dither-button",
     "exportName": "DitherButton",
     "docSlug": "dither-button",

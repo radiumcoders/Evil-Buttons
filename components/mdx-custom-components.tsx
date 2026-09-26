@@ -7,7 +7,6 @@ import type { MDXComponents } from "mdx/types";
 import { isValidElement, type ReactNode } from "react";
 import MoviePassButton from "./evil-buttons/movie-pass";
 import ShinyButton from "./evil-buttons/shiny-button";
-import GridButton from "./evil-buttons/grid-button";
 import DitherButton from "./evil-buttons/dither-button";
 import EvilEyeButton from "./evil-buttons/evil-eye-button";
 import TrollButton from "./evil-buttons/troll-button";
@@ -104,7 +103,6 @@ export function getCustomMDXComponents(): MDXComponents {
     MoviePassButton,
     MinimalButton,
     EvilButton: ClickPowerUp,
-    GridButton,
     DitherButton,
     EvilEyeButton,
     Link,

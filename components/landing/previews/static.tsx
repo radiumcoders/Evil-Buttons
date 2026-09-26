@@ -23,7 +23,6 @@ import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import { PillButton } from "@/components/evil-buttons/pill-button";
 import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
-import GridButton from "@/components/evil-buttons/grid-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
@@ -275,9 +274,6 @@ export function StaticChromeButtonPreview() {
   );
 }
 
-export function StaticGridButtonPreview() {
-  return <GridButton>Click</GridButton>;
-}
 
 export function StaticMinimalButtonPreview() {
   return <MinimalButton>Apply</MinimalButton>;

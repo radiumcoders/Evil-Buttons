@@ -18,7 +18,6 @@ export const showcase: ShowcaseEntry[] = [
   { name: "ChromeButton", href: "/docs/chrome-button", registryName: "chrome-button" },
   { name: "FrameButton", href: "/docs/frame-button", registryName: "frame-button" },
   { name: "GlitchButton", href: "/docs/glitch-button", registryName: "glitch-button" },
-  { name: "GridButton", href: "/docs/grid-button", registryName: "grid-button" },
   { name: "HighlightButton", href: "/docs/highlight-button", registryName: "highlight-button" },
   { name: "MinimalButton", href: "/docs/minimal-button", registryName: "minimal" },
   { name: "MoviePassButton", href: "/docs/movie-pass", registryName: "movie-pass" },

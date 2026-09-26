@@ -13,7 +13,7 @@
 npx shadcn@latest add @evilbuttons/<component-name>
 ```
 
-Example components: `click-powerup`, `shiny-button`, `sticky`, `movie-pass`, `minimal`, `grid-button`, `scroll-bars`, `sun-dim`, `moon`, `spark-burst`, `cloud-blocks`, and logo variants (`vercel`, `shadcn`, `tanstack`).
+Example components: `click-powerup`, `shiny-button`, `sticky`, `movie-pass`, `minimal`, `scroll-bars`, `sun-dim`, `moon`, `spark-burst`, `cloud-blocks`, and logo variants (`vercel`, `shadcn`, `tanstack`).
 
 ## Source
 

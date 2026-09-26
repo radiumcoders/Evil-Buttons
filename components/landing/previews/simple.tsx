@@ -3,7 +3,6 @@
 import { useDialKit } from "dialkit";
 import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
-import GridButton from "@/components/evil-buttons/grid-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton, {
   type MoviePassVariant,
@@ -38,11 +37,6 @@ export function ChromeButtonPreview() {
   );
 }
 
-export function GridButtonPreview() {
-  const p = useDialKit("GridButton", { label: "Click" }, { id: "grid-button" });
-
-  return <GridButton>{p.label}</GridButton>;
-}
 
 export function MinimalButtonPreview() {
   const p = useDialKit("MinimalButton", { label: "Apply" }, { id: "minimal" });

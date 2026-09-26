@@ -21,7 +21,6 @@ import DitherButton from "@/components/evil-buttons/dither-button";
 import EvilEyeButton from "@/components/evil-buttons/evil-eye-button";
 import { FrameButton } from "@/components/evil-buttons/frame-button";
 import GlitchButton from "@/components/evil-buttons/glitch-button";
-import GridButton from "@/components/evil-buttons/grid-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
@@ -143,12 +142,6 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/glitch-button",
     registryName: "glitch-button",
     render: () => <GlitchButton>Launch</GlitchButton>,
-  },
-  {
-    name: "GridButton",
-    href: "/docs/grid-button",
-    registryName: "grid-button",
-    render: () => <GridButton>Click</GridButton>,
   },
   {
     name: "HighlightButton",
