@@ -205,15 +205,7 @@ export function StaticAquaButtonPreview() {
 
 export function StaticFrameButtonPreview() {
   return (
-    <FrameButton
-      variant="default"
-      glow={false}
-      size={20}
-      offset={7.5}
-      hoverOffset={7}
-    >
-      Deploy
-    </FrameButton>
+    <FrameButton>Deploy</FrameButton>
   );
 }
 
@@ -286,7 +278,7 @@ export function StaticPillButtonPreview() {
 }
 
 export function StaticDemonicButtonPreview() {
-  return <DemonicButton label="Currupt the World" />;
+  return <DemonicButton label="Corrupt the World" />;
 }
 
 export function StaticChromeButtonPreview() {

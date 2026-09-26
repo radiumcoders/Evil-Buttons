@@ -125,7 +125,7 @@
     "exportName": "FrameButton",
     "docSlug": "frame-button",
     "title": "FrameButton",
-    "description": "A futuristic button with animated corner frames and tactile motion interactions.",
+    "description": "A futuristic button with springy corner markers that spread on hover and lock on when pressed, plus a scan sweep.",
     "file": "components/evil-buttons/frame-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },

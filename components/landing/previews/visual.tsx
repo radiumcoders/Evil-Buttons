@@ -179,9 +179,9 @@ export function FrameButtonPreview() {
         default: "default",
       },
       glow: false,
-      size: [20, 8, 40],
-      offset: [7.5, 0, 20, 0.5],
-      hoverOffset: [7, 0, 20, 0.5],
+      size: [14, 6, 32],
+      offset: [6, 0, 20, 0.5],
+      hoverOffset: [5, 0, 20, 0.5],
     }),
     { id: "frame-button" },
   );
