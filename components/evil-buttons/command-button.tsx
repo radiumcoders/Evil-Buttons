@@ -169,6 +169,7 @@ export const CommandButton = React.forwardRef<
         type={type}
         disabled={disabled}
         data-shortcut={shortcut}
+        data-firing={firing || undefined}
         aria-keyshortcuts={parts
           .map((part) =>
             part === "mod" ? (isApple ? "Meta" : "Control") : part,
@@ -185,6 +186,8 @@ export const CommandButton = React.forwardRef<
           "transition-[transform,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
           // Press eases in fast and settles the shadow; release springs back on the slower base curve.
           "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
+          // The shortcut has no :active state, so data-firing plays the same press.
+          "data-firing:scale-[0.97] data-firing:brightness-95 data-firing:duration-100 data-firing:ease-out data-firing:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:data-firing:scale-100",
           showShortcut && "pr-2",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
