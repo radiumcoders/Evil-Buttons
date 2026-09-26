@@ -1,383 +1,256 @@
 "use client";
 
-import { DeferredMount } from "@/components/landing/deferred-mount";
-import { FitToContainer } from "@/components/landing/fit-to-container";
-import { siteConfig } from "@/lib/seo";
-import { trackOutcome } from "@/lib/tracwell";
-import { ArrowUpRight, Copy } from "@phosphor-icons/react";
+import { ArrowRight, ArrowUpRight, GithubLogo } from "@phosphor-icons/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type ReactNode, useEffect, useRef, useState } from "react";
-
-import { AquaButton } from "@/components/evil-buttons/aqua-button";
-import { BrutalButton } from "@/components/evil-buttons/brutal-button";
-import ChromeButton from "@/components/evil-buttons/chrome-button";
-import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import { CommandButton } from "@/components/evil-buttons/command-button";
-import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
-import { CopyButton } from "@/components/evil-buttons/copy-button";
+import { useState } from "react";
+import { packageCommands, PackageManagerTabs } from "@/components/cli-block";
+import CopyButton from "@/components/copy-button";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
-import DitherButton from "@/components/evil-buttons/dither-button";
-import EvilEyeButton from "@/components/evil-buttons/evil-eye-button";
-import { FrameButton } from "@/components/evil-buttons/frame-button";
-import GlitchButton from "@/components/evil-buttons/glitch-button";
-import { HighlightButton } from "@/components/evil-buttons/highlight-button";
-import { HoldButton } from "@/components/evil-buttons/hold-button";
-import MinimalButton from "@/components/evil-buttons/minimal";
-import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
-import MoviePassButton from "@/components/evil-buttons/movie-pass";
-import { RevealButton } from "@/components/evil-buttons/reveal-button";
-import ShinyButton from "@/components/evil-buttons/shiny-button";
-import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
-import StickyButton from "@/components/evil-buttons/sticky";
-import { ThreeDButton } from "@/components/evil-buttons/3d-button";
-import TrollButton from "@/components/evil-buttons/troll-button";
-import { DemonicButton } from "@/components/evil-buttons/demonic-button";
-import { PillButton } from "@/components/evil-buttons/pill-button";
-import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
-import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
+import { FitToContainer } from "@/components/landing/fit-to-container";
+import { ShowcasePreview } from "@/components/landing/showcase-preview";
+import { showcase, type ShowcaseEntry } from "@/components/landing/showcase";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { type PackageManager, useConfig } from "@/hooks/use-config";
+import { siteConfig } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
-type ButtonShowcase = {
-  name: string;
-  href: string;
-  registryName: string;
-  render: () => ReactNode;
+type LandingPageProps = {
+  /** Docs category per showcase href, read from the MDX frontmatter. */
+  categories: Record<string, string | undefined>;
 };
 
-// Static stand-in shown for the always-on WebGL buttons until their grid cell
-// scrolls into view. Approximates the real button's footprint (rounded, dark
-// pill) so swapping in the live shader causes no layout shift.
-function WebGLPlaceholder({ label }: { label: string }) {
+function Navbar() {
   return (
-    <span className="inline-flex min-h-16 min-w-52 items-center justify-center rounded-full border border-border bg-neutral-950 px-9 py-4 font-mono text-sm font-medium uppercase tracking-widest text-neutral-500">
-      {label}
-    </span>
-  );
-}
-
-const showcase: ButtonShowcase[] = [
-  {
-    name: "RevealButton",
-    href: "/docs/reveal-button",
-    registryName: "reveal-button",
-    render: () => <RevealButton label="Hold to reveal" />,
-  },
-  {
-    name: "CommandButton",
-    href: "/docs/command-button",
-    registryName: "command-button",
-    render: () => <CommandButton shortcut="mod+s">Save</CommandButton>,
-  },
-  {
-    name: "CopyButton",
-    href: "/docs/copy-button",
-    registryName: "copy-button",
-    render: () => <CopyButton value="npx evil-buttons@latest init" />,
-  },
-  {
-    name: "ClickPowerUp",
-    href: "/docs/click-power-up",
-    registryName: "click-powerup",
-    render: () => <ClickPowerUp>Doom</ClickPowerUp>,
-  },
-  {
-    name: "DitherButton",
-    href: "/docs/dither-button",
-    registryName: "dither-button",
-    render: () => <DitherButton>Run It</DitherButton>,
-  },
-  {
-    name: "HoldButton",
-    href: "/docs/hold-button",
-    registryName: "hold-button",
-    render: () => <HoldButton />,
-  },
-  {
-    name: "DemonicButton",
-    href: "/docs/demonic-button",
-    registryName: "demonic-button",
-    render: () => <DemonicButton label="Currupt the World" />,
-  },
-  {
-    name: "EvilEyeButton",
-    href: "/docs/evil-eye-button",
-    registryName: "evil-eye-button",
-    render: () => (
-      <DeferredMount placeholder={<WebGLPlaceholder label="Doom" />}>
-        <EvilEyeButton>Doom</EvilEyeButton>
-      </DeferredMount>
-    ),
-  },
-  {
-    name: "AquaButton",
-    href: "/docs/aqua-button",
-    registryName: "aqua-button",
-    render: () => <AquaButton>Deploy Doom</AquaButton>,
-  },
-  {
-    name: "BrutalButton",
-    href: "/docs/brutal-button",
-    registryName: "brutal-button",
-    render: () => <BrutalButton>Click Me</BrutalButton>,
-  },
-  {
-    name: "ChromeButton",
-    href: "/docs/chrome-button",
-    registryName: "chrome-button",
-    render: () => (
-      <DeferredMount placeholder={<WebGLPlaceholder label="Chromy" />}>
-        <ChromeButton>Chromy</ChromeButton>
-      </DeferredMount>
-    ),
-  },
-  {
-    name: "FrameButton",
-    href: "/docs/frame-button",
-    registryName: "frame-button",
-    render: () => <FrameButton>Deploy</FrameButton>,
-  },
-  {
-    name: "GlitchButton",
-    href: "/docs/glitch-button",
-    registryName: "glitch-button",
-    render: () => <GlitchButton>Launch</GlitchButton>,
-  },
-  {
-    name: "HighlightButton",
-    href: "/docs/highlight-button",
-    registryName: "highlight-button",
-    render: () => <HighlightButton>Send</HighlightButton>,
-  },
-  {
-    name: "MinimalButton",
-    href: "/docs/minimal-button",
-    registryName: "minimal",
-    render: () => <MinimalButton>Apply</MinimalButton>,
-  },
-  {
-    name: "MoviePassButton",
-    href: "/docs/movie-pass",
-    registryName: "movie-pass",
-    render: () => <MoviePassButton>Deploy Doom</MoviePassButton>,
-  },
-  {
-    name: "ShinyButton",
-    href: "/docs/shiny-button",
-    registryName: "shiny-button",
-    render: () => <ShinyButton>Search</ShinyButton>,
-  },
-  {
-    name: "StickyButton",
-    href: "/docs/sticky-button",
-    registryName: "sticky",
-    render: () => <StickyButton>Try to Click</StickyButton>,
-  },
-  {
-    name: "ThreeDButton",
-    href: "/docs/3d-button",
-    registryName: "3d-button",
-    render: () => <ThreeDButton>Continue</ThreeDButton>,
-  },
-  {
-    name: "TrollButton",
-    href: "/docs/troll-button",
-    registryName: "troll-button",
-    render: () => <TrollButton>Click Me</TrollButton>,
-  },
-  {
-    name: "DoubtButton",
-    href: "/docs/doubt-button",
-    registryName: "doubt-button",
-    render: () => <DoubtButton>Delete everything</DoubtButton>,
-  },
-  {
-    name: "SlideToDetonate",
-    href: "/docs/slide-to-detonate",
-    registryName: "slide-to-detonate",
-    render: () => <SlideToDetonate>Slide to detonate</SlideToDetonate>,
-  },
-  {
-    name: "MorphStatusButton",
-    href: "/docs/morph-status-button",
-    registryName: "morph-status-button",
-    render: () => (
-      <MorphStatusButton
-        onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
-      >
-        Save changes
-      </MorphStatusButton>
-    ),
-  },
-  {
-    name: "CooldownButton",
-    href: "/docs/cooldown-button",
-    registryName: "cooldown-button",
-    render: () => <CooldownButton>Send it</CooldownButton>,
-  },
-  {
-    name: "PillButton",
-    href: "/docs/pill-button",
-    registryName: "pill-button",
-    render: () => (
-      <PillButton
-        primaryLabel="Off"
-        secondaryLabel="On"
-        primaryClassName="bg-neutral-950 text-neutral-200"
-        secondaryClassName="bg-primary text-primary-foreground"
-      />
-    ),
-  },
-  {
-    name: "ConfettiButton",
-    href: "/docs/confetti-button",
-    registryName: "confetti-button",
-    render: () => <ConfettiButton>Celebrate</ConfettiButton>,
-  },
-  {
-    name: "AshBurstButton",
-    href: "/docs/ash-burst-button",
-    registryName: "ash-burst-button",
-    render: () => <AshBurstButton>Destroy</AshBurstButton>,
-  },
-];
-
-function ButtonCell({ item }: { item: ButtonShowcase }) {
-  const [copied, setCopied] = useState(false);
-  const timerRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current !== null) clearTimeout(timerRef.current);
-    };
-  }, []);
-
-  const command = `npx shadcn@latest add @evilbuttons/${item.registryName}`;
-
-  async function handleCopy(e: React.MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(command);
-    } catch {
-      return;
-    }
-    setCopied(true);
-    trackOutcome("install_command_copied", {
-      source: "landing_grid",
-      registry_name: item.registryName,
-      package_manager: "npm",
-    });
-    if (timerRef.current !== null) clearTimeout(timerRef.current);
-    timerRef.current = window.setTimeout(() => setCopied(false), 2000);
-  }
-
-  return (
-    <div className="group relative flex aspect-square flex-col overflow-hidden border-r border-b border-border bg-background transition-colors hover:bg-muted/30">
-      <div className="absolute top-0 left-0 z-10 px-3 py-2 font-mono text-[11px] font-medium text-muted-foreground">
-        {item.name}
-      </div>
-      <div className="flex flex-1 items-center justify-center p-4">
-        <FitToContainer>{item.render()}</FitToContainer>
-      </div>
-      <div className="absolute inset-x-0 bottom-0 flex h-10 translate-y-full gap-px border-t border-border bg-background transition-transform duration-300 ease-[cubic-bezier(0.85,0,0.15,1)] group-hover:translate-y-0">
+    <div className="sticky top-3 z-40 px-4">
+      <nav className="mx-auto flex h-12 max-w-2xl items-center justify-between gap-3 rounded-xl border border-border bg-background/80 pr-2 pl-3 shadow-sm backdrop-blur-md">
         <Link
-          href={item.href}
-          className="flex flex-1 items-center justify-center gap-1 text-[11px] font-medium text-foreground transition-colors hover:bg-muted/50"
+          href="/"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
-          <ArrowUpRight className="size-3" />
-          Docs
+          <Image
+            src="/logo.png"
+            alt=""
+            width={288}
+            height={192}
+            className="h-auto w-7"
+          />
+          <span className="font-doto text-base font-black tracking-tighter">
+            Evil Buttons
+          </span>
         </Link>
-        <button
-          onClick={handleCopy}
-          className="flex flex-1 items-center justify-center gap-1 bg-primary text-[11px] font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-        >
-          <Copy className="size-3" weight={copied ? "fill" : "regular"} />
-          {copied ? "Copied" : "Copy"}
-        </button>
-      </div>
+        <div className="flex items-center gap-1">
+          <Link
+            href="/docs"
+            className="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            Docs
+          </Link>
+          <a
+            href={siteConfig.github}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            className="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <GithubLogo className="size-4" weight="bold" />
+          </a>
+          <ThemeToggle />
+        </div>
+      </nav>
     </div>
   );
 }
 
-export function LandingPage() {
-  const router = useRouter();
+function VariantPicker({
+  variants,
+  value,
+  onChange,
+}: {
+  variants: readonly string[];
+  value: string;
+  onChange: (variant: string) => void;
+}) {
+  return (
+    <div
+      role="radiogroup"
+      aria-label="Variant"
+      className="flex items-center gap-0.5 rounded-lg bg-muted/60 p-0.5"
+    >
+      {variants.map((variant) => (
+        <button
+          key={variant}
+          type="button"
+          role="radio"
+          aria-checked={variant === value}
+          onClick={() => onChange(variant)}
+          className={cn(
+            "h-6 rounded-md px-2 text-xs font-medium capitalize transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+            variant === value
+              ? "bg-background text-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {variant}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function ShowcaseCard({
+  item,
+  category,
+  packageManager,
+}: {
+  item: ShowcaseEntry;
+  category?: string;
+  packageManager: PackageManager;
+}) {
+  const [variant, setVariant] = useState(item.variants?.[0]);
+  const command = `${packageCommands[packageManager]} @evilbuttons/${item.registryName}`;
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-background text-foreground xl:flex-row">
-      <header className="shrink-0 border-b border-border px-6 py-6 xl:flex xl:w-[340px] xl:shrink-0 xl:flex-col xl:justify-between xl:border-b-0 xl:px-8 xl:py-10">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex w-fit transition-opacity hover:opacity-85"
-          >
-            <div className="flex items-center justify-center gap-2">
-              <img
-                src="/logo.png"
-                alt={siteConfig.name}
-                width={288}
-                height={192}
-                className="h-auto w-14 sm:w-16"
-              />
-              <span className="text-2xl font-doto font-black tracking-tighter leading-5">
-                Evil <br /> Buttons
-              </span>
-            </div>
-          </Link>
-          <h1 className="mt-4 max-w-2xl text-2xl font-semibold tracking-tight text-balance leading-tight xl:mt-8 xl:text-3xl">
-            Animated buttons, built with an evil touch.
-          </h1>
-          <p className="mt-2 max-w-xl text-sm text-muted-foreground text-balance xl:mt-4">
-            A shadcn/ui registry of {showcase.length} interactive button
-            components. Live previews, copy-paste docs, one-command CLI
-            installs.
-          </p>
-          <div className="mt-4 flex items-center gap-2 xl:mt-8 xl:flex-col">
-            <Link
-              href="/docs"
-              className="inline-flex h-9 w-full items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Browse Docs
-            </Link>
-            <a
-              href={siteConfig.github}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex h-9 w-full items-center justify-center border border-border bg-background px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-            >
-              GitHub
-            </a>
-            <DoubtButton
-              label="dont click!!!"
-              confirmations={[
-                "Are you sure?",
-                "Seriously, don't.",
-                "Last warning.",
-              ]}
-              successLabel="Too late."
-              resetAfter={0}
-              onConfirm={() => router.push("/drop")}
-              className="w-full min-w-0 rounded-none font-doto text-sm font-black uppercase tracking-tight"
-            />
-          </div>
-        </div>
-
-        <div className="mt-4 flex items-center gap-4 xl:mt-0 xl:flex-col xl:items-start xl:gap-2">
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            {showcase.length} Components
-          </p>
-          <p className="font-mono text-[11px] text-muted-foreground">
-            © {new Date().getFullYear()} {siteConfig.author.name}
-          </p>
-        </div>
+    <article className="rounded-xl bg-muted/50 p-1 dark:bg-muted/25">
+      <header className="flex h-9 items-center justify-between gap-3 pr-1 pl-2.5">
+        <h3 className="truncate text-sm font-medium">{item.name}</h3>
+        <Link
+          href={item.href}
+          className="inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          Docs
+          <ArrowUpRight className="size-3" />
+        </Link>
       </header>
+      <div className="overflow-hidden rounded-lg border border-border bg-background">
+        <div className="relative h-72 p-6">
+          {category ? (
+            <span className="absolute top-3 left-3 font-mono text-[10px] tracking-[0.18em] text-muted-foreground uppercase">
+              {category}
+            </span>
+          ) : null}
+          {item.variants && variant ? (
+            <div className="absolute top-2 right-2 z-10">
+              <VariantPicker
+                variants={item.variants}
+                value={variant}
+                onChange={setVariant}
+              />
+            </div>
+          ) : null}
+          <FitToContainer key={variant}>
+            <ShowcasePreview registryName={item.registryName} variant={variant} />
+          </FitToContainer>
+        </div>
+        <div className="flex items-center gap-2 border-t border-border py-1 pr-1 pl-3">
+          <code className="docs-scroll min-w-0 flex-1 overflow-x-auto font-mono text-xs whitespace-nowrap text-foreground/80">
+            {command}
+          </code>
+          <CopyButton
+            className="shrink-0"
+            code={command}
+            outcome={{
+              name: "install_command_copied",
+              properties: {
+                source: "landing_grid",
+                registry_name: item.registryName,
+                package_manager: packageManager,
+              },
+            }}
+          />
+        </div>
+      </div>
+    </article>
+  );
+}
 
-      <main className="docs-scroll flex-1 overflow-y-auto">
-        <div className="grid grid-cols-2 border-t border-border md:grid-cols-3 xl:border-l xl:border-t-0">
+export function LandingPage({ categories }: LandingPageProps) {
+  const router = useRouter();
+  const { packageManager, setConfig } = useConfig();
+
+  return (
+    <div className="docs-scroll h-dvh overflow-y-auto bg-background text-foreground">
+      <Navbar />
+
+      <section className="mx-auto flex max-w-3xl flex-col items-center px-4 pt-20 text-center sm:pt-28">
+        <p className="font-mono text-[11px] tracking-[0.2em] text-muted-foreground uppercase">
+          {showcase.length} components · shadcn/ui registry
+        </p>
+        <h1 className="mt-5 text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl">
+          Animated buttons, built with an{" "}
+          <span className="font-doto font-black tracking-tighter">evil</span>{" "}
+          touch.
+        </h1>
+        <p className="mt-5 max-w-xl text-base text-balance text-muted-foreground sm:text-lg">
+          Hold, slide, doubt, glitch and detonate. Every button below is live —
+          play with it, pick a variant, and install it with one command.
+        </p>
+
+        <div className="mt-9 grid w-full max-w-md grid-cols-2 gap-3">
+          <Link
+            href="/docs"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Browse docs
+            <ArrowRight className="size-4" weight="bold" />
+          </Link>
+          <DoubtButton
+            label="Don't click"
+            confirmations={["Are you sure?", "Seriously, don't.", "Last warning."]}
+            successLabel="Too late."
+            resetAfter={0}
+            onConfirm={() => router.push("/drop")}
+            className="h-11 w-full min-w-0"
+          />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pt-24 pb-16 sm:pt-32">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight">
+              Try every button
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Click, hold, drag. Copy the install command when one earns its
+              place.
+            </p>
+          </div>
+          <PackageManagerTabs
+            value={packageManager}
+            onChange={(manager) => setConfig({ packageManager: manager })}
+          />
+        </div>
+
+        {/* On lg the side columns sit lower than the middle one. */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:pb-16 lg:[&>*:nth-child(3n)]:translate-y-16 lg:[&>*:nth-child(3n+1)]:translate-y-16">
           {showcase.map((item) => (
-            <ButtonCell key={item.name} item={item} />
+            <ShowcaseCard
+              key={item.registryName}
+              item={item}
+              category={categories[item.href]}
+              packageManager={packageManager}
+            />
           ))}
         </div>
-      </main>
+      </section>
+
+      <footer className="border-t border-border">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-6 font-mono text-[11px] text-muted-foreground">
+          <p>
+            © {new Date().getFullYear()} {siteConfig.author.name}
+          </p>
+          <a
+            href={siteConfig.github}
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            GitHub
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

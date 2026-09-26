@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/landing-page";
+import { source } from "@/lib/source";
 
 export const metadata: Metadata = {
   alternates: {
@@ -23,5 +24,9 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <LandingPage />;
+  const categories = Object.fromEntries(
+    source.getPages().map((page) => [page.url, page.data.category]),
+  );
+
+  return <LandingPage categories={categories} />;
 }
