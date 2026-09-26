@@ -1,9 +1,11 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Metadata } from "next";
+import type { ComponentProps } from "react";
 import { notFound } from "next/navigation";
 import { DocsPageActions } from "@/components/docs-page-actions";
 import { getMDXComponents } from "@/components/mdx";
+import { PreviewCard } from "@/components/preview-card";
 import { PageToc } from "@/components/page-toc";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPageMarkdown } from "@/lib/markdown";
@@ -80,7 +82,13 @@ export default async function DocsPage({ params }: DocsPageProps) {
           ) : null}
         </header>
         <article className="docs-content min-w-0">
-          <MDX components={getMDXComponents()} />
+          <MDX
+            components={getMDXComponents({
+              PreviewCard: (props: ComponentProps<typeof PreviewCard>) => (
+                <PreviewCard {...props} registryName={registryName ?? undefined} />
+              ),
+            })}
+          />
         </article>
       </div>
       <aside className="sticky top-3 hidden h-fit w-52 shrink-0 self-start pt-12 xl:block">

@@ -130,6 +130,10 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   "ash-burst-button": StaticAshBurstButtonPreview,
 };
 
+export function hasDialPreview(registryName: string) {
+  return registryName in dialButtonPreviews;
+}
+
 export function ButtonPreview({
   registryName,
   dial = false,
