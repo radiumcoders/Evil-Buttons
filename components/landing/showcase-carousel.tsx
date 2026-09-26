@@ -179,7 +179,7 @@ function ShowcaseCard({
   );
 }
 
-/** Soft blurred light behind the stage, drawn in the theme's foreground. */
+/** Soft blurred light behind the stage: brand red in the middle, foreground at the sides. */
 function GlowBackdrop() {
   return (
     <svg
@@ -194,7 +194,15 @@ function GlowBackdrop() {
         </filter>
       </defs>
       <g filter="url(#showcase-glow)" fill="currentColor">
-        <ellipse cx="600" cy="330" rx="260" ry="150" opacity="0.07" />
+        <ellipse
+          cx="600"
+          cy="330"
+          rx="260"
+          ry="150"
+          opacity="0.1"
+          fill="currentColor"
+          className="text-brand"
+        />
         <ellipse cx="380" cy="380" rx="170" ry="100" opacity="0.04" />
         <ellipse cx="820" cy="380" rx="170" ry="100" opacity="0.04" />
       </g>

@@ -19,7 +19,9 @@ export function LandingPage({ categories }: LandingPageProps) {
       <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(2.5rem,8dvh,6rem)] text-center">
         <h1 className="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl">
           Animated buttons, built with an{" "}
-          <span className="font-doto font-black tracking-tighter">evil</span>{" "}
+          <span className="font-doto font-black tracking-tighter text-brand [text-shadow:0_0_24px_color-mix(in_oklch,var(--brand)_45%,transparent)]">
+            evil
+          </span>{" "}
           touch.
         </h1>
         <p className="mt-5 max-w-xl text-base text-balance text-muted-foreground sm:text-lg">

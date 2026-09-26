@@ -104,7 +104,7 @@ function DocsNav({
       >
         <span
           ref={swingRef}
-          className="-mt-[3px] block size-1.5 rounded-full bg-foreground"
+          className="-mt-[3px] block size-1.5 rounded-full bg-brand shadow-[0_0_6px_var(--brand)]"
         />
       </span>
       {sections.map((section) => (

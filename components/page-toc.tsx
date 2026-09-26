@@ -195,7 +195,7 @@ export function PageToc() {
             width={track.width}
             height={track.height}
             viewBox={`0 0 ${track.width} ${track.height}`}
-            className="pointer-events-none absolute top-0 left-0 text-foreground transition-[clip-path,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+            className="pointer-events-none absolute top-0 left-0 text-brand transition-[clip-path,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
             style={{
               clipPath: thumb
                 ? `inset(${thumb.top}px 0 ${thumb.bottom}px 0)`
