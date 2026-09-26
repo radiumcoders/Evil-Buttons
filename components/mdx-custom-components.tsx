@@ -28,7 +28,6 @@ import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
 import { PillButton } from "./evil-buttons/pill-button";
 import { ConfettiButton } from "./evil-buttons/confetti-button";
-import { HoldConfirmButton } from "./evil-buttons/hold-confirm-button";
 import { AshBurstButton } from "./evil-buttons/ash-burst-button";
 import {
   MorphStatusButtonDemo,
@@ -127,7 +126,6 @@ export function getCustomMDXComponents(): MDXComponents {
     CooldownButton,
     PillButton,
     ConfettiButton,
-    HoldConfirmButton,
     AshBurstButton,
   };
 }

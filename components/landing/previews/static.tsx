@@ -3,7 +3,6 @@
 import { useIsDarkMode } from "@/hooks/use-app-theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
-import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
@@ -52,24 +51,6 @@ export function StaticHoldButtonPreview() {
       successLabel="Deleted"
       duration={1500}
       resetAfter={1400}
-    />
-  );
-}
-
-export function StaticHoldConfirmButtonPreview() {
-  const isDark = useIsDarkMode();
-
-  return (
-    <HoldConfirmButton
-      label="Hold to confirm"
-      holdingLabel="Keep holding…"
-      successLabel="Confirmed"
-      duration={2000}
-      resetAfter={1600}
-      minScale={0.9}
-      ringSize={280}
-      ringStrokeWidth={12}
-      ringColor={isDark ? "#5eead4" : "#0d9488"}
     />
   );
 }

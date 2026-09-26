@@ -1,10 +1,9 @@
 "use client";
 
 import { useDialKit } from "dialkit";
-import { fromFolder, listFolder, useThemedDialKit } from "./theme";
+import { fromFolder, listFolder } from "./theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
-import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
@@ -62,42 +61,6 @@ export function HoldButtonPreview() {
         successLabel={p.successLabel}
         duration={p.duration}
         resetAfter={p.resetAfter}
-      />
-    </LiveProps>
-  );
-}
-
-export function HoldConfirmButtonPreview() {
-  const p = useThemedDialKit(
-    "HoldConfirmButton",
-    (isDark) => ({
-      label: "Hold to confirm",
-      holdingLabel: "Keep holding…",
-      successLabel: "Confirmed",
-      duration: [2000, 500, 5000],
-      resetAfter: [1600, 0, 5000],
-      minScale: [0.9, 0.7, 1, 0.01],
-      ring: {
-        size: [280, 100, 400],
-        strokeWidth: [12, 4, 24],
-        color: isDark ? "#5eead4" : "#0d9488",
-      },
-    }),
-    { id: "hold-confirm-button" },
-  );
-
-  return (
-    <LiveProps>
-      <HoldConfirmButton
-        label={p.label}
-        holdingLabel={p.holdingLabel}
-        successLabel={p.successLabel}
-        duration={p.duration}
-        resetAfter={p.resetAfter}
-        minScale={p.minScale}
-        ringSize={p.ring.size}
-        ringStrokeWidth={p.ring.strokeWidth}
-        ringColor={p.ring.color}
       />
     </LiveProps>
   );

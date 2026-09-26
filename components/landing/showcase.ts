@@ -31,6 +31,5 @@ export const showcase: ShowcaseEntry[] = [
   { name: "CooldownButton", href: "/docs/cooldown-button", registryName: "cooldown-button" },
   { name: "PillButton", href: "/docs/pill-button", registryName: "pill-button" },
   { name: "ConfettiButton", href: "/docs/confetti-button", registryName: "confetti-button" },
-  { name: "HoldConfirmButton", href: "/docs/hold-confirm-button", registryName: "hold-confirm-button" },
   { name: "AshBurstButton", href: "/docs/ash-burst-button", registryName: "ash-burst-button" },
 ];

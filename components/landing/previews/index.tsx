@@ -4,7 +4,6 @@ import type { ComponentType } from "react";
 import {
   RevealButtonPreview,
   HoldButtonPreview,
-  HoldConfirmButtonPreview,
   SlideToDetonatePreview,
   DoubtButtonPreview,
   CooldownButtonPreview,
@@ -40,7 +39,6 @@ import {
 import {
   StaticRevealButtonPreview,
   StaticHoldButtonPreview,
-  StaticHoldConfirmButtonPreview,
   StaticSlideToDetonatePreview,
   StaticDoubtButtonPreview,
   StaticCooldownButtonPreview,
@@ -95,7 +93,6 @@ const dialButtonPreviews: Record<string, ComponentType> = {
   "cooldown-button": CooldownButtonPreview,
   "pill-button": PillButtonPreview,
   "confetti-button": ConfettiButtonPreview,
-  "hold-confirm-button": HoldConfirmButtonPreview,
   "ash-burst-button": AshBurstButtonPreview,
 };
 
@@ -126,7 +123,6 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   "cooldown-button": StaticCooldownButtonPreview,
   "pill-button": StaticPillButtonPreview,
   "confetti-button": StaticConfettiButtonPreview,
-  "hold-confirm-button": StaticHoldConfirmButtonPreview,
   "ash-burst-button": StaticAshBurstButtonPreview,
 };
 
