@@ -548,45 +548,37 @@ html.dark .docs-content .shiki span {
   color: var(--dial-text-primary);
 }
 
-/* Tracwell credit — pastel mesh in Tracwell's landing tints (blue, lilac, rose, mint). */
+/* Tracwell credit — a single wash of Tracwell's brand blue fading into the page. */
 .tracwell-card {
-  background:
-    radial-gradient(120% 90% at 0% 0%, #e8f0ff 0%, transparent 60%),
-    radial-gradient(90% 90% at 100% 0%, #efeafe 0%, transparent 60%),
-    radial-gradient(80% 100% at 100% 100%, #fdeaf1 0%, transparent 55%),
-    radial-gradient(90% 100% at 0% 100%, #e6f5ed 0%, transparent 60%),
-    #f7fafc;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, #357dff 9%, var(--background)) 0%,
+    var(--background) 75%
+  );
   box-shadow:
-    0 0 0 1px rgb(53 125 255 / 0.12),
-    inset 0 1px 0 rgb(255 255 255 / 0.8),
-    0 1px 2px rgb(23 78 166 / 0.06),
-    0 6px 16px -8px rgb(53 125 255 / 0.25);
+    0 0 0 1px color-mix(in oklab, #357dff 16%, var(--border)),
+    0 1px 2px rgb(0 0 0 / 0.04);
 }
 
 .tracwell-card:hover {
   box-shadow:
-    0 0 0 1px rgb(53 125 255 / 0.22),
-    inset 0 1px 0 rgb(255 255 255 / 0.8),
-    0 1px 2px rgb(23 78 166 / 0.08),
-    0 10px 24px -10px rgb(53 125 255 / 0.4);
+    0 0 0 1px color-mix(in oklab, #357dff 32%, var(--border)),
+    0 4px 12px -6px rgb(53 125 255 / 0.25);
 }
 
 .dark .tracwell-card {
-  background:
-    radial-gradient(120% 90% at 0% 0%, rgb(53 125 255 / 0.28) 0%, transparent 60%),
-    radial-gradient(90% 90% at 100% 0%, rgb(139 149 249 / 0.2) 0%, transparent 60%),
-    radial-gradient(80% 100% at 100% 100%, rgb(244 114 182 / 0.12) 0%, transparent 55%),
-    radial-gradient(90% 100% at 0% 100%, rgb(45 212 191 / 0.12) 0%, transparent 60%),
-    #16181d;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, #357dff 14%, var(--background)) 0%,
+    var(--background) 75%
+  );
   box-shadow:
-    0 0 0 1px rgb(140 180 255 / 0.14),
-    inset 0 1px 0 rgb(255 255 255 / 0.06),
-    0 6px 16px -8px rgb(0 0 0 / 0.6);
+    0 0 0 1px color-mix(in oklab, #357dff 22%, var(--border)),
+    0 1px 2px rgb(0 0 0 / 0.3);
 }
 
 .dark .tracwell-card:hover {
   box-shadow:
-    0 0 0 1px rgb(140 180 255 / 0.26),
-    inset 0 1px 0 rgb(255 255 255 / 0.08),
-    0 10px 24px -10px rgb(53 125 255 / 0.35);
+    0 0 0 1px color-mix(in oklab, #8cb4ff 35%, var(--border)),
+    0 4px 12px -6px rgb(53 125 255 / 0.35);
 }

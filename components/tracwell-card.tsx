@@ -18,30 +18,33 @@ function TracwellLogo({ className }: { className?: string }) {
   );
 }
 
-/** "Analytics powered by Tracwell" credit on Tracwell's pastel mesh. */
+/** "Analytics by Tracwell" credit, tinted with Tracwell's brand blue. */
 export function TracwellCard() {
   return (
     <a
       href="https://tracwell.app/"
       target="_blank"
       rel="noopener noreferrer"
-      className="tracwell-card group relative flex items-center gap-3 overflow-hidden rounded-xl p-3 transition-[translate,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+      className="tracwell-card group flex flex-col gap-2.5 rounded-xl p-3.5 transition-shadow duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
-      <span className="relative flex size-9 shrink-0 items-center justify-center rounded-lg bg-white/80 shadow-[0_0_0_1px_rgb(53_125_255/0.12),0_1px_2px_rgb(23_78_166/0.12)] dark:bg-white/10 dark:shadow-[0_0_0_1px_rgb(140_180_255/0.18)]">
-        <TracwellLogo className="size-6" />
-      </span>
-      <span className="relative flex min-w-0 flex-col">
-        <span className="text-[11px] leading-4 text-[#174EA6]/70 dark:text-[#8CB4FF]/75">
-          Analytics powered by
+      <span className="flex items-center justify-between">
+        <span className="font-mono text-[10px] font-medium tracking-[0.14em] text-muted-foreground/80 uppercase">
+          Analytics by
         </span>
-        <span className="text-sm leading-5 font-semibold tracking-tight text-[#0b2a5c] dark:text-white">
+        <ArrowUpRightIcon
+          size={12}
+          className="text-muted-foreground/60 transition-[translate,color] duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
+        />
+      </span>
+      <span className="flex items-center gap-2">
+        <TracwellLogo className="size-5 shrink-0" />
+        <span className="text-[15px] leading-none font-semibold tracking-tight text-foreground">
           Tracwell
         </span>
       </span>
-      <ArrowUpRightIcon
-        size={14}
-        className="relative ml-auto shrink-0 text-[#357DFF]/60 transition-[translate,color] duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-[#357DFF] dark:text-[#8CB4FF]/60 dark:group-hover:text-[#8CB4FF]"
-      />
+      <span className="text-xs leading-5 text-muted-foreground">
+        See what drives signups and revenue.
+      </span>
     </a>
   );
 }
