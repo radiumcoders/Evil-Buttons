@@ -6,7 +6,6 @@ import { HoldButton } from "@/components/evil-buttons/hold-button";
 import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
-import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
 import { BrutalButton } from "@/components/evil-buttons/brutal-button";
@@ -18,7 +17,6 @@ import { FrameButton } from "@/components/evil-buttons/frame-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
-import { DontPressButton } from "@/components/evil-buttons/dont-press-button";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
@@ -98,15 +96,6 @@ export function StaticDoubtButtonPreview() {
   );
 }
 
-export function StaticCaptchaButtonPreview() {
-  return (
-    <CaptchaButton
-      label="Deploy Doom"
-      successLabel="Deployed"
-      resetAfter={1600}
-    />
-  );
-}
 
 export function StaticCooldownButtonPreview() {
   return (
@@ -235,9 +224,6 @@ export function StaticAshBurstButtonPreview() {
   );
 }
 
-export function StaticDontPressButtonPreview() {
-  return <DontPressButton idleLabel="Don't Press" />;
-}
 
 export function StaticCommandButtonPreview() {
   return (

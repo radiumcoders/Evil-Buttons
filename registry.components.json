@@ -192,15 +192,6 @@
     "dependencies": ["clsx", "tailwind-merge"]
   },
   {
-    "name": "captcha-button",
-    "exportName": "CaptchaButton",
-    "docSlug": "captcha-button",
-    "title": "CaptchaButton",
-    "description": "A button that makes you pass an absurd 'select all the evil' icon captcha before the real action fires.",
-    "file": "components/evil-buttons/captcha-button.tsx",
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
-  },
-  {
     "name": "doubt-button",
     "exportName": "DoubtButton",
     "docSlug": "doubt-button",
@@ -264,16 +255,6 @@
     "title": "HoldConfirmButton",
     "description": "A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.",
     "file": "components/evil-buttons/hold-confirm-button.tsx",
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
-  },
-  {
-    "name": "dont-press-button",
-    "exportName": "DontPressButton",
-    "docSlug": "dont-press-button",
-    "title": "DontPressButton",
-    "description": "A reverse-psychology button that begs you not to press it, then grows more tempting the closer your cursor gets.",
-    "file": "components/evil-buttons/dont-press-button.tsx",
-    "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {

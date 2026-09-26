@@ -11,7 +11,6 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 
 import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { BrutalButton } from "@/components/evil-buttons/brutal-button";
-import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import { CommandButton } from "@/components/evil-buttons/command-button";
@@ -38,7 +37,6 @@ import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import { PillButton } from "@/components/evil-buttons/pill-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
-import { DontPressButton } from "@/components/evil-buttons/dont-press-button";
 import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
 
 type ButtonShowcase = {
@@ -195,12 +193,6 @@ const showcase: ButtonShowcase[] = [
     render: () => <TrollButton>Click Me</TrollButton>,
   },
   {
-    name: "CaptchaButton",
-    href: "/docs/captcha-button",
-    registryName: "captcha-button",
-    render: () => <CaptchaButton>Deploy Doom</CaptchaButton>,
-  },
-  {
     name: "DoubtButton",
     href: "/docs/doubt-button",
     registryName: "doubt-button",
@@ -254,12 +246,6 @@ const showcase: ButtonShowcase[] = [
     href: "/docs/hold-confirm-button",
     registryName: "hold-confirm-button",
     render: () => <HoldConfirmButton />,
-  },
-  {
-    name: "DontPressButton",
-    href: "/docs/dont-press-button",
-    registryName: "dont-press-button",
-    render: () => <DontPressButton />,
   },
   {
     name: "AshBurstButton",

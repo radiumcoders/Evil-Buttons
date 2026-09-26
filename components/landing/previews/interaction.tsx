@@ -7,7 +7,6 @@ import { HoldButton } from "@/components/evil-buttons/hold-button";
 import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
-import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
 
@@ -139,25 +138,6 @@ export function DoubtButtonPreview() {
   );
 }
 
-export function CaptchaButtonPreview() {
-  const p = useDialKit(
-    "CaptchaButton",
-    {
-      label: "Deploy Doom",
-      successLabel: "Deployed",
-      resetAfter: [1600, 0, 5000],
-    },
-    { id: "captcha-button" },
-  );
-
-  return (
-    <CaptchaButton
-      label={p.label}
-      successLabel={p.successLabel}
-      resetAfter={p.resetAfter}
-    />
-  );
-}
 
 export function CooldownButtonPreview() {
   const p = useDialKit(

@@ -26,7 +26,6 @@ export const showcase: ShowcaseEntry[] = [
   { name: "StickyButton", href: "/docs/sticky-button", registryName: "sticky" },
   { name: "ThreeDButton", href: "/docs/3d-button", registryName: "3d-button" },
   { name: "TrollButton", href: "/docs/troll-button", registryName: "troll-button" },
-  { name: "CaptchaButton", href: "/docs/captcha-button", registryName: "captcha-button" },
   { name: "DoubtButton", href: "/docs/doubt-button", registryName: "doubt-button" },
   { name: "SlideToDetonate", href: "/docs/slide-to-detonate", registryName: "slide-to-detonate" },
   { name: "MorphStatusButton", href: "/docs/morph-status-button", registryName: "morph-status-button" },
@@ -34,6 +33,5 @@ export const showcase: ShowcaseEntry[] = [
   { name: "PillButton", href: "/docs/pill-button", registryName: "pill-button" },
   { name: "ConfettiButton", href: "/docs/confetti-button", registryName: "confetti-button" },
   { name: "HoldConfirmButton", href: "/docs/hold-confirm-button", registryName: "hold-confirm-button" },
-  { name: "DontPressButton", href: "/docs/dont-press-button", registryName: "dont-press-button" },
   { name: "AshBurstButton", href: "/docs/ash-burst-button", registryName: "ash-burst-button" },
 ];

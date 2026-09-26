@@ -23,7 +23,6 @@ import { CopyButton } from "./evil-buttons/copy-button";
 import { RevealButton } from "./evil-buttons/reveal-button";
 import {DemonicButton} from "./evil-buttons/demonic-button";
 import { HoldButton } from "./evil-buttons/hold-button";
-import { CaptchaButton } from "./evil-buttons/captcha-button";
 import { DoubtButton } from "./evil-buttons/doubt-button";
 import { SlideToDetonate } from "./evil-buttons/slide-to-detonate";
 import { MorphStatusButton } from "./evil-buttons/morph-status-button";
@@ -31,7 +30,6 @@ import { CooldownButton } from "./evil-buttons/cooldown-button";
 import { PillButton } from "./evil-buttons/pill-button";
 import { ConfettiButton } from "./evil-buttons/confetti-button";
 import { HoldConfirmButton } from "./evil-buttons/hold-confirm-button";
-import { DontPressButton } from "./evil-buttons/dont-press-button";
 import { AshBurstButton } from "./evil-buttons/ash-burst-button";
 import {
   MorphStatusButtonDemo,
@@ -123,7 +121,6 @@ export function getCustomMDXComponents(): MDXComponents {
     RevealButton,
     DemonicButton,
     HoldButton,
-    CaptchaButton,
     DoubtButton,
     SlideToDetonate,
     MorphStatusButton,
@@ -133,7 +130,6 @@ export function getCustomMDXComponents(): MDXComponents {
     PillButton,
     ConfettiButton,
     HoldConfirmButton,
-    DontPressButton,
     AshBurstButton,
   };
 }

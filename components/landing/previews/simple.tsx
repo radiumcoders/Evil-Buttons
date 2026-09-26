@@ -12,7 +12,6 @@ import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
-import { DontPressButton } from "@/components/evil-buttons/dont-press-button";
 import { DeferredWebGLPreview } from "./shared";
 
 export function DemonicButtonPreview() {
@@ -140,14 +139,4 @@ export function TrollButtonPreview() {
       {p.label}
     </TrollButton>
   );
-}
-
-export function DontPressButtonPreview() {
-  const p = useDialKit(
-    "DontPressButton",
-    { idleLabel: "Don't Press" },
-    { id: "dont-press-button" },
-  );
-
-  return <DontPressButton idleLabel={p.idleLabel} />;
 }

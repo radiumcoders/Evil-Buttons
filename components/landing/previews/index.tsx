@@ -7,7 +7,6 @@ import {
   HoldConfirmButtonPreview,
   SlideToDetonatePreview,
   DoubtButtonPreview,
-  CaptchaButtonPreview,
   CooldownButtonPreview,
   MorphStatusButtonPreview,
 } from "./interaction";
@@ -38,7 +37,6 @@ import {
   StickyButtonPreview,
   ThreeDButtonPreview,
   TrollButtonPreview,
-  DontPressButtonPreview,
 } from "./simple";
 import {
   StaticRevealButtonPreview,
@@ -46,7 +44,6 @@ import {
   StaticHoldConfirmButtonPreview,
   StaticSlideToDetonatePreview,
   StaticDoubtButtonPreview,
-  StaticCaptchaButtonPreview,
   StaticCooldownButtonPreview,
   StaticMorphStatusButtonPreview,
   StaticBrutalButtonPreview,
@@ -58,7 +55,6 @@ import {
   StaticHighlightButtonPreview,
   StaticConfettiButtonPreview,
   StaticAshBurstButtonPreview,
-  StaticDontPressButtonPreview,
   StaticCommandButtonPreview,
   StaticCopyButtonPreview,
   StaticClickPowerUpPreview,
@@ -96,7 +92,6 @@ const dialButtonPreviews: Record<string, ComponentType> = {
   sticky: StickyButtonPreview,
   "3d-button": ThreeDButtonPreview,
   "troll-button": TrollButtonPreview,
-  "captcha-button": CaptchaButtonPreview,
   "doubt-button": DoubtButtonPreview,
   "slide-to-detonate": SlideToDetonatePreview,
   "morph-status-button": MorphStatusButtonPreview,
@@ -104,7 +99,6 @@ const dialButtonPreviews: Record<string, ComponentType> = {
   "pill-button": PillButtonPreview,
   "confetti-button": ConfettiButtonPreview,
   "hold-confirm-button": HoldConfirmButtonPreview,
-  "dont-press-button": DontPressButtonPreview,
   "ash-burst-button": AshBurstButtonPreview,
 };
 
@@ -130,7 +124,6 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   sticky: StaticStickyButtonPreview,
   "3d-button": StaticThreeDButtonPreview,
   "troll-button": StaticTrollButtonPreview,
-  "captcha-button": StaticCaptchaButtonPreview,
   "doubt-button": StaticDoubtButtonPreview,
   "slide-to-detonate": StaticSlideToDetonatePreview,
   "morph-status-button": StaticMorphStatusButtonPreview,
@@ -138,7 +131,6 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   "pill-button": StaticPillButtonPreview,
   "confetti-button": StaticConfettiButtonPreview,
   "hold-confirm-button": StaticHoldConfirmButtonPreview,
-  "dont-press-button": StaticDontPressButtonPreview,
   "ash-burst-button": StaticAshBurstButtonPreview,
 };
 
