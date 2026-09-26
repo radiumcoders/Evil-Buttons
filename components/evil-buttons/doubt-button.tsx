@@ -155,7 +155,7 @@ export const DoubtButton = React.forwardRef<
         data-state={state}
         onClick={handleClick}
         className={cn(
-          "relative inline-flex h-9 min-w-48 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-[0_1px_2px_rgb(0_0_0/0.14),0_2px_6px_-2px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)] outline-none select-none transition-[background-color,opacity] hover:bg-primary/90",
+          "relative inline-flex h-9 min-w-48 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground shadow-[0_0_0_1px_rgb(0_0_0/0.08),0_4px_12px_rgb(0_0_0/0.08),0_12px_32px_rgb(0_0_0/0.10),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)] outline-none select-none transition-[background-color,opacity,box-shadow] hover:bg-primary/90 dark:shadow-[0_0_0_1px_rgb(0_0_0/0.3),0_4px_12px_rgb(0_0_0/0.35),0_12px_32px_rgb(0_0_0/0.45),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-1px_0_rgb(0_0_0/0.12)]",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
