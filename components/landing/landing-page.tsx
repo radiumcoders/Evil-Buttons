@@ -6,6 +6,10 @@ import Link from "next/link";
 import { type ReactNode, useState } from "react";
 import { EvilShader } from "@/components/landing/evil-shader";
 import { ShowcaseCarousel } from "@/components/landing/showcase-carousel";
+import {
+  SHADCN_LABS_URL,
+  ShadcnLabsLogomark,
+} from "@/components/shadcn-labs";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { siteConfig } from "@/lib/seo";
 import { toggleTheme } from "@/lib/theme-preference";
@@ -68,6 +72,27 @@ function Navbar() {
         </div>
       </nav>
     </header>
+  );
+}
+
+/** "Backed by" pill above the headline. */
+function BackedBy() {
+  return (
+    <a
+      href={SHADCN_LABS_URL}
+      target="_blank"
+      rel="noopener"
+      aria-label="Backed by Shadcn Labs"
+      className="group mb-6 inline-flex items-center gap-3 rounded-full border border-border bg-background/40 py-1.5 pr-1.5 pl-4 backdrop-blur-md transition-colors hover:border-foreground/20 hover:bg-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring short:mb-3"
+    >
+      <span className="font-mono text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase transition-colors group-hover:text-foreground">
+        Backed by
+      </span>
+      <span aria-hidden className="h-4 w-px bg-border" />
+      <span className="inline-flex size-8 items-center justify-center rounded-full bg-foreground/5 text-foreground ring-1 ring-foreground/10">
+        <ShadcnLabsLogomark className="h-3.5 w-auto" />
+      </span>
+    </a>
   );
 }
 
@@ -138,6 +163,7 @@ export function LandingPage({ categories, children }: LandingPageProps) {
         <Navbar />
 
         <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(0.75rem,5dvh,4rem)] text-center">
+          <BackedBy />
           <h1 className="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl short:text-3xl short:sm:text-5xl">
             Animated buttons, built with an{" "}
             <span className="font-pixel-display font-normal text-brand [text-shadow:0_0_24px_color-mix(in_oklch,var(--brand)_45%,transparent)]">
