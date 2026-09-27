@@ -7,6 +7,7 @@ import { DocsPageActions } from "@/components/docs-page-actions";
 import { getMDXComponents } from "@/components/mdx";
 import { PreviewCard } from "@/components/preview-card";
 import { PageToc } from "@/components/page-toc";
+import { ShadcnLabsCard } from "@/components/shadcn-labs";
 import { TracwellCard } from "@/components/tracwell-card";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPageMarkdown } from "@/lib/markdown";
@@ -107,7 +108,8 @@ export default async function DocsPage({ params }: DocsPageProps) {
         <div className="docs-scroll flex max-h-[calc(100dvh-6rem)] flex-col gap-3 overflow-y-auto pr-2">
           <p className="text-xs font-medium text-muted-foreground">On this page</p>
           <PageToc />
-          <div className="mt-6">
+          <div className="mt-6 flex flex-col gap-2">
+            <ShadcnLabsCard />
             <TracwellCard />
           </div>
         </div>
