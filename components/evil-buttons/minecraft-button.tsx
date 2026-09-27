@@ -231,15 +231,15 @@ function spawnChips(
 
 /* ---------- Pickaxe cursor ---------- */
 
-/** 16×16 diamond pickaxe sprite (drawn at 4×), inlined so the item stays one file. */
-const PICKAXE_SPRITE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACi0lEQVR4nO2bMWsUQRTH/0oKba4QDkyVQbQ/m2siJG267FcQv0EaP4NwiqAkRSBfIBARQtocpLoqpYXE9RQsRIsD0ULQxpO8t5edvJ03M7vc+3WP23mzvNv/f+bN3gGGsdTcUM7nAAwA3FPKdwHgHECplK/CinK+QW9jeKSZcDaeFIhYgJvK+bS++dg5/6NdgM4RKgEHqvkiMN8iJDnFnhFqgttc8w8OX5MLfr3/SOLfX7/XJlzp3yHxp6fPSLz+8wOJ1+7eJvHe22kB4E3tJJcIlUBUfTZEdE9L7wGhBbhQuYuMhHqAAzPB3sbwUUjC1Z0ntZ8/Ph6R+ODkM4nfTX/sAHh+3flCV4ESVccNKkBqzAOU83XOE9rWDBVbwz6R0PTlLrmA7yO+jPZJPBtPknoAp0R445LUQ5beA7SfACkO+r3E5Rze3kDbA6Rsbw37pJfge/vT828k/vPqBYl9vcO/84Qre4PcEkjRS9TOkbsA2UntAQ7xzw9EpC7AgGt+8yHV8IK9/RmA+ZiiN9ony6Svd/CRugBNNH8EurFR3SeYB0TO7xCu+aj9RewCVDTP13mP5ucbmWjELoCG5qNiHqCcz6HlmueovxsMXOfFmue9gBTtArRe8xzzgMDxDh3TPCe0ANnX+Vv310KGBxegc5rnmAcIr3fIq/kmY2vHSM8EK2d4Ddf5UjjvHAfPu8jZeCKaT/oE5NZ8Cf+7SNF85gGezx3avc4vyi2az+cB4nN7Zc37cKBfkHg+3xOQW/M+SgQW1zyAxQ7t1rw6vADJ+/nc8AK0XfPqLL0HaBSgU5rnVJbBtp3bx6bJeUCnNc8xD2DxdfTcac1zeC/gUP87v+h/YjIMwzAMIxl/AXTtyFOKYkzBAAAAAElFTkSuQmCC";
+/** 16×16 diamond pickaxe sprite (drawn at 4×, head facing left), inlined so the item stays one file. */
+const PICKAXE_SPRITE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACmUlEQVR42u1bsUorQRQ9ioUiWCh2GlexeGCTKpWgrQhiwB8QXqEoiM37Bhv9AtFP0M5WQZs0pnwPIaxB3hPCswgEGwubRPaOmtmbuTOzm8zpbnZ2ZvZkztk7d3eBgICBxpDl/iMARQALQv3VAFQBxFITHLFMQHFipXQh2WHzplKWJGDYMgFS/7y1Pm0TkHlwJRCBp+myhTkn+zT2BK4Jbu5sFIimH59fSYO7sXkSzx79IvFb46XrACPTkyQeXZwj8cPWHonbnnDZKwFcCdjQtCmM5jTwHtAPBNRMTmbnAdfV/yTeXpuhs1n/SWJV8/+OT42utnlTuQXQ8aGOCbojIAO4AHAi1Vk/SGDgCDDSvAq2BP7OL5H4TNG8eh8vHOyS+E+lkdRwLxdf9UqAAEQ1bIo8SkAUuhUQgeb+Erm9aC5vCt1eYFPdz+ty+6H9QxKvFqdIrO4drioNo1zeFDoJuMj9ve4vggf4ngA8ewKbAF1u36y3kvf5MoDl5HF179A+/tGm7QnZJSAF1Pv8MvN8p54QPMBy/73k7U49wTYB1d/1VhmJROr86olIQs0T1krTTj3BNgHxF5PPlCcED3A8XuY8gU2Aut9n4pMnwHOe4HoFxMiYJwQP8Dy+d09gE6A+qzOE9zzB9wqI4dkTggdojveiUZO6vXNP0NUEIyhF0YmVElmi3zyrSz0B3Xg/CuNd84Tre1qf4NYYdSsghl6jknX+NOPpwPKE4AHM9rWUv0nBuidw3xGKQDVqu2ChjvfJE0yfO3BXQGzxYtOOJ+oJwQN8T4AJcU/IGwHi9YS8ERBD2BMG3gPyToBxDpI3Cahg1xP6jYAYhp6QdwkYo98ISOMJpI3tj6ZcI0L3Dzq8v5QVEBAQEBCQIbwDjb7c841t6aMAAAAASUVORK5CYII=";
 
-/** The pointer sits on the head's upper tip (texel 5,1); swings pivot on the grip (texel 1,13). */
-const PICKAXE_HOTSPOT = { x: 5.5 * PX, y: 1.5 * PX };
-const PICKAXE_GRIP = { x: 1.5 * PX, y: 13.5 * PX };
-/** Head lifts back counter-clockwise, then strikes down clockwise. */
-const WIND_UP = "rotate(-24deg)";
-const STRIKE = "rotate(28deg)";
+/** The pointer sits on the head's top-left corner (texel 3,2); swings pivot on the grip (texel 14,13). */
+const PICKAXE_HOTSPOT = { x: 3.5 * PX, y: 2.5 * PX };
+const PICKAXE_GRIP = { x: 14.5 * PX, y: 13.5 * PX };
+/** Head lifts back clockwise, then strikes down counter-clockwise. */
+const WIND_UP = "rotate(24deg)";
+const STRIKE = "rotate(-28deg)";
 
 const pickaxeStyle: React.CSSProperties = {
   width: 16 * PX,
