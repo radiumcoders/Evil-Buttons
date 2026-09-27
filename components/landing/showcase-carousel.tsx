@@ -8,7 +8,7 @@ import {
   type Variants,
 } from "motion/react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { type PointerEvent, useEffect, useRef, useState } from "react";
 import { packageCommands } from "@/components/cli-block";
 import { FitToContainer } from "@/components/landing/fit-to-container";
 import { ShowcasePreview } from "@/components/landing/showcase-preview";
@@ -19,6 +19,13 @@ import { cn } from "@/lib/utils";
 
 /** How long the carousel sits untouched before rotating. */
 const IDLE_MS = 5000;
+
+/** Horizontal travel, in px, that turns a drag into a step. */
+const SWIPE_PX = 40;
+
+/** Pointers landing on these drive the button itself, so they never swipe. */
+const INTERACTIVE =
+  'button:not([data-carousel-step]), a, input, textarea, select, [role="slider"], [role="button"]';
 
 const ease = [0.32, 0.72, 0, 1] as const;
 
@@ -139,12 +146,12 @@ function ShowcaseCard({
   };
 
   return (
-    <article className="rounded-xl bg-muted p-1 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)] dark:bg-[color-mix(in_oklch,var(--muted)_45%,var(--background))]">
-      <header className="flex h-9 items-center justify-between gap-3 pr-1 pl-2.5">
+    <article className="flex h-full flex-col rounded-xl bg-muted p-1 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)] dark:bg-[color-mix(in_oklch,var(--muted)_45%,var(--background))]">
+      <header className="flex h-9 shrink-0 items-center justify-between gap-3 pr-1 pl-2.5">
         <h3 className="truncate text-sm font-medium">{item.name}</h3>
       </header>
-      <div className="overflow-hidden rounded-lg border border-border bg-background">
-        <div className="relative h-[clamp(14rem,42dvh,24rem)] px-6 pt-8 pb-14">
+      <div className="min-h-0 flex-1 overflow-hidden rounded-lg border border-border bg-background">
+        <div className="relative h-full px-6 pt-8 pb-14">
           {category ? (
             <span className="absolute top-3 left-3 font-mono text-[10px] tracking-[0.18em] text-muted-foreground uppercase">
               {category}
@@ -239,6 +246,27 @@ export function ShowcaseCarousel({
   const step = (delta: number) =>
     setState((prev) => ({ active: wrap(prev.active + delta), direction: Math.sign(delta) }));
 
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  // Set when a drag ends on a side card, so its click doesn't step again.
+  const swiped = useRef(false);
+
+  const onPointerDown = (event: PointerEvent) => {
+    swiped.current = false;
+    if (event.button !== 0 || (event.target as Element).closest(INTERACTIVE)) return;
+    swipeStart.current = { x: event.clientX, y: event.clientY };
+  };
+
+  const onPointerUp = (event: PointerEvent) => {
+    const start = swipeStart.current;
+    swipeStart.current = null;
+    if (!start) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    if (Math.abs(dx) < SWIPE_PX || Math.abs(dx) < Math.abs(dy)) return;
+    swiped.current = true;
+    step(dx < 0 ? 1 : -1);
+  };
+
   // Restarts on every move, so the idle clock always counts from the last one.
   useEffect(() => {
     if (!autoplay) return;
@@ -252,7 +280,7 @@ export function ShowcaseCarousel({
   }));
 
   return (
-    <div className="relative w-full">
+    <div className="relative h-full w-full">
       <GlowBackdrop />
       <div
         role="region"
@@ -260,11 +288,14 @@ export function ShowcaseCarousel({
         aria-label="Button showcase"
         onPointerEnter={() => setHeld(true)}
         onPointerLeave={() => setHeld(false)}
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => (swipeStart.current = null)}
         onFocus={() => setHeld(true)}
         onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false);
         }}
-        className="relative mx-auto grid w-[min(30rem,calc(100vw-3rem))] items-center [perspective:1400px]"
+        className="relative mx-auto grid h-full w-[min(30rem,calc(100vw-3rem))] touch-pan-y grid-rows-[minmax(0,1fr)] items-center select-none [perspective:1400px]"
       >
         <AnimatePresence initial={false} custom={direction}>
           {visible.map(({ offset, item }) => {
@@ -280,10 +311,10 @@ export function ShowcaseCarousel({
                 exit="exit"
                 transition={{ duration: 0.8, ease }}
                 style={{ transformOrigin: "50% 50%" }}
-                className="relative [grid-area:1/1]"
+                className="relative h-full max-h-[27rem] [grid-area:1/1]"
                 aria-hidden={!main}
               >
-                <div inert={!main}>
+                <div inert={!main} className="h-full">
                   <ShowcaseCard
                     item={item}
                     category={categories[item.href]}
@@ -294,7 +325,10 @@ export function ShowcaseCarousel({
                   <button
                     type="button"
                     tabIndex={-1}
-                    onClick={() => step(offset)}
+                    data-carousel-step
+                    onClick={() => {
+                      if (!swiped.current) step(offset);
+                    }}
                     className="absolute inset-0 cursor-pointer rounded-xl"
                     aria-label={`Show ${item.name}`}
                   />

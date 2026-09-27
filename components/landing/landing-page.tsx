@@ -132,23 +132,23 @@ export function LandingPage({ categories }: LandingPageProps) {
       </div>
       <Navbar />
 
-      <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(1.5rem,5dvh,4rem)] text-center">
-        <h1 className="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl">
+      <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(0.75rem,5dvh,4rem)] text-center">
+        <h1 className="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl short:text-3xl short:sm:text-5xl">
           Animated buttons, built with an{" "}
           <span className="font-doto font-black tracking-tighter text-brand [text-shadow:0_0_24px_color-mix(in_oklch,var(--brand)_45%,transparent)]">
             evil
           </span>{" "}
           touch.
         </h1>
-        <p className="mt-5 max-w-xl text-base text-balance text-muted-foreground sm:text-lg">
+        <p className="mt-5 max-w-xl text-base text-balance text-muted-foreground sm:text-lg short:mt-3 short:text-sm short:sm:text-base">
           Hold, slide, doubt, glitch and detonate. Every button below is live —
           play with it, pick a variant, and install it with one command.
         </p>
 
-        <div className="mt-8 grid w-full max-w-md grid-cols-2 gap-3">
+        <div className="mt-8 grid w-full max-w-md grid-cols-2 gap-3 short:mt-5">
           <Link
             href="/docs"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg short:h-10 bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Browse docs
             <ArrowRight className="size-4" weight="bold" />
@@ -157,7 +157,7 @@ export function LandingPage({ categories }: LandingPageProps) {
             href={siteConfig.github}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg short:h-10 border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted"
           >
             <GithubLogo className="size-4" weight="bold" />
             GitHub
@@ -165,7 +165,7 @@ export function LandingPage({ categories }: LandingPageProps) {
         </div>
       </section>
 
-      <section className="flex min-h-0 flex-1 items-center pt-[clamp(1rem,5dvh,3.5rem)]">
+      <section className="flex min-h-0 flex-1 pt-[clamp(1rem,5dvh,3.5rem)] pb-[clamp(0.75rem,3dvh,2rem)]">
         <ShowcaseCarousel categories={categories} />
       </section>
     </div>
