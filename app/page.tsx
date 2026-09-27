@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/landing-page";
+import { StatsSection } from "@/components/landing/stats-section";
+import { getLandingStats } from "@/lib/landing-stats";
 import { source } from "@/lib/source";
 
 export const metadata: Metadata = {
@@ -23,10 +25,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+// Stats refresh at most hourly; the rest of the page is static.
+export const revalidate = 3600;
+
+export default async function HomePage() {
   const categories = Object.fromEntries(
     source.getPages().map((page) => [page.url, page.data.category]),
   );
 
-  return <LandingPage categories={categories} />;
+  const stats = await getLandingStats();
+
+  return (
+    <LandingPage categories={categories}>
+      <StatsSection stats={stats} />
+    </LandingPage>
+  );
 }

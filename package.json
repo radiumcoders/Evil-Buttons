@@ -10,7 +10,8 @@
     "lint": "eslint",
     "registry:build": "node scripts/build-registry.mjs",
     "registry:test": "node scripts/test-registry.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "tracwell:tools": "node --env-file=.env.local scripts/tracwell-tools.mts"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
