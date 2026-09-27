@@ -75,11 +75,14 @@ function ShaderBackdrop() {
 
   if (failed) return null;
 
-  // Falls back to the CSS .landing-bg underneath when WebGPU is unavailable.
+  // Falls back to the CSS .landing-bg underneath when WebGL2 is unavailable.
   return (
     <EvilShader
       theme={theme}
-      onError={() => setFailed(true)}
+      onError={(error) => {
+        console.warn("Landing shader disabled:", error.message);
+        setFailed(true);
+      }}
       className="pointer-events-none absolute inset-0"
     />
   );
