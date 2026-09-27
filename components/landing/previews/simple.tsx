@@ -3,6 +3,7 @@
 import { useDialKit } from "dialkit";
 import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import ChromeButton, {
+  type ChromeSize,
   type ChromeTone,
 } from "@/components/evil-buttons/chrome-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
@@ -35,8 +36,9 @@ export function ChromeButtonPreview() {
   const p = useDialKit(
     "ChromeButton",
     {
-      label: "Chromy",
+      label: "Continue",
       tone: { type: "select", options: ["dark", "light"], default: "dark" },
+      size: { type: "select", options: ["default", "sm"], default: "default" },
       speed: [1, 0.2, 3],
       interactive: true,
     },
@@ -48,6 +50,7 @@ export function ChromeButtonPreview() {
       <LiveProps>
         <ChromeButton
           tone={p.tone as ChromeTone}
+          size={p.size as ChromeSize}
           speed={p.speed}
           interactive={p.interactive}
         >

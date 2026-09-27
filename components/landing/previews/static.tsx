@@ -251,8 +251,8 @@ export function StaticDemonicButtonPreview() {
 
 export function StaticChromeButtonPreview() {
   return (
-    <DeferredWebGLPreview label="Chromy">
-      <ChromeButton>Chromy</ChromeButton>
+    <DeferredWebGLPreview label="Continue">
+      <ChromeButton>Continue</ChromeButton>
     </DeferredWebGLPreview>
   );
 }

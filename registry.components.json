@@ -77,7 +77,7 @@
     "exportName": "ChromeButton",
     "docSlug": "chrome-button",
     "title": "ChromeButton",
-    "description": "A pill with liquid chrome sweeping across its face, white over black or dark over white, that ripples around the pointer and on press.",
+    "description": "A metallic pill whose border is a ring of flowing liquid chrome around a solid dark or light face, with pill, compact, and icon sizes.",
     "file": "components/evil-buttons/chrome-button.tsx",
     "dependencies": ["clsx", "tailwind-merge"]
   },
