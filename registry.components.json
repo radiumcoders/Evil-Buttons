@@ -220,7 +220,7 @@
     "exportName": "RealisticSwitch",
     "docSlug": "realistic-switch",
     "title": "RealisticSwitch",
-    "description": "A latching push switch: a raised box that sinks into its socket when pressed, stays down and glows while on, and springs back up on the next press.",
+    "description": "A latching push switch, a raised box that sinks into its socket when pressed, stays down and glows while on, and springs back up on the next press.",
     "file": "components/evil-buttons/realistic-switch.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
