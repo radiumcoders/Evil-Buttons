@@ -31,7 +31,7 @@ export default function Error({
         <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
           Something broke
         </p>
-        <h1 className="font-doto text-4xl font-black tracking-tighter">
+        <h1 className="font-pixel-display text-4xl tracking-tight">
           An evil error appeared.
         </h1>
         <p className="mx-auto max-w-md text-sm text-muted-foreground">

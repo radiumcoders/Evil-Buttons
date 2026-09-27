@@ -45,7 +45,7 @@ export function HeroSection({ trapped = false }: HeroSectionProps) {
                   height={192}
                   className="h-auto w-9 sm:w-10"
                 />
-                <span className="font-doto text-base font-black tracking-tighter sm:text-lg">
+                <span className="font-pixel-display text-base sm:text-lg">
                   Evil Buttons
                 </span>
               </div>
@@ -61,7 +61,7 @@ export function HeroSection({ trapped = false }: HeroSectionProps) {
                   height={192}
                   className="h-auto w-9 sm:w-10"
                 />
-                <span className="font-doto text-base font-black tracking-tighter sm:text-lg">
+                <span className="font-pixel-display text-base sm:text-lg">
                   Evil Buttons
                 </span>
               </Link>

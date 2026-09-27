@@ -8,7 +8,7 @@
 @theme inline {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
-  --font-doto: var(--font-doto);
+  --font-pixel-display: var(--font-geist-pixel), ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-border: var(--border);

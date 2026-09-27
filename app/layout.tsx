@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Doto, Pixelify_Sans } from "next/font/google";
+import { Geist, Geist_Mono, Geist_Pixel, Pixelify_Sans } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -25,8 +25,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const dotoVar = Doto({
-  variable: "--font-doto",
+const geistPixel = Geist_Pixel({
+  variable: "--font-geist-pixel",
+  subsets: ["latin"],
 });
 
 const pixelVar = Pixelify_Sans({
@@ -66,8 +67,8 @@ export default function RootLayout({
       className={cn(
         geistSans.variable,
         geistMono.variable,
+        geistPixel.variable,
         "h-full font-sans antialiased",
-        dotoVar.variable,
         pixelVar.variable,
       )}
     >

@@ -75,7 +75,7 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
                   <ArrowUpRightIcon className="size-3 transition-transform group-has-[a:hover]:translate-x-0.5 group-has-[a:hover]:-translate-y-0.5" />
                 ) : null}
               </dt>
-              <dd className="mt-3 font-doto text-4xl font-black tracking-tighter tabular-nums sm:text-5xl">
+              <dd className="mt-3 font-pixel-display text-4xl tracking-tight tabular-nums sm:text-5xl">
                 {compact.format(tile.value)}
               </dd>
               {tile.href ? (

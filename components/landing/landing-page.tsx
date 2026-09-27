@@ -37,7 +37,7 @@ function Navbar() {
             height={192}
             className="h-auto w-7"
           />
-          <span className="font-doto text-base font-black tracking-tighter">
+          <span className="font-pixel-display text-base">
             Evil Buttons
           </span>
         </Link>
@@ -140,7 +140,7 @@ export function LandingPage({ categories, children }: LandingPageProps) {
         <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(0.75rem,5dvh,4rem)] text-center">
           <h1 className="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl short:text-3xl short:sm:text-5xl">
             Animated buttons, built with an{" "}
-            <span className="font-doto font-black tracking-tighter text-brand [text-shadow:0_0_24px_color-mix(in_oklch,var(--brand)_45%,transparent)]">
+            <span className="font-pixel-display font-normal text-brand [text-shadow:0_0_24px_color-mix(in_oklch,var(--brand)_45%,transparent)]">
               evil
             </span>{" "}
             touch.
