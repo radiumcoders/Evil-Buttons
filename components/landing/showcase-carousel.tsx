@@ -23,23 +23,28 @@ const IDLE_MS = 5000;
 const ease = [0.32, 0.72, 0, 1] as const;
 
 /**
- * Slot offsets from the center card: 0 main, ±1 before/after, ±2 the opaque but
- * blurred outer pair. ±3 are the off-stage spots cards enter from and exit to.
- * `x` is in card widths, placing each slot a small gap past its scaled
- * neighbour.
+ * Slot offsets from the center card: 0 main, ±1 before/after, ±2 the blurred
+ * outer pair. ±3 are the off-stage spots cards enter from and exit to.
+ * Together they sit on the face of a cylinder: each step out turns the card
+ * further away (`rotate`, degrees) and pushes it back (`z`, px), so the
+ * stage's perspective shrinks the far edges. `x` is in card widths.
  */
 const slots = [
-  { x: 0, scale: 1, opacity: 1, blur: 0 },
-  { x: 0.94, scale: 0.8, opacity: 1, blur: 0 },
-  { x: 1.7, scale: 0.64, opacity: 1, blur: 3 },
-  { x: 2.32, scale: 0.52, opacity: 0, blur: 6 },
+  { x: 0, z: 0, rotate: 0, scale: 1, opacity: 1, blur: 0 },
+  { x: 0.9, z: -140, rotate: 34, scale: 0.92, opacity: 1, blur: 0 },
+  { x: 1.75, z: -380, rotate: 58, scale: 0.86, opacity: 1, blur: 2 },
+  { x: 2.35, z: -600, rotate: 76, scale: 0.8, opacity: 0, blur: 5 },
 ];
 
 function slotStyle(offset: number) {
   const distance = Math.abs(offset);
+  const side = Math.sign(offset);
   const slot = slots[distance];
   return {
-    x: `${Math.sign(offset) * slot.x * 100}%`,
+    x: `${side * slot.x * 100}%`,
+    z: slot.z,
+    // Negative on the left so each card's inner edge stays nearest the viewer.
+    rotateY: side * slot.rotate,
     scale: slot.scale,
     opacity: slot.opacity,
     filter: `blur(${slot.blur}px)`,
@@ -254,7 +259,7 @@ export function ShowcaseCarousel({
         onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false);
         }}
-        className="relative mx-auto grid w-[min(30rem,calc(100vw-3rem))] items-end"
+        className="relative mx-auto grid w-[min(30rem,calc(100vw-3rem))] items-center [perspective:1400px]"
       >
         <AnimatePresence initial={false} custom={direction}>
           {visible.map(({ offset, item }) => {
@@ -269,7 +274,7 @@ export function ShowcaseCarousel({
                 animate={slotStyle(offset)}
                 exit="exit"
                 transition={{ duration: 0.8, ease }}
-                style={{ transformOrigin: "50% 100%" }}
+                style={{ transformOrigin: "50% 50%" }}
                 className="relative [grid-area:1/1]"
                 aria-hidden={!main}
               >
