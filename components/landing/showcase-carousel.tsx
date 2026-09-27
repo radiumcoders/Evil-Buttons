@@ -31,11 +31,13 @@ const ease = [0.32, 0.72, 0, 1] as const;
  */
 const slots = [
   { x: 0, z: 0, rotate: 0, scale: 1, opacity: 1, blur: 0 },
-  { x: 0.9, z: -140, rotate: 34, scale: 0.92, opacity: 1, blur: 0 },
+  // Scales are matched so each card's inner edge is as tall as its
+  // neighbour's facing edge, keeping the top and bottom one smooth arc.
+  { x: 0.93, z: -140, rotate: 34, scale: 1, opacity: 1, blur: 0 },
   // Kept shallow: seen from off-axis, perspective adds ~25° of apparent turn,
   // and anything much steeper collapses to a sliver.
-  { x: 1.55, z: -300, rotate: 38, scale: 0.88, opacity: 1, blur: 1.5 },
-  { x: 2.2, z: -560, rotate: 50, scale: 0.82, opacity: 0, blur: 4 },
+  { x: 1.61, z: -300, rotate: 38, scale: 0.95, opacity: 1, blur: 1.5 },
+  { x: 2.25, z: -560, rotate: 50, scale: 0.9, opacity: 0, blur: 4 },
 ];
 
 function slotStyle(offset: number) {
