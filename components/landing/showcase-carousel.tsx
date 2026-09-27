@@ -23,15 +23,15 @@ const IDLE_MS = 5000;
 const ease = [0.32, 0.72, 0, 1] as const;
 
 /**
- * Slot offsets from the center card: 0 main, ±1 before/after, ±2 the faded,
+ * Slot offsets from the center card: 0 main, ±1 before/after, ±2 the opaque but
  * blurred outer pair. ±3 are the off-stage spots cards enter from and exit to.
  * `x` is in card widths, placing each slot a small gap past its scaled
  * neighbour.
  */
 const slots = [
   { x: 0, scale: 1, opacity: 1, blur: 0 },
-  { x: 0.94, scale: 0.8, opacity: 0.75, blur: 0 },
-  { x: 1.7, scale: 0.64, opacity: 0.4, blur: 3 },
+  { x: 0.94, scale: 0.8, opacity: 1, blur: 0 },
+  { x: 1.7, scale: 0.64, opacity: 1, blur: 3 },
   { x: 2.32, scale: 0.52, opacity: 0, blur: 6 },
 ];
 
