@@ -88,11 +88,47 @@ function ShaderBackdrop() {
   );
 }
 
+// Eased stops so the fade has no visible band where it ends.
+const scrimStops = [
+  [0, 0.92],
+  [0.2, 0.8],
+  [0.4, 0.58],
+  [0.6, 0.32],
+  [0.8, 0.1],
+  [1, 0],
+] as const;
+
+/** Darkens the top of the shader so the navbar and headline stay legible. */
+function TopScrim() {
+  return (
+    <svg
+      aria-hidden="true"
+      preserveAspectRatio="none"
+      className="pointer-events-none absolute inset-x-0 top-0 h-[60%] w-full"
+    >
+      <defs>
+        <linearGradient id="landing-top-scrim" x1="0" y1="0" x2="0" y2="1">
+          {scrimStops.map(([offset, opacity]) => (
+            <stop
+              key={offset}
+              offset={offset}
+              stopColor="var(--background)"
+              stopOpacity={opacity}
+            />
+          ))}
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#landing-top-scrim)" />
+    </svg>
+  );
+}
+
 export function LandingPage({ categories }: LandingPageProps) {
   return (
     <div className="relative isolate flex h-dvh flex-col overflow-hidden landing-bg text-foreground">
       <div className="absolute inset-0 -z-10">
         <ShaderBackdrop />
+        <TopScrim />
       </div>
       <Navbar />
 
