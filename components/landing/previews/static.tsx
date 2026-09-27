@@ -30,7 +30,7 @@ import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
 import { DeferredWebGLPreview } from "./shared";
-import { pillClassNames, themeColors } from "./theme";
+import { themeColors } from "./theme";
 
 export function StaticRevealButtonPreview() {
   return (
@@ -217,16 +217,11 @@ export function StaticClickPowerUpPreview() {
 }
 
 export function StaticPillButtonPreview() {
-  const isDark = useIsDarkMode();
-  const classes = pillClassNames(isDark);
-
   return (
     <PillButton
       primaryLabel="Off"
       secondaryLabel="On"
       defaultOpen={false}
-      primaryClassName={classes.primaryClassName}
-      secondaryClassName={classes.secondaryClassName}
     />
   );
 }

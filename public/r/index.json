@@ -223,7 +223,7 @@
       "name": "pill-button",
       "type": "registry:ui",
       "title": "PillButton",
-      "description": "A compact pill toggle that slides between two labeled faces with a rolling hover label animation.",
+      "description": "A two-state pill switch that springs between an off and on face, with a status light and a letter-by-letter rolling hover label.",
       "files": [
         "components/evil-buttons/pill-button.tsx"
       ]

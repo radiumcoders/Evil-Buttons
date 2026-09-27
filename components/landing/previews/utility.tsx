@@ -1,12 +1,11 @@
 "use client";
 
 import { useDialKit } from "dialkit";
-import { useIsDarkMode } from "@/hooks/use-app-theme";
-import { pillClassNames, useThemedDialKit } from "./theme";
+import { useThemedDialKit } from "./theme";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import { PillButton } from "@/components/evil-buttons/pill-button";
+import { PillButton, type PillSize } from "@/components/evil-buttons/pill-button";
 import { LiveProps } from "./live-props";
 
 export function CommandButtonPreview() {
@@ -89,20 +88,17 @@ export function PillButtonPreview() {
       primaryLabel: "Off",
       secondaryLabel: "On",
       defaultOpen: false,
+      size: { type: "select", options: ["sm", "default", "lg"], default: "default" },
     }),
-    { id: "pill-button" },
+    { id: "pill-button-v2" },
   );
-  const isDark = useIsDarkMode();
-  const classes = pillClassNames(isDark);
-
   return (
     <LiveProps>
       <PillButton
         primaryLabel={p.primaryLabel}
         secondaryLabel={p.secondaryLabel}
         defaultOpen={p.defaultOpen}
-        primaryClassName={classes.primaryClassName}
-        secondaryClassName={classes.secondaryClassName}
+        size={p.size as PillSize}
       />
     </LiveProps>
   );

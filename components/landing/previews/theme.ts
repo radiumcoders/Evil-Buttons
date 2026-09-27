@@ -34,17 +34,6 @@ export const themeColors = {
   },
 } as const;
 
-export function pillClassNames(isDark: boolean) {
-  return isDark
-    ? {
-        primaryClassName: "bg-neutral-950 text-neutral-200",
-        secondaryClassName: "bg-primary text-primary-foreground",
-      }
-    : {
-        primaryClassName: "bg-muted text-foreground",
-        secondaryClassName: "bg-primary text-primary-foreground",
-      };
-}
 /**
  * DialKit has no list control, so array props become a folder of numbered
  * fields (`item1`, `item2`, …). Clearing a text field drops it from the list.
