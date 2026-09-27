@@ -79,7 +79,7 @@
       "name": "chrome-button",
       "type": "registry:ui",
       "title": "ChromeButton",
-      "description": "A metallic pill whose border is a ring of flowing liquid chrome around a solid dark or light face, with pill, compact, and icon sizes.",
+      "description": "A metallic pill whose border is a ring of flowing liquid chrome around a solid face that follows the light or dark theme, with pill, compact, and icon sizes.",
       "files": [
         "components/evil-buttons/chrome-button.tsx"
       ]

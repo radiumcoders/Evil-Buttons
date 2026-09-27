@@ -33,7 +33,6 @@ import { MinecraftButton } from "./evil-buttons/minecraft-button";
 import {
   MorphStatusButtonDemo,
   MorphStatusButtonFailDemo,
-  ChromeButtonSet,
 } from "./evil-buttons-demos";
 
 type CmdProps = {
@@ -125,7 +124,6 @@ export function getCustomMDXComponents(): MDXComponents {
     MorphStatusButton,
     MorphStatusButtonDemo,
     MorphStatusButtonFailDemo,
-    ChromeButtonSet,
     CooldownButton,
     PillButton,
     ConfettiButton,

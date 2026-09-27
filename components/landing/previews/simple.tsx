@@ -37,7 +37,11 @@ export function ChromeButtonPreview() {
     "ChromeButton",
     {
       label: "Continue",
-      tone: { type: "select", options: ["dark", "light"], default: "dark" },
+      tone: {
+        type: "select",
+        options: ["auto", "dark", "light"],
+        default: "auto",
+      },
       size: { type: "select", options: ["default", "sm"], default: "default" },
       speed: [1, 0.2, 3],
       interactive: true,

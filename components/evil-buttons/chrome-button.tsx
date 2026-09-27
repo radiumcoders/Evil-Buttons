@@ -3,14 +3,14 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export type ChromeTone = "dark" | "light";
+export type ChromeTone = "auto" | "dark" | "light";
 export type ChromeSize = "default" | "sm" | "icon";
 
 export interface ChromeButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Label used when no children are provided. */
   label?: React.ReactNode;
-  /** Dark face with a white label, or white face with a dark label. */
+  /** Follow the theme (dark face under `.dark`), or force a dark or light face. */
   tone?: ChromeTone;
   /** Pill, compact pill, or a round icon-only button. */
   size?: ChromeSize;
@@ -47,29 +47,39 @@ float metal(vec2 px) {
     uv.y += 0.22 / i * cos(i * 1.9 * uv.x + uTime * 0.8);
   }
 
-  // Pointer: the metal ripples around the cursor while hovering.
-  vec2 d = (px - uPointer) / uRes.y;
-  float dist = length(d) + 0.0001;
-  uv += d / dist * sin(dist * 18.0 - uTime * 3.0) * 0.12 * exp(-dist * 3.0) * uHover;
+  // Interactions push band phase and contrast directly: nudging the warp, or
+  // brightening already-bright metal, barely registers on a thin ring.
+  float phase = 0.0;
+  float shade = 0.0;
 
-  // Press: one wave travels out from the click and fades.
+  // Pointer: tight dark and bright ripples swirl out from the cursor.
+  vec2 d = (px - uPointer) / uRes.y;
+  float dist = length(d);
+  float near = exp(-dist * dist * 1.5) * uHover;
+  float swirl = sin(dist * 14.0 - uTime * 7.0);
+  phase += swirl * 2.2 * near;
+  shade += swirl * 0.45 * near;
+
+  // Press: a shock front runs out from the click, bright at its leading edge
+  // with a dark trough behind it.
   float age = uTime - uPress.z;
   if (age > 0.0 && age < 2.0) {
-    vec2 pd = (px - uPress.xy) / uRes.y;
-    float r = length(pd) + 0.0001;
-    float front = r - age * 2.5;
-    uv += pd / r * sin(r * 12.0 - age * 16.0) * exp(-front * front * 4.0) * exp(-age * 2.0) * 0.4;
+    float r = length((px - uPress.xy) / uRes.y);
+    float front = r - age * 4.0;
+    float fade = exp(-age * 1.8);
+    phase += exp(-front * front * 2.0) * fade * 5.0;
+    shade += (exp(-front * front * 8.0) - exp(-(front + 0.45) * (front + 0.45) * 8.0)) * fade * 0.95;
   }
 
   // Normalized so a pill's ends and sides share one angular speed.
   vec2 q = (2.0 * px - uRes) / uRes;
   float angle = atan(q.y, q.x);
-  float s = sin(angle * 3.0 - uTime * 2.2 + (uv.x + uv.y) * 1.1);
+  float s = sin(angle * 3.0 - uTime * 2.2 + (uv.x + uv.y) * 1.1 + phase);
   float m = 0.5 + 0.5 * s;
   float c = 0.3 + 0.7 * smoothstep(0.0, 0.75, m);
   c += 0.55 * min(0.035 / abs(s - 0.35), 1.0);
   c -= 0.35 * min(0.02 / abs(s + 0.6), 1.0);
-  return clamp(c, 0.0, 1.0);
+  return clamp(c + shade, 0.0, 1.0);
 }
 
 void main() {
@@ -146,19 +156,29 @@ function createChromeGL(canvas: HTMLCanvasElement): ChromeGL | null {
   };
 }
 
+const DARK = {
+  shell:
+    "shadow-[0_0_0_1px_rgb(0_0_0/0.7),0_2px_4px_rgb(0_0_0/0.5),0_8px_20px_-8px_rgb(0_0_0/0.7)]",
+  face:
+    "bg-[linear-gradient(180deg,#1d1d1d_0%,#111111_60%,#0d0d0d_100%)] text-neutral-50 shadow-[inset_0_1px_3px_rgb(0_0_0/0.9),inset_0_-1px_0_rgb(255_255_255/0.05),0_0_0_1px_rgb(0_0_0/0.55)]",
+};
+
+const LIGHT = {
+  shell:
+    "shadow-[0_0_0_1px_rgb(0_0_0/0.18),0_2px_4px_rgb(0_0_0/0.12),0_10px_24px_-8px_rgb(0_0_0/0.3)]",
+  face:
+    "bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_60%,#f0f0f0_100%)] text-neutral-900 shadow-[inset_0_1px_3px_rgb(0_0_0/0.28),inset_0_-1px_0_rgb(255_255_255/0.9),0_0_0_1px_rgb(0_0_0/0.25)]",
+};
+
 const TONES: Record<ChromeTone, { shell: string; face: string }> = {
-  dark: {
-    shell:
-      "shadow-[0_0_0_1px_rgb(0_0_0/0.7),0_2px_4px_rgb(0_0_0/0.5),0_8px_20px_-8px_rgb(0_0_0/0.7)]",
-    face:
-      "bg-[linear-gradient(180deg,#1d1d1d_0%,#111111_60%,#0d0d0d_100%)] text-neutral-50 shadow-[inset_0_1px_3px_rgb(0_0_0/0.9),inset_0_-1px_0_rgb(255_255_255/0.05),0_0_0_1px_rgb(0_0_0/0.55)]",
+  // Light by default, dark inside a `.dark` ancestor, like shadcn's theming.
+  // Written out in full so Tailwind can see every dark: class.
+  auto: {
+    shell: `${LIGHT.shell} dark:shadow-[0_0_0_1px_rgb(0_0_0/0.7),0_2px_4px_rgb(0_0_0/0.5),0_8px_20px_-8px_rgb(0_0_0/0.7)]`,
+    face: `${LIGHT.face} dark:bg-[linear-gradient(180deg,#1d1d1d_0%,#111111_60%,#0d0d0d_100%)] dark:text-neutral-50 dark:shadow-[inset_0_1px_3px_rgb(0_0_0/0.9),inset_0_-1px_0_rgb(255_255_255/0.05),0_0_0_1px_rgb(0_0_0/0.55)]`,
   },
-  light: {
-    shell:
-      "shadow-[0_0_0_1px_rgb(0_0_0/0.18),0_2px_4px_rgb(0_0_0/0.12),0_10px_24px_-8px_rgb(0_0_0/0.3)]",
-    face:
-      "bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_60%,#f0f0f0_100%)] text-neutral-900 shadow-[inset_0_1px_3px_rgb(0_0_0/0.28),inset_0_-1px_0_rgb(255_255_255/0.9),0_0_0_1px_rgb(0_0_0/0.25)]",
-  },
+  dark: DARK,
+  light: LIGHT,
 };
 
 const SIZES: Record<ChromeSize, { shell: string; face: string }> = {
@@ -184,7 +204,7 @@ export const ChromeButton = React.forwardRef<
     {
       children,
       label = "Continue",
-      tone = "dark",
+      tone = "auto",
       size = "default",
       speed = 1,
       interactive = true,
@@ -201,6 +221,7 @@ export const ChromeButton = React.forwardRef<
     ref,
   ) => {
     const shellRef = React.useRef<HTMLButtonElement | null>(null);
+    const hostRef = React.useRef<HTMLSpanElement | null>(null);
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const [painted, setPainted] = React.useState(false);
 
@@ -225,11 +246,18 @@ export const ChromeButton = React.forwardRef<
     };
 
     React.useEffect(() => {
-      const canvas = canvasRef.current;
+      const host = hostRef.current;
       const shell = shellRef.current;
-      if (!canvas || !shell) return;
+      if (!host || !shell) return;
+      // A fresh canvas per run: once a context is lost (as cleanup does), the
+      // same canvas only ever hands back that dead context, which froze the
+      // metal after Strict Mode's mount, unmount, mount in development.
+      const canvas = document.createElement("canvas");
+      canvas.style.cssText = "display:block;width:100%;height:100%";
       const chrome = createChromeGL(canvas);
       if (!chrome) return;
+      host.appendChild(canvas);
+      canvasRef.current = canvas;
       const { gl, uniforms } = chrome;
       const state = input.current;
       // Reduced motion slows the flow to a gentle drift instead of freezing it.
@@ -247,9 +275,11 @@ export const ChromeButton = React.forwardRef<
         gl.uniform2f(uniforms.uRes, canvas.width, canvas.height);
         gl.uniform1f(uniforms.uTime, state.time);
         gl.uniform2f(uniforms.uPointer, state.pointer[0], state.pointer[1]);
-        gl.uniform1f(uniforms.uHover, state.interactive ? hover : 0);
+        gl.uniform1f(uniforms.uHover, hover);
         gl.uniform3f(uniforms.uPress, ...state.press);
-        gl.uniform1f(uniforms.uTone, state.tone === "light" ? 1 : 0);
+        const light =
+          state.tone === "auto" ? !shell.closest(".dark") : state.tone === "light";
+        gl.uniform1f(uniforms.uTone, light ? 1 : 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
         if (first) {
           first = false;
@@ -260,7 +290,8 @@ export const ChromeButton = React.forwardRef<
       const frame = (now: number) => {
         const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
         last = now;
-        hover += (state.hoverTarget - hover) * Math.min(1, dt * 8);
+        const target = state.interactive ? state.hoverTarget : 0;
+        hover += (target - hover) * Math.min(1, dt * 8);
         state.time += dt * state.speed * (reduceMotion ? 0.2 : 1) * (1 + hover * 1.2);
         draw();
         raf = requestAnimationFrame(frame);
@@ -312,6 +343,9 @@ export const ChromeButton = React.forwardRef<
         document.removeEventListener("visibilitychange", onVisibility);
         canvas.removeEventListener("webglcontextlost", onLost);
         gl.getExtension("WEBGL_lose_context")?.loseContext();
+        canvas.remove();
+        if (canvasRef.current === canvas) canvasRef.current = null;
+        setPainted(false);
       };
     }, []);
 
@@ -378,11 +412,11 @@ export const ChromeButton = React.forwardRef<
         )}
         {...props}
       >
-        <canvas
-          ref={canvasRef}
+        <span
+          ref={hostRef}
           aria-hidden
           className={cn(
-            "absolute inset-0 -z-10 size-full transition-opacity duration-500",
+            "absolute inset-0 -z-10 transition-opacity duration-500",
             painted ? "opacity-100" : "opacity-0",
           )}
         />
