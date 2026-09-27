@@ -40,20 +40,32 @@ const FONT_SIZE: Record<RealisticSwitchSize, number> = {
   lg: 19,
 }
 
-// Housing, in em. It is extruded by stacking rounded slices behind the front,
-// which keeps its corners round from every angle.
+// Housing, in em. The whole switch is painted onto one flat layer and that
+// layer is tilted in 3D: a single surface can't show seams between faces the
+// way a stack of 3D planes does. The housing's sides are offset copies of its
+// own outline, painted in one pass as a box-shadow, so they stay smooth.
 const WIDTH = 3.4
 const HEIGHT = 4.4
-const BODY = 1
 const RIM = 0.44
-const SLICES = 12
+const BODY_X = 0.3
+const BODY_Y = 0.46
+const BODY_STEPS = 18
+
+const BODY = Array.from({ length: BODY_STEPS }, (_, i) => {
+  const t = (i + 1) / BODY_STEPS
+  const x = (BODY_X * t).toFixed(3)
+  const y = (BODY_Y * t).toFixed(3)
+  const shade = Math.round(100 - t * 100)
+  return `${x}em ${y}em 0 color-mix(in oklab, var(--side-hi) ${shade}%, var(--side-lo))`
+}).join(", ")
 
 // Rocker, in em and degrees. Its face is two halves dished back from the pivot;
-// tilting it raises one half out of the housing and sinks the other.
-const ROCKER_DEPTH = 0.8
-const ROCKER_SLICES = 7
-const TILT = 13
+// tilting it raises one half out of the housing and sinks the other. Only four
+// panels, each overlapping its neighbour a hair so no gap can open between them.
+const ROCKER_DEPTH = 0.55
+const TILT = 12
 const DISH = 5
+const OVERLAP = 0.02
 
 // Resting three-quarter view, plus how far it leans toward the pointer.
 const VIEW_X = 22
@@ -192,123 +204,62 @@ function RealisticSwitch({
         style={{
           width: em(WIDTH),
           height: em(HEIGHT),
-          transformStyle: "preserve-3d",
           rotateX: viewX,
           rotateY: viewY,
         }}
       >
-        <Floor lit={lit} />
-        <Housing />
-        {/* The hole the rocker sits in, flush with the bezel. */}
+        {/* Contact shadow, then the lit rocker's color spilling onto the surface. */}
         <span
-          className="absolute rounded-[0.36em] shadow-[inset_0_0.1em_0.18em_rgb(0_0_0/0.85)]"
+          className="absolute inset-[0.3em] rounded-[0.8em] blur-[0.5em]"
+          style={{ background: "var(--floor)", translate: "0.55em 0.85em" }}
+        />
+        <span
+          className="absolute -inset-[0.5em] rounded-[1.4em] blur-[0.9em] transition-opacity duration-500"
+          style={{
+            background: "var(--rocker)",
+            opacity: lit ? "var(--spill)" : 0,
+            translate: "0.2em 0.35em",
+          }}
+        />
+        {/* Housing: the body underneath, then the bezel face on top of it. */}
+        <span
+          className="absolute inset-0 rounded-[0.62em]"
+          style={{
+            background: "linear-gradient(165deg, var(--hi), var(--mid) 45%, var(--lo))",
+            boxShadow: `inset 0 0.05em 0 rgb(255 255 255 / 0.55), inset 0 -0.05em 0 rgb(0 0 0 / 0.14), ${BODY}`,
+          }}
+        />
+        {/* The hole the rocker sits in. */}
+        <span
+          className="absolute overflow-hidden rounded-[0.36em] shadow-[inset_0_0.1em_0.18em_rgb(0_0_0/0.85),0_0.03em_0_rgb(255_255_255/0.35)]"
           style={{
             inset: em(RIM),
             background: "var(--cavity)",
-            transform: "translateZ(0.01em)",
+            perspective: "10em",
+            perspectiveOrigin: "50% -30%",
           }}
-        />
-        {/* Light spilling out around the rocker's edges. */}
-        <span
-          className="absolute rounded-[0.36em] blur-[0.25em] transition-opacity duration-500"
-          style={{
-            inset: em(RIM + 0.05),
-            background: color,
-            opacity: lit ? 0.7 : 0,
-            transform: "translateZ(0.02em)",
-          }}
-        />
-        <motion.span
-          className="absolute"
-          style={{ inset: em(RIM + 0.1), transformStyle: "preserve-3d" }}
-          initial={false}
-          animate={{ rotateX: angle }}
-          transition={reduceMotion ? { duration: 0 } : FLIP}
         >
-          <Rocker lit={lit} checked={checked} markColor={markColor} />
-        </motion.span>
+          {/* Light leaking around the rocker's edges. */}
+          <span
+            className="absolute inset-0 transition-opacity duration-500"
+            style={{
+              opacity: lit ? 1 : 0,
+              background: `radial-gradient(ellipse 70% 60% at 50% 50%, var(--rocker), ${mix(40, "black")} 70%, transparent)`,
+            }}
+          />
+          <motion.span
+            className="absolute inset-[0.09em]"
+            style={{ transformStyle: "preserve-3d" }}
+            initial={false}
+            animate={{ rotateX: angle }}
+            transition={reduceMotion ? { duration: 0 } : FLIP}
+          >
+            <RockerHalf side="top" raised={checked} lit={lit} markColor={markColor} />
+            <RockerHalf side="bottom" raised={!checked} lit={lit} markColor={markColor} />
+          </motion.span>
+        </span>
       </motion.span>
     </button>
-  )
-}
-
-function Floor({ lit }: { lit: boolean }) {
-  return (
-    <>
-      {/* Contact shadow on the surface behind the switch, cast down and away. */}
-      <span
-        className="absolute inset-[0.2em] rounded-[0.8em] blur-[0.55em]"
-        style={{
-          background: "var(--floor)",
-          transform: `translate3d(0.25em, 0.55em, ${em(-BODY - 0.02)})`,
-        }}
-      />
-      {/* The lit rocker tints the surface around it. */}
-      <span
-        className="absolute -inset-[0.6em] rounded-[1.4em] blur-[0.9em] transition-opacity duration-500"
-        style={{
-          background: "var(--rocker)",
-          opacity: lit ? "var(--spill)" : 0,
-          transform: `translateZ(${em(-BODY - 0.03)})`,
-        }}
-      />
-    </>
-  )
-}
-
-function Housing() {
-  return (
-    <>
-      {Array.from({ length: SLICES }, (_, i) => (
-        <span
-          key={i}
-          className="absolute inset-0 rounded-[0.62em]"
-          style={{
-            background: "linear-gradient(to bottom, var(--side-hi), var(--side-lo))",
-            transform: `translateZ(${em(-(BODY * (i + 1)) / SLICES)})`,
-          }}
-        />
-      ))}
-      {/* Bezel face: soft top light, a crisp lit edge, and a shaded lower lip. */}
-      <span
-        className="absolute inset-0 rounded-[0.62em] shadow-[inset_0_0.05em_0_rgb(255_255_255/0.55),inset_0_-0.06em_0_rgb(0_0_0/0.18),inset_0_0_0_0.03em_rgb(0_0_0/0.06)]"
-        style={{
-          background: "linear-gradient(170deg, var(--hi), var(--mid) 45%, var(--lo))",
-        }}
-      />
-    </>
-  )
-}
-
-type RockerProps = {
-  lit: boolean
-  checked: boolean
-  markColor: string
-}
-
-function Rocker({ lit, checked, markColor }: RockerProps) {
-  const front = ROCKER_DEPTH / 2
-
-  return (
-    <>
-      {Array.from({ length: ROCKER_SLICES }, (_, i) => (
-        <span
-          key={i}
-          className="absolute inset-0 rounded-[0.26em]"
-          style={{
-            background: `linear-gradient(to bottom, ${mix(88, "white")}, ${mix(62, "black")})`,
-            transform: `translateZ(${em(front - (ROCKER_DEPTH * (i + 1)) / ROCKER_SLICES)})`,
-          }}
-        />
-      ))}
-      <span
-        className="absolute inset-0"
-        style={{ transform: `translateZ(${em(front)})`, transformStyle: "preserve-3d" }}
-      >
-        <RockerHalf side="top" raised={checked} lit={lit} markColor={markColor} />
-        <RockerHalf side="bottom" raised={!checked} lit={lit} markColor={markColor} />
-      </span>
-    </>
   )
 }
 
@@ -321,53 +272,79 @@ type RockerHalfProps = {
 
 function RockerHalf({ side, raised, lit, markColor }: RockerHalfProps) {
   const top = side === "top"
+  const front = em(ROCKER_DEPTH / 2)
 
   return (
     <span
-      className={cn(
-        "absolute inset-x-0 h-1/2 overflow-hidden",
-        top ? "top-0 origin-bottom rounded-t-[0.26em]" : "bottom-0 origin-top rounded-b-[0.26em]"
-      )}
+      className={cn("absolute inset-x-0", top ? "top-0 origin-bottom" : "bottom-0 origin-top")}
       style={{
-        transform: `rotateX(${top ? DISH : -DISH}deg)`,
-        background: top
-          ? `linear-gradient(to bottom, ${mix(78, "white")}, var(--rocker) 40%, ${mix(90, "black")})`
-          : `linear-gradient(to bottom, ${mix(86, "black")}, var(--rocker) 50%, ${mix(84, "black")})`,
-        boxShadow: top
-          ? `inset 0 0.04em 0 ${mix(45, "white")}`
-          : `inset 0 -0.04em 0 ${mix(55, "black")}`,
+        // Each half runs a hair past the pivot so the two faces overlap.
+        height: `calc(50% + ${em(OVERLAP)})`,
+        transformStyle: "preserve-3d",
+        transform: `translateZ(${front}) rotateX(${top ? DISH : -DISH}deg)`,
       }}
     >
-      {/* Sheen along the raised half, as if lit from above. */}
+      {/* End wall, folded back from the outer edge. Seen from above, the top
+          one catches the light when the O half is raised. */}
       <span
-        className="absolute inset-x-0 top-0 h-3/5 bg-linear-to-b from-white/22 to-transparent transition-opacity duration-300"
-        style={{ opacity: raised ? 1 : 0 }}
-      />
-      {/* Shade: the pushed-in half turns away from the light. */}
-      <span
-        className="absolute inset-0 bg-black transition-opacity duration-300"
-        style={{ opacity: raised ? 0 : 0.26 }}
-      />
-      {/* Inner lamp: a warm bloom through the translucent rocker. */}
-      <span
-        className="absolute inset-0 transition-opacity duration-500"
+        className={cn(
+          "absolute inset-x-0 [backface-visibility:hidden]",
+          top ? "top-0 origin-top rounded-t-[0.2em]" : "bottom-0 origin-bottom rounded-b-[0.2em]"
+        )}
         style={{
-          opacity: lit ? 1 : 0,
-          background:
-            "radial-gradient(ellipse 75% 70% at 50% 50%, rgb(255 235 215 / 0.36), rgb(255 190 160 / 0.1) 60%, transparent 90%)",
+          height: `calc(${em(ROCKER_DEPTH)} + ${em(OVERLAP)})`,
+          translate: `0 ${top ? em(-OVERLAP) : em(OVERLAP)}`,
+          transform: `rotateX(${top ? -90 : 90}deg)`,
+          background: top
+            ? `linear-gradient(to bottom, ${mix(72, "white")}, ${mix(80, "black")})`
+            : mix(45, "black"),
         }}
       />
-      {top ? (
+      <span
+        className={cn(
+          "absolute inset-0 overflow-hidden",
+          top ? "rounded-t-[0.24em]" : "rounded-b-[0.24em]"
+        )}
+        style={{
+          background: top
+            ? `linear-gradient(to bottom, ${mix(78, "white")}, var(--rocker) 40%, ${mix(90, "black")})`
+            : `linear-gradient(to bottom, ${mix(86, "black")}, var(--rocker) 50%, ${mix(84, "black")})`,
+          boxShadow: top
+            ? `inset 0 0.04em 0 ${mix(45, "white")}`
+            : `inset 0 -0.04em 0 ${mix(55, "black")}`,
+        }}
+      >
+        {/* Sheen along the raised half, as if lit from above. */}
         <span
-          className="absolute top-[40%] left-1/2 size-[0.6em] -translate-x-1/2 -translate-y-1/2 rounded-full border-[0.095em]"
-          style={{ borderColor: markColor }}
+          className="absolute inset-x-0 top-0 h-3/5 bg-linear-to-b from-white/22 to-transparent transition-opacity duration-300"
+          style={{ opacity: raised ? 1 : 0 }}
         />
-      ) : (
+        {/* Shade: the pushed-in half turns away from the light. */}
         <span
-          className="absolute top-[58%] left-1/2 h-[0.6em] w-[0.095em] -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{ background: markColor }}
+          className="absolute inset-0 bg-black transition-opacity duration-300"
+          style={{ opacity: raised ? 0 : 0.26 }}
         />
-      )}
+        {/* Inner lamp: a warm bloom through the translucent rocker. */}
+        <span
+          className="absolute inset-0 transition-opacity duration-500"
+          style={{
+            opacity: lit ? 1 : 0,
+            background:
+              "radial-gradient(ellipse 75% 70% at 50% 50%, rgb(255 235 215 / 0.36), rgb(255 190 160 / 0.1) 60%, transparent 90%)",
+          }}
+        />
+        {top ? (
+          <span
+            className="absolute top-[42%] left-1/2 size-[0.6em] -translate-x-1/2 -translate-y-1/2 rounded-full border-[0.095em]"
+            style={{ borderColor: markColor }}
+          />
+        ) : (
+          <span
+            className="absolute top-[56%] left-1/2 h-[0.6em] w-[0.095em] -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{ background: markColor }}
+          />
+        )}
+      </span>
     </span>
   )
 }
