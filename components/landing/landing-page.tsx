@@ -3,6 +3,8 @@
 import { ArrowRight, GithubLogo, Moon, Sun } from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+import { EvilShader } from "@/components/landing/evil-shader";
 import { ShowcaseCarousel } from "@/components/landing/showcase-carousel";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { siteConfig } from "@/lib/seo";
@@ -67,9 +69,28 @@ function Navbar() {
   );
 }
 
+function ShaderBackdrop() {
+  const theme = useAppTheme();
+  const [failed, setFailed] = useState(false);
+
+  if (failed) return null;
+
+  // Falls back to the CSS .landing-bg underneath when WebGPU is unavailable.
+  return (
+    <EvilShader
+      theme={theme}
+      onError={() => setFailed(true)}
+      className="pointer-events-none absolute inset-0"
+    />
+  );
+}
+
 export function LandingPage({ categories }: LandingPageProps) {
   return (
-    <div className="flex h-dvh flex-col overflow-hidden landing-bg text-foreground">
+    <div className="relative isolate flex h-dvh flex-col overflow-hidden landing-bg text-foreground">
+      <div className="absolute inset-0 -z-10">
+        <ShaderBackdrop />
+      </div>
       <Navbar />
 
       <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(1.5rem,5dvh,4rem)] text-center">

@@ -108,6 +108,9 @@ importers:
       '@typescript/native':
         specifier: npm:typescript@^7.0.2
         version: typescript@7.0.2
+      '@webgpu/types':
+        specifier: ^0.1.74
+        version: 0.1.74
       eslint:
         specifier: ^10.11.0
         version: 10.11.0(jiti@2.7.0)
@@ -2059,6 +2062,9 @@ packages:
         optional: true
       vue-router:
         optional: true
+
+  '@webgpu/types@0.1.74':
+    resolution: {integrity: sha512-lgiI4hbuLcI9unnm2cL/tvCaQU45dp0xcLWJh5uB/9MBGvIA4F8XIk7nSiBeg+K4xWGYwgZKn80LmERI5CxoTA==}
 
   '@yuku-analyzer/binding-android-arm64@0.10.2':
     resolution: {integrity: sha512-xt4Vy3RTBw1NfszBlf4A0Rr6ZjA/th2Pj9XlWFLQHW9A1qOCtxNCoIWSzn/INtnZLMB4jO2gWdEtSaHUtK73wA==}
@@ -6658,6 +6664,8 @@ snapshots:
     optionalDependencies:
       next: 16.3.6(@babel/core@7.29.7)(@types/node@26.6.2)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       react: 19.3.0
+
+  '@webgpu/types@0.1.74': {}
 
   '@yuku-analyzer/binding-android-arm64@0.10.2':
     optional: true
