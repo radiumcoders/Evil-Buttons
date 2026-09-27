@@ -77,7 +77,7 @@
     "exportName": "ChromeButton",
     "docSlug": "chrome-button",
     "title": "ChromeButton",
-    "description": "A liquid-metal pill with a machined bezel whose WebGL chrome bulges under the pointer and ripples on press.",
+    "description": "A pill with liquid chrome sweeping across its face, white over black or dark over white, that ripples around the pointer and on press.",
     "file": "components/evil-buttons/chrome-button.tsx",
     "dependencies": ["clsx", "tailwind-merge"]
   },

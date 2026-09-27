@@ -36,7 +36,7 @@ export function ChromeButtonPreview() {
     "ChromeButton",
     {
       label: "Chromy",
-      tone: { type: "select", options: ["silver", "black"], default: "silver" },
+      tone: { type: "select", options: ["dark", "light"], default: "dark" },
       speed: [1, 0.2, 3],
       interactive: true,
     },

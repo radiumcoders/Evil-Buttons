@@ -3,17 +3,17 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export type ChromeTone = "silver" | "black";
+export type ChromeTone = "dark" | "light";
 
 export interface ChromeButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Label used when no children are provided. */
   label?: React.ReactNode;
-  /** Polished silver with an engraved label, or black chrome with a light one. */
+  /** White chrome sweeping over black, or dark chrome sweeping over white. */
   tone?: ChromeTone;
-  /** Flow speed multiplier for the liquid surface. */
+  /** Flow speed multiplier for the chrome bands. */
   speed?: number;
-  /** Bulge the metal under the pointer and ripple it on press. */
+  /** Ripple the chrome around the pointer and on press. */
   interactive?: boolean;
 }
 
@@ -24,9 +24,9 @@ void main() {
 }
 `;
 
-// A flowing height field, lit as a mirror reflecting a studio environment:
-// bright sky, a hot softbox stripe, a dark floor. Normals come from finite
-// differences, so the only cost is five height samples per pixel.
+// Liquid chrome: space is warped by stacked cosines, then the chrome is the
+// thin bright seam where sin() crosses zero, sweeping diagonally over time.
+// Four samples per pixel keep those razor-thin bands from aliasing.
 const FRAGMENT = `
 precision highp float;
 uniform vec2 uRes;
@@ -36,64 +36,38 @@ uniform float uHover;
 uniform vec3 uPress;
 uniform float uTone;
 
-vec2 toSpace(vec2 px) {
-  return (px - 0.5 * uRes) / uRes.y * 2.0;
-}
-
-float height(vec2 p) {
-  vec2 q = p * vec2(0.9, 1.1);
-  for (float i = 1.0; i < 6.0; i++) {
-    q.x += 0.32 / i * cos(i * 2.1 * q.y + uTime * 0.9 + i);
-    q.y += 0.32 / i * cos(i * 1.7 * q.x - uTime * 0.7 + i * 1.3);
+float chrome(vec2 px) {
+  vec2 uv = (2.0 * px - uRes) / min(uRes.x, uRes.y);
+  for (float i = 1.0; i < 10.0; i++) {
+    uv.x += 0.1 / i * cos(i * 3.0 * uv.y + uTime);
+    uv.y += 0.1 / i * cos(i * 2.0 * uv.x + uTime);
   }
-  float h = 0.5 + 0.5 * sin(q.x * 1.4 + q.y * 1.1);
 
-  vec2 d = p - toSpace(uPointer);
-  h += uHover * 0.45 * exp(-dot(d, d) * 5.0);
+  // Pointer: a soft ripple rings out around the cursor while hovering.
+  vec2 d = (px - uPointer) / uRes.y;
+  float dist = length(d) + 0.0001;
+  uv += d / dist * sin(10.0 * dist * 2.0 - uTime * 3.0) * 0.05 * exp(-dist * 6.0) * uHover;
 
+  // Press: one ring travels out from the click and fades.
   float age = uTime - uPress.z;
-  if (age > 0.0 && age < 1.6) {
-    float r = length(p - toSpace(uPress.xy));
-    float front = r - age * 2.2;
-    h += sin(r * 16.0 - age * 22.0) * exp(-front * front * 6.0) * exp(-age * 2.4) * 0.35;
+  if (age > 0.0 && age < 2.0) {
+    vec2 pd = (px - uPress.xy) / uRes.y;
+    float r = length(pd) + 0.0001;
+    float front = r - age * 1.2;
+    uv += pd / r * sin(r * 30.0 - age * 20.0) * exp(-front * front * 30.0) * exp(-age * 2.5) * 0.12;
   }
-  return h;
-}
 
-vec3 environment(vec3 r) {
-  float y = r.y + 0.12 * sin(r.x * 3.0);
-  vec3 floorCol = mix(vec3(0.16, 0.17, 0.19), vec3(0.42, 0.43, 0.46), smoothstep(-0.9, 0.0, y));
-  vec3 skyCol = mix(vec3(0.72, 0.74, 0.78), vec3(0.97, 0.98, 1.0), smoothstep(0.1, 0.8, y));
-  vec3 col = mix(floorCol, skyCol, smoothstep(-0.04, 0.04, y));
-  col += smoothstep(0.07, 0.0, abs(y - 0.3)) * 0.9;
-  col += smoothstep(0.05, 0.0, abs(y + 0.35)) * 0.25;
-  return col;
+  return min(0.04 / abs(sin(uTime - uv.y - uv.x)), 1.0);
 }
 
 void main() {
-  vec2 p = toSpace(gl_FragCoord.xy);
-  float e = 2.0 / uRes.y;
-  float h = height(p);
-  float hx = height(p + vec2(e, 0.0)) - height(p - vec2(e, 0.0));
-  float hy = height(p + vec2(0.0, e)) - height(p - vec2(0.0, e));
-  vec3 n = normalize(vec3(-hx / (2.0 * e) * 0.22, -hy / (2.0 * e) * 0.22, 1.0));
-
-  vec3 r = reflect(vec3(0.0, 0.0, -1.0), n);
-  vec3 col = environment(r);
-
-  // A faint oil-slick tint keeps it from reading as flat grey.
-  col *= 1.0 + 0.05 * vec3(sin(r.x * 5.0 + h), sin(r.x * 5.0 + h + 2.1), sin(r.x * 5.0 + h + 4.2));
-  col += pow(1.0 - n.z, 3.0) * 0.6;
-
-  if (uTone > 0.5) {
-    float spec = smoothstep(0.85, 1.25, dot(col, vec3(0.3333)));
-    col = pow(col, vec3(2.2)) * 0.32 + spec * 0.85;
-  }
-
-  // Darken toward the top and bottom edges so the face reads as curved.
-  float v = gl_FragCoord.y / uRes.y;
-  col *= 0.82 + 0.18 * sin(v * 3.14159);
-
+  float c = 0.0;
+  c += chrome(gl_FragCoord.xy + vec2(-0.25, -0.25));
+  c += chrome(gl_FragCoord.xy + vec2(0.25, -0.25));
+  c += chrome(gl_FragCoord.xy + vec2(-0.25, 0.25));
+  c += chrome(gl_FragCoord.xy + vec2(0.25, 0.25));
+  c *= 0.25;
+  vec3 col = uTone > 0.5 ? vec3(1.0 - c * 0.92) : vec3(c);
   gl_FragColor = vec4(col, 1.0);
 }
 `;
@@ -157,22 +131,17 @@ function createChromeGL(canvas: HTMLCanvasElement): ChromeGL | null {
   };
 }
 
-const TONES: Record<
-  ChromeTone,
-  { fallback: string; label: string }
-> = {
-  silver: {
-    // Shown before WebGL paints, and forever if it can't.
-    fallback:
-      "bg-[linear-gradient(180deg,#f5f6f8_0%,#c9ccd1_38%,#8d9197_50%,#d9dce0_62%,#fafbfc_100%)]",
-    label:
-      "text-neutral-900/85 [text-shadow:0_1px_0_rgb(255_255_255/0.65),0_0_10px_rgb(255_255_255/0.5)]",
+const TONES: Record<ChromeTone, { face: string; bezel: string }> = {
+  dark: {
+    // Face color shows until WebGL paints, and forever if it can't.
+    face: "bg-neutral-950",
+    bezel:
+      "bg-[linear-gradient(180deg,#5a5a5a_0%,#1a1a1a_45%,#050505_55%,#3a3a3a_100%)]",
   },
-  black: {
-    fallback:
-      "bg-[linear-gradient(180deg,#3a3b3e_0%,#141416_40%,#050505_52%,#1c1d20_70%,#4a4b4f_100%)]",
-    label:
-      "text-white/90 [text-shadow:0_-1px_0_rgb(0_0_0/0.6),0_0_12px_rgb(0_0_0/0.55)]",
+  light: {
+    face: "bg-neutral-50",
+    bezel:
+      "bg-[linear-gradient(180deg,#ffffff_0%,#d4d4d4_45%,#a3a3a3_55%,#f5f5f5_100%)]",
   },
 };
 
@@ -184,7 +153,7 @@ export const ChromeButton = React.forwardRef<
     {
       children,
       label = "Chromy",
-      tone = "silver",
+      tone = "dark",
       speed = 1,
       interactive = true,
       className,
@@ -241,7 +210,7 @@ export const ChromeButton = React.forwardRef<
         gl.uniform2f(uniforms.uPointer, state.pointer[0], state.pointer[1]);
         gl.uniform1f(uniforms.uHover, state.interactive ? hover : 0);
         gl.uniform3f(uniforms.uPress, ...state.press);
-        gl.uniform1f(uniforms.uTone, state.tone === "black" ? 1 : 0);
+        gl.uniform1f(uniforms.uTone, state.tone === "light" ? 1 : 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
         if (first) {
           first = false;
@@ -253,7 +222,7 @@ export const ChromeButton = React.forwardRef<
         const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
         last = now;
         hover += (state.hoverTarget - hover) * Math.min(1, dt * 8);
-        state.time += dt * state.speed * (1 + hover * 1.4);
+        state.time += dt * 2 * state.speed * (1 + hover * 0.5);
         draw();
         raf = requestAnimationFrame(frame);
       };
@@ -360,9 +329,7 @@ export const ChromeButton = React.forwardRef<
         className={cn(
           "group/chrome relative inline-flex cursor-pointer rounded-full p-[1.5px] outline-none select-none",
           // Machined bezel: a hard-lit metal ring around the liquid face.
-          tone === "silver"
-            ? "bg-[linear-gradient(180deg,#ffffff_0%,#9ea2a8_45%,#5c6066_55%,#e6e8eb_100%)]"
-            : "bg-[linear-gradient(180deg,#8a8d93_0%,#2a2b2e_45%,#0a0a0b_55%,#5a5c61_100%)]",
+          tones.bezel,
           "shadow-[0_1px_1px_rgb(0_0_0/0.25),0_6px_18px_-6px_rgb(0_0_0/0.5),0_14px_28px_-14px_rgb(0_0_0/0.4)]",
           "transition-[scale,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)]",
           "hover:shadow-[0_1px_1px_rgb(0_0_0/0.25),0_10px_24px_-8px_rgb(0_0_0/0.55),0_18px_36px_-16px_rgb(0_0_0/0.45)]",
@@ -377,7 +344,7 @@ export const ChromeButton = React.forwardRef<
           ref={faceRef}
           className={cn(
             "relative isolate flex h-11 min-w-36 items-center justify-center overflow-hidden rounded-full px-7",
-            tones.fallback,
+            tones.face,
           )}
         >
           <canvas
@@ -391,12 +358,12 @@ export const ChromeButton = React.forwardRef<
           {/* Glass lip: a top highlight and a soft inner shadow sell the curvature. */}
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_1px_0_rgb(255_255_255/0.75),inset_0_-2px_4px_rgb(0_0_0/0.25),inset_0_0_0_1px_rgb(0_0_0/0.18)]"
+            className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_1px_0_rgb(255_255_255/0.28),inset_0_-2px_4px_rgb(0_0_0/0.3),inset_0_0_0_1px_rgb(0_0_0/0.2)]"
           />
           <span
             className={cn(
-              "relative text-sm font-semibold tracking-tight transition-transform duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)] group-active/chrome:translate-y-px",
-              tones.label,
+              // White + difference inverts the label over every chrome band, on either tone.
+              "relative text-sm font-semibold tracking-tight text-white mix-blend-difference transition-transform duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)] group-active/chrome:translate-y-px",
             )}
           >
             {children ?? label}
