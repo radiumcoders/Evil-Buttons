@@ -85,7 +85,7 @@ function ShaderBackdrop() {
         console.warn("Landing shader disabled:", error.message);
         setFailed(true);
       }}
-      className="pointer-events-none absolute inset-0"
+      className="pointer-events-none absolute inset-0 rounded-[inherit]"
     />
   );
 }
@@ -131,7 +131,7 @@ export function LandingPage({ categories, children }: LandingPageProps) {
     <div className="h-full overflow-y-auto bg-background text-foreground">
       {/* First screen: an inset, rounded frame that also clips the carousel. */}
       <div className="relative isolate m-2 flex h-[calc(100dvh-1rem)] flex-col overflow-hidden rounded-2xl border border-border sm:m-3 sm:h-[calc(100dvh-1.5rem)] sm:rounded-3xl">
-        <div className="absolute inset-0 -z-10 landing-bg">
+        <div className="absolute inset-0 -z-10 overflow-hidden rounded-[inherit] landing-bg">
           <ShaderBackdrop />
           <TopScrim />
         </div>

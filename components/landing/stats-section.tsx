@@ -34,7 +34,7 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
   }
 
   return (
-    <section className="border-t border-border bg-background px-4 py-20 sm:px-6 sm:py-28">
+    <section className="bg-background px-4 py-20 sm:px-6 sm:py-28">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div>
