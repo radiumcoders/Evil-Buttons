@@ -220,7 +220,7 @@
     "exportName": "RealisticSwitch",
     "docSlug": "realistic-switch",
     "title": "RealisticSwitch",
-    "description": "A lifelike illuminated rocker switch in CSS 3D, shown at a three-quarter angle that leans toward the pointer, in a housing that follows the theme and a rocker that glows when it is on.",
+    "description": "A latching push switch: a raised box that sinks into its socket when pressed, stays down and glows while on, and springs back up on the next press.",
     "file": "components/evil-buttons/realistic-switch.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },

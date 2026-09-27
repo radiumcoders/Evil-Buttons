@@ -1,14 +1,14 @@
 ---
 title: RealisticSwitch
-description: A lifelike illuminated rocker switch in CSS 3D, shown at a three-quarter angle that leans toward the pointer, with a rocker that glows when it is on.
+description: A latching push switch: a raised box that sinks into its socket when pressed, stays down and glows while on, and springs back up on the next press.
 category: Utility
 ---
 
-RealisticSwitch is a rocker switch built in CSS 3D. A rounded housing with real depth sits at a three-quarter angle on a soft floor shadow and leans gently toward your pointer. The housing is ceramic white in light mode and graphite in dark mode. Press it and it rocks to center, then snaps over. The pushed-in half sinks into shadow, the other half tilts up into the light, and when it is on the rocker lights up from inside and tints the surface around it. It is a native `role="switch"` button, so clicks, Enter, and Space all work.
+RealisticSwitch is a latching push switch. A solid, raised box stands in a recessed socket and casts its shadow into the well. Hover it and it dips a little. Press it and it sinks all the way down, then latches partway down while it is on, lighting up from inside and pooling light in the socket around it. Press again and it springs back up with a small bounce. The socket is ceramic white in light mode and graphite in dark mode. It is a native `role="switch"` button, so clicks, Enter, and Space all work.
 
 ## Preview
 
-<PreviewCard live title="RealisticSwitch" note="Click to flip">
+<PreviewCard live title="RealisticSwitch" note="Press it">
   <RealisticSwitch size="lg" sound />
 </PreviewCard>
 
@@ -16,7 +16,7 @@ RealisticSwitch is a rocker switch built in CSS 3D. A rounded housing with real 
 
 ### Colors
 
-Pass any CSS color. The walls, shading, and glow are all mixed from it. Use `markColor` to keep the O and I marks readable on light rockers.
+Pass any CSS color. The walls, shading, and glow are all mixed from it. Use `markColor` to keep the power mark readable on light caps.
 
 <PreviewCard title="Colors" note="Red, blue, white">
   <div className="flex items-center gap-6">
@@ -70,12 +70,12 @@ Controlled usage:
 | ---- | ---- | ------- | ----------- |
 | `checked` | `boolean` | - | Controlled on state. |
 | `defaultChecked` | `boolean` | `false` | Initial state when uncontrolled. |
-| `onCheckedChange` | `(checked: boolean) => void` | - | Called when the switch flips. |
-| `color` | `string` | `"#e1261c"` | Rocker color. Any CSS color. |
-| `markColor` | `string` | white | Color of the printed O and I marks. |
-| `tone` | `"auto" \| "light" \| "dark"` | `"auto"` | Housing finish: follow the theme, or force ceramic white or graphite. |
-| `illuminated` | `boolean` | `true` | Light the rocker from inside while it is on. |
-| `sound` | `boolean` | `false` | Play a short mechanical click when it flips. |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Called when the switch latches or releases. |
+| `color` | `string` | `"#e1261c"` | Cap color. Any CSS color. |
+| `markColor` | `string` | white | Color of the power mark on the cap. |
+| `tone` | `"auto" \| "light" \| "dark"` | `"auto"` | Socket finish: follow the theme, or force ceramic white or graphite. |
+| `illuminated` | `boolean` | `true` | Light the cap from inside while it is latched on. |
+| `sound` | `boolean` | `false` | Play a short mechanical click when it latches or releases. |
 | `size` | `"sm" \| "default" \| "lg"` | `"default"` | Scales the whole switch. |
 | `disabled` | `boolean` | `false` | Disables the switch. |
 | `aria-label` | `string` | `"Power"` | Accessible name for the switch. |
@@ -83,10 +83,10 @@ Controlled usage:
 
 ## Notes
 
-- On means the I half is pushed in, so the O half rises toward you, just like a real rocker.
+- The cap is a box standing on its own walls, and only its height changes, so it sinks and rises as one solid piece with its shadow following it.
 - The click sound is synthesized with the Web Audio API, so there are no audio files to ship. It stays silent where audio is unavailable.
 - Everything is sized in `em`, so `size` just sets the font size the whole switch scales from.
-- The snap and the pointer lean are skipped when the user prefers reduced motion, and the lean only follows a mouse, not touch.
+- The spring is skipped when the user prefers reduced motion, and the hover dip only follows a mouse, not touch.
 
 ## Registry
 
