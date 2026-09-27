@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
 /** One texture pixel, in CSS pixels. Everything snaps to this grid. */
@@ -228,6 +229,82 @@ function spawnChips(
   }
 }
 
+/* ---------- Pickaxe cursor ---------- */
+
+type Pixel = [x: number, y: number];
+
+/** Upper half of the diamond head; the lower half mirrors it across the handle. */
+const HEAD_EDGE: Pixel[] = [[13, 3], [12, 2], [11, 2], [10, 1], [9, 1], [8, 1], [7, 1], [6, 1], [5, 2], [4, 2], [3, 3]];
+const HEAD_BODY: Pixel[] = [[12, 3], [11, 3], [10, 2], [9, 2], [8, 2], [7, 2], [6, 2], [5, 3], [4, 3], [4, 4]];
+
+const mirror = (pixels: Pixel[]) => [
+  ...pixels,
+  ...pixels.map(([x, y]) => [y, x] as Pixel),
+];
+
+const PICKAXE_LAYERS: { fill: string; pixels: Pixel[] }[] = [
+  { fill: "#4aedd9", pixels: mirror(HEAD_EDGE) },
+  { fill: "#2aa594", pixels: mirror(HEAD_BODY) },
+  {
+    fill: "#8b5a2b",
+    pixels: Array.from({ length: 9 }, (_, i) => [5 + i, 5 + i] as Pixel),
+  },
+  {
+    fill: "#4f3219",
+    pixels: Array.from({ length: 8 }, (_, i) => [6 + i, 5 + i] as Pixel),
+  },
+];
+
+/** A one-texel dark rim around the sprite so it reads on any background. */
+const PICKAXE_OUTLINE: Pixel[] = (() => {
+  const filled = new Set(
+    PICKAXE_LAYERS.flatMap((l) => l.pixels.map(([x, y]) => `${x},${y}`)),
+  );
+  const rim = new Set<string>();
+  for (const key of filled) {
+    const [x, y] = key.split(",").map(Number) as Pixel;
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const n = `${x + dx!},${y + dy!}`;
+      if (!filled.has(n)) rim.add(n);
+    }
+  }
+  return [...rim].map((k) => k.split(",").map(Number) as Pixel);
+})();
+
+/** The pointer sits on the head's tip (texel 3,3); swings pivot on the grip. */
+const PICKAXE_HOTSPOT = 3.5 * PX;
+const PICKAXE_GRIP = 13.5 * PX;
+const WIND_UP = "rotate(24deg)";
+
+function PickaxeSprite() {
+  return (
+    <svg
+      aria-hidden
+      width={16 * PX}
+      height={16 * PX}
+      viewBox="0 0 16 16"
+      shapeRendering="crispEdges"
+      className="block drop-shadow-[2px_2px_0_rgb(0_0_0/0.25)]"
+    >
+      {PICKAXE_OUTLINE.map(([x, y]) => (
+        <rect key={`o${x}-${y}`} x={x} y={y} width={1} height={1} fill="#111" />
+      ))}
+      {PICKAXE_LAYERS.map((layer) =>
+        layer.pixels.map(([x, y]) => (
+          <rect
+            key={`${layer.fill}${x}-${y}`}
+            x={x}
+            y={y}
+            width={1}
+            height={1}
+            fill={layer.fill}
+          />
+        )),
+      )}
+    </svg>
+  );
+}
+
 /* ---------- Component ---------- */
 
 export interface MinecraftButtonProps
@@ -240,6 +317,8 @@ export interface MinecraftButtonProps
   stages?: number;
   /** Play synthesized dig, crack, break, and pickup sounds. */
   sound?: boolean;
+  /** Swap the mouse cursor for a pickaxe that swings on each tap. */
+  pickaxe?: boolean;
   /** Auto-respawn this many ms after breaking. Omit to wait for the drop to be picked up. */
   respawnAfter?: number;
   /** Fired when the crack deepens to a new stage (1-based). */
@@ -261,6 +340,7 @@ export const MinecraftButton = React.forwardRef<
       tapsPerStage = 5,
       stages = 4,
       sound = true,
+      pickaxe = true,
       respawnAfter,
       onCrack,
       onBreak,
@@ -282,6 +362,41 @@ export const MinecraftButton = React.forwardRef<
     const [broken, setBroken] = React.useState(false);
     const [grid, setGrid] = React.useState({ cols: 0, rows: 0 });
     const [seed, setSeed] = React.useState(7);
+    const [aiming, setAiming] = React.useState(false);
+    const pointerRef = React.useRef({ x: 0, y: 0 });
+    const cursorRef = React.useRef<HTMLDivElement | null>(null);
+    const swingRef = React.useRef<HTMLDivElement | null>(null);
+    const swingAnim = React.useRef<Animation | undefined>(undefined);
+
+    const placeCursor = React.useCallback((node: HTMLDivElement | null) => {
+      cursorRef.current = node;
+      if (!node) return;
+      const { x, y } = pointerRef.current;
+      node.style.transform = `translate(${x - PICKAXE_HOTSPOT}px, ${y - PICKAXE_HOTSPOT}px)`;
+    }, []);
+
+    const swing = (keyframes: Keyframe[], duration: number) => {
+      const node = swingRef.current;
+      if (!node || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      swingAnim.current?.cancel();
+      swingAnim.current = node.animate(keyframes, {
+        duration,
+        easing: "cubic-bezier(0.3, 0, 0.2, 1)",
+        fill: "forwards",
+      });
+    };
+
+    const trackPointer = (event: React.PointerEvent) => {
+      const overButton =
+        pickaxe &&
+        !broken &&
+        !disabled &&
+        event.pointerType !== "touch" &&
+        !!buttonRef.current?.contains(event.target as Node);
+      pointerRef.current = { x: event.clientX, y: event.clientY };
+      if (cursorRef.current) placeCursor(cursorRef.current);
+      if (overButton !== aiming) setAiming(overButton);
+    };
 
     const perStage = Math.max(1, Math.floor(tapsPerStage));
     const stageCount = Math.max(1, Math.floor(stages));
@@ -402,6 +517,18 @@ export const MinecraftButton = React.forwardRef<
       onClick?.(event);
       if (disabled || broken || event.defaultPrevented) return;
 
+      // Strike from wherever the pointer-down wind-up left the pickaxe.
+      if (aiming) {
+        swing(
+          [
+            { transform: WIND_UP },
+            { transform: "rotate(-28deg)", offset: 0.35 },
+            { transform: "rotate(0deg)" },
+          ],
+          240,
+        );
+      }
+
       const button = buttonRef.current;
       const layer = layerRef.current;
       const next = taps + 1;
@@ -464,7 +591,16 @@ export const MinecraftButton = React.forwardRef<
     const content = children ?? label;
 
     return (
-      <span className="relative inline-flex align-middle">
+      <span
+        className="relative inline-flex align-middle"
+        onPointerEnter={trackPointer}
+        onPointerMove={trackPointer}
+        onPointerLeave={() => setAiming(false)}
+        onPointerDown={(event) => {
+          trackPointer(event);
+          if (aiming) swing([{ transform: WIND_UP }], 90);
+        }}
+      >
         <button
           ref={setButtonRef}
           type={type}
@@ -473,7 +609,12 @@ export const MinecraftButton = React.forwardRef<
           tabIndex={broken ? -1 : undefined}
           data-stage={level || undefined}
           onClick={handleClick}
-          style={{ ...stoneStyle, ...pixelFont, ...style }}
+          style={{
+            ...stoneStyle,
+            ...pixelFont,
+            ...(aiming ? { cursor: "none" } : null),
+            ...style,
+          }}
           className={cn(
             "group/mc relative inline-flex h-12 min-w-56 cursor-pointer items-center justify-center rounded-none px-6 outline-none select-none",
             "text-lg leading-none tracking-wide text-[#e0e0e0] [text-shadow:3px_3px_0_#3f3f3f]",
@@ -514,6 +655,25 @@ export const MinecraftButton = React.forwardRef<
           aria-hidden
           className="pointer-events-none absolute inset-0 z-10 overflow-visible"
         />
+
+        {/* aiming only turns on from a pointer event, so this never renders on the server. */}
+        {aiming
+          ? createPortal(
+              <div
+                ref={placeCursor}
+                aria-hidden
+                className="pointer-events-none fixed top-0 left-0 z-[90]"
+              >
+                <div
+                  ref={swingRef}
+                  style={{ transformOrigin: `${PICKAXE_GRIP}px ${PICKAXE_GRIP}px` }}
+                >
+                  <PickaxeSprite />
+                </div>
+              </div>,
+              document.body,
+            )
+          : null}
 
         {broken ? (
           <button

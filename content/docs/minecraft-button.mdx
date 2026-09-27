@@ -4,7 +4,7 @@ description: A pixel stone menu button that cracks every few taps, shatters into
 category: Effects
 ---
 
-MinecraftButton looks like a Java Edition menu button carved out of stone: a blocky black outline, a light and dark bevel, and a pixel label with a hard drop shadow. Every tap chips off a few stone pixels. Every fifth tap the crack spreads further, and on the twentieth the button shatters and drops itself as a small spinning block. Click the drop to pick it up and put the button back.
+MinecraftButton looks like a Java Edition menu button carved out of stone: a blocky black outline, a light and dark bevel, and a pixel label with a hard drop shadow. Hover it and your cursor becomes a diamond pickaxe; press to wind up, release to strike. Every hit chips off a few stone pixels. Every fifth tap the crack spreads further, and on the twentieth the button shatters and drops itself as a small spinning block. Click the drop to pick it up and put the button back.
 
 ## Preview
 
@@ -58,6 +58,7 @@ The component spreads native `button` props. `onClick` fires on every tap before
 | `tapsPerStage` | `number` | `5` | Taps needed to advance one crack stage. |
 | `stages` | `number` | `4` | Stages until it breaks. The button breaks after `tapsPerStage * stages` taps. |
 | `sound` | `boolean` | `true` | Play synthesized dig, crack, break, and pickup sounds (Web Audio, no files). |
+| `pickaxe` | `boolean` | `true` | Swap the mouse cursor for a pixel pickaxe that winds up on press and strikes on release. |
 | `respawnAfter` | `number` | - | Respawn automatically after this many ms. Omit to wait for the drop to be picked up. |
 | `onCrack` | `(stage: number) => void` | - | Fired when the crack deepens to a new stage. |
 | `onBreak` | `() => void` | - | Fired when the button breaks. |
@@ -68,8 +69,9 @@ The component spreads native `button` props. `onClick` fires on every tap before
 
 - Everything snaps to a 3px texel grid: the seeded stone texture, the bevels, the crack pixels, and the flying chips.
 - Cracks are generated to fit the button's size and grow along branches, so each stage extends the previous one instead of swapping in a new pattern. A respawned button cracks along a new pattern.
+- The pickaxe is a portal-rendered sprite that follows the pointer, only for mouse and pen, never touch. The native cursor comes back over the dropped item and after the button breaks.
 - On break, focus moves to the dropped item; picking it up returns focus to the button.
-- Chips, shakes, and the item bob are skipped when the user prefers reduced motion. Cracks still show.
+- Chips, shakes, pickaxe swings, and the item bob are skipped when the user prefers reduced motion. Cracks still show.
 
 ## Registry
 
