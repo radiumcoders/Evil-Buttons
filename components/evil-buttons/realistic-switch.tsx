@@ -42,7 +42,8 @@ const FONT_SIZE: Record<RealisticSwitchSize, number> = {
 
 // Geometry, in em. The cap is a box standing on its own walls inside a
 // recessed socket; its height above the socket floor is the one thing that
-// moves. The walls stretch to fill it, so the box never comes apart.
+// moves. Cap and walls slide together on the same transform, and the walls are
+// clipped at the floor, so nothing is resized and nothing snaps to a pixel.
 const SOCKET = 4.4
 const CAP = 3.3
 const GAP = (SOCKET - CAP) / 2
@@ -57,8 +58,9 @@ const HEIGHT = {
   latchedHover: 0.3,
 }
 
-// Slightly bouncy, so a released cap overshoots and settles like a spring.
-const SPRING = { stiffness: 700, damping: 26, mass: 0.7 }
+// A touch of bounce, so a released cap settles like a spring without wobbling
+// through the small hover dip.
+const SPRING = { stiffness: 520, damping: 30, mass: 0.6 }
 
 const TONES: Record<RealisticSwitchTone, string> = {
   light:
@@ -139,7 +141,6 @@ function RealisticSwitch({
 
   // The walls fill the space under the cap, and the cast shadow spreads and
   // fades as the cap rises away from the socket floor.
-  const wallHeight = useTransform(height, (h) => em(CAP + h))
   const capLift = useTransform(height, (h) => em(-h))
   const shadowOpacity = useTransform(height, [0, HEIGHT.up], [0.35, 1])
   const shadowScale = useTransform(height, [0, HEIGHT.up], [0.92, 1.06])
@@ -222,23 +223,28 @@ function RealisticSwitch({
             y: shadowDrop,
           }}
         />
-        {/* Walls: a solid block standing on the floor, as tall as the cap is high. */}
-        <motion.span
-          className="absolute overflow-hidden rounded-[0.7em]"
-          style={{
-            left: em(GAP),
-            right: em(GAP),
-            bottom: em(GAP),
-            height: wallHeight,
-            background: `linear-gradient(to bottom, ${mix(62, "black")}, ${mix(40, "black")})`,
-          }}
+        {/* Walls: a block that rides up with the cap, cut off at the floor. */}
+        <span
+          className="absolute overflow-hidden rounded-b-[0.7em]"
+          style={{ left: em(GAP), right: em(GAP), bottom: em(GAP), top: em(-HEIGHT.up) }}
         >
-          {/* Rounded corners turn away from the light at both sides. */}
-          <span className="absolute inset-0 bg-[linear-gradient(to_right,rgb(0_0_0/0.35),transparent_18%,rgb(255_255_255/0.08)_50%,transparent_82%,rgb(0_0_0/0.35))]" />
-        </motion.span>
+          <motion.span
+            className="absolute inset-x-0 overflow-hidden rounded-[0.7em] will-change-transform"
+            style={{
+              // Starts level with the cap's top and reaches the floor even at full lift.
+              top: em(GAP + HEIGHT.up),
+              height: em(CAP + HEIGHT.up),
+              y: capLift,
+              background: `linear-gradient(to bottom, ${mix(62, "black")}, ${mix(40, "black")})`,
+            }}
+          >
+            {/* Rounded corners turn away from the light at both sides. */}
+            <span className="absolute inset-0 bg-[linear-gradient(to_right,rgb(0_0_0/0.35),transparent_18%,rgb(255_255_255/0.08)_50%,transparent_82%,rgb(0_0_0/0.35))]" />
+          </motion.span>
+        </span>
         {/* Cap: the top face, carried up by the walls. */}
         <motion.span
-          className="absolute overflow-hidden rounded-[0.7em]"
+          className="absolute overflow-hidden rounded-[0.7em] will-change-transform"
           style={{
             left: em(GAP),
             top: em(GAP),
