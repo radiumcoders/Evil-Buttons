@@ -1,20 +1,28 @@
 "use client"
 
-import { useRef, useState, type CSSProperties } from "react"
-import { motion, useReducedMotion, type Transition } from "motion/react"
+import { useState, type CSSProperties, type PointerEvent } from "react"
+import {
+  motion,
+  useReducedMotion,
+  useSpring,
+  type Transition,
+} from "motion/react"
 
 import { cn } from "@/lib/utils"
 
 type RealisticSwitchSize = "sm" | "default" | "lg"
+type RealisticSwitchTone = "auto" | "light" | "dark"
 
 type RealisticSwitchProps = {
   checked?: boolean
   defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
-  /** Rocker color. Any CSS color; the walls and shading are mixed from it. */
+  /** Rocker color. Any CSS color; its walls, shading, and glow are mixed from it. */
   color?: string
   /** Color of the printed O and I marks. */
   markColor?: string
+  /** Housing finish: follow the theme, or force ceramic white or graphite. */
+  tone?: RealisticSwitchTone
   /** Light the rocker from inside while it is on. */
   illuminated?: boolean
   /** Play a short mechanical click when it flips. */
@@ -27,23 +35,45 @@ type RealisticSwitchProps = {
 
 // Everything is sized in em, so one font size scales the whole switch.
 const FONT_SIZE: Record<RealisticSwitchSize, number> = {
-  sm: 12,
-  default: 16,
-  lg: 20,
+  sm: 11,
+  default: 15,
+  lg: 19,
 }
 
-// The rocker is a real box: a front face pushed out by half its depth and four
-// walls folded back from it. Tilting the box about its middle raises one half
-// out of the housing and sinks the other.
-const DEPTH = 0.7
-const TILT = 16
-// Each half of the face is dished back from the pivot by this much.
-const DISH = 7
+// Housing, in em. It is extruded by stacking rounded slices behind the front,
+// which keeps its corners round from every angle.
+const WIDTH = 3.4
+const HEIGHT = 4.4
+const BODY = 1
+const RIM = 0.44
+const SLICES = 12
 
-const SNAP: Transition = { type: "spring", stiffness: 700, damping: 26, mass: 0.6 }
+// Rocker, in em and degrees. Its face is two halves dished back from the pivot;
+// tilting it raises one half out of the housing and sinks the other.
+const ROCKER_DEPTH = 0.8
+const ROCKER_SLICES = 7
+const TILT = 13
+const DISH = 5
+
+// Resting three-quarter view, plus how far it leans toward the pointer.
+const VIEW_X = 22
+const VIEW_Y = -24
+const LEAN = 7
+
+const FLIP: Transition = { type: "spring", stiffness: 520, damping: 32, mass: 0.7 }
+const VIEW = { stiffness: 140, damping: 20, mass: 0.8 }
+
+const TONES: Record<RealisticSwitchTone, string> = {
+  light:
+    "[--hi:#ffffff] [--mid:#ececef] [--lo:#d4d4da] [--side-hi:#d9d9df] [--side-lo:#a9a9b2] [--cavity:#232327] [--floor:rgb(24_24_40/0.28)] [--spill:0.12]",
+  dark: "[--hi:#3b3b41] [--mid:#232327] [--lo:#141417] [--side-hi:#1b1b1f] [--side-lo:#070708] [--cavity:#040405] [--floor:rgb(0_0_0/0.7)] [--spill:0.32]",
+  auto: "[--hi:#ffffff] [--mid:#ececef] [--lo:#d4d4da] [--side-hi:#d9d9df] [--side-lo:#a9a9b2] [--cavity:#232327] [--floor:rgb(24_24_40/0.28)] [--spill:0.12] dark:[--hi:#3b3b41] dark:[--mid:#232327] dark:[--lo:#141417] dark:[--side-hi:#1b1b1f] dark:[--side-lo:#070708] dark:[--cavity:#040405] dark:[--floor:rgb(0_0_0/0.7)] dark:[--spill:0.32]",
+}
 
 const mix = (amount: number, toward: "white" | "black") =>
   `color-mix(in oklab, var(--rocker) ${amount}%, ${toward})`
+
+const em = (value: number) => `${value}em`
 
 let audio: AudioContext | null = null
 
@@ -78,7 +108,8 @@ function RealisticSwitch({
   defaultChecked = false,
   onCheckedChange,
   color = "#e1261c",
-  markColor = "rgb(255 255 255 / 0.92)",
+  markColor = "rgb(255 255 255 / 0.94)",
+  tone = "auto",
   illuminated = true,
   sound = false,
   size = "default",
@@ -90,8 +121,9 @@ function RealisticSwitch({
   const isControlled = checkedProp !== undefined
   const checked = isControlled ? checkedProp : internalChecked
   const [pressing, setPressing] = useState(false)
-  const pointerDown = useRef(false)
   const reduceMotion = useReducedMotion()
+  const viewX = useSpring(VIEW_X, VIEW)
+  const viewY = useSpring(VIEW_Y, VIEW)
 
   const toggle = () => {
     const next = !checked
@@ -104,9 +136,19 @@ function RealisticSwitch({
     }
   }
 
-  const release = () => {
-    pointerDown.current = false
+  const lean = (e: PointerEvent<HTMLButtonElement>) => {
+    if (reduceMotion || e.pointerType !== "mouse") return
+    const box = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - box.left) / box.width - 0.5
+    const y = (e.clientY - box.top) / box.height - 0.5
+    viewX.set(VIEW_X - y * LEAN * 2)
+    viewY.set(VIEW_Y + x * LEAN * 2)
+  }
+
+  const settle = () => {
     setPressing(false)
+    viewX.set(VIEW_X)
+    viewY.set(VIEW_Y)
   }
 
   // On: the I (bottom) half is pushed in, so the O half rises toward you.
@@ -123,49 +165,150 @@ function RealisticSwitch({
       disabled={disabled}
       onClick={toggle}
       onPointerDown={(e) => {
-        if (e.button !== 0) return
-        pointerDown.current = true
-        setPressing(true)
+        if (e.button === 0) setPressing(true)
       }}
-      onPointerUp={release}
-      onPointerLeave={release}
-      onPointerCancel={release}
-      style={{ fontSize: FONT_SIZE[size], "--rocker": color } as CSSProperties}
+      onPointerUp={() => setPressing(false)}
+      onPointerMove={lean}
+      onPointerLeave={settle}
+      onPointerCancel={settle}
+      style={
+        {
+          fontSize: FONT_SIZE[size],
+          "--rocker": color,
+          perspective: "22em",
+        } as CSSProperties
+      }
       className={cn(
-        "group relative inline-flex cursor-pointer rounded-[0.5em] outline-none select-none [-webkit-tap-highlight-color:transparent]",
+        "group relative inline-flex cursor-pointer rounded-[1em] p-[0.9em] outline-none select-none [-webkit-tap-highlight-color:transparent]",
         "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         "disabled:cursor-not-allowed disabled:opacity-50",
+        TONES[tone],
         className
       )}
     >
-      {/* Housing: a moulded black bezel with a lit top rim and a drop shadow. */}
-      <span
+      <motion.span
         aria-hidden
-        className="relative flex h-[4.25em] w-[3.25em] rounded-[0.5em] p-[0.28em] shadow-[0_0.1em_0.1em_rgb(0_0_0/0.3),0_0.45em_0.9em_-0.2em_rgb(0_0_0/0.55),inset_0_0.06em_0_rgb(255_255_255/0.22),inset_0_-0.06em_0_rgb(0_0_0/0.6)]"
-        style={{ background: "linear-gradient(to bottom, #2b2b2e, #141416 55%, #0b0b0c)" }}
+        className="relative block"
+        style={{
+          width: em(WIDTH),
+          height: em(HEIGHT),
+          transformStyle: "preserve-3d",
+          rotateX: viewX,
+          rotateY: viewY,
+        }}
       >
-        {/* Cavity the rocker sits in, seen slightly from above. */}
+        <Floor lit={lit} />
+        <Housing />
+        {/* The hole the rocker sits in, flush with the bezel. */}
         <span
-          className="relative flex-1 rounded-[0.3em] bg-[#050505] shadow-[inset_0_0.12em_0.2em_rgb(0_0_0/0.9),0_0.04em_0_rgb(255_255_255/0.08)]"
-          style={{ perspective: "9em", perspectiveOrigin: "50% -40%" }}
+          className="absolute rounded-[0.36em] shadow-[inset_0_0.1em_0.18em_rgb(0_0_0/0.85)]"
+          style={{
+            inset: em(RIM),
+            background: "var(--cavity)",
+            transform: "translateZ(0.01em)",
+          }}
+        />
+        {/* Light spilling out around the rocker's edges. */}
+        <span
+          className="absolute rounded-[0.36em] blur-[0.25em] transition-opacity duration-500"
+          style={{
+            inset: em(RIM + 0.05),
+            background: color,
+            opacity: lit ? 0.7 : 0,
+            transform: "translateZ(0.02em)",
+          }}
+        />
+        <motion.span
+          className="absolute"
+          style={{ inset: em(RIM + 0.1), transformStyle: "preserve-3d" }}
+          initial={false}
+          animate={{ rotateX: angle }}
+          transition={reduceMotion ? { duration: 0 } : FLIP}
         >
-          {/* Light leaking around the rocker when it is lit. */}
-          <span
-            className="absolute inset-[0.05em] rounded-[0.3em] blur-[0.3em] transition-opacity duration-300"
-            style={{ background: color, opacity: lit ? 0.55 : 0 }}
-          />
-          <motion.span
-            className="absolute inset-[0.12em]"
-            style={{ transformStyle: "preserve-3d" }}
-            initial={false}
-            animate={{ rotateX: angle }}
-            transition={reduceMotion ? { duration: 0 } : SNAP}
-          >
-            <RockerBox lit={lit} checked={checked} markColor={markColor} />
-          </motion.span>
-        </span>
-      </span>
+          <Rocker lit={lit} checked={checked} markColor={markColor} />
+        </motion.span>
+      </motion.span>
     </button>
+  )
+}
+
+function Floor({ lit }: { lit: boolean }) {
+  return (
+    <>
+      {/* Contact shadow on the surface behind the switch, cast down and away. */}
+      <span
+        className="absolute inset-[0.2em] rounded-[0.8em] blur-[0.55em]"
+        style={{
+          background: "var(--floor)",
+          transform: `translate3d(0.25em, 0.55em, ${em(-BODY - 0.02)})`,
+        }}
+      />
+      {/* The lit rocker tints the surface around it. */}
+      <span
+        className="absolute -inset-[0.6em] rounded-[1.4em] blur-[0.9em] transition-opacity duration-500"
+        style={{
+          background: "var(--rocker)",
+          opacity: lit ? "var(--spill)" : 0,
+          transform: `translateZ(${em(-BODY - 0.03)})`,
+        }}
+      />
+    </>
+  )
+}
+
+function Housing() {
+  return (
+    <>
+      {Array.from({ length: SLICES }, (_, i) => (
+        <span
+          key={i}
+          className="absolute inset-0 rounded-[0.62em]"
+          style={{
+            background: "linear-gradient(to bottom, var(--side-hi), var(--side-lo))",
+            transform: `translateZ(${em(-(BODY * (i + 1)) / SLICES)})`,
+          }}
+        />
+      ))}
+      {/* Bezel face: soft top light, a crisp lit edge, and a shaded lower lip. */}
+      <span
+        className="absolute inset-0 rounded-[0.62em] shadow-[inset_0_0.05em_0_rgb(255_255_255/0.55),inset_0_-0.06em_0_rgb(0_0_0/0.18),inset_0_0_0_0.03em_rgb(0_0_0/0.06)]"
+        style={{
+          background: "linear-gradient(170deg, var(--hi), var(--mid) 45%, var(--lo))",
+        }}
+      />
+    </>
+  )
+}
+
+type RockerProps = {
+  lit: boolean
+  checked: boolean
+  markColor: string
+}
+
+function Rocker({ lit, checked, markColor }: RockerProps) {
+  const front = ROCKER_DEPTH / 2
+
+  return (
+    <>
+      {Array.from({ length: ROCKER_SLICES }, (_, i) => (
+        <span
+          key={i}
+          className="absolute inset-0 rounded-[0.26em]"
+          style={{
+            background: `linear-gradient(to bottom, ${mix(88, "white")}, ${mix(62, "black")})`,
+            transform: `translateZ(${em(front - (ROCKER_DEPTH * (i + 1)) / ROCKER_SLICES)})`,
+          }}
+        />
+      ))}
+      <span
+        className="absolute inset-0"
+        style={{ transform: `translateZ(${em(front)})`, transformStyle: "preserve-3d" }}
+      >
+        <RockerHalf side="top" raised={checked} lit={lit} markColor={markColor} />
+        <RockerHalf side="bottom" raised={!checked} lit={lit} markColor={markColor} />
+      </span>
+    </>
   )
 }
 
@@ -182,41 +325,46 @@ function RockerHalf({ side, raised, lit, markColor }: RockerHalfProps) {
   return (
     <span
       className={cn(
-        "absolute inset-x-0 h-1/2 overflow-hidden [backface-visibility:hidden]",
-        top ? "top-0 origin-bottom rounded-t-[0.2em]" : "bottom-0 origin-top rounded-b-[0.2em]"
+        "absolute inset-x-0 h-1/2 overflow-hidden",
+        top ? "top-0 origin-bottom rounded-t-[0.26em]" : "bottom-0 origin-top rounded-b-[0.26em]"
       )}
       style={{
         transform: `rotateX(${top ? DISH : -DISH}deg)`,
         background: top
-          ? `linear-gradient(to bottom, ${mix(80, "white")}, var(--rocker) 35%, ${mix(85, "black")})`
-          : `linear-gradient(to bottom, ${mix(75, "black")}, var(--rocker) 45%, ${mix(82, "black")})`,
+          ? `linear-gradient(to bottom, ${mix(78, "white")}, var(--rocker) 40%, ${mix(90, "black")})`
+          : `linear-gradient(to bottom, ${mix(86, "black")}, var(--rocker) 50%, ${mix(84, "black")})`,
         boxShadow: top
-          ? `inset 0 0.05em 0 ${mix(50, "white")}`
-          : `inset 0 -0.05em 0 ${mix(50, "black")}`,
+          ? `inset 0 0.04em 0 ${mix(45, "white")}`
+          : `inset 0 -0.04em 0 ${mix(55, "black")}`,
       }}
     >
+      {/* Sheen along the raised half, as if lit from above. */}
+      <span
+        className="absolute inset-x-0 top-0 h-3/5 bg-linear-to-b from-white/22 to-transparent transition-opacity duration-300"
+        style={{ opacity: raised ? 1 : 0 }}
+      />
       {/* Shade: the pushed-in half turns away from the light. */}
       <span
-        className="absolute inset-0 bg-black transition-opacity duration-200"
-        style={{ opacity: raised ? 0 : 0.28 }}
+        className="absolute inset-0 bg-black transition-opacity duration-300"
+        style={{ opacity: raised ? 0 : 0.26 }}
       />
       {/* Inner lamp: a warm bloom through the translucent rocker. */}
       <span
-        className="absolute inset-0 transition-opacity duration-300"
+        className="absolute inset-0 transition-opacity duration-500"
         style={{
           opacity: lit ? 1 : 0,
           background:
-            "radial-gradient(ellipse 75% 70% at 50% 50%, rgb(255 235 215 / 0.38), rgb(255 190 160 / 0.12) 60%, transparent 90%)",
+            "radial-gradient(ellipse 75% 70% at 50% 50%, rgb(255 235 215 / 0.36), rgb(255 190 160 / 0.1) 60%, transparent 90%)",
         }}
       />
       {top ? (
         <span
-          className="absolute top-[38%] left-1/2 size-[0.62em] -translate-x-1/2 -translate-y-1/2 rounded-full border-[0.1em] drop-shadow-[0_0.03em_0_rgb(0_0_0/0.3)]"
+          className="absolute top-[40%] left-1/2 size-[0.6em] -translate-x-1/2 -translate-y-1/2 rounded-full border-[0.095em]"
           style={{ borderColor: markColor }}
         />
       ) : (
         <span
-          className="absolute top-[58%] left-1/2 h-[0.62em] w-[0.1em] -translate-x-1/2 -translate-y-1/2 rounded-full drop-shadow-[0_0.03em_0_rgb(0_0_0/0.3)]"
+          className="absolute top-[58%] left-1/2 h-[0.6em] w-[0.095em] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{ background: markColor }}
         />
       )}
@@ -224,64 +372,5 @@ function RockerHalf({ side, raised, lit, markColor }: RockerHalfProps) {
   )
 }
 
-type RockerBoxProps = {
-  lit: boolean
-  checked: boolean
-  markColor: string
-}
-
-function RockerBox({ lit, checked, markColor }: RockerBoxProps) {
-  const face = "absolute [backface-visibility:hidden]"
-  const half = `${DEPTH / 2}em`
-
-  return (
-    <>
-      {/* Top and bottom walls: folded back from the front's top and bottom edges. */}
-      <span
-        className={cn(face, "inset-x-0 top-0 origin-top rounded-t-[0.2em]")}
-        style={{
-          height: `${DEPTH}em`,
-          transform: `translateZ(${half}) rotateX(-90deg)`,
-          background: `linear-gradient(to bottom, ${mix(80, "white")}, ${mix(70, "black")})`,
-        }}
-      />
-      <span
-        className={cn(face, "inset-x-0 bottom-0 origin-bottom rounded-b-[0.2em]")}
-        style={{
-          height: `${DEPTH}em`,
-          transform: `translateZ(${half}) rotateX(90deg)`,
-          background: mix(45, "black"),
-        }}
-      />
-      {/* Side walls, in shadow. */}
-      <span
-        className={cn(face, "inset-y-0 left-0 origin-left")}
-        style={{
-          width: `${DEPTH}em`,
-          transform: `translateZ(${half}) rotateY(90deg)`,
-          background: mix(55, "black"),
-        }}
-      />
-      <span
-        className={cn(face, "inset-y-0 right-0 origin-right")}
-        style={{
-          width: `${DEPTH}em`,
-          transform: `translateZ(${half}) rotateY(-90deg)`,
-          background: mix(50, "black"),
-        }}
-      />
-      {/* Front: two halves dished back from the pivot. The raised half faces
-          the light; the pushed-in half falls into shadow. */}
-      <span
-        className="absolute inset-0"
-        style={{ transform: `translateZ(${half})`, transformStyle: "preserve-3d" }}
-      >
-        <RockerHalf side="top" raised={checked} lit={lit} markColor={markColor} />
-        <RockerHalf side="bottom" raised={!checked} lit={lit} markColor={markColor} />
-      </span>
-    </>
-  )
-}
-
 export { RealisticSwitch }
-export type { RealisticSwitchProps, RealisticSwitchSize }
+export type { RealisticSwitchProps, RealisticSwitchSize, RealisticSwitchTone }

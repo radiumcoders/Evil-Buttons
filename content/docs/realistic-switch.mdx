@@ -1,10 +1,10 @@
 ---
 title: RealisticSwitch
-description: A lifelike illuminated rocker switch in CSS 3D, with a pushed-in half, a raised half that catches the light, and a rocker that glows when it is on.
+description: A lifelike illuminated rocker switch in CSS 3D, shown at a three-quarter angle that leans toward the pointer, with a rocker that glows when it is on.
 category: Utility
 ---
 
-RealisticSwitch is a panel-mount rocker switch built in CSS 3D. The rocker is a real box with walls, sitting in a black housing seen slightly from above. Press it and it rocks to center, then snaps over. The pushed-in half sinks into shadow, the other half tilts up into the light, and when it is on the rocker lights up from inside. It is a native `role="switch"` button, so clicks, Enter, and Space all work.
+RealisticSwitch is a rocker switch built in CSS 3D. A rounded housing with real depth sits at a three-quarter angle on a soft floor shadow and leans gently toward your pointer. The housing is ceramic white in light mode and graphite in dark mode. Press it and it rocks to center, then snaps over. The pushed-in half sinks into shadow, the other half tilts up into the light, and when it is on the rocker lights up from inside and tints the surface around it. It is a native `role="switch"` button, so clicks, Enter, and Space all work.
 
 ## Preview
 
@@ -73,6 +73,7 @@ Controlled usage:
 | `onCheckedChange` | `(checked: boolean) => void` | - | Called when the switch flips. |
 | `color` | `string` | `"#e1261c"` | Rocker color. Any CSS color. |
 | `markColor` | `string` | white | Color of the printed O and I marks. |
+| `tone` | `"auto" \| "light" \| "dark"` | `"auto"` | Housing finish: follow the theme, or force ceramic white or graphite. |
 | `illuminated` | `boolean` | `true` | Light the rocker from inside while it is on. |
 | `sound` | `boolean` | `false` | Play a short mechanical click when it flips. |
 | `size` | `"sm" \| "default" \| "lg"` | `"default"` | Scales the whole switch. |
@@ -85,7 +86,7 @@ Controlled usage:
 - On means the I half is pushed in, so the O half rises toward you, just like a real rocker.
 - The click sound is synthesized with the Web Audio API, so there are no audio files to ship. It stays silent where audio is unavailable.
 - Everything is sized in `em`, so `size` just sets the font size the whole switch scales from.
-- The snap animation is skipped when the user prefers reduced motion.
+- The snap and the pointer lean are skipped when the user prefers reduced motion, and the lean only follows a mouse, not touch.
 
 ## Registry
 

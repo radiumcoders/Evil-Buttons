@@ -7,6 +7,7 @@ import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import {
   RealisticSwitch,
   type RealisticSwitchSize,
+  type RealisticSwitchTone,
 } from "@/components/evil-buttons/realistic-switch";
 import { LiveProps } from "./live-props";
 
@@ -89,6 +90,7 @@ export function RealisticSwitchPreview() {
     {
       color: { type: "color", default: "#e1261c" },
       markColor: { type: "color", default: "#ffffff" },
+      tone: { type: "select", options: ["auto", "light", "dark"], default: "auto" },
       illuminated: true,
       sound: true,
       defaultChecked: false,
@@ -102,6 +104,7 @@ export function RealisticSwitchPreview() {
       <RealisticSwitch
         color={p.color}
         markColor={p.markColor}
+        tone={p.tone as RealisticSwitchTone}
         illuminated={p.illuminated}
         sound={p.sound}
         defaultChecked={p.defaultChecked}
