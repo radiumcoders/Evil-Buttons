@@ -148,7 +148,7 @@ export function LandingPage({ categories }: LandingPageProps) {
         <div className="mt-8 grid w-full max-w-md grid-cols-2 gap-3 short:mt-5">
           <Link
             href="/docs"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg short:h-10 bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg short:h-10 bg-primary px-3 text-sm whitespace-nowrap sm:px-5 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Browse docs
             <ArrowRight className="size-4" weight="bold" />
@@ -157,7 +157,7 @@ export function LandingPage({ categories }: LandingPageProps) {
             href={siteConfig.github}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg short:h-10 border border-border bg-background px-5 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-muted"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-lg short:h-10 border border-border bg-background px-3 text-sm whitespace-nowrap sm:px-5 font-medium text-foreground shadow-xs transition-colors hover:bg-muted"
           >
             <GithubLogo className="size-4" weight="bold" />
             GitHub

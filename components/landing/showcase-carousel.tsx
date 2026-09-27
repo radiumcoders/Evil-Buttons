@@ -57,7 +57,7 @@ const slots = [
  * Narrow cards sit under the same perspective as wide ones, which pulls their
  * neighbours in until the gaps close, so phones spread the slots a touch.
  */
-const NARROW_SPREAD = 1.05;
+const NARROW_SPREAD = 1.08;
 const narrowQuery = "(max-width: 639px)";
 
 function useSpread() {
