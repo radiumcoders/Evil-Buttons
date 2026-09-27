@@ -29,7 +29,7 @@ export function DocsShell({
   return (
     <div
       data-docs-scroll
-      className="docs-scroll h-dvh overflow-y-auto bg-background text-foreground"
+      className="docs-scroll h-dvh overflow-y-auto bg-background text-foreground md:bg-chrome"
     >
       <div className="mx-auto flex w-full max-w-[1440px] md:gap-4 md:px-3 lg:gap-6">
         <DocsSidebar

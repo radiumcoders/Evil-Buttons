@@ -63,7 +63,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
 
   return (
     <div className="flex w-full justify-center gap-10">
-      <div className="min-h-dvh w-full max-w-4xl min-w-0 px-6 pt-16 pb-24 md:border-x md:border-dashed md:border-border md:px-10 md:pt-12">
+      <div className="min-h-dvh w-full max-w-4xl min-w-0 bg-background px-6 pt-16 pb-24 md:my-1.5 md:min-h-[calc(100dvh-0.75rem)] md:rounded-2xl md:border md:border-border md:px-10 md:pt-12">
         <JsonLd
           data={[
             createTechArticleJsonLd({

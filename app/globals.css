@@ -17,6 +17,7 @@
   --color-primary: var(--primary);
   --color-brand: var(--brand);
   --color-card: var(--card);
+  --color-chrome: var(--chrome);
   --radius-lg: 0.75rem;
   --font-heading: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -84,6 +85,8 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  /* Surface around the docs content box: both sidebars sit on it. */
+  --chrome: oklch(0.967 0 0);
   /* The red of the logo's eyes. */
   --brand: oklch(0.6 0.23 29);
 }
@@ -91,6 +94,7 @@
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
+  --chrome: oklch(0.18 0 0);
   --card: oklch(0.205 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);

@@ -156,7 +156,7 @@ function DocsSidebarChrome({
       <div className="docs-scroll min-h-0 flex-1 overflow-y-auto px-2 py-2 [mask-image:linear-gradient(to_bottom,transparent,black_12px,black_calc(100%-16px),transparent)]">
         {children}
       </div>
-      <div className="flex items-center gap-0.5 border-t border-dashed border-border p-2">
+      <div className="flex items-center gap-0.5 border-t border-border p-2">
         <a
           href="https://github.com/radiumcoders/evil-buttons"
           target="_blank"
