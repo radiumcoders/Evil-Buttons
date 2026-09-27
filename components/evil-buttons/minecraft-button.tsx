@@ -231,79 +231,24 @@ function spawnChips(
 
 /* ---------- Pickaxe cursor ---------- */
 
-type Pixel = [x: number, y: number];
+/** 16×16 diamond pickaxe sprite (drawn at 4×), inlined so the item stays one file. */
+const PICKAXE_SPRITE = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAA7EAAAOxAGVKw4bAAACi0lEQVR4nO2bMWsUQRTH/0oKba4QDkyVQbQ/m2siJG267FcQv0EaP4NwiqAkRSBfIBARQtocpLoqpYXE9RQsRIsD0ULQxpO8t5edvJ03M7vc+3WP23mzvNv/f+bN3gGGsdTcUM7nAAwA3FPKdwHgHECplK/CinK+QW9jeKSZcDaeFIhYgJvK+bS++dg5/6NdgM4RKgEHqvkiMN8iJDnFnhFqgttc8w8OX5MLfr3/SOLfX7/XJlzp3yHxp6fPSLz+8wOJ1+7eJvHe22kB4E3tJJcIlUBUfTZEdE9L7wGhBbhQuYuMhHqAAzPB3sbwUUjC1Z0ntZ8/Ph6R+ODkM4nfTX/sAHh+3flCV4ESVccNKkBqzAOU83XOE9rWDBVbwz6R0PTlLrmA7yO+jPZJPBtPknoAp0R445LUQ5beA7SfACkO+r3E5Rze3kDbA6Rsbw37pJfge/vT828k/vPqBYl9vcO/84Qre4PcEkjRS9TOkbsA2UntAQ7xzw9EpC7AgGt+8yHV8IK9/RmA+ZiiN9ony6Svd/CRugBNNH8EurFR3SeYB0TO7xCu+aj9RewCVDTP13mP5ucbmWjELoCG5qNiHqCcz6HlmueovxsMXOfFmue9gBTtArRe8xzzgMDxDh3TPCe0ANnX+Vv310KGBxegc5rnmAcIr3fIq/kmY2vHSM8EK2d4Ddf5UjjvHAfPu8jZeCKaT/oE5NZ8Cf+7SNF85gGezx3avc4vyi2az+cB4nN7Zc37cKBfkHg+3xOQW/M+SgQW1zyAxQ7t1rw6vADJ+/nc8AK0XfPqLL0HaBSgU5rnVJbBtp3bx6bJeUCnNc8xD2DxdfTcac1zeC/gUP87v+h/YjIMwzAMIxl/AXTtyFOKYkzBAAAAAElFTkSuQmCC";
 
-/** Upper half of the diamond head; the lower half mirrors it across the handle. */
-const HEAD_EDGE: Pixel[] = [[13, 3], [12, 2], [11, 2], [10, 1], [9, 1], [8, 1], [7, 1], [6, 1], [5, 2], [4, 2], [3, 3]];
-const HEAD_BODY: Pixel[] = [[12, 3], [11, 3], [10, 2], [9, 2], [8, 2], [7, 2], [6, 2], [5, 3], [4, 3], [4, 4]];
+/** The pointer sits on the head's upper tip (texel 5,1); swings pivot on the grip (texel 1,13). */
+const PICKAXE_HOTSPOT = { x: 5.5 * PX, y: 1.5 * PX };
+const PICKAXE_GRIP = { x: 1.5 * PX, y: 13.5 * PX };
+/** Head lifts back counter-clockwise, then strikes down clockwise. */
+const WIND_UP = "rotate(-24deg)";
+const STRIKE = "rotate(28deg)";
 
-const mirror = (pixels: Pixel[]) => [
-  ...pixels,
-  ...pixels.map(([x, y]) => [y, x] as Pixel),
-];
-
-const PICKAXE_LAYERS: { fill: string; pixels: Pixel[] }[] = [
-  { fill: "#4aedd9", pixels: mirror(HEAD_EDGE) },
-  { fill: "#2aa594", pixels: mirror(HEAD_BODY) },
-  {
-    fill: "#8b5a2b",
-    pixels: Array.from({ length: 9 }, (_, i) => [5 + i, 5 + i] as Pixel),
-  },
-  {
-    fill: "#4f3219",
-    pixels: Array.from({ length: 8 }, (_, i) => [6 + i, 5 + i] as Pixel),
-  },
-];
-
-/** A one-texel dark rim around the sprite so it reads on any background. */
-const PICKAXE_OUTLINE: Pixel[] = (() => {
-  const filled = new Set(
-    PICKAXE_LAYERS.flatMap((l) => l.pixels.map(([x, y]) => `${x},${y}`)),
-  );
-  const rim = new Set<string>();
-  for (const key of filled) {
-    const [x, y] = key.split(",").map(Number) as Pixel;
-    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
-      const n = `${x + dx!},${y + dy!}`;
-      if (!filled.has(n)) rim.add(n);
-    }
-  }
-  return [...rim].map((k) => k.split(",").map(Number) as Pixel);
-})();
-
-/** The pointer sits on the head's tip (texel 3,3); swings pivot on the grip. */
-const PICKAXE_HOTSPOT = 3.5 * PX;
-const PICKAXE_GRIP = 13.5 * PX;
-const WIND_UP = "rotate(24deg)";
-
-function PickaxeSprite() {
-  return (
-    <svg
-      aria-hidden
-      width={16 * PX}
-      height={16 * PX}
-      viewBox="0 0 16 16"
-      shapeRendering="crispEdges"
-      className="block drop-shadow-[2px_2px_0_rgb(0_0_0/0.25)]"
-    >
-      {PICKAXE_OUTLINE.map(([x, y]) => (
-        <rect key={`o${x}-${y}`} x={x} y={y} width={1} height={1} fill="#111" />
-      ))}
-      {PICKAXE_LAYERS.map((layer) =>
-        layer.pixels.map(([x, y]) => (
-          <rect
-            key={`${layer.fill}${x}-${y}`}
-            x={x}
-            y={y}
-            width={1}
-            height={1}
-            fill={layer.fill}
-          />
-        )),
-      )}
-    </svg>
-  );
-}
+const pickaxeStyle: React.CSSProperties = {
+  width: 16 * PX,
+  height: 16 * PX,
+  backgroundImage: `url("${PICKAXE_SPRITE}")`,
+  backgroundSize: "100% 100%",
+  imageRendering: "pixelated",
+  transformOrigin: `${PICKAXE_GRIP.x}px ${PICKAXE_GRIP.y}px`,
+};
 
 /* ---------- Component ---------- */
 
@@ -372,7 +317,7 @@ export const MinecraftButton = React.forwardRef<
       cursorRef.current = node;
       if (!node) return;
       const { x, y } = pointerRef.current;
-      node.style.transform = `translate(${x - PICKAXE_HOTSPOT}px, ${y - PICKAXE_HOTSPOT}px)`;
+      node.style.transform = `translate(${x - PICKAXE_HOTSPOT.x}px, ${y - PICKAXE_HOTSPOT.y}px)`;
     }, []);
 
     const swing = (keyframes: Keyframe[], duration: number) => {
@@ -522,7 +467,7 @@ export const MinecraftButton = React.forwardRef<
         swing(
           [
             { transform: WIND_UP },
-            { transform: "rotate(-28deg)", offset: 0.35 },
+            { transform: STRIKE, offset: 0.35 },
             { transform: "rotate(0deg)" },
           ],
           240,
@@ -666,10 +611,9 @@ export const MinecraftButton = React.forwardRef<
               >
                 <div
                   ref={swingRef}
-                  style={{ transformOrigin: `${PICKAXE_GRIP}px ${PICKAXE_GRIP}px` }}
-                >
-                  <PickaxeSprite />
-                </div>
+                  className="drop-shadow-[2px_2px_0_rgb(0_0_0/0.25)]"
+                  style={pickaxeStyle}
+                />
               </div>,
               document.body,
             )
