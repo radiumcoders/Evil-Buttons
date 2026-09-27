@@ -216,12 +216,12 @@
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
-    "name": "pill-button",
-    "exportName": "PillButton",
-    "docSlug": "pill-button",
-    "title": "PillButton",
-    "description": "A two-state pill switch that springs between an off and on face, with a status light and a letter-by-letter rolling hover label.",
-    "file": "components/evil-buttons/pill-button.tsx",
+    "name": "realistic-switch",
+    "exportName": "RealisticSwitch",
+    "docSlug": "realistic-switch",
+    "title": "RealisticSwitch",
+    "description": "A lifelike illuminated rocker switch in CSS 3D: the pushed-in half sinks into a black housing, the other tilts up into the light, and the rocker glows when it is on.",
+    "file": "components/evil-buttons/realistic-switch.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {

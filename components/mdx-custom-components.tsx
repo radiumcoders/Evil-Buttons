@@ -26,7 +26,7 @@ import { DoubtButton } from "./evil-buttons/doubt-button";
 import { SlideToDetonate } from "./evil-buttons/slide-to-detonate";
 import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
-import { PillButton } from "./evil-buttons/pill-button";
+import { RealisticSwitch } from "./evil-buttons/realistic-switch";
 import { ConfettiButton } from "./evil-buttons/confetti-button";
 import { AshBurstButton } from "./evil-buttons/ash-burst-button";
 import { MinecraftButton } from "./evil-buttons/minecraft-button";
@@ -125,7 +125,7 @@ export function getCustomMDXComponents(): MDXComponents {
     MorphStatusButtonDemo,
     MorphStatusButtonFailDemo,
     CooldownButton,
-    PillButton,
+    RealisticSwitch,
     ConfettiButton,
     AshBurstButton,
     MinecraftButton,

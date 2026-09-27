@@ -20,7 +20,7 @@ import { MinecraftButton } from "@/components/evil-buttons/minecraft-button";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import { PillButton } from "@/components/evil-buttons/pill-button";
+import { RealisticSwitch } from "@/components/evil-buttons/realistic-switch";
 import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
@@ -216,14 +216,8 @@ export function StaticClickPowerUpPreview() {
   return <ClickPowerUp tapDuration={500}>Doom</ClickPowerUp>;
 }
 
-export function StaticPillButtonPreview() {
-  return (
-    <PillButton
-      primaryLabel="Off"
-      secondaryLabel="On"
-      defaultOpen={false}
-    />
-  );
+export function StaticRealisticSwitchPreview() {
+  return <RealisticSwitch size="lg" />;
 }
 
 export function StaticDemonicButtonPreview() {

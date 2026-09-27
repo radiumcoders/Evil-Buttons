@@ -31,7 +31,7 @@ export const showcase: ShowcaseEntry[] = [
   { name: "SlideToDetonate", href: "/docs/slide-to-detonate", registryName: "slide-to-detonate", variants: ["dark", "light"] },
   { name: "MorphStatusButton", href: "/docs/morph-status-button", registryName: "morph-status-button" },
   { name: "CooldownButton", href: "/docs/cooldown-button", registryName: "cooldown-button" },
-  { name: "PillButton", href: "/docs/pill-button", registryName: "pill-button" },
+  { name: "RealisticSwitch", href: "/docs/realistic-switch", registryName: "realistic-switch" },
   { name: "ConfettiButton", href: "/docs/confetti-button", registryName: "confetti-button" },
   { name: "AshBurstButton", href: "/docs/ash-burst-button", registryName: "ash-burst-button" },
   { name: "MinecraftButton", href: "/docs/minecraft-button", registryName: "minecraft-button" },

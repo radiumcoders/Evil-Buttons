@@ -1,11 +1,13 @@
 "use client";
 
 import { useDialKit } from "dialkit";
-import { useThemedDialKit } from "./theme";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import { PillButton, type PillSize } from "@/components/evil-buttons/pill-button";
+import {
+  RealisticSwitch,
+  type RealisticSwitchSize,
+} from "@/components/evil-buttons/realistic-switch";
 import { LiveProps } from "./live-props";
 
 export function CommandButtonPreview() {
@@ -81,24 +83,29 @@ export function ClickPowerUpPreview() {
   );
 }
 
-export function PillButtonPreview() {
-  const p = useThemedDialKit(
-    "PillButton",
-    () => ({
-      primaryLabel: "Off",
-      secondaryLabel: "On",
-      defaultOpen: false,
-      size: { type: "select", options: ["sm", "default", "lg"], default: "default" },
-    }),
-    { id: "pill-button-v2" },
+export function RealisticSwitchPreview() {
+  const p = useDialKit(
+    "RealisticSwitch",
+    {
+      color: { type: "color", default: "#e1261c" },
+      markColor: { type: "color", default: "#ffffff" },
+      illuminated: true,
+      sound: true,
+      defaultChecked: false,
+      size: { type: "select", options: ["sm", "default", "lg"], default: "lg" },
+    },
+    { id: "realistic-switch" },
   );
+
   return (
     <LiveProps>
-      <PillButton
-        primaryLabel={p.primaryLabel}
-        secondaryLabel={p.secondaryLabel}
-        defaultOpen={p.defaultOpen}
-        size={p.size as PillSize}
+      <RealisticSwitch
+        color={p.color}
+        markColor={p.markColor}
+        illuminated={p.illuminated}
+        sound={p.sound}
+        defaultChecked={p.defaultChecked}
+        size={p.size as RealisticSwitchSize}
       />
     </LiveProps>
   );

@@ -1,0 +1,92 @@
+---
+title: RealisticSwitch
+description: A lifelike illuminated rocker switch in CSS 3D, with a pushed-in half, a raised half that catches the light, and a rocker that glows when it is on.
+category: Utility
+---
+
+RealisticSwitch is a panel-mount rocker switch built in CSS 3D. The rocker is a real box with walls, sitting in a black housing seen slightly from above. Press it and it rocks to center, then snaps over. The pushed-in half sinks into shadow, the other half tilts up into the light, and when it is on the rocker lights up from inside. It is a native `role="switch"` button, so clicks, Enter, and Space all work.
+
+## Preview
+
+<PreviewCard live title="RealisticSwitch" note="Click to flip">
+  <RealisticSwitch size="lg" sound />
+</PreviewCard>
+
+## Variants
+
+### Colors
+
+Pass any CSS color. The walls, shading, and glow are all mixed from it. Use `markColor` to keep the O and I marks readable on light rockers.
+
+<PreviewCard title="Colors" note="Red, blue, white">
+  <div className="flex items-center gap-6">
+    <RealisticSwitch size="lg" defaultChecked />
+    <RealisticSwitch size="lg" color="#1f6feb" defaultChecked />
+    <RealisticSwitch size="lg" color="#f5f5f5" markColor="#2a2a2a" illuminated={false} />
+  </div>
+</PreviewCard>
+
+### Sizes
+
+<PreviewCard title="Sizes" note="sm, default, lg">
+  <div className="flex items-center gap-6">
+    <RealisticSwitch size="sm" />
+    <RealisticSwitch />
+    <RealisticSwitch size="lg" />
+  </div>
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/realistic-switch</Cmd>
+
+## Usage
+
+```tsx
+import { RealisticSwitch } from "@/components/evil-buttons/realistic-switch";
+
+export function PowerSwitch() {
+  return (
+    <RealisticSwitch
+      sound
+      aria-label="Main power"
+      onCheckedChange={(on) => console.log("power:", on)}
+    />
+  );
+}
+```
+
+Controlled usage:
+
+```tsx
+<RealisticSwitch checked={isLive} onCheckedChange={setIsLive} color="#1f6feb" />
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `checked` | `boolean` | - | Controlled on state. |
+| `defaultChecked` | `boolean` | `false` | Initial state when uncontrolled. |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Called when the switch flips. |
+| `color` | `string` | `"#e1261c"` | Rocker color. Any CSS color. |
+| `markColor` | `string` | white | Color of the printed O and I marks. |
+| `illuminated` | `boolean` | `true` | Light the rocker from inside while it is on. |
+| `sound` | `boolean` | `false` | Play a short mechanical click when it flips. |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Scales the whole switch. |
+| `disabled` | `boolean` | `false` | Disables the switch. |
+| `aria-label` | `string` | `"Power"` | Accessible name for the switch. |
+| `className` | `string` | - | Extra classes on the button. |
+
+## Notes
+
+- On means the I half is pushed in, so the O half rises toward you, just like a real rocker.
+- The click sound is synthesized with the Web Audio API, so there are no audio files to ship. It stays silent where audio is unavailable.
+- Everything is sized in `em`, so `size` just sets the font size the whole switch scales from.
+- The snap animation is skipped when the user prefers reduced motion.
+
+## Registry
+
+The registry item includes `components/evil-buttons/realistic-switch.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.
