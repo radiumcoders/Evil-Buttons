@@ -20,7 +20,9 @@ export async function getPageMarkdown(slug: string[]): Promise<string | null> {
 
   if (!page) return null;
 
-  const filePath = page.absolutePath ?? path.join(CONTENT_DIR, page.path);
+  // Always resolve under content/docs (never the page's absolute path), so the
+  // bundler can scope file tracing to the docs instead of the whole project.
+  const filePath = path.join(CONTENT_DIR, page.path);
   const raw = await readFile(filePath, "utf8");
   const body = stripFrontmatter(raw).trim();
 

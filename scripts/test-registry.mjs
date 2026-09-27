@@ -31,8 +31,9 @@ const mdxSource = await readFile(
   resolve(root, "components/mdx-custom-components.tsx"),
   "utf8",
 );
-const landingSource = await readFile(
-  resolve(root, "components/landing/landing-page.tsx"),
+// The landing carousel lists every component in its showcase.
+const showcaseSource = await readFile(
+  resolve(root, "components/landing/showcase.ts"),
   "utf8",
 );
 
@@ -61,9 +62,9 @@ for (const entry of manifest) {
     );
   }
 
-  if (!token.test(landingSource)) {
+  if (!showcaseSource.includes(`registryName: "${entry.name}"`)) {
     fail(
-      `components/landing/landing-page.tsx does not reference ${entry.exportName} (${entry.name})`,
+      `components/landing/showcase.ts does not list ${entry.name}`,
     );
   }
 }

@@ -1,11 +1,12 @@
 # Evil Buttons
 
-> A shadcn/ui registry of animated React components built with Motion — buttons, icons, logos, and scroll bars with live docs and CLI install.
+> A shadcn/ui registry of animated React buttons with an evil touch, built with Tailwind CSS and Motion. Live previews, copy-paste docs, and one-command CLI installs.
 
 ## Documentation
 
-- [Component docs](https://evilbuttons.radiumcoders.com/docs): Live previews, install commands, and usage for every registry item
-- [Registry index](https://evilbuttons.radiumcoders.com/r/index.json): Machine-readable shadcn registry manifest
+- [Component docs](https://www.evilbuttons.com/docs): Live previews, install commands, and usage for every registry item
+- [Registry index](https://www.evilbuttons.com/r/index.json): Machine-readable shadcn registry manifest
+- Every docs page is also available as Markdown: swap `/docs/` for `/raw/` in its URL
 
 ## Install
 
@@ -13,7 +14,36 @@
 npx shadcn@latest add @evilbuttons/<component-name>
 ```
 
-Example components: `click-powerup`, `shiny-button`, `sticky`, `movie-pass`, `minimal`, `scroll-bars`, `sun-dim`, `moon`, `spark-burst`, `cloud-blocks`, and logo variants (`vercel`, `shadcn`, `tanstack`).
+## Components
+
+- [ClickPowerUp](https://www.evilbuttons.com/docs/click-power-up): A bracketed button that arms on hover and powers up with an accent flash and bracket burst on every click.
+- [StickyButton](https://www.evilbuttons.com/docs/sticky-button): A magnetic button whose body and label are pulled toward the cursor from a wide field, with parallax depth and tilt.
+- [ShinyButton](https://www.evilbuttons.com/docs/shiny-button): A glossy, gradient-styled button with a layered inner glow and a glint that sweeps across on every click.
+- [MoviePassButton](https://www.evilbuttons.com/docs/movie-pass): A cinema ticket button that tears along its perforation on click, hinging open or snapping apart.
+- [MinimalButton](https://www.evilbuttons.com/docs/minimal-button): A quiet dark button with a hairline ring, inner highlight, soft drop shadow, and a chevron that nudges on hover.
+- [DitherButton](https://www.evilbuttons.com/docs/dither-button): A button with an animated 4x4 ordered-dither wave background and a knockout label.
+- [EvilEyeButton](https://www.evilbuttons.com/docs/evil-eye-button): An obsidian pill with a burning evil eye behind its label that tracks the cursor across the page, focuses on hover, and blinks.
+- [TrollButton](https://www.evilbuttons.com/docs/troll-button): A button that dodges the cursor until it runs out of stamina, then gives up and lets you click it.
+- [ChromeButton](https://www.evilbuttons.com/docs/chrome-button): A metallic pill whose border is a ring of flowing liquid chrome around a solid face that follows the light or dark theme, with pill, compact, and icon sizes.
+- [BrutalButton](https://www.evilbuttons.com/docs/brutal-button): A NeoBrutalism style button with sharp shadows and stark borders.
+- [AquaButton](https://www.evilbuttons.com/docs/aqua-button): A glossy pill button inspired by Apple's Aqua interface, with layered highlights and a soft inner glow.
+- [ThreeDButton](https://www.evilbuttons.com/docs/3d-button): A minimal 3D button with a clean deck-style press and sliding click sheen.
+- [FrameButton](https://www.evilbuttons.com/docs/frame-button): A futuristic button with springy corner markers that spread on hover and lock on when pressed, plus a scan sweep.
+- [HighlightButton](https://www.evilbuttons.com/docs/highlight-button): A button with a cursor spotlight, a border that lights up near the pointer, and a ripple from wherever you click.
+- [GlitchButton](https://www.evilbuttons.com/docs/glitch-button): A button with randomized RGB-split glitch bursts, a scanline overlay, and a flickering label.
+- [CommandButton](https://www.evilbuttons.com/docs/command-button): A button with a global keyboard shortcut, shown as keycaps that sink as you hold each key.
+- [CopyButton](https://www.evilbuttons.com/docs/copy-button): A copy button that briefly shows the copied text above itself, so you see exactly what landed on the clipboard.
+- [RevealButton](https://www.evilbuttons.com/docs/reveal-button): A button that reveals a hidden secret value on hold or toggle, with a blur-in animation and an eye icon indicator.
+- [DemonicButton](https://www.evilbuttons.com/docs/demonic-button): A hold-to-summon button: keep pressing to raise ridged devil horns from behind it while a canvas fire builds into a roar.
+- [HoldButton](https://www.evilbuttons.com/docs/hold-button): A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.
+- [DoubtButton](https://www.evilbuttons.com/docs/doubt-button): An escalating-confirmation button that makes you click through increasingly absurd, guilt-tripping prompts before the real action finally fires.
+- [SlideToDetonate](https://www.evilbuttons.com/docs/slide-to-detonate): A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.
+- [MorphStatusButton](https://www.evilbuttons.com/docs/morph-status-button): A single button that morphs through idle, loading, success, and error states in place, with no layout shift.
+- [CooldownButton](https://www.evilbuttons.com/docs/cooldown-button): A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.
+- [RealisticSwitch](https://www.evilbuttons.com/docs/realistic-switch): A latching push switch, a raised box that sinks into its socket when pressed, stays down and glows while on, and springs back up on the next press.
+- [ConfettiButton](https://www.evilbuttons.com/docs/confetti-button): A ringed dark button with a sparkle icon that fires a restrained confetti burst on click.
+- [AshBurstButton](https://www.evilbuttons.com/docs/ash-burst-button): A ringed dark button that glows like an ember on click and erupts ash that collides with it via Matter.js physics, piling onto its surface.
+- [MinecraftButton](https://www.evilbuttons.com/docs/minecraft-button): A pixel stone menu button that cracks every few taps, shatters into chips, and drops itself as a bobbing item you pick up to respawn it.
 
 ## Source
 

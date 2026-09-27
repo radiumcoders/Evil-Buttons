@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { CliBlock } from "@/components/cli-block";
@@ -40,7 +42,12 @@ async function getDocUrlsByRegistryName() {
   return map;
 }
 
+// A development check of every registry item; not part of the public site.
+export const metadata: Metadata = { robots: { index: false, follow: false } };
+
 export default async function RegistryTestPage() {
+  if (process.env.NODE_ENV === "production") notFound();
+
   const index = await getRegistryIndex();
   const docUrls = await getDocUrlsByRegistryName();
 
