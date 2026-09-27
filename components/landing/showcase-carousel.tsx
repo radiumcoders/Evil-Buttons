@@ -31,9 +31,11 @@ const ease = [0.32, 0.72, 0, 1] as const;
  */
 const slots = [
   { x: 0, z: 0, rotate: 0, scale: 1, opacity: 1, blur: 0 },
-  { x: 1, z: -160, rotate: 24, scale: 0.95, opacity: 1, blur: 0 },
-  { x: 1.8, z: -460, rotate: 40, scale: 0.9, opacity: 1, blur: 1.5 },
-  { x: 2.4, z: -800, rotate: 52, scale: 0.85, opacity: 0, blur: 4 },
+  { x: 0.9, z: -140, rotate: 34, scale: 0.92, opacity: 1, blur: 0 },
+  // Kept shallow: seen from off-axis, perspective adds ~25° of apparent turn,
+  // and anything much steeper collapses to a sliver.
+  { x: 1.55, z: -300, rotate: 38, scale: 0.88, opacity: 1, blur: 1.5 },
+  { x: 2.2, z: -560, rotate: 50, scale: 0.82, opacity: 0, blur: 4 },
 ];
 
 function slotStyle(offset: number) {
@@ -45,7 +47,7 @@ function slotStyle(offset: number) {
     z: slot.z,
     // Turns each side card away from the center, so its inner edge stays
     // nearest the viewer and the stage bulges outward like a drum.
-    rotateY: -side * slot.rotate,
+    rotateY: side * slot.rotate,
     scale: slot.scale,
     opacity: slot.opacity,
     filter: `blur(${slot.blur}px)`,
