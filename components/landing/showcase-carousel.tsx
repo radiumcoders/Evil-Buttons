@@ -36,8 +36,8 @@ const slots = [
   { x: 0.93, z: -140, rotate: 34, scale: 1, opacity: 1, blur: 0 },
   // Kept shallow: seen from off-axis, perspective adds ~25° of apparent turn,
   // and anything much steeper collapses to a sliver.
-  { x: 1.61, z: -300, rotate: 38, scale: 0.95, opacity: 1, blur: 1.5 },
-  { x: 2.25, z: -560, rotate: 50, scale: 0.9, opacity: 0, blur: 4 },
+  { x: 1.52, z: -300, rotate: 46, scale: 0.86, opacity: 1, blur: 1.5 },
+  { x: 2.1, z: -560, rotate: 58, scale: 0.78, opacity: 0, blur: 4 },
 ];
 
 function slotStyle(offset: number) {
