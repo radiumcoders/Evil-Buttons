@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Doto } from "next/font/google";
+import { Geist, Geist_Mono, Doto, Pixelify_Sans } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -27,6 +27,11 @@ const geistMono = Geist_Mono({
 
 const dotoVar = Doto({
   variable: "--font-doto",
+});
+
+const pixelVar = Pixelify_Sans({
+  variable: "--font-pixel",
+  subsets: ["latin"],
 });
 
 // Keep rootMetadata as the SEO source of truth; restate title/description here
@@ -63,6 +68,7 @@ export default function RootLayout({
         geistMono.variable,
         "h-full font-sans antialiased",
         dotoVar.variable,
+        pixelVar.variable,
       )}
     >
       <body className="flex h-full flex-col overflow-hidden">

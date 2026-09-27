@@ -11,6 +11,7 @@ import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
+import { MinecraftButton } from "@/components/evil-buttons/minecraft-button";
 import { DeferredWebGLPreview } from "./shared";
 import { LiveProps } from "./live-props";
 
@@ -169,6 +170,31 @@ export function TrollButtonPreview() {
       >
         {p.label}
       </TrollButton>
+    </LiveProps>
+  );
+}
+
+export function MinecraftButtonPreview() {
+  const p = useDialKit(
+    "MinecraftButton",
+    {
+      label: "Singleplayer",
+      tapsPerStage: [5, 1, 10],
+      stages: [4, 2, 8],
+      sound: true,
+    },
+    { id: "minecraft-button" },
+  );
+
+  return (
+    <LiveProps>
+      <MinecraftButton
+        tapsPerStage={p.tapsPerStage}
+        stages={p.stages}
+        sound={p.sound}
+      >
+        {p.label}
+      </MinecraftButton>
     </LiveProps>
   );
 }

@@ -245,6 +245,15 @@
       "files": [
         "components/evil-buttons/ash-burst-button.tsx"
       ]
+    },
+    {
+      "name": "minecraft-button",
+      "type": "registry:ui",
+      "title": "MinecraftButton",
+      "description": "A pixel stone menu button that cracks every few taps, shatters into chips, and drops itself as a bobbing item you pick up to respawn it.",
+      "files": [
+        "components/evil-buttons/minecraft-button.tsx"
+      ]
     }
   ]
 }

@@ -243,5 +243,14 @@
     "description": "A ringed dark button that glows like an ember on click and erupts ash that collides with it via Matter.js physics, piling onto its surface.",
     "file": "components/evil-buttons/ash-burst-button.tsx",
     "dependencies": ["matter-js", "clsx", "tailwind-merge"]
+  },
+  {
+    "name": "minecraft-button",
+    "exportName": "MinecraftButton",
+    "docSlug": "minecraft-button",
+    "title": "MinecraftButton",
+    "description": "A pixel stone menu button that cracks every few taps, shatters into chips, and drops itself as a bobbing item you pick up to respawn it.",
+    "file": "components/evil-buttons/minecraft-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge"]
   }
 ]

@@ -16,6 +16,7 @@ import { FrameButton } from "@/components/evil-buttons/frame-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
+import { MinecraftButton } from "@/components/evil-buttons/minecraft-button";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
@@ -279,4 +280,8 @@ export function StaticThreeDButtonPreview() {
 
 export function StaticTrollButtonPreview() {
   return <TrollButton>Click Me</TrollButton>;
+}
+
+export function StaticMinecraftButtonPreview() {
+  return <MinecraftButton>Singleplayer</MinecraftButton>;
 }

@@ -35,6 +35,7 @@ import {
   StickyButtonPreview,
   ThreeDButtonPreview,
   TrollButtonPreview,
+  MinecraftButtonPreview,
 } from "./simple";
 import {
   StaticRevealButtonPreview,
@@ -64,6 +65,7 @@ import {
   StaticStickyButtonPreview,
   StaticThreeDButtonPreview,
   StaticTrollButtonPreview,
+  StaticMinecraftButtonPreview,
 } from "./static";
 
 const dialButtonPreviews: Record<string, ComponentType> = {
@@ -94,6 +96,7 @@ const dialButtonPreviews: Record<string, ComponentType> = {
   "pill-button": PillButtonPreview,
   "confetti-button": ConfettiButtonPreview,
   "ash-burst-button": AshBurstButtonPreview,
+  "minecraft-button": MinecraftButtonPreview,
 };
 
 const staticButtonPreviews: Record<string, ComponentType> = {
@@ -124,6 +127,7 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   "pill-button": StaticPillButtonPreview,
   "confetti-button": StaticConfettiButtonPreview,
   "ash-burst-button": StaticAshBurstButtonPreview,
+  "minecraft-button": StaticMinecraftButtonPreview,
 };
 
 export function hasDialPreview(registryName: string) {

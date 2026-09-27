@@ -1,0 +1,76 @@
+---
+title: MinecraftButton
+description: A pixel stone menu button that cracks every few taps, shatters into chips, and drops itself as a bobbing item you pick up to respawn it.
+category: Effects
+---
+
+MinecraftButton looks like a Java Edition menu button carved out of stone: a blocky black outline, a light and dark bevel, and a pixel label with a hard drop shadow. Every tap chips off a few stone pixels. Every fifth tap the crack spreads further, and on the twentieth the button shatters and drops itself as a small spinning block. Click the drop to pick it up and put the button back.
+
+## Preview
+
+<PreviewCard live title="MinecraftButton" note="Keep clicking — it breaks at 20">
+  <MinecraftButton />
+</PreviewCard>
+
+## Install
+
+Add the item with the shadcn CLI.
+
+<Cmd>@evilbuttons/minecraft-button</Cmd>
+
+The label reads a pixel font from the `--font-pixel` CSS variable and falls back to monospace. With `next/font`:
+
+```tsx
+import { Pixelify_Sans } from "next/font/google";
+
+const pixel = Pixelify_Sans({ variable: "--font-pixel", subsets: ["latin"] });
+
+// <html className={pixel.variable}>
+```
+
+## Usage
+
+```tsx
+import { MinecraftButton } from "@/components/evil-buttons/minecraft-button";
+
+export function ButtonDemo() {
+  return (
+    <MinecraftButton
+      tapsPerStage={5}
+      stages={4}
+      onCrack={(stage) => console.log("Crack stage", stage)}
+      onBreak={() => console.log("Broken.")}
+    >
+      Singleplayer
+    </MinecraftButton>
+  );
+}
+```
+
+## Props
+
+The component spreads native `button` props. `onClick` fires on every tap before it counts; call `event.preventDefault()` to skip that tap.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Singleplayer"` | Label used when no children are provided. |
+| `tapsPerStage` | `number` | `5` | Taps needed to advance one crack stage. |
+| `stages` | `number` | `4` | Stages until it breaks. The button breaks after `tapsPerStage * stages` taps. |
+| `sound` | `boolean` | `true` | Play synthesized dig, crack, break, and pickup sounds (Web Audio, no files). |
+| `respawnAfter` | `number` | - | Respawn automatically after this many ms. Omit to wait for the drop to be picked up. |
+| `onCrack` | `(stage: number) => void` | - | Fired when the crack deepens to a new stage. |
+| `onBreak` | `() => void` | - | Fired when the button breaks. |
+| `onRespawn` | `() => void` | - | Fired when the button comes back. |
+| `className` | `string` | - | Extra classes merged onto the button. |
+
+## Notes
+
+- Everything snaps to a 3px texel grid: the seeded stone texture, the bevels, the crack pixels, and the flying chips.
+- Cracks are generated to fit the button's size and grow along branches, so each stage extends the previous one instead of swapping in a new pattern. A respawned button cracks along a new pattern.
+- On break, focus moves to the dropped item; picking it up returns focus to the button.
+- Chips, shakes, and the item bob are skipped when the user prefers reduced motion. Cracks still show.
+
+## Registry
+
+The registry item includes `components/evil-buttons/minecraft-button.tsx` and adds `clsx` and `tailwind-merge` as dependencies.
