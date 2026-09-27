@@ -58,9 +58,8 @@
     "exportName": "EvilEyeButton",
     "docSlug": "evil-eye-button",
     "title": "EvilEyeButton",
-    "description": "A button with a React Bits evil eye shader background and a fiery readable label.",
+    "description": "An obsidian pill with a burning evil eye behind its label that tracks the cursor across the page, focuses on hover, and blinks.",
     "file": "components/evil-buttons/evil-eye-button.tsx",
-    "registryDependencies": ["@react-bits/EvilEye-TS-TW"],
     "dependencies": ["clsx", "tailwind-merge"]
   },
   {

@@ -120,31 +120,29 @@ export function EvilEyeButtonPreview() {
   const p = useThemedDialKit(
     "EvilEyeButton",
     () => ({
-      label: "Doom",
-      effectOpacity: [0.95, 0, 1, 0.01],
+      label: "I see you",
+      blink: true,
       eye: {
         eyeColor: "#ff6f37",
-        backgroundColor: "#000000",
-        intensity: [1.65, 0, 3, 0.01],
+        intensity: [1.3, 0, 3, 0.01],
         pupilSize: [0.62, 0, 1, 0.01],
         irisWidth: [0.22, 0, 1, 0.01],
-        glowIntensity: [0.56, 0, 1, 0.01],
-        scale: [1.15, 0.5, 2, 0.01],
-        noiseScale: [1, 0, 2, 0.01],
-        pupilFollow: [0.55, 0, 1, 0.01],
+        glowIntensity: [0.5, 0, 1, 0.01],
+        scale: [1.7, 0.6, 3, 0.01],
+        noiseScale: [0.8, 0, 2, 0.01],
+        pupilFollow: [0.8, 0, 1, 0.01],
         flameSpeed: [0.8, 0, 2, 0.01],
       },
     }),
-    { id: "evil-eye-button-v2" },
+    { id: "evil-eye-button-v3" },
   );
 
   return (
     <DeferredWebGLPreview label={p.label}>
       <LiveProps>
         <EvilEyeButton
-          effectOpacity={p.effectOpacity}
+          blink={p.blink}
           eyeColor={p.eye.eyeColor}
-          backgroundColor={p.eye.backgroundColor}
           intensity={p.eye.intensity}
           pupilSize={p.eye.pupilSize}
           irisWidth={p.eye.irisWidth}

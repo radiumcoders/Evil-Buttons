@@ -150,22 +150,8 @@ export function StaticGlitchButtonPreview() {
 
 export function StaticEvilEyeButtonPreview() {
   return (
-    <DeferredWebGLPreview label="Doom">
-      <EvilEyeButton
-        effectOpacity={0.95}
-        eyeColor="#ff6f37"
-        backgroundColor="#000000"
-        intensity={1.65}
-        pupilSize={0.62}
-        irisWidth={0.22}
-        glowIntensity={0.56}
-        scale={1.15}
-        noiseScale={1}
-        pupilFollow={0.55}
-        flameSpeed={0.8}
-      >
-        Doom
-      </EvilEyeButton>
+    <DeferredWebGLPreview label="I see you">
+      <EvilEyeButton>I see you</EvilEyeButton>
     </DeferredWebGLPreview>
   );
 }

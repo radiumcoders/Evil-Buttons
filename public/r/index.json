@@ -61,7 +61,7 @@
       "name": "evil-eye-button",
       "type": "registry:ui",
       "title": "EvilEyeButton",
-      "description": "A button with a React Bits evil eye shader background and a fiery readable label.",
+      "description": "An obsidian pill with a burning evil eye behind its label that tracks the cursor across the page, focuses on hover, and blinks.",
       "files": [
         "components/evil-buttons/evil-eye-button.tsx"
       ]
