@@ -1,6 +1,12 @@
 "use client";
 
-import { ArrowRight, GithubLogo, Moon, Sun } from "@phosphor-icons/react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  GithubLogo,
+  Moon,
+  Sun,
+} from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
 import { type ReactNode, useState } from "react";
@@ -75,7 +81,7 @@ function Navbar() {
   );
 }
 
-/** "Backed by" pill above the headline. */
+/** "Backed by" chip above the headline, in the same mono label voice as the showcase cards. */
 function BackedBy() {
   return (
     <a
@@ -83,15 +89,17 @@ function BackedBy() {
       target="_blank"
       rel="noopener"
       aria-label="Backed by Shadcn Labs"
-      className="group mb-6 inline-flex items-center gap-3 rounded-full border border-border bg-background/40 py-1.5 pr-1.5 pl-4 backdrop-blur-md transition-colors hover:border-foreground/20 hover:bg-background/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring short:mb-3"
+      className="group mb-6 inline-flex h-7 items-center gap-2.5 rounded-full border border-foreground/10 bg-background/30 pr-2.5 pl-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.06)] backdrop-blur-md transition-colors hover:border-foreground/20 hover:bg-background/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring short:mb-3"
     >
-      <span className="font-mono text-[11px] font-medium tracking-[0.18em] text-muted-foreground uppercase transition-colors group-hover:text-foreground">
+      <span className="font-mono text-[10px] font-medium tracking-[0.16em] text-muted-foreground uppercase transition-colors group-hover:text-foreground">
         Backed by
       </span>
-      <span aria-hidden className="h-4 w-px bg-border" />
-      <span className="inline-flex size-8 items-center justify-center rounded-full bg-foreground/5 text-foreground ring-1 ring-foreground/10">
-        <ShadcnLabsLogomark className="h-3.5 w-auto" />
-      </span>
+      <span aria-hidden className="h-3 w-px bg-foreground/15" />
+      <ShadcnLabsLogomark className="h-3 w-auto text-foreground transition-colors duration-200 group-hover:text-[#f06292]" />
+      <ArrowUpRight
+        weight="bold"
+        className="size-2.5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      />
     </a>
   );
 }
