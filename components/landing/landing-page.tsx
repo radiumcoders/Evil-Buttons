@@ -2,7 +2,6 @@
 
 import {
   ArrowRight,
-  ArrowUpRight,
   GithubLogo,
   Moon,
   Sun,
@@ -89,17 +88,13 @@ function BackedBy() {
       target="_blank"
       rel="noopener"
       aria-label="Backed by Shadcn Labs"
-      className="group mb-6 inline-flex h-7 items-center gap-2.5 rounded-full border border-foreground/10 bg-background/30 pr-2.5 pl-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.06)] backdrop-blur-md transition-colors hover:border-foreground/20 hover:bg-background/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring short:mb-3"
+      className="group mb-6 inline-flex h-7 items-center gap-2.5 rounded-full border border-foreground/10 bg-background/30 px-3.5 shadow-[inset_0_1px_0_rgb(255_255_255/0.06)] backdrop-blur-md transition-colors hover:border-foreground/20 hover:bg-background/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring short:mb-3"
     >
       <span className="font-mono text-[10px] font-medium tracking-[0.16em] text-muted-foreground uppercase transition-colors group-hover:text-foreground">
         Backed by
       </span>
       <span aria-hidden className="h-3 w-px bg-foreground/15" />
       <ShadcnLabsLogomark className="h-3 w-auto text-foreground transition-colors duration-200 group-hover:text-[#f06292]" />
-      <ArrowUpRight
-        weight="bold"
-        className="size-2.5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-      />
     </a>
   );
 }
@@ -174,9 +169,14 @@ export function LandingPage({ categories, children }: LandingPageProps) {
           <BackedBy />
           <h1 className="text-4xl leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:text-6xl short:text-3xl short:sm:text-5xl">
             Animated buttons, built with an{" "}
-            <span className="font-pixel-display font-normal text-brand [text-shadow:0_0_24px_color-mix(in_oklch,var(--brand)_45%,transparent)]">
+            {/* Easter egg: "evil" is a quiet link into the /drop trap. It reads as
+                plain text; the only tell is the glow heating up on hover. */}
+            <Link
+              href="/drop"
+              className="cursor-default rounded-sm font-pixel-display font-normal text-brand transition-[text-shadow] duration-500 [text-shadow:0_0_24px_color-mix(in_oklch,var(--brand)_45%,transparent)] hover:[text-shadow:0_0_32px_color-mix(in_oklch,var(--brand)_80%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
               evil
-            </span>{" "}
+            </Link>{" "}
             touch.
           </h1>
           <p className="mt-5 max-w-xl text-base text-balance text-muted-foreground sm:text-lg short:mt-3 short:text-sm short:sm:text-base">
