@@ -1,15 +1,14 @@
 "use client";
 
 import { useDialKit } from "dialkit";
-import { useThemedDialKit } from "./theme";
+import { fromFolder, listFolder } from "./theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
-import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
-import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
+import { LiveProps } from "./live-props";
 
 export function RevealButtonPreview() {
   const p = useDialKit(
@@ -24,18 +23,26 @@ export function RevealButtonPreview() {
         options: ["hold", "toggle"],
         default: "hold",
       },
+      variant: {
+        type: "select",
+        options: ["dark", "light"],
+        default: "dark",
+      },
     },
     { id: "reveal-button" },
   );
 
   return (
-    <RevealButton
-      label={p.label}
-      hiddenLabel={p.hiddenLabel}
-      maskedValue={p.maskedValue}
-      secret={p.secret}
-      revealMode={p.revealMode as "hold" | "toggle"}
-    />
+    <LiveProps>
+      <RevealButton
+        label={p.label}
+        hiddenLabel={p.hiddenLabel}
+        maskedValue={p.maskedValue}
+        secret={p.secret}
+        revealMode={p.revealMode as "hold" | "toggle"}
+        variant={p.variant as "dark" | "light"}
+      />
+    </LiveProps>
   );
 }
 
@@ -53,47 +60,15 @@ export function HoldButtonPreview() {
   );
 
   return (
-    <HoldButton
-      label={p.label}
-      holdingLabel={p.holdingLabel}
-      successLabel={p.successLabel}
-      duration={p.duration}
-      resetAfter={p.resetAfter}
-    />
-  );
-}
-
-export function HoldConfirmButtonPreview() {
-  const p = useThemedDialKit(
-    "HoldConfirmButton",
-    (isDark) => ({
-      label: "Hold to confirm",
-      holdingLabel: "Keep holding…",
-      successLabel: "Confirmed",
-      duration: [2000, 500, 5000],
-      resetAfter: [1600, 0, 5000],
-      minScale: [0.9, 0.7, 1, 0.01],
-      ring: {
-        size: [280, 100, 400],
-        strokeWidth: [12, 4, 24],
-        color: isDark ? "#5eead4" : "#0d9488",
-      },
-    }),
-    { id: "hold-confirm-button" },
-  );
-
-  return (
-    <HoldConfirmButton
-      label={p.label}
-      holdingLabel={p.holdingLabel}
-      successLabel={p.successLabel}
-      duration={p.duration}
-      resetAfter={p.resetAfter}
-      minScale={p.minScale}
-      ringSize={p.ring.size}
-      ringStrokeWidth={p.ring.strokeWidth}
-      ringColor={p.ring.color}
-    />
+    <LiveProps>
+      <HoldButton
+        label={p.label}
+        holdingLabel={p.holdingLabel}
+        successLabel={p.successLabel}
+        duration={p.duration}
+        resetAfter={p.resetAfter}
+      />
+    </LiveProps>
   );
 }
 
@@ -102,20 +77,30 @@ export function SlideToDetonatePreview() {
     "SlideToDetonate",
     {
       label: "Slide to detonate",
-      successLabel: "Detonated",
-      threshold: [0.95, 0.5, 1, 0.01],
+      threshold: [0.9, 0.5, 1, 0.01],
+      resistance: [0.35, 0, 1, 0.05],
+      smoothness: [0.4, 0, 1, 0.05],
+      variant: {
+        type: "select",
+        options: ["dark", "light"],
+        default: "dark",
+      },
       resetAfter: [1600, 0, 5000],
     },
     { id: "slide-to-detonate" },
   );
 
   return (
-    <SlideToDetonate
-      label={p.label}
-      successLabel={p.successLabel}
-      threshold={p.threshold}
-      resetAfter={p.resetAfter}
-    />
+    <LiveProps>
+      <SlideToDetonate
+        label={p.label}
+        threshold={p.threshold}
+        resistance={p.resistance}
+        smoothness={p.smoothness}
+        variant={p.variant as "dark" | "light"}
+        resetAfter={p.resetAfter}
+      />
+    </LiveProps>
   );
 }
 
@@ -126,38 +111,30 @@ export function DoubtButtonPreview() {
       label: "Delete everything",
       successLabel: "Too late.",
       resetAfter: [1600, 0, 5000],
+      confirmations: listFolder([
+        "Are you sure?",
+        "Really, truly sure?",
+        "There is no undo. Still?",
+        "Think of the consequences.",
+        "I am obligated to ask again.",
+        "Last chance. Absolutely certain?",
+      ]),
     },
     { id: "doubt-button" },
   );
 
   return (
-    <DoubtButton
-      label={p.label}
-      successLabel={p.successLabel}
-      resetAfter={p.resetAfter}
-    />
+    <LiveProps>
+      <DoubtButton
+        label={p.label}
+        successLabel={p.successLabel}
+        resetAfter={p.resetAfter}
+        confirmations={fromFolder(p.confirmations)}
+      />
+    </LiveProps>
   );
 }
 
-export function CaptchaButtonPreview() {
-  const p = useDialKit(
-    "CaptchaButton",
-    {
-      label: "Deploy Doom",
-      successLabel: "Deployed",
-      resetAfter: [1600, 0, 5000],
-    },
-    { id: "captcha-button" },
-  );
-
-  return (
-    <CaptchaButton
-      label={p.label}
-      successLabel={p.successLabel}
-      resetAfter={p.resetAfter}
-    />
-  );
-}
 
 export function CooldownButtonPreview() {
   const p = useDialKit(
@@ -166,16 +143,26 @@ export function CooldownButtonPreview() {
       label: "Send it",
       cooldown: [3000, 1000, 10000],
       showCountdown: true,
+      taunts: listFolder([
+        "Patience.",
+        "Again? Wait.",
+        "Not so fast.",
+        "Cool it.",
+        "Hold your horses.",
+      ]),
     },
     { id: "cooldown-button" },
   );
 
   return (
-    <CooldownButton
-      label={p.label}
-      cooldown={p.cooldown}
-      showCountdown={p.showCountdown}
-    />
+    <LiveProps>
+      <CooldownButton
+        label={p.label}
+        cooldown={p.cooldown}
+        showCountdown={p.showCountdown}
+        taunts={fromFolder(p.taunts)}
+      />
+    </LiveProps>
   );
 }
 
@@ -188,18 +175,36 @@ export function MorphStatusButtonPreview() {
       successLabel: "Done",
       errorLabel: "It broke. Your fault.",
       resetAfter: [1800, 0, 5000],
+      status: {
+        type: "select",
+        options: [
+          { value: "auto", label: "Auto (click)" },
+          "idle",
+          "loading",
+          "success",
+          "error",
+        ],
+        default: "auto",
+      },
     },
     { id: "morph-status-button" },
   );
 
   return (
-    <MorphStatusButton
-      label={p.label}
-      loadingLabel={p.loadingLabel}
-      successLabel={p.successLabel}
-      errorLabel={p.errorLabel}
-      resetAfter={p.resetAfter}
-      onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
-    />
+    <LiveProps>
+      <MorphStatusButton
+        label={p.label}
+        loadingLabel={p.loadingLabel}
+        successLabel={p.successLabel}
+        errorLabel={p.errorLabel}
+        resetAfter={p.resetAfter}
+        status={
+          p.status === "auto"
+            ? undefined
+            : (p.status as "idle" | "loading" | "success" | "error")
+        }
+        onClick={() => new Promise((resolve) => setTimeout(resolve, 1200))}
+      />
+    </LiveProps>
   );
 }

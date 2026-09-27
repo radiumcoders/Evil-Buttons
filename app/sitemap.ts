@@ -31,12 +31,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
-    {
-      url: absoluteUrl("/playground"),
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
   ];
 
   for (const entry of staticEntries) {

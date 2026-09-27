@@ -16,7 +16,7 @@ Use this skill to add a new Evil Buttons component to the docs and shadcn regist
 2. Create or update `content/docs/<slug>.mdx`.
    - Use `scripts/generate-docs.mjs` to scaffold a page when starting from scratch.
    - Keep the install command as `<Cmd>@evilbuttons/<registry-name></Cmd>`.
-   - Include a live `<PreviewCard>` using the real component.
+   - Include a `<PreviewCard live>` using the real component (swapped for the dial-backed preview with prop controls when one exists in `components/landing/previews`).
 3. Add the preview component to `components/mdx-custom-components.tsx` if the MDX page references it.
 4. Add the item to `scripts/build-registry.mjs`.
    - Read the source file with `readFile`.
@@ -43,7 +43,7 @@ ComponentName is ...
 
 ## Preview
 
-<PreviewCard title="ComponentName" note="Interactive">
+<PreviewCard live title="ComponentName" note="Interactive">
   <ComponentName>Deploy Doom</ComponentName>
 </PreviewCard>
 

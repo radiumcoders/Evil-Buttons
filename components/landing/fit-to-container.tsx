@@ -33,13 +33,20 @@ export function FitToContainer({
       if (!availableWidth || !availableHeight) return;
 
       // Cache the natural footprint; it only changes when the button reflows,
-      // which clears the cache below. The rect includes the applied transform,
-      // so divide it back out to recover the unscaled size.
+      // which clears the cache below. The rect includes the applied transform
+      // and any ancestor's (a carousel slot's scale and tilt), so divide both
+      // back out to recover the unscaled size.
       if (!naturalRef.current) {
         const bounds = getVisualBounds(innerEl);
         if (!bounds || !bounds.width || !bounds.height) return;
         const appliedScale = scaleRef.current || 1;
-        naturalRef.current = { width: bounds.width / appliedScale, height: bounds.height / appliedScale };
+        const outerRect = outerEl.getBoundingClientRect();
+        const ancestorX = outerRect.width / outerEl.offsetWidth || 1;
+        const ancestorY = outerRect.height / outerEl.offsetHeight || 1;
+        naturalRef.current = {
+          width: bounds.width / appliedScale / ancestorX,
+          height: bounds.height / appliedScale / ancestorY,
+        };
       }
 
       // Write straight to the DOM, not state: avoids re-rendering the child on

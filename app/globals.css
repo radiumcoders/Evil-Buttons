@@ -3,9 +3,10 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+@custom-variant short (@media (max-height: 760px));
 
 @theme inline {
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-doto: var(--font-doto);
   --color-background: var(--background);
@@ -14,9 +15,10 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-primary: var(--primary);
+  --color-brand: var(--brand);
   --color-card: var(--card);
   --radius-lg: 0.75rem;
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -82,6 +84,8 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  /* The red of the logo's eyes. */
+  --brand: oklch(0.6 0.23 29);
 }
 
 .dark {
@@ -110,12 +114,13 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.922 0 0);
+  --sidebar-primary-foreground: oklch(0.205 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --brand: oklch(0.66 0.23 32);
 }
 
 @layer base {
@@ -128,31 +133,33 @@
   html {
     @apply font-sans;
   }
-}
-
-.twemoji {
-  display: inline-block;
-  height: 1em;
-  width: 1em;
-  margin: 0 0.05em 0 0.1em;
-  vertical-align: -0.1em;
-}
-
-@keyframes highlight-button-ripple {
-  from {
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-  to {
-    width: 200%;
-    height: 200%;
-    opacity: 0;
+  ::selection {
+    background-color: color-mix(in oklch, var(--brand) 28%, transparent);
   }
 }
 
 .docs-content {
   color: var(--foreground);
+}
+
+@keyframes docs-dot-swing {
+  0%,
+  100% {
+    transform: translateX(0) scale(1);
+  }
+  45% {
+    transform: translateX(-6px) scale(0.7);
+  }
+}
+
+.docs-dot-swing {
+  animation: docs-dot-swing 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-dot-swing {
+    animation: none;
+  }
 }
 
 .docs-scroll {
@@ -181,6 +188,7 @@
   margin-top: 1.5rem;
   overflow: hidden;
   border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
   background: var(--card);
 }
 
@@ -192,7 +200,7 @@
 }
 
 .docs-content [data-code-block-wrapper] [data-rehype-pretty-code-figure] pre {
-  padding: 1rem;
+  padding: 1rem 3rem 1rem 1rem;
 }
 
 .docs-content [data-code-block-wrapper] [data-rehype-pretty-code-figure] [data-line] {
@@ -207,7 +215,12 @@
 
 .docs-content h2,
 .docs-content h3 {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 2rem;
+}
+
+.docs-content [data-rehype-pretty-code-figure] pre {
+  font-size: 13px;
+  line-height: 1.7;
 }
 
 .docs-content [data-rehype-pretty-code-figure] code {
@@ -256,7 +269,7 @@ html.dark .docs-content .shiki span {
 .dialkit-root {
   --dial-radius: 0;
   --dial-panel-offset-top: 5.5rem;
-  font-family: var(--font-sans), system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
 .dialkit-panel[data-position="top-left"] {
@@ -344,4 +357,236 @@ html.dark .docs-content .shiki span {
 .dialkit-root .dialkit-preset-item,
 .dialkit-root .dialkit-color-swatch {
   border-radius: 0 !important;
+}
+
+/* DialKit inline (docs live preview) — rounded, raised controls */
+.dialkit-root[data-mode="inline"] {
+  --dial-radius: 10px;
+  --dial-row-height: 38px;
+  --dial-row-gap: 8px;
+  --dial-control-border: color-mix(in oklab, var(--foreground) 9%, transparent);
+  --dial-control-shadow:
+    0 1px 2px color-mix(in oklab, black 6%, transparent),
+    inset 0 1px 0 color-mix(in oklab, white 55%, transparent);
+  --dial-knob-shadow:
+    0 0 0 1px color-mix(in oklab, black 8%, transparent),
+    0 1px 3px color-mix(in oklab, black 18%, transparent),
+    0 2px 6px color-mix(in oklab, black 8%, transparent);
+  --dial-surface: color-mix(in oklab, var(--foreground) 3%, var(--background));
+  --dial-surface-hover: color-mix(in oklab, var(--foreground) 6%, var(--background));
+  --dial-glass-bg: transparent;
+}
+
+.dialkit-root[data-mode="inline"][data-theme="dark"] {
+  --dial-control-border: color-mix(in oklab, var(--foreground) 10%, transparent);
+  --dial-control-shadow:
+    0 1px 2px color-mix(in oklab, black 40%, transparent),
+    inset 0 1px 0 color-mix(in oklab, white 5%, transparent);
+  --dial-knob-shadow:
+    0 0 0 1px color-mix(in oklab, black 30%, transparent),
+    0 1px 3px color-mix(in oklab, black 50%, transparent),
+    0 2px 8px color-mix(in oklab, black 30%, transparent);
+  --dial-surface: color-mix(in oklab, var(--foreground) 5%, var(--background));
+  --dial-surface-hover: color-mix(in oklab, var(--foreground) 8%, var(--background));
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-panel-inner {
+  padding: 10px 14px 14px !important;
+}
+
+/* The docs header above the panel carries the title, reset and copy actions. */
+.dialkit-root[data-mode="inline"] .dialkit-folder-root > .dialkit-panel-header {
+  display: none;
+}
+
+.dialkit-root[data-mode="inline"] :is(
+    .dialkit-slider,
+    .dialkit-toggle,
+    .dialkit-select-trigger,
+    .dialkit-text-control,
+    .dialkit-labeled-control,
+    .dialkit-color-control,
+    .dialkit-button
+  ) {
+  border-radius: var(--dial-radius) !important;
+  box-shadow:
+    0 0 0 1px var(--dial-control-border),
+    var(--dial-control-shadow);
+  transition:
+    background 0.15s,
+    box-shadow 0.15s;
+}
+
+.dialkit-root[data-mode="inline"] :is(
+    .dialkit-slider,
+    .dialkit-toggle,
+    .dialkit-select-trigger,
+    .dialkit-text-control,
+    .dialkit-button
+  ):hover {
+  background: var(--dial-surface-hover);
+}
+
+/* Slider: soft gradient fill and a raised pill handle */
+.dialkit-root[data-mode="inline"] .dialkit-slider-fill {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--foreground) 7%, transparent),
+    color-mix(in oklab, var(--foreground) 10%, transparent)
+  );
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-active .dialkit-slider-fill {
+  background: color-mix(in oklab, var(--foreground) 13%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-handle {
+  width: 6px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--background);
+  box-shadow: var(--dial-knob-shadow);
+}
+
+/* Toggle: rounded track with a lifted thumb */
+.dialkit-root[data-mode="inline"] .dialkit-toggle-track {
+  border-radius: 999px;
+  box-shadow: inset 0 1px 2px color-mix(in oklab, black 12%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-toggle[data-checked="true"] .dialkit-toggle-track {
+  background: var(--foreground);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-toggle-thumb {
+  border-radius: 999px !important;
+  background: var(--background);
+  box-shadow: var(--dial-knob-shadow);
+}
+
+.dialkit-root[data-mode="inline"] :is(
+    .dialkit-select-content,
+    .dialkit-preset-item
+  ) {
+  border-radius: calc(var(--dial-radius) - 2px) !important;
+}
+
+/* Segmented (Off / On): recessed track with a raised active pill */
+.dialkit-root[data-mode="inline"] .dialkit-segmented {
+  gap: 0;
+  padding: 2px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  box-shadow: inset 0 1px 2px color-mix(in oklab, black 8%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-labeled-control .dialkit-segmented {
+  margin-right: -4px;
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-segmented-pill {
+  top: 2px;
+  bottom: 2px;
+  border-radius: 6px;
+  background: var(--background);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 1px 2px color-mix(in oklab, black 12%, transparent);
+}
+
+.dialkit-root[data-mode="inline"][data-theme="dark"] .dialkit-segmented-pill {
+  background: color-mix(in oklab, var(--foreground) 14%, var(--background));
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, black 30%, transparent),
+    0 1px 2px color-mix(in oklab, black 40%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-segmented-button {
+  min-width: 40px;
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* The docs frame already draws the border; drop the panel's own chrome. */
+.dialkit-root[data-mode="inline"] .dialkit-panel-inner {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-color-swatch {
+  border-radius: 6px !important;
+  box-shadow: var(--dial-knob-shadow);
+}
+
+/* Select menu: solid popover surface; the panel itself stays transparent */
+.dialkit-root[data-mode="inline"] .dialkit-select-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  background: var(--popover);
+  border: 1px solid var(--dial-control-border);
+  border-radius: var(--dial-radius);
+  box-shadow:
+    0 4px 12px color-mix(in oklab, black 8%, transparent),
+    0 12px 32px color-mix(in oklab, black 10%, transparent);
+}
+
+.dialkit-root[data-mode="inline"][data-theme="dark"] .dialkit-select-dropdown {
+  box-shadow:
+    0 4px 12px color-mix(in oklab, black 35%, transparent),
+    0 12px 32px color-mix(in oklab, black 45%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-select-option {
+  min-height: 32px;
+  padding: 6px 10px;
+  border-radius: calc(var(--dial-radius) - 4px);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-select-option:is(:hover, :focus-visible) {
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--dial-text-primary);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-select-option[data-selected="true"] {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+  color: var(--dial-text-primary);
+}
+
+/*
+ * Landing backdrop, built only from theme tokens: the page background under a
+ * faint foreground grid, warming into brand-red bands along the bottom. The
+ * same mixes work in both themes because they follow --background.
+ */
+.landing-bg {
+  --landing-grid: color-mix(in oklch, var(--foreground) 4%, transparent);
+  --landing-band-1: color-mix(in oklch, var(--brand) 8%, var(--background));
+  --landing-band-2: color-mix(in oklch, var(--brand) 18%, var(--background));
+  --landing-band-3: color-mix(in oklch, var(--brand) 30%, var(--background));
+
+  background-color: var(--background);
+  background-image:
+    linear-gradient(to right, var(--landing-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--landing-grid) 1px, transparent 1px),
+    radial-gradient(
+      120% 60% at 50% 100%,
+      transparent 55%,
+      color-mix(in oklch, var(--background) 60%, transparent) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      var(--background) 0%,
+      var(--background) 58%,
+      var(--landing-band-1) 72%,
+      var(--landing-band-2) 86%,
+      var(--landing-band-3) 100%
+    );
+  background-size:
+    4px 4px,
+    4px 4px,
+    100% 100%,
+    100% 100%;
 }

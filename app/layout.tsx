@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Inter, Doto } from "next/font/google";
+import { Geist, Geist_Mono, Doto, Pixelify_Sans } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -15,8 +15,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TracwellAnalytics } from "@/components/tracwell-analytics";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,6 +27,11 @@ const geistMono = Geist_Mono({
 
 const dotoVar = Doto({
   variable: "--font-doto",
+});
+
+const pixelVar = Pixelify_Sans({
+  variable: "--font-pixel",
+  subsets: ["latin"],
 });
 
 // Keep rootMetadata as the SEO source of truth; restate title/description here
@@ -63,9 +66,9 @@ export default function RootLayout({
       className={cn(
         geistSans.variable,
         geistMono.variable,
-        "h-full font-sans",
-        inter.variable,
+        "h-full font-sans antialiased",
         dotoVar.variable,
+        pixelVar.variable,
       )}
     >
       <body className="flex h-full flex-col overflow-hidden">

@@ -11,7 +11,7 @@ Every new button must include:
 - **Accessible HTML:** Prefer a real `<button>` unless the component is explicitly link-based. Forward standard button props where reasonable, preserve focus states, and keep labels readable.
 - **Motion safety:** Hover, press, and animation states should respect `motion-reduce` when animation is significant.
 - **Documentation:** Add a matching MDX page in `content/docs/` with preview, install command, usage example, props table, notes, and registry details.
-- **Registry support:** Add the component to `scripts/build-registry.mjs` so `npm run registry:build` generates its `public/r/<name>.json` entry and updates `public/r/index.json`.
+- **Registry support:** Add an entry to `registry.components.json` so `pnpm registry:build` generates its `public/r/<name>.json` file and updates `public/r/index.json`. Also register it in `components/mdx-custom-components.tsx` and the landing showcase (`components/landing/showcase.ts` plus a preview in `components/landing/previews/`); `pnpm registry:test` checks all of these.
 - **Dependencies declared:** Any runtime dependency must be listed in the registry item. Registry dependencies should be listed separately from npm dependencies.
 - **Consistent imports:** Use the project alias and helpers already used in the repo, especially `cn` from `@/lib/utils` when composing classes.
 
@@ -45,10 +45,14 @@ Each docs page should include:
 Run these checks before handing off:
 
 ```bash
-npm run registry:build
-npm run lint
-npm run build
+pnpm registry:build
+pnpm registry:test
+pnpm lint
+pnpm typecheck
+pnpm build
 ```
+
+CI runs the same checks on every pull request.
 
 If a command fails because of an existing unrelated issue, mention the exact file and error in your handoff. If `next build` needs network access for Google Fonts, rerun it in an environment where font fetching is available.
 

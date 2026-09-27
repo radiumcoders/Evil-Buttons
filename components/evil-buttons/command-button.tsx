@@ -1,16 +1,25 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-export interface CommandButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface CommandButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart"
+> {
+  /** Shortcut like `"mod+s"`. `mod` is ⌘ on Apple devices and Ctrl elsewhere. */
   shortcut?: string;
+  /** Fired when the keyboard shortcut is pressed. */
   onCommand?: () => void;
+  /** Stop the browser's own handling of the shortcut, like the save dialog. */
   preventDefault?: boolean;
+  /** Show the shortcut as keycaps inside the button. */
   showShortcut?: boolean;
 }
+
+const MODIFIERS = ["mod", "ctrl", "alt", "shift"] as const;
+/** How long a fired shortcut keeps every cap pressed. */
+const FIRE_MS = 160;
 
 function normalizeKey(value: string) {
   const key = value.toLowerCase();
@@ -18,40 +27,61 @@ function normalizeKey(value: string) {
   if (key === "control") return "ctrl";
   if (key === "option") return "alt";
   if (key === "escape") return "esc";
+  if (key === "return") return "enter";
+  if (key === " " || key === "spacebar") return "space";
   return key;
 }
 
-function shortcutMatches(event: KeyboardEvent, shortcut: string) {
-  const parts = shortcut.split("+").map((part) => normalizeKey(part.trim()));
-  const key = normalizeKey(event.key);
+function parseShortcut(shortcut: string) {
+  return shortcut
+    .split("+")
+    .map((part) => normalizeKey(part.trim()))
+    .filter(Boolean);
+}
+
+function shortcutMatches(event: KeyboardEvent, parts: string[]) {
   const wantsMod = parts.includes("mod");
   const wantsCtrl = parts.includes("ctrl");
-  const wantsAlt = parts.includes("alt");
-  const wantsShift = parts.includes("shift");
   const finalKey = parts.find(
-    (part) => !["mod", "ctrl", "alt", "shift"].includes(part),
+    (part) => !(MODIFIERS as readonly string[]).includes(part),
   );
 
   if (wantsMod && !(event.metaKey || event.ctrlKey)) return false;
   if (!wantsMod && wantsCtrl !== event.ctrlKey) return false;
-  if (wantsAlt !== event.altKey) return false;
-  if (wantsShift !== event.shiftKey) return false;
-  return finalKey ? key === finalKey : false;
+  if (parts.includes("alt") !== event.altKey) return false;
+  if (parts.includes("shift") !== event.shiftKey) return false;
+  return finalKey ? normalizeKey(event.key) === finalKey : false;
 }
 
-function formatShortcut(shortcut: string) {
-  return shortcut
-    .split("+")
-    .map((part) => {
-      const key = normalizeKey(part.trim());
-      if (key === "mod") return "⌘";
-      if (key === "ctrl") return "Ctrl";
-      if (key === "alt") return "Alt";
-      if (key === "shift") return "Shift";
-      if (key === "esc") return "Esc";
-      return key.length === 1 ? key.toUpperCase() : key;
-    })
-    .join(" ");
+/** Whether a single shortcut part is physically held in this key event. */
+function partHeld(part: string, event: KeyboardEvent, isApple: boolean) {
+  if (part === "mod") return isApple ? event.metaKey : event.ctrlKey;
+  if (part === "ctrl") return event.ctrlKey;
+  if (part === "alt") return event.altKey;
+  if (part === "shift") return event.shiftKey;
+  return false;
+}
+
+function formatPart(part: string, isApple: boolean) {
+  if (part === "mod") return isApple ? "⌘" : "Ctrl";
+  if (part === "ctrl") return isApple ? "⌃" : "Ctrl";
+  if (part === "alt") return isApple ? "⌥" : "Alt";
+  if (part === "shift") return isApple ? "⇧" : "Shift";
+  if (part === "enter") return "↵";
+  if (part === "esc") return "Esc";
+  if (part === "space") return "Space";
+  if (part === "arrowup") return "↑";
+  if (part === "arrowdown") return "↓";
+  if (part === "arrowleft") return "←";
+  if (part === "arrowright") return "→";
+  return part.length === 1 ? part.toUpperCase() : part;
+}
+
+function detectApple() {
+  if (typeof navigator === "undefined") return false;
+  return /mac|iphone|ipad|ipod/i.test(
+    navigator.platform || navigator.userAgent,
+  );
 }
 
 export const CommandButton = React.forwardRef<
@@ -67,25 +97,71 @@ export const CommandButton = React.forwardRef<
       className,
       children = "Save",
       disabled,
+      onClick,
       type = "button",
       ...props
     },
     ref,
   ) => {
-    const [pulse, setPulse] = React.useState(0);
+    const parts = React.useMemo(() => parseShortcut(shortcut), [shortcut]);
+    const [isApple, setIsApple] = React.useState(false);
+    const [held, setHeld] = React.useState<ReadonlySet<string>>(new Set());
+    const [firing, setFiring] = React.useState(false);
+    const fireTimerRef = React.useRef<number | undefined>(undefined);
+    const onCommandRef = React.useRef(onCommand);
+
+    React.useEffect(() => {
+      onCommandRef.current = onCommand;
+    }, [onCommand]);
+
+    // Platform is only known on the client, so detect it after hydration.
+    React.useEffect(() => setIsApple(detectApple()), []);
+
+    const fire = React.useCallback(() => {
+      setFiring(true);
+      window.clearTimeout(fireTimerRef.current);
+      fireTimerRef.current = window.setTimeout(() => setFiring(false), FIRE_MS);
+    }, []);
 
     React.useEffect(() => {
       if (disabled) return;
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (!shortcutMatches(event, shortcut)) return;
-        if (preventDefault) event.preventDefault();
-        setPulse((value) => value + 1);
-        onCommand?.();
+
+      // Mirror which modifier caps are held so each one sinks as it's pressed.
+      const syncModifiers = (event: KeyboardEvent) => {
+        const next = new Set(
+          parts.filter((part) => partHeld(part, event, isApple)),
+        );
+        setHeld((current) =>
+          current.size === next.size &&
+          [...next].every((part) => current.has(part))
+            ? current
+            : next,
+        );
       };
 
+      const handleKeyDown = (event: KeyboardEvent) => {
+        syncModifiers(event);
+        if (event.repeat || !shortcutMatches(event, parts)) return;
+        if (preventDefault) event.preventDefault();
+        fire();
+        onCommandRef.current?.();
+      };
+      const clear = () => setHeld(new Set());
+
       window.addEventListener("keydown", handleKeyDown);
-      return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [disabled, onCommand, preventDefault, shortcut]);
+      window.addEventListener("keyup", syncModifiers);
+      window.addEventListener("blur", clear);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener("keyup", syncModifiers);
+        window.removeEventListener("blur", clear);
+        clear();
+      };
+    }, [disabled, fire, isApple, parts, preventDefault]);
+
+    React.useEffect(() => () => window.clearTimeout(fireTimerRef.current), []);
+
+    const label = parts.map((part) => formatPart(part, isApple)).join(" ");
 
     return (
       <button
@@ -93,42 +169,52 @@ export const CommandButton = React.forwardRef<
         type={type}
         disabled={disabled}
         data-shortcut={shortcut}
+        data-firing={firing || undefined}
+        aria-keyshortcuts={parts
+          .map((part) =>
+            part === "mod" ? (isApple ? "Meta" : "Control") : part,
+          )
+          .join("+")}
+        onClick={onClick}
         className={cn(
-          "relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-md border border-neutral-950 bg-neutral-950 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors",
-          "hover:bg-neutral-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60",
-          "dark:border-white dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-200",
+          "group/cmd relative inline-flex h-9 cursor-pointer items-center justify-center gap-2.5 rounded-[10px] px-4 text-sm font-medium outline-none select-none",
+          // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
+          "bg-linear-to-b from-[#353535] to-[#272727] text-neutral-50 shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+          "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+          // Press eases in fast and settles the shadow; release springs back on the slower base curve.
+          "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
+          // The shortcut has no :active state, so data-firing plays the same press.
+          "data-firing:scale-[0.97] data-firing:brightness-95 data-firing:duration-100 data-firing:ease-out data-firing:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:data-firing:scale-100",
+          showShortcut && "pr-2",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
         {...props}
       >
-        <motion.span
-          key={pulse}
-          aria-hidden
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={
-            pulse
-              ? { opacity: [0, 0.18, 0], scale: [0.8, 1.15, 1.3] }
-              : { opacity: 0 }
-          }
-          transition={{ duration: 0.22 }}
-          className="pointer-events-none absolute inset-0 rounded-md bg-foreground"
-        />
-        <motion.span
-          key={`label-${pulse}`}
-          initial={{ scale: 1, y: 0 }}
-          animate={
-            pulse ? { scale: [1, 0.96, 1], y: [0, 1, 0] } : undefined
-          }
-          transition={{ duration: 0.18 }}
-          className="relative z-10 inline-flex items-center gap-3"
-        >
-          <span>{children}</span>
-          {showShortcut ? (
-            <kbd className="rounded border border-white/25 bg-white/12 px-1.5 py-0.5 font-mono text-[11px] font-medium text-white/80 dark:border-neutral-950/20 dark:bg-neutral-950/10 dark:text-neutral-950/75">
-              {formatShortcut(shortcut)}
-            </kbd>
-          ) : null}
-        </motion.span>
+        <span>{children}</span>
+        {showShortcut ? (
+          <kbd
+            aria-label={label}
+            className="inline-flex items-center gap-0.5 font-sans"
+          >
+            {parts.map((part) => (
+              <span
+                key={part}
+                aria-hidden
+                data-pressed={held.has(part) || undefined}
+                className={cn(
+                  "inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] bg-white/8 px-1 text-[11px] leading-none font-medium text-neutral-50/55 inset-ring inset-ring-white/6 transition-[translate,background-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)]",
+                  // Same states and timing as the button's press, so caps and button move on the same frame.
+                  "data-pressed:translate-y-px data-pressed:bg-white/20 data-pressed:text-neutral-50 data-pressed:duration-100 data-pressed:ease-out",
+                  "group-active/cmd:translate-y-px group-active/cmd:bg-white/20 group-active/cmd:text-neutral-50 group-active/cmd:duration-100 group-active/cmd:ease-out",
+                  "group-data-firing/cmd:translate-y-px group-data-firing/cmd:bg-white/20 group-data-firing/cmd:text-neutral-50 group-data-firing/cmd:duration-100 group-data-firing/cmd:ease-out",
+                )}
+              >
+                {formatPart(part, isApple)}
+              </span>
+            ))}
+          </kbd>
+        ) : null}
       </button>
     );
   },

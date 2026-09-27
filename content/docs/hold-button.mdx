@@ -1,13 +1,14 @@
 ---
 title: HoldButton
 description: A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.
+category: Interactive
 ---
 
 HoldButton guards destructive actions behind a deliberate press-and-hold gesture. While held, an inner fill wipes across the button from 0% to 100% over a configurable `duration`. Release before it completes and the button shakes, the fill snaps back to 0%, and the operation is aborted. Hold all the way to 100% and the action fires.
 
 ## Preview
 
-<PreviewCard title="HoldButton" note="Press and hold to delete">
+<PreviewCard live title="HoldButton" note="Press and hold to delete">
   <HoldButton />
 </PreviewCard>
 
@@ -71,7 +72,7 @@ The component spreads any `<button>` HTML attributes except `onClick` and `onAbo
 ## Notes
 
 - Progress is driven by `requestAnimationFrame` for frame-accurate completion, while the fill width and reset use a CSS transition for a smooth snap-back.
-- The fill reveals a knockout white label sized to the full button width via a `ResizeObserver`, so the text stays crisp and undistorted as the fill wipes across.
+- The fill reveals a knockout label in `primary-foreground` sized to the full button width via a `ResizeObserver`, so the text stays crisp and undistorted as the fill wipes across.
 - Pointer capture is used so releasing outside the button still aborts the hold; `onLostPointerCapture` and `onPointerCancel` are handled too.
 - Keyboard users can hold <kbd>Space</kbd> or <kbd>Enter</kbd>; releasing the key before 100% aborts just like a pointer release.
 - `aria-live="polite"` and `data-state` (`idle` | `holding` | `success`) expose the current state for screen readers and styling.

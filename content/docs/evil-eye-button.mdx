@@ -1,24 +1,15 @@
 ---
 title: EvilEyeButton
-description: A button with a React Bits evil eye shader background and a fiery readable label.
+description: An obsidian pill with a burning evil eye behind its label that tracks the cursor across the page, focuses on hover, and blinks.
+category: Effects
 ---
 
-EvilEyeButton wraps the React Bits `EvilEye` shader in an evil-buttons style button shell. It keeps the same single-component install shape as DitherButton while using a registry dependency for the WebGL background, so consumers own both the button and the shader source after install.
+EvilEyeButton is an obsidian pill with a burning eye behind its label. Flames lick around the iris, and the slit pupil follows your cursor anywhere on the page. Hover it and the eye focuses on you: the slit narrows, the flames flare, and the ember hairline heats up. Press it and the eye blinks, lids closing across the whole button. It also blinks on its own every few seconds.
 
 ## Preview
 
-<PreviewCard title="EvilEyeButton" note="Interactive">
-  <EvilEyeButton>I SEE YOU</EvilEyeButton>
-</PreviewCard>
-
-## Variants
-
-Tune the shader color, pupil shape, glow, speed, and button shell with props and `className`.
-
-### Blue Nazar
-
-<PreviewCard title="Blue Nazar" note="Cool eye color">
-  <EvilEyeButton eyeColor="#38bdf8">I SEE YOU</EvilEyeButton>
+<PreviewCard live title="EvilEyeButton" note="Move, hover, and press">
+  <EvilEyeButton>I see you</EvilEyeButton>
 </PreviewCard>
 
 ## Install
@@ -30,42 +21,43 @@ Add the item with the shadcn CLI.
 ## Usage
 
 ```tsx
-import EvilEyeButton from "@/components/evil-buttons/evil-eye-button";
+import { EvilEyeButton } from "@/components/evil-buttons/evil-eye-button";
 
 export function ButtonDemo() {
-  return <EvilEyeButton>I SEE YOU</EvilEyeButton>;
+  return <EvilEyeButton eyeColor="#38bdf8">I see you</EvilEyeButton>;
 }
 ```
 
 ## Props
 
-The component spreads any `<button>` HTML attributes.
+The component spreads native `button` props and forwards its ref. Every eye prop updates live without rebuilding the shader.
 
-| Prop              | Type              | Default     | Description                                                |
-| ----------------- | ----------------- | ----------- | ---------------------------------------------------------- |
-| `children`        | `React.ReactNode` | -           | The visible button label or content.                       |
-| `className`       | `string`          | -           | Extra classes passed to the button shell.                  |
-| `labelClassName`  | `string`          | -           | Extra classes passed to the label span.                    |
-| `effectClassName` | `string`          | -           | Extra classes passed to the shader wrapper.                |
-| `effectOpacity`   | `number`          | `0.95`      | CSS opacity applied to the effect wrapper.                 |
-| `eyeColor`        | `string`          | `"#ff6f37"` | Hex color used by the Evil Eye shader.                     |
-| `intensity`       | `number`          | `1.65`      | Brightness multiplier for the shader.                      |
-| `pupilSize`       | `number`          | `0.62`      | Size of the slit pupil. Lower values make it tighter.      |
-| `irisWidth`       | `number`          | `0.22`      | Width of the iris ring.                                    |
-| `glowIntensity`   | `number`          | `0.56`      | Strength of the outer glow.                                |
-| `scale`           | `number`          | `1.15`      | Shader scale inside the button. Lower values zoom in.      |
-| `noiseScale`      | `number`          | `1`         | Scale of the procedural noise texture.                     |
-| `pupilFollow`     | `number`          | `0.55`      | Cursor-follow strength for the pupil.                      |
-| `flameSpeed`      | `number`          | `0.8`       | Animation speed for the fiery iris motion.                 |
-| `backgroundColor` | `string`          | `"#050000"` | Hex background color passed into the shader.               |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"I see you"` | Label used when no children are provided. |
+| `eyeColor` | `string` | `"#ff6f37"` | Iris, glow, and hairline color, as hex. |
+| `intensity` | `number` | `1.3` | Brightness of the flames. |
+| `pupilSize` | `number` | `0.62` | Size of the slit pupil. Lower values make it tighter. |
+| `irisWidth` | `number` | `0.22` | Width of the iris ring. |
+| `glowIntensity` | `number` | `0.5` | Strength of the glow around the iris. |
+| `scale` | `number` | `1.7` | Size of the eye in the button. Higher values spread the flames wider. |
+| `noiseScale` | `number` | `0.8` | Scale of the flame noise. |
+| `pupilFollow` | `number` | `0.8` | How far the pupil tracks the cursor, 0 to 1. |
+| `flameSpeed` | `number` | `0.8` | Speed of the flames. |
+| `blink` | `boolean` | `true` | Blink every few seconds on its own. It always blinks on press. |
+| `eyeClassName` | `string` | - | Extra classes for the eye layer behind the label. |
+| `labelClassName` | `string` | - | Extra classes for the label. |
+| `className` | `string` | - | Extra classes merged onto the button. |
 
 ## Notes
 
-- Uses the React Bits `EvilEye` WebGL shader through a registry dependency.
-- The button itself is a client component because the shader uses browser APIs.
-- Honors `prefers-reduced-motion` by rendering a static CSS evil-eye fallback instead of mounting the animated shader.
-- Keep label text short enough for button layouts; `labelClassName` is available when custom sizing needs tighter typography.
+- Self-contained: the flame shader, ported from React Bits' `EvilEye`, is plain WebGL in the component file, with no `ogl` or registry dependency.
+- The pupil tracks the cursor across the whole page, easing toward it, not just while hovering the button.
+- A soft dark band behind the label and a vignette at the rim keep the text readable over the flames.
+- The eye renders at 2× or more for smooth flames, and only animates while on screen and the tab is visible. A static iris shows until the first frame, and stays if WebGL is unavailable.
+- With reduced motion, the eye is a still frame and it never blinks.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/evil-eye-button.tsx`, installs `clsx` and `tailwind-merge`, and pulls `@react-bits/EvilEye-TS-TW` as a registry dependency.
+The registry item includes `components/evil-buttons/evil-eye-button.tsx`, and adds `clsx` and `tailwind-merge` as dependencies.

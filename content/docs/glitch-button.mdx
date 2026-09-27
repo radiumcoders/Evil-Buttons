@@ -1,13 +1,14 @@
 ---
 title: GlitchButton
 description: A button with randomized RGB-split glitch bursts, a scanline overlay, and a flickering label.
+category: Effects
 ---
 
 GlitchButton simulates a corrupted display. Red and cyan ghost copies of the label flicker over a scanline texture. By default the glitch only fires while you hover, but it can also run automatically on a random interval or stay permanently on.
 
 ## Preview
 
-<PreviewCard title="GlitchButton" note="Hover to trigger">
+<PreviewCard live title="GlitchButton" note="Hover to trigger">
   <GlitchButton>DEPLOY DOOM</GlitchButton>
 </PreviewCard>
 
@@ -91,6 +92,7 @@ The component spreads any `<button>` HTML attributes.
 - Honors `prefers-reduced-motion`: all motion is suppressed, including `trigger="always"`, and the label stays static.
 - The surface stays a dark "screen" in both themes, because the RGB-split ghosts use `mix-blend-mode: screen` and only read against a dark base.
 - Keyframes are injected into `document.head` once on first mount and shared across every instance on the page.
+- The face is the graded dark surface with the hairline ring and spring press shared by MinimalButton and CommandButton. The press scales via the `scale` property, so it layers cleanly on top of the glitch shake.
 
 ## Registry
 

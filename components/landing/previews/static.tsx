@@ -3,10 +3,8 @@
 import { useIsDarkMode } from "@/hooks/use-app-theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
-import { HoldConfirmButton } from "@/components/evil-buttons/hold-confirm-button";
 import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
-import { CaptchaButton } from "@/components/evil-buttons/captcha-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
 import { BrutalButton } from "@/components/evil-buttons/brutal-button";
@@ -18,14 +16,13 @@ import { FrameButton } from "@/components/evil-buttons/frame-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
-import { DontPressButton } from "@/components/evil-buttons/dont-press-button";
+import { MinecraftButton } from "@/components/evil-buttons/minecraft-button";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import { PillButton } from "@/components/evil-buttons/pill-button";
+import { RealisticSwitch } from "@/components/evil-buttons/realistic-switch";
 import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
-import GridButton from "@/components/evil-buttons/grid-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
@@ -33,7 +30,7 @@ import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import TrollButton from "@/components/evil-buttons/troll-button";
 import { DeferredWebGLPreview } from "./shared";
-import { pillClassNames, themeColors } from "./theme";
+import { themeColors } from "./theme";
 
 export function StaticRevealButtonPreview() {
   return (
@@ -59,30 +56,13 @@ export function StaticHoldButtonPreview() {
   );
 }
 
-export function StaticHoldConfirmButtonPreview() {
-  const isDark = useIsDarkMode();
-
-  return (
-    <HoldConfirmButton
-      label="Hold to confirm"
-      holdingLabel="Keep holding…"
-      successLabel="Confirmed"
-      duration={2000}
-      resetAfter={1600}
-      minScale={0.9}
-      ringSize={280}
-      ringStrokeWidth={12}
-      ringColor={isDark ? "#5eead4" : "#0d9488"}
-    />
-  );
-}
-
 export function StaticSlideToDetonatePreview() {
   return (
     <SlideToDetonate
       label="Slide to detonate"
-      successLabel="Detonated"
-      threshold={0.95}
+      threshold={0.9}
+      resistance={0.35}
+      smoothness={0.4}
       resetAfter={1600}
     />
   );
@@ -98,15 +78,6 @@ export function StaticDoubtButtonPreview() {
   );
 }
 
-export function StaticCaptchaButtonPreview() {
-  return (
-    <CaptchaButton
-      label="Deploy Doom"
-      successLabel="Deployed"
-      resetAfter={1600}
-    />
-  );
-}
 
 export function StaticCooldownButtonPreview() {
   return (
@@ -179,22 +150,8 @@ export function StaticGlitchButtonPreview() {
 
 export function StaticEvilEyeButtonPreview() {
   return (
-    <DeferredWebGLPreview label="Doom">
-      <EvilEyeButton
-        effectOpacity={0.95}
-        eyeColor="#ff6f37"
-        backgroundColor="#000000"
-        intensity={1.65}
-        pupilSize={0.62}
-        irisWidth={0.22}
-        glowIntensity={0.56}
-        scale={1.15}
-        noiseScale={1}
-        pupilFollow={0.55}
-        flameSpeed={0.8}
-      >
-        Doom
-      </EvilEyeButton>
+    <DeferredWebGLPreview label="I see you">
+      <EvilEyeButton>I see you</EvilEyeButton>
     </DeferredWebGLPreview>
   );
 }
@@ -205,40 +162,21 @@ export function StaticAquaButtonPreview() {
 
 export function StaticFrameButtonPreview() {
   return (
-    <FrameButton
-      variant="default"
-      glow={false}
-      size={20}
-      offset={7.5}
-      hoverOffset={7}
-    >
-      Deploy
-    </FrameButton>
+    <FrameButton>Deploy</FrameButton>
   );
 }
 
 export function StaticHighlightButtonPreview() {
-  const isDark = useIsDarkMode();
-  const colors = isDark ? themeColors.dark : themeColors.light;
-
-  return (
-    <HighlightButton
-      highlightColor={colors.foreground}
-      highlightSize={56}
-      borderColor={colors.foreground}
-    >
-      Send
-    </HighlightButton>
-  );
+  return <HighlightButton>Send</HighlightButton>;
 }
 
 export function StaticConfettiButtonPreview() {
   return (
     <ConfettiButton
       label="Celebrate"
-      particleCount={120}
-      spread={72}
-      startVelocity={38}
+      particleCount={80}
+      spread={64}
+      startVelocity={32}
     />
   );
 }
@@ -246,17 +184,14 @@ export function StaticConfettiButtonPreview() {
 export function StaticAshBurstButtonPreview() {
   return (
     <AshBurstButton
-      label="Destroy"
-      particleCount={96}
-      spread={120}
-      startVelocity={48}
+      label="Delete"
+      particleCount={80}
+      spread={110}
+      startVelocity={42}
     />
   );
 }
 
-export function StaticDontPressButtonPreview() {
-  return <DontPressButton idleLabel="Don't Press" />;
-}
 
 export function StaticCommandButtonPreview() {
   return (
@@ -281,43 +216,29 @@ export function StaticClickPowerUpPreview() {
   return <ClickPowerUp tapDuration={500}>Doom</ClickPowerUp>;
 }
 
-export function StaticPillButtonPreview() {
-  const isDark = useIsDarkMode();
-  const classes = pillClassNames(isDark);
-
-  return (
-    <PillButton
-      primaryLabel="Off"
-      secondaryLabel="On"
-      defaultOpen={false}
-      primaryClassName={classes.primaryClassName}
-      secondaryClassName={classes.secondaryClassName}
-    />
-  );
+export function StaticRealisticSwitchPreview() {
+  return <RealisticSwitch size="lg" />;
 }
 
 export function StaticDemonicButtonPreview() {
-  return <DemonicButton label="Currupt the World" />;
+  return <DemonicButton label="Corrupt the World" />;
 }
 
 export function StaticChromeButtonPreview() {
   return (
-    <DeferredWebGLPreview label="Chromy">
-      <ChromeButton>Chromy</ChromeButton>
+    <DeferredWebGLPreview label="Continue">
+      <ChromeButton>Continue</ChromeButton>
     </DeferredWebGLPreview>
   );
 }
 
-export function StaticGridButtonPreview() {
-  return <GridButton>Click</GridButton>;
-}
 
 export function StaticMinimalButtonPreview() {
   return <MinimalButton>Apply</MinimalButton>;
 }
 
 export function StaticMoviePassButtonPreview() {
-  return <MoviePassButton>Deploy Doom</MoviePassButton>;
+  return <MoviePassButton>Admit One</MoviePassButton>;
 }
 
 export function StaticShinyButtonPreview() {
@@ -334,4 +255,8 @@ export function StaticThreeDButtonPreview() {
 
 export function StaticTrollButtonPreview() {
   return <TrollButton>Click Me</TrollButton>;
+}
+
+export function StaticMinecraftButtonPreview() {
+  return <MinecraftButton>Singleplayer</MinecraftButton>;
 }

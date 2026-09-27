@@ -4,7 +4,7 @@
     "exportName": "ClickPowerUp",
     "docSlug": "click-power-up",
     "title": "ClickPowerUp",
-    "description": "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
+    "description": "A bracketed button that arms on hover and powers up with an accent flash and bracket burst on every click.",
     "file": "components/evil-buttons/click-powerup.tsx",
     "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
@@ -13,7 +13,7 @@
     "exportName": "StickyButton",
     "docSlug": "sticky-button",
     "title": "StickyButton",
-    "description": "A magnetic button that follows cursor movement with spring physics.",
+    "description": "A magnetic button whose body and label are pulled toward the cursor from a wide field, with parallax depth and tilt.",
     "file": "components/evil-buttons/sticky.tsx",
     "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
@@ -22,37 +22,26 @@
     "exportName": "ShinyButton",
     "docSlug": "shiny-button",
     "title": "ShinyButton",
-    "description": "A glossy, gradient-styled button with a layered inner glow and press feedback.",
+    "description": "A glossy, gradient-styled button with a layered inner glow and a glint that sweeps across on every click.",
     "file": "components/evil-buttons/shiny-button.tsx",
-    "dependencies": []
+    "dependencies": ["clsx", "tailwind-merge"]
   },
   {
     "name": "movie-pass",
     "exportName": "MoviePassButton",
     "docSlug": "movie-pass",
     "title": "MoviePassButton",
-    "description": "A ticket-style button like a cinema stub.",
+    "description": "A cinema ticket button that tears along its perforation on click, hinging open or snapping apart.",
     "file": "components/evil-buttons/movie-pass.tsx",
-    "dependencies": []
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
   {
     "name": "minimal",
     "exportName": "MinimalButton",
     "docSlug": "minimal-button",
     "title": "MinimalButton",
-    "description": "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+    "description": "A quiet dark button with a hairline ring, inner highlight, soft drop shadow, and a chevron that nudges on hover.",
     "file": "components/evil-buttons/minimal.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["clsx", "tailwind-merge"]
-  },
-  {
-    "name": "grid-button",
-    "exportName": "GridButton",
-    "docSlug": "grid-button",
-    "title": "GridButton",
-    "description": "A retro-styled button with a pixelated grid icon and tactile press feedback.",
-    "file": "components/evil-buttons/grid-button.tsx",
-    "registryDependencies": ["@dotmatrix/dotm-square-11"],
     "dependencies": ["clsx", "tailwind-merge"]
   },
   {
@@ -69,9 +58,8 @@
     "exportName": "EvilEyeButton",
     "docSlug": "evil-eye-button",
     "title": "EvilEyeButton",
-    "description": "A button with a React Bits evil eye shader background and a fiery readable label.",
+    "description": "An obsidian pill with a burning evil eye behind its label that tracks the cursor across the page, focuses on hover, and blinks.",
     "file": "components/evil-buttons/evil-eye-button.tsx",
-    "registryDependencies": ["@react-bits/EvilEye-TS-TW"],
     "dependencies": ["clsx", "tailwind-merge"]
   },
   {
@@ -79,20 +67,18 @@
     "exportName": "TrollButton",
     "docSlug": "troll-button",
     "title": "TrollButton",
-    "description": "A button that flees from the user's cursor.",
+    "description": "A button that dodges the cursor until it runs out of stamina, then gives up and lets you click it.",
     "file": "components/evil-buttons/troll-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["motion"]
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
   {
     "name": "chrome-button",
     "exportName": "ChromeButton",
     "docSlug": "chrome-button",
     "title": "ChromeButton",
-    "description": "A button with an animated liquid chrome background.",
+    "description": "A metallic pill whose border is a ring of flowing liquid chrome around a solid face that follows the light or dark theme, with pill, compact, and icon sizes.",
     "file": "components/evil-buttons/chrome-button.tsx",
-    "registryDependencies": ["@react-bits/LiquidChrome-TS-TW"],
-    "dependencies": []
+    "dependencies": ["clsx", "tailwind-merge"]
   },
   {
     "name": "brutal-button",
@@ -126,7 +112,7 @@
     "exportName": "FrameButton",
     "docSlug": "frame-button",
     "title": "FrameButton",
-    "description": "A futuristic button with animated corner frames and tactile motion interactions.",
+    "description": "A futuristic button with springy corner markers that spread on hover and lock on when pressed, plus a scan sweep.",
     "file": "components/evil-buttons/frame-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
@@ -135,10 +121,9 @@
     "exportName": "HighlightButton",
     "docSlug": "highlight-button",
     "title": "HighlightButton",
-    "description": "A button with a mouse-following highlight that darkens light surfaces and expands on click.",
+    "description": "A button with a cursor spotlight, a border that lights up near the pointer, and a ripple from wherever you click.",
     "file": "components/evil-buttons/highlight-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["clsx", "tailwind-merge"]
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
   {
     "name": "glitch-button",
@@ -154,16 +139,16 @@
     "exportName": "CommandButton",
     "docSlug": "command-button",
     "title": "CommandButton",
-    "description": "A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.",
+    "description": "A button with a global keyboard shortcut, shown as keycaps that sink as you hold each key.",
     "file": "components/evil-buttons/command-button.tsx",
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
+    "dependencies": ["clsx", "tailwind-merge"]
   },
   {
     "name": "copy-button",
     "exportName": "CopyButton",
     "docSlug": "copy-button",
     "title": "CopyButton",
-    "description": "A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.",
+    "description": "A copy button that briefly shows the copied text above itself, so you see exactly what landed on the clipboard.",
     "file": "components/evil-buttons/copy-button.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
@@ -181,9 +166,9 @@
     "exportName": "DemonicButton",
     "docSlug": "demonic-button",
     "title": "DemonicButton",
-    "description": "A hold-to-charge button: keep pressing to slowly strain the devil horns out while it trembles, spits embers, and flashes between black and blood-red like a filling life meter.",
+    "description": "A hold-to-summon button: keep pressing to raise ridged devil horns from behind it while a canvas fire builds into a roar.",
     "file": "components/evil-buttons/demonic-button.tsx",
-    "dependencies": ["motion"]
+    "dependencies": ["clsx", "tailwind-merge"]
   },
   {
     "name": "hold-button",
@@ -193,16 +178,6 @@
     "description": "A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.",
     "file": "components/evil-buttons/hold-button.tsx",
     "dependencies": ["clsx", "tailwind-merge"]
-  },
-  {
-    "name": "captcha-button",
-    "exportName": "CaptchaButton",
-    "docSlug": "captcha-button",
-    "title": "CaptchaButton",
-    "description": "A button that makes you pass an absurd 'select all the evil' emoji captcha before the real action fires.",
-    "file": "components/evil-buttons/captcha-button.tsx",
-    "registryDependencies": ["@ncdai/twemoji"],
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
     "name": "doubt-button",
@@ -220,7 +195,6 @@
     "title": "SlideToDetonate",
     "description": "A slide-to-confirm safety gate that makes you drag a handle across a fuse before the real action detonates.",
     "file": "components/evil-buttons/slide-to-detonate.tsx",
-    "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
@@ -230,7 +204,6 @@
     "title": "MorphStatusButton",
     "description": "A single button that morphs through idle, loading, success, and error states in place, with no layout shift.",
     "file": "components/evil-buttons/morph-status-button.tsx",
-    "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
@@ -240,16 +213,15 @@
     "title": "CooldownButton",
     "description": "A button that locks itself behind a draining radial timer after each click to stop spam and double-submits, taunting you while you wait.",
     "file": "components/evil-buttons/cooldown-button.tsx",
-    "registryDependencies": ["button"],
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
-    "name": "pill-button",
-    "exportName": "PillButton",
-    "docSlug": "pill-button",
-    "title": "PillButton",
-    "description": "A compact pill toggle that slides between two labeled faces with a rolling hover label animation.",
-    "file": "components/evil-buttons/pill-button.tsx",
+    "name": "realistic-switch",
+    "exportName": "RealisticSwitch",
+    "docSlug": "realistic-switch",
+    "title": "RealisticSwitch",
+    "description": "A latching push switch, a raised box that sinks into its socket when pressed, stays down and glows while on, and springs back up on the next press.",
+    "file": "components/evil-buttons/realistic-switch.tsx",
     "dependencies": ["clsx", "tailwind-merge", "motion"]
   },
   {
@@ -257,38 +229,26 @@
     "exportName": "ConfettiButton",
     "docSlug": "confetti-button",
     "title": "ConfettiButton",
-    "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+    "description": "A ringed dark button with a sparkle icon that fires a restrained confetti burst on click.",
     "file": "components/evil-buttons/confetti-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["canvas-confetti", "clsx", "tailwind-merge", "motion"]
-  },
-  {
-    "name": "hold-confirm-button",
-    "exportName": "HoldConfirmButton",
-    "docSlug": "hold-confirm-button",
-    "title": "HoldConfirmButton",
-    "description": "A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.",
-    "file": "components/evil-buttons/hold-confirm-button.tsx",
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
-  },
-  {
-    "name": "dont-press-button",
-    "exportName": "DontPressButton",
-    "docSlug": "dont-press-button",
-    "title": "DontPressButton",
-    "description": "A reverse-psychology button that begs you not to press it, then grows more tempting the closer your cursor gets.",
-    "file": "components/evil-buttons/dont-press-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["clsx", "tailwind-merge", "motion"]
+    "dependencies": ["canvas-confetti", "clsx", "tailwind-merge"]
   },
   {
     "name": "ash-burst-button",
     "exportName": "AshBurstButton",
     "docSlug": "ash-burst-button",
     "title": "AshBurstButton",
-    "description": "A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.",
+    "description": "A ringed dark button that glows like an ember on click and erupts ash that collides with it via Matter.js physics, piling onto its surface.",
     "file": "components/evil-buttons/ash-burst-button.tsx",
-    "registryDependencies": ["button"],
-    "dependencies": ["matter-js", "clsx", "tailwind-merge", "motion"]
+    "dependencies": ["matter-js", "clsx", "tailwind-merge"]
+  },
+  {
+    "name": "minecraft-button",
+    "exportName": "MinecraftButton",
+    "docSlug": "minecraft-button",
+    "title": "MinecraftButton",
+    "description": "A pixel stone menu button that cracks every few taps, shatters into chips, and drops itself as a bobbing item you pick up to respawn it.",
+    "file": "components/evil-buttons/minecraft-button.tsx",
+    "dependencies": ["clsx", "tailwind-merge"]
   }
 ]

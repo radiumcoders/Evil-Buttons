@@ -1,217 +1,148 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { cn } from "@/lib/utils";
+import * as React from "react";
 import type { ComponentPropsWithoutRef } from "react";
-import React from "react";
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 import Link from "next/link";
-import type { UrlObject } from "url";
 import type { Route } from "next";
+import type { UrlObject } from "url";
+import { cn } from "@/lib/utils";
 
-type ButtonVariant = "outline" | "default" | "secondary";
-const MotionLink = motion.create(Link);
+type ButtonVariant = "default" | "secondary" | "outline";
 type Href = Route | UrlObject;
+
+const MotionLink = motion.create(Link);
 
 type BaseProps = {
   children: React.ReactNode;
   variant?: ButtonVariant;
   className?: string;
+  /** Soft glow that blooms behind the button on hover. */
   glow?: boolean;
+  /** Corner marker size: px as a number, or a Tailwind size class like `"size-4"`. */
   size?: number | string;
+  /** Distance in px the markers sit outside the button's edge. */
   offset?: number;
+  /** How far in px the markers spread out on hover. */
   hoverOffset?: number;
 };
 
 type ButtonProps = BaseProps &
-  ComponentPropsWithoutRef<typeof motion.button> & {
+  Omit<ComponentPropsWithoutRef<typeof motion.button>, "children"> & {
     as?: "button";
     href?: never;
   };
 
 type AnchorProps = BaseProps &
-  Omit<ComponentPropsWithoutRef<typeof motion.a>, "href"> & {
+  Omit<ComponentPropsWithoutRef<typeof motion.a>, "href" | "children"> & {
     as: "link";
     href: Href;
   };
 
-type FrameButtonProps = ButtonProps | AnchorProps;
+export type FrameButtonProps = ButtonProps | AnchorProps;
+
+const VARIANTS: Record<ButtonVariant, string> = {
+  // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop, plus the shared press.
+  default: "border-transparent text-neutral-50 hover:brightness-110 active:brightness-95 bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)] active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
+  secondary:
+    "border-border bg-secondary text-secondary-foreground shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)] hover:border-foreground hover:bg-foreground hover:text-background",
+  outline: "border-border bg-transparent text-foreground hover:bg-foreground/5 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
+};
+
+const SPRING = { type: "spring", stiffness: 380, damping: 24 } as const;
+
+// Diagonal light band that sweeps across the face on hover.
+const sweepVariants: Variants = {
+  rest: { x: "-120%", transition: { duration: 0 } },
+  hover: { x: "320%", transition: { duration: 0.9, ease: [0.4, 0, 0.2, 1] } },
+  tap: { x: "320%" },
+};
+
+const glowVariants: Variants = {
+  rest: { opacity: 0, scale: 0.9 },
+  hover: { opacity: 0.35, scale: 1.08 },
+  tap: { opacity: 0.5, scale: 1 },
+};
 
 export function FrameButton({
   children,
   className,
   variant = "default",
   glow = false,
-  size = 20,
-  offset = 7.5,
-  hoverOffset = 7,
+  size = 14,
+  offset = 6,
+  hoverOffset = 5,
   ...props
 }: FrameButtonProps) {
-  const commonStyles = cn(
-    "group relative inline-flex overflow-visible items-center justify-center",
-    "border px-8 py-4",
-    "cursor-pointer no-underline",
-    "uppercase tracking-[0.2em]",
-    "text-sm font-medium",
-    "transition-all duration-300",
-    "select-none",
-
-    "text-neutral-950 dark:text-neutral-50 border-[1.5px] border-current/30",
-
-    "hover:bg-current/10",
-
-    "active:scale-[0.985]",
-
-    variant === "default" && [
-      "dark:bg-white bg-black hover:bg-black text-white dark:text-black",
-    ],
-
-    variant === "secondary" && [
-      "hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black text-black dark:text-white",
-    ],
-
-    variant === "outline" && ["bg-transparent", "hover:bg-current/10"],
-
+  const classes = cn(
+    "group/frame relative inline-flex cursor-pointer items-center justify-center border px-8 py-3.5 text-xs font-medium tracking-[0.22em] uppercase no-underline outline-none select-none",
+    // Press eases in fast; release springs back on the slower base curve.
+    "transition-[scale,filter,box-shadow,background-color,border-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] active:scale-[0.97] active:duration-100 active:ease-out motion-reduce:active:scale-100",
+    "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+    VARIANTS[variant],
     className,
   );
 
-  const glowLayer = glow ? (
-    <div
-      className={cn(
-        "absolute inset-0 -z-10 opacity-0 blur-2xl",
-        "group-hover:opacity-40",
-        "group-hover:scale-110",
-      )}
-      style={{
-        background: "currentColor",
-      }}
-    />
-  ) : null;
-
-  const Content = (
+  const content = (
     <>
-      {glowLayer}
-      {children}
+      {glow ? (
+        <motion.span
+          aria-hidden
+          variants={glowVariants}
+          transition={SPRING}
+          className="pointer-events-none absolute inset-0 -z-10 bg-foreground blur-2xl"
+        />
+      ) : null}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <motion.span
+          variants={sweepVariants}
+          className="absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-linear-to-r from-transparent via-current/15 to-transparent"
+        />
+      </span>
+      <span className="relative inline-flex items-center gap-2">
+        {children}
+      </span>
       <FrameMarkers size={size} offset={offset} hoverOffset={hoverOffset} />
     </>
   );
 
-  if (props.as === "link") {
-    const { as, href, ...anchorProps } = props;
+  const motionProps = {
+    initial: "rest",
+    animate: "rest",
+    whileHover: "hover",
+    whileTap: "tap",
+    whileFocus: "hover",
+  } as const;
 
+  if (props.as === "link") {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { as, href, ...anchorProps } = props;
     return (
       <MotionLink
         href={href}
-        className={commonStyles}
-        initial="initial"
-        whileHover="hover"
-        whileTap="tap"
-        {...anchorProps}>
-        {Content}
+        className={classes}
+        {...motionProps}
+        {...anchorProps}
+      >
+        {content}
       </MotionLink>
     );
   }
 
-  const { as, ...buttonProps } = props;
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { as, type = "button", ...buttonProps } = props;
   return (
-    <motion.button className={commonStyles} {...buttonProps}>
-      {Content}
+    <motion.button
+      type={type}
+      className={classes}
+      {...motionProps}
+      {...buttonProps}
+    >
+      {content}
     </motion.button>
-  );
-}
-
-type IconProps = React.SVGProps<SVGSVGElement>;
-
-export function ChevronDownLeft({ className, ...props }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={cn(
-        "icon icon-tabler icons-tabler-outline icon-tabler-chevron-down-left",
-        className,
-      )}
-      {...props}>
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M8 8v8h8" />
-    </svg>
-  );
-}
-
-export function ChevronDownRight({ className, ...props }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={cn(
-        "icon icon-tabler icons-tabler-outline icon-tabler-chevron-down-right",
-        className,
-      )}
-      {...props}>
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M16 8v8h-8" />
-    </svg>
-  );
-}
-
-export function ChevronUpLeft({ className, ...props }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={cn(
-        "icon icon-tabler icons-tabler-outline icon-tabler-chevron-up-left",
-        className,
-      )}
-      {...props}>
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M8 16v-8h8" />
-    </svg>
-  );
-}
-
-export function ChevronUpRight({ className, ...props }: IconProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={cn(
-        "icon icon-tabler icons-tabler-outline icon-tabler-chevron-up-right",
-        className,
-      )}
-      {...props}>
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M16 16v-8h-8" />
-    </svg>
   );
 }
 
@@ -222,92 +153,62 @@ interface FrameMarkersProps {
   hoverOffset?: number;
 }
 
+const MARKERS = [
+  { key: "tl", x: -1, y: -1, className: "border-t-[1.5px] border-l-[1.5px]" },
+  { key: "tr", x: 1, y: -1, className: "border-t-[1.5px] border-r-[1.5px]" },
+  { key: "bl", x: -1, y: 1, className: "border-b-[1.5px] border-l-[1.5px]" },
+  { key: "br", x: 1, y: 1, className: "border-b-[1.5px] border-r-[1.5px]" },
+] as const;
+
+const markerVariants: Variants = {
+  rest: { x: 0, y: 0 },
+  hover: ({ x, y, spread }: { x: number; y: number; spread: number }) => ({
+    x: x * spread,
+    y: y * spread,
+  }),
+  // Lock on: snap in tight against the button's edge.
+  tap: ({ x, y, offset }: { x: number; y: number; offset: number }) => ({
+    x: -x * (offset - 1),
+    y: -y * (offset - 1),
+  }),
+};
+
+/**
+ * Four corner brackets around the nearest `motion` parent. They follow its
+ * `rest` / `hover` / `tap` variants, so the parent needs those states set.
+ */
 export function FrameMarkers({
   className,
-  size = 20,
-  offset = 7.5,
-  hoverOffset = 4,
+  size = 14,
+  offset = 6,
+  hoverOffset = 5,
 }: FrameMarkersProps) {
-  const isSizeString = typeof size === "string" && size.includes("-");
-
-  const baseStyles = cn(
-    "absolute text-muted-foreground transition-all duration-300 ease-out",
-    "group-hover:text-accent-foreground pointer-events-none",
-    isSizeString ? size : "",
-    className,
-  );
-
-  const styleBase = isSizeString ? {} : { width: size, height: size };
-  const offsetPx = `-${offset}px`;
-  const movePx = `${hoverOffset}px`;
-  const negMovePx = `-${hoverOffset}px`;
+  const sizeClass = typeof size === "string" ? size : undefined;
+  const sizeStyle =
+    typeof size === "number" ? { width: size, height: size } : {};
 
   return (
     <>
-      {/* Top Left */}
-      <ChevronUpLeft
-        style={
-          {
-            ...styleBase,
-            top: offsetPx,
-            left: offsetPx,
-            "--move-x": negMovePx,
-            "--move-y": negMovePx,
-          } as unknown as React.CSSProperties
-        }
-        className={cn(
-          baseStyles,
-          "group-hover:transform-[translate(var(--move-x),var(--move-y))]",
-        )}
-      />
-      {/* Top Right */}
-      <ChevronUpRight
-        style={
-          {
-            ...styleBase,
-            top: offsetPx,
-            right: offsetPx,
-            "--move-x": movePx,
-            "--move-y": negMovePx,
-          } as unknown as React.CSSProperties
-        }
-        className={cn(
-          baseStyles,
-          "group-hover:transform-[translate(var(--move-x),var(--move-y))]",
-        )}
-      />
-      {/* Bottom Right */}
-      <ChevronDownRight
-        style={
-          {
-            ...styleBase,
-            bottom: offsetPx,
-            right: offsetPx,
-            "--move-x": movePx,
-            "--move-y": movePx,
-          } as unknown as React.CSSProperties
-        }
-        className={cn(
-          baseStyles,
-          "group-hover:transform-[translate(var(--move-x),var(--move-y))]",
-        )}
-      />
-      {/* Bottom Left */}
-      <ChevronDownLeft
-        style={
-          {
-            ...styleBase,
-            bottom: offsetPx,
-            left: offsetPx,
-            "--move-x": negMovePx,
-            "--move-y": movePx,
-          } as unknown as React.CSSProperties
-        }
-        className={cn(
-          baseStyles,
-          "group-hover:transform-[translate(var(--move-x),var(--move-y))]",
-        )}
-      />
+      {MARKERS.map((marker) => (
+        <motion.span
+          key={marker.key}
+          aria-hidden
+          custom={{ x: marker.x, y: marker.y, spread: hoverOffset, offset }}
+          variants={markerVariants}
+          transition={SPRING}
+          className={cn(
+            "pointer-events-none absolute border-foreground/35 transition-colors duration-300 group-hover/frame:border-foreground group-focus-visible/frame:border-foreground",
+            marker.className,
+            sizeClass,
+            className,
+          )}
+          style={{
+            ...sizeStyle,
+            [marker.y < 0 ? "top" : "bottom"]: -offset,
+            [marker.x < 0 ? "left" : "right"]: -offset,
+          }}
+        />
+      ))}
     </>
   );
 }

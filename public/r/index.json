@@ -7,7 +7,7 @@
       "name": "click-powerup",
       "type": "registry:ui",
       "title": "ClickPowerUp",
-      "description": "An animated button wrapper with corner brackets, patterned fill, and tap feedback.",
+      "description": "A bracketed button that arms on hover and powers up with an accent flash and bracket burst on every click.",
       "files": [
         "components/evil-buttons/click-powerup.tsx"
       ]
@@ -16,7 +16,7 @@
       "name": "sticky",
       "type": "registry:ui",
       "title": "StickyButton",
-      "description": "A magnetic button that follows cursor movement with spring physics.",
+      "description": "A magnetic button whose body and label are pulled toward the cursor from a wide field, with parallax depth and tilt.",
       "files": [
         "components/evil-buttons/sticky.tsx"
       ]
@@ -25,7 +25,7 @@
       "name": "shiny-button",
       "type": "registry:ui",
       "title": "ShinyButton",
-      "description": "A glossy, gradient-styled button with a layered inner glow and press feedback.",
+      "description": "A glossy, gradient-styled button with a layered inner glow and a glint that sweeps across on every click.",
       "files": [
         "components/evil-buttons/shiny-button.tsx"
       ]
@@ -34,7 +34,7 @@
       "name": "movie-pass",
       "type": "registry:ui",
       "title": "MoviePassButton",
-      "description": "A ticket-style button like a cinema stub.",
+      "description": "A cinema ticket button that tears along its perforation on click, hinging open or snapping apart.",
       "files": [
         "components/evil-buttons/movie-pass.tsx"
       ]
@@ -43,18 +43,9 @@
       "name": "minimal",
       "type": "registry:ui",
       "title": "MinimalButton",
-      "description": "A sleek, minimal button with a subtle repeating linear gradient pattern.",
+      "description": "A quiet dark button with a hairline ring, inner highlight, soft drop shadow, and a chevron that nudges on hover.",
       "files": [
         "components/evil-buttons/minimal.tsx"
-      ]
-    },
-    {
-      "name": "grid-button",
-      "type": "registry:ui",
-      "title": "GridButton",
-      "description": "A retro-styled button with a pixelated grid icon and tactile press feedback.",
-      "files": [
-        "components/evil-buttons/grid-button.tsx"
       ]
     },
     {
@@ -70,7 +61,7 @@
       "name": "evil-eye-button",
       "type": "registry:ui",
       "title": "EvilEyeButton",
-      "description": "A button with a React Bits evil eye shader background and a fiery readable label.",
+      "description": "An obsidian pill with a burning evil eye behind its label that tracks the cursor across the page, focuses on hover, and blinks.",
       "files": [
         "components/evil-buttons/evil-eye-button.tsx"
       ]
@@ -79,7 +70,7 @@
       "name": "troll-button",
       "type": "registry:ui",
       "title": "TrollButton",
-      "description": "A button that flees from the user's cursor.",
+      "description": "A button that dodges the cursor until it runs out of stamina, then gives up and lets you click it.",
       "files": [
         "components/evil-buttons/troll-button.tsx"
       ]
@@ -88,7 +79,7 @@
       "name": "chrome-button",
       "type": "registry:ui",
       "title": "ChromeButton",
-      "description": "A button with an animated liquid chrome background.",
+      "description": "A metallic pill whose border is a ring of flowing liquid chrome around a solid face that follows the light or dark theme, with pill, compact, and icon sizes.",
       "files": [
         "components/evil-buttons/chrome-button.tsx"
       ]
@@ -124,7 +115,7 @@
       "name": "frame-button",
       "type": "registry:ui",
       "title": "FrameButton",
-      "description": "A futuristic button with animated corner frames and tactile motion interactions.",
+      "description": "A futuristic button with springy corner markers that spread on hover and lock on when pressed, plus a scan sweep.",
       "files": [
         "components/evil-buttons/frame-button.tsx"
       ]
@@ -133,7 +124,7 @@
       "name": "highlight-button",
       "type": "registry:ui",
       "title": "HighlightButton",
-      "description": "A button with a mouse-following highlight that darkens light surfaces and expands on click.",
+      "description": "A button with a cursor spotlight, a border that lights up near the pointer, and a ripple from wherever you click.",
       "files": [
         "components/evil-buttons/highlight-button.tsx"
       ]
@@ -151,7 +142,7 @@
       "name": "command-button",
       "type": "registry:ui",
       "title": "CommandButton",
-      "description": "A button that binds a keyboard shortcut globally and pulses with a subtle flash animation when the shortcut fires.",
+      "description": "A button with a global keyboard shortcut, shown as keycaps that sink as you hold each key.",
       "files": [
         "components/evil-buttons/command-button.tsx"
       ]
@@ -160,7 +151,7 @@
       "name": "copy-button",
       "type": "registry:ui",
       "title": "CopyButton",
-      "description": "A button that copies a value to the clipboard and transitions through idle, copied, and error states with animated icon swaps.",
+      "description": "A copy button that briefly shows the copied text above itself, so you see exactly what landed on the clipboard.",
       "files": [
         "components/evil-buttons/copy-button.tsx"
       ]
@@ -178,7 +169,7 @@
       "name": "demonic-button",
       "type": "registry:ui",
       "title": "DemonicButton",
-      "description": "A hold-to-charge button: keep pressing to slowly strain the devil horns out while it trembles, spits embers, and flashes between black and blood-red like a filling life meter.",
+      "description": "A hold-to-summon button: keep pressing to raise ridged devil horns from behind it while a canvas fire builds into a roar.",
       "files": [
         "components/evil-buttons/demonic-button.tsx"
       ]
@@ -190,15 +181,6 @@
       "description": "A hold-to-confirm button whose inner fill grows from 0 to 100%; release early to shake and abort, hold to the end to fire the action.",
       "files": [
         "components/evil-buttons/hold-button.tsx"
-      ]
-    },
-    {
-      "name": "captcha-button",
-      "type": "registry:ui",
-      "title": "CaptchaButton",
-      "description": "A button that makes you pass an absurd 'select all the evil' emoji captcha before the real action fires.",
-      "files": [
-        "components/evil-buttons/captcha-button.tsx"
       ]
     },
     {
@@ -238,48 +220,39 @@
       ]
     },
     {
-      "name": "pill-button",
+      "name": "realistic-switch",
       "type": "registry:ui",
-      "title": "PillButton",
-      "description": "A compact pill toggle that slides between two labeled faces with a rolling hover label animation.",
+      "title": "RealisticSwitch",
+      "description": "A latching push switch, a raised box that sinks into its socket when pressed, stays down and glows while on, and springs back up on the next press.",
       "files": [
-        "components/evil-buttons/pill-button.tsx"
+        "components/evil-buttons/realistic-switch.tsx"
       ]
     },
     {
       "name": "confetti-button",
       "type": "registry:ui",
       "title": "ConfettiButton",
-      "description": "A plain shadcn button that pops on click and fires a confetti celebration burst.",
+      "description": "A ringed dark button with a sparkle icon that fires a restrained confetti burst on click.",
       "files": [
         "components/evil-buttons/confetti-button.tsx"
-      ]
-    },
-    {
-      "name": "hold-confirm-button",
-      "type": "registry:ui",
-      "title": "HoldConfirmButton",
-      "description": "A hold-to-confirm pill button that shrinks while pressed and draws a circular progress ring around it using Motion styleEffect and svgEffect.",
-      "files": [
-        "components/evil-buttons/hold-confirm-button.tsx"
-      ]
-    },
-    {
-      "name": "dont-press-button",
-      "type": "registry:ui",
-      "title": "DontPressButton",
-      "description": "A reverse-psychology button that begs you not to press it, then grows more tempting the closer your cursor gets.",
-      "files": [
-        "components/evil-buttons/dont-press-button.tsx"
       ]
     },
     {
       "name": "ash-burst-button",
       "type": "registry:ui",
       "title": "AshBurstButton",
-      "description": "A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.",
+      "description": "A ringed dark button that glows like an ember on click and erupts ash that collides with it via Matter.js physics, piling onto its surface.",
       "files": [
         "components/evil-buttons/ash-burst-button.tsx"
+      ]
+    },
+    {
+      "name": "minecraft-button",
+      "type": "registry:ui",
+      "title": "MinecraftButton",
+      "description": "A pixel stone menu button that cracks every few taps, shatters into chips, and drops itself as a bobbing item you pick up to respawn it.",
+      "files": [
+        "components/evil-buttons/minecraft-button.tsx"
       ]
     }
   ]

@@ -9,24 +9,23 @@ import {
   Engine,
   World,
 } from "matter-js";
-import { motion, useAnimationControls, useReducedMotion } from "motion/react";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-/** Void ash, dried blood, hellfire, bone. */
+/** Mostly charcoal and ash grey, with a few embers. */
 const ASH_COLORS = [
-  "#0a0a0a",
-  "#1a0505",
-  "#3f0a0a",
-  "#7f1d1d",
-  "#991b1b",
+  "#171717",
+  "#262626",
+  "#404040",
+  "#525252",
+  "#737373",
+  "#a3a3a3",
   "#b91c1c",
-  "#dc2626",
-  "#ea580c",
   "#f97316",
-  "#fef3c7",
 ];
+/** How long the ember glow stays on the button after a burst. */
+const FIRE_MS = 480;
 
-type ParticleKind = "circle" | "square" | "shard" | "skull";
+type ParticleKind = "circle" | "square" | "shard";
 
 type ParticleMeta = {
   color: string;
@@ -34,6 +33,7 @@ type ParticleMeta = {
   size: number;
   born: number;
   life: number;
+  glow: boolean;
 };
 
 type AshSim = {
@@ -51,9 +51,7 @@ type AshSim = {
 };
 
 export interface AshBurstButtonProps
-  extends Omit<React.ComponentProps<typeof Button>, "onClick"> {
-  /** Button label. Falls back to `label` when no children are provided. */
-  children?: React.ReactNode;
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Label used when no children are provided. */
   label?: React.ReactNode;
   /** Ash particles per burst. */
@@ -64,8 +62,20 @@ export interface AshBurstButtonProps
   startVelocity?: number;
   /** Custom ash / ember colors. */
   colors?: string[];
+  /** Show the leading ember icon. */
+  icon?: boolean;
   /** Fired after each ash burst. */
   onDestroy?: () => void;
+}
+
+/** Warm reds and oranges get a soft glow; greys stay flat. */
+function isEmber(color: string) {
+  const hex = color.replace("#", "");
+  if (hex.length < 6) return false;
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  return r > 150 && r > g + 40 && r > b + 60;
 }
 
 function pick<T>(items: T[]): T {
@@ -199,20 +209,10 @@ function createAshSimulation(
   for (let i = 0; i < count; i++) {
     const kindRoll = Math.random();
     const kind: ParticleKind =
-      kindRoll > 0.93
-        ? "skull"
-        : kindRoll > 0.72
-          ? "shard"
-          : kindRoll > 0.4
-            ? "square"
-            : "circle";
+      kindRoll > 0.75 ? "shard" : kindRoll > 0.4 ? "square" : "circle";
 
     const size =
-      kind === "skull"
-        ? 10 + Math.random() * 6
-        : kind === "shard"
-          ? 3.5 + Math.random() * 4
-          : 2.2 + Math.random() * 3.8;
+      kind === "shard" ? 2.5 + Math.random() * 3 : 1.6 + Math.random() * 2.6;
 
     const halfSpread = (options.spread * Math.PI) / 180 / 2;
     const angle = -Math.PI / 2 + (Math.random() * 2 - 1) * halfSpread;
@@ -230,12 +230,12 @@ function createAshSimulation(
       : cy + (Math.random() - 0.5) * h * 0.3;
 
     const body =
-      kind === "circle" || kind === "skull"
-        ? Bodies.circle(spawnX, spawnY, size * (kind === "skull" ? 0.55 : 0.85), {
+      kind === "circle"
+        ? Bodies.circle(spawnX, spawnY, size * 0.85, {
             restitution: 0.35 + Math.random() * 0.3,
             friction: 0.65 + Math.random() * 0.4,
             frictionAir: 0.008 + Math.random() * 0.012,
-            density: kind === "skull" ? 0.0018 : 0.0012,
+            density: 0.0012,
             label: "ash-particle",
           })
         : Bodies.rectangle(
@@ -266,8 +266,10 @@ function createAshSimulation(
     }
     Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.55);
 
+    const color = pick(options.colors);
     meta.set(body.id, {
-      color: pick(options.colors),
+      color,
+      glow: isEmber(color),
       kind,
       size,
       born: now,
@@ -327,12 +329,16 @@ function paintSim(sim: AshSim, button: HTMLElement) {
     ctx.rotate(body.angle);
     ctx.globalAlpha = 0.4 + fade * 0.6;
 
-    if (info.kind === "skull") {
-      ctx.font = `${info.size * 1.8}px serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("💀", 0, 0);
-    } else if (info.kind === "shard") {
+    if (info.glow) {
+      ctx.globalAlpha = fade * 0.22;
+      ctx.fillStyle = info.color;
+      ctx.beginPath();
+      ctx.arc(0, 0, info.size * 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 0.4 + fade * 0.6;
+    }
+
+    if (info.kind === "shard") {
       drawShard(ctx, info.size, info.color);
     } else if (info.kind === "square") {
       ctx.fillStyle = info.color;
@@ -341,14 +347,6 @@ function paintSim(sim: AshSim, button: HTMLElement) {
       ctx.fillStyle = info.color;
       ctx.beginPath();
       ctx.arc(0, 0, info.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    if (info.color.startsWith("#f") || info.color.startsWith("#e")) {
-      ctx.globalAlpha = fade * 0.3;
-      ctx.fillStyle = "#f97316";
-      ctx.beginPath();
-      ctx.arc(0, 0, info.size * 1.7, 0, Math.PI * 2);
       ctx.fill();
     }
 
@@ -370,16 +368,16 @@ export const AshBurstButton = React.forwardRef<
   (
     {
       children,
-      label = "Destroy",
-      particleCount = 96,
-      spread = 120,
-      startVelocity = 48,
+      label = "Delete",
+      particleCount = 80,
+      spread = 110,
+      startVelocity = 42,
       colors = ASH_COLORS,
+      icon = true,
       onDestroy,
+      onClick,
       className,
       disabled,
-      variant = "destructive",
-      size,
       type = "button",
       ...props
     },
@@ -388,9 +386,12 @@ export const AshBurstButton = React.forwardRef<
     const buttonRef = React.useRef<HTMLButtonElement | null>(null);
     const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
     const simRef = React.useRef<AshSim | null>(null);
-    const burnControls = useAnimationControls();
-    const preferReducedMotion = useReducedMotion();
+    const fireTimerRef = React.useRef<number | undefined>(undefined);
     const [simActive, setSimActive] = React.useState(false);
+    const [firing, setFiring] = React.useState(false);
+    const [mounted, setMounted] = React.useState(false);
+
+    React.useEffect(() => setMounted(true), []);
 
     const setButtonRef = (node: HTMLButtonElement | null) => {
       buttonRef.current = node;
@@ -398,41 +399,33 @@ export const AshBurstButton = React.forwardRef<
       else if (ref) ref.current = node;
     };
 
-    const stopSim = React.useCallback(() => {
-      const sim = simRef.current;
-      if (!sim) {
-        setSimActive(false);
-        return;
-      }
+    const clearSim = (sim: AshSim) => {
       cancelAnimationFrame(sim.raf);
       World.clear(sim.engine.world, false);
       Engine.clear(sim.engine);
       sim.ctx.clearRect(0, 0, sim.canvas.clientWidth, sim.canvas.clientHeight);
+    };
+
+    const stopSim = React.useCallback(() => {
+      if (simRef.current) clearSim(simRef.current);
       simRef.current = null;
       setSimActive(false);
     }, []);
 
-    React.useEffect(() => () => stopSim(), [stopSim]);
+    React.useEffect(
+      () => () => {
+        stopSim();
+        window.clearTimeout(fireTimerRef.current);
+      },
+      [stopSim],
+    );
 
-    const startPhysicsBurst = React.useCallback(() => {
+    const startPhysicsBurst = () => {
       const button = buttonRef.current;
       const canvas = canvasRef.current;
       if (!button || !canvas) return;
 
-      const existing = simRef.current;
-      if (existing) {
-        cancelAnimationFrame(existing.raf);
-        World.clear(existing.engine.world, false);
-        Engine.clear(existing.engine);
-        existing.ctx.clearRect(
-          0,
-          0,
-          existing.canvas.clientWidth,
-          existing.canvas.clientHeight,
-        );
-        simRef.current = null;
-      }
-
+      if (simRef.current) clearSim(simRef.current);
       setSimActive(true);
 
       const sim = createAshSimulation(canvas, button, {
@@ -448,8 +441,7 @@ export const AshBurstButton = React.forwardRef<
         const btn = buttonRef.current;
         if (!current || !btn) return;
 
-        const keepGoing = paintSim(current, btn);
-        if (keepGoing) {
+        if (paintSim(current, btn)) {
           current.raf = requestAnimationFrame(tick);
         } else {
           stopSim();
@@ -457,99 +449,75 @@ export const AshBurstButton = React.forwardRef<
       };
 
       sim.raf = requestAnimationFrame(tick);
-    }, [colors, particleCount, spread, startVelocity, stopSim]);
-
-    const handleClick = () => {
-      if (disabled || !buttonRef.current) return;
-
-      if (!preferReducedMotion) {
-        startPhysicsBurst();
-      }
-      onDestroy?.();
-
-      if (preferReducedMotion) return;
-
-      void burnControls
-        .start({
-          scale: 0.78,
-          opacity: 0.35,
-          filter:
-            "brightness(0.25) contrast(1.6) saturate(2.4) hue-rotate(-12deg)",
-          transition: { duration: 0.1, ease: "easeIn" },
-        })
-        .then(() =>
-          burnControls.start({
-            scale: 1.12,
-            opacity: 1,
-            filter: "brightness(1.45) contrast(1.35) saturate(1.8)",
-            transition: {
-              type: "spring",
-              stiffness: 560,
-              damping: 12,
-              mass: 0.45,
-            },
-          }),
-        )
-        .then(() =>
-          burnControls.start({
-            scale: 1,
-            opacity: 1,
-            filter: "brightness(1) contrast(1) saturate(1) hue-rotate(0deg)",
-            transition: {
-              type: "spring",
-              stiffness: 360,
-              damping: 20,
-              mass: 0.55,
-            },
-          }),
-        );
     };
 
-    const displayLabel = children ?? label;
-    const [mounted, setMounted] = React.useState(false);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event);
+      if (disabled || event.defaultPrevented) return;
 
-    React.useEffect(() => {
-      setMounted(true);
-    }, []);
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (!reduceMotion) startPhysicsBurst();
 
-    const overlay =
-      mounted && typeof document !== "undefined"
-        ? createPortal(
-            <canvas
-              ref={canvasRef}
-              aria-hidden
-              className="pointer-events-none fixed inset-0 z-[80]"
-              style={{ opacity: simActive ? 1 : 0 }}
-            />,
-            document.body,
-          )
-        : null;
+      setFiring(true);
+      window.clearTimeout(fireTimerRef.current);
+      fireTimerRef.current = window.setTimeout(() => setFiring(false), FIRE_MS);
+      onDestroy?.();
+    };
+
+    const overlay = mounted
+      ? createPortal(
+          <canvas
+            ref={canvasRef}
+            aria-hidden
+            className="pointer-events-none fixed inset-0 z-[80]"
+            style={{ opacity: simActive ? 1 : 0 }}
+          />,
+          document.body,
+        )
+      : null;
 
     return (
       <>
         {overlay}
-        <motion.span
-          className="relative inline-flex"
-          initial={{
-            scale: 1,
-            opacity: 1,
-            filter: "brightness(1) contrast(1) saturate(1) hue-rotate(0deg)",
-          }}
-          animate={burnControls}
+        <button
+          ref={setButtonRef}
+          type={type}
+          disabled={disabled}
+          data-firing={firing || undefined}
+          onClick={handleClick}
+          className={cn(
+            "group/ash inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-4 text-sm font-medium text-neutral-50 outline-none select-none",
+            // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
+            "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+            "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+            // Press eases in fast and settles the shadow; release springs back on the slower base curve.
+            "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
+            // A burst leaves a faint ember glow on the face that cools back to the idle surface.
+            "data-firing:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(249_115_22/0.18),inset_0_1px_0_rgb(255_255_255/0.14),inset_0_-8px_16px_-8px_rgb(239_68_68/0.35),0_1px_2px_rgb(0_0_0/0.25),0_4px_16px_-4px_rgb(239_68_68/0.35)]",
+            "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+            icon && "pl-3",
+            className,
+          )}
+          {...props}
         >
-          <Button
-            ref={setButtonRef}
-            type={type}
-            variant={variant}
-            size={size}
-            disabled={disabled}
-            onClick={handleClick}
-            className={className}
-            {...props}
-          >
-            {displayLabel}
-          </Button>
-        </motion.span>
+          {icon ? (
+            <svg
+              aria-hidden
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className={cn(
+                "size-3.5 text-neutral-50/45 transition-[translate,scale,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)]",
+                "group-hover/ash:text-red-400/80",
+                "group-data-firing/ash:-translate-y-px group-data-firing/ash:scale-110 group-data-firing/ash:text-orange-400 motion-reduce:transform-none",
+              )}
+            >
+              <path d="M8.6 1.2c.3 2-.6 3.1-1.6 4.2C5.9 6.6 4.5 8 4.5 10.2 4.5 12.6 6.2 14.5 8 14.5s3.5-1.6 3.5-4.1c0-1.5-.6-2.6-1.3-3.4-.1 1.1-.6 1.8-1.4 2.1.5-2.7-.1-5.8-2.2-7.9Z" />
+            </svg>
+          ) : null}
+          <span>{children ?? label}</span>
+        </button>
       </>
     );
   },

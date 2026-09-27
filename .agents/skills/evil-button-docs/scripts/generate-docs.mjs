@@ -121,7 +121,7 @@ ${title} is ${description.charAt(0).toLowerCase()}${description.slice(1)}
 
 ## Preview
 
-<PreviewCard title="${title}" note="Interactive">
+<PreviewCard live title="${title}" note="Interactive">
   <${componentName}>Deploy Doom</${componentName}>
 </PreviewCard>
 

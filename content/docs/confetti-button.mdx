@@ -1,13 +1,14 @@
 ---
 title: ConfettiButton
-description: A plain shadcn button that pops on click and fires a confetti celebration burst.
+description: A ringed dark button with a sparkle icon that fires a restrained confetti burst on click.
+category: Effects
 ---
 
-ConfettiButton looks like any other default button. Click it and it pops with a spring bounce while confetti erupts from the button — a tiny celebration for doing almost nothing.
+ConfettiButton is a calm, ringed dark button with a small sparkle icon. Click it and it presses in, the sparkle lights up, and a short burst of soft, muted confetti falls from the button — a tiny celebration that still looks professional.
 
 ## Preview
 
-<PreviewCard title="ConfettiButton" note="Click for confetti">
+<PreviewCard live title="ConfettiButton" note="Click for confetti">
   <ConfettiButton />
 </PreviewCard>
 
@@ -25,7 +26,7 @@ import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 export function ButtonDemo() {
   return (
     <ConfettiButton
-      colors={["#ff577f", "#ff884b", "#ffd384", "#fff9b0"]}
+      colors={["#fafafa", "#a3a3a3", "#93c5fd"]}
       onCelebrate={() => console.log("Celebrated!")}
     >
       Celebrate
@@ -36,27 +37,26 @@ export function ButtonDemo() {
 
 ## Props
 
-The component spreads shadcn `Button` props except `onClick`.
+The component spreads native `button` props. `onClick` still fires before the burst; call `event.preventDefault()` to skip it.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
 | `label` | `React.ReactNode` | `"Continue"` | Label used when no children are provided. |
-| `particleCount` | `number` | `120` | Confetti particles per burst. |
-| `spread` | `number` | `72` | Confetti spread in degrees. |
-| `startVelocity` | `number` | `38` | Extra vertical launch velocity. |
-| `colors` | `string[]` | - | Custom confetti colors. |
+| `particleCount` | `number` | `80` | Confetti particles per burst. |
+| `spread` | `number` | `64` | Confetti spread in degrees. |
+| `startVelocity` | `number` | `32` | Launch velocity of the burst. |
+| `colors` | `string[]` | muted neutrals + soft accents | Custom confetti colors. |
+| `icon` | `boolean` | `true` | Show the leading sparkle icon. |
 | `onCelebrate` | `() => void` | - | Fired after each confetti burst. |
-| `variant` | `Button` variant | `"default"` | Passed through to the shadcn button. |
-| `size` | `Button` size | `"default"` | Passed through to the shadcn button. |
-| `className` | `string` | - | Extra classes passed to the button. |
+| `className` | `string` | - | Extra classes merged onto the button. |
 
 ## Notes
 
-- Built on the shadcn `Button` with default styling so it blends into any UI.
-- Each click runs a spring pop animation and launches confetti from the button center via `canvas-confetti`.
+- Shares the graded dark surface, hairline ring, and spring press used by MinimalButton and CommandButton.
+- Each click fires one small burst of flat squares and dots from the button via `canvas-confetti`, and the sparkle icon flares briefly.
 - Confetti is skipped automatically when the user prefers reduced motion.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/confetti-button.tsx`, installs the shadcn `button` registry item, and adds `canvas-confetti`, `clsx`, `tailwind-merge`, and `motion` as dependencies.
+The registry item includes `components/evil-buttons/confetti-button.tsx`, and adds `canvas-confetti`, `clsx`, and `tailwind-merge` as dependencies.

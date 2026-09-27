@@ -1,37 +1,16 @@
 ---
 title: FrameButton
-description: A futuristic button with animated corner frames and tactile motion interactions.
+description: A futuristic button with springy corner markers that spread on hover and lock on when pressed, plus a scan sweep.
+category: Effects
 ---
 
-FrameButton is a futuristic button with animated corner frames and tactile motion interactions.
+FrameButton is a targeting reticle for your call to action. Four corner markers float just outside the edges. On hover they spread outward and brighten while a band of light sweeps across the face, and on press they snap in tight against the border, locking on. Keyboard focus gets the same hover treatment.
 
 ## Preview
 
-<PreviewCard title="Frame Button" note="Interactive">
-  <FrameButton variant="outline">Get Started</FrameButton>
-</PreviewCard>
-
-
-## Variants
-
-### `default`
-
-<PreviewCard title="Frame Button" note="Interactive">
+<PreviewCard live>
   <FrameButton>Get Started</FrameButton>
 </PreviewCard>
-
-### `secondary`
-
-<PreviewCard title="Frame Button" note="Interactive">
-  <FrameButton variant="secondary">Get Started</FrameButton>
-</PreviewCard>
-
-### `outline`
-
-<PreviewCard title="Frame Button" note="Interactive">
-  <FrameButton variant="outline">Get Started</FrameButton>
-</PreviewCard>
-
 
 ## Install
 
@@ -47,11 +26,7 @@ Add the item with the shadcn CLI.
 import { FrameButton } from "@/components/evil-buttons/frame-button";
 
 export function ButtonDemo() {
-  return (
-    <FrameButton>
-      Get Started
-    </FrameButton>
-  );
+  return <FrameButton>Get Started</FrameButton>;
 }
 ```
 
@@ -69,23 +44,50 @@ export function ButtonDemo() {
 }
 ```
 
+## Variants
+
+### `secondary`
+
+Fills in with the foreground color on hover.
+
+<PreviewCard>
+  <FrameButton variant="secondary">Get Started</FrameButton>
+</PreviewCard>
+
+### `outline`
+
+<PreviewCard>
+  <FrameButton variant="outline">Get Started</FrameButton>
+</PreviewCard>
+
+### Glow
+
+<PreviewCard>
+  <FrameButton variant="outline" glow hoverOffset={8}>Engage</FrameButton>
+</PreviewCard>
+
 ## Props
 
-The component spreads any `<button>` HTML attributes.
+The component spreads native `button` props, or anchor props when `as="link"`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | — | The button content. |
-| `variant` | `"default" \| "secondary" \| "outline"` | `"default"` | Visual style variant of the button. |
-| `className` | `string` | — | Additional custom class names. |
-| `glow` | `boolean` | `false` | Enables the glow effect on hover. |
-| `size` | `number \| string` | `20` | Size of the frame corner markers. |
-| `offset` | `number` | `7.5` | Distance of the corner markers from the button edges. |
-| `hoverOffset` | `number` | `7` | Movement distance of corner markers on hover. |
-| `as` | `"button" \| "link"` | `"button"` | Renders the component as a button or link. |
-| `href` | `Route \| UrlObject` | — | Link destination when `as="link"` is used. |
+| `children` | `React.ReactNode` | - | The button content. |
+| `variant` | `"default" \| "secondary" \| "outline"` | `"default"` | Visual style of the button. |
+| `glow` | `boolean` | `false` | Blooms a soft glow behind the button on hover. |
+| `size` | `number \| string` | `14` | Corner marker size in px, or a Tailwind size class like `"size-4"`. |
+| `offset` | `number` | `6` | Distance in px the markers sit outside the button's edge. |
+| `hoverOffset` | `number` | `5` | How far in px the markers spread on hover. |
+| `as` | `"button" \| "link"` | `"button"` | Renders a button or a Next.js `Link`. |
+| `href` | `Route \| UrlObject` | - | Link destination when `as="link"`. |
+| `className` | `string` | - | Extra classes passed to the root element. |
 
+## Notes
+
+- `FrameMarkers` is exported on its own. Drop it inside any `motion` element that sets `rest`, `hover`, and `tap` variants to give it the same brackets.
+- The markers are two-sided borders rather than icons, so they stay crisp at any size.
+- The `default` variant is the graded dark surface with the hairline ring shared by MinimalButton and CommandButton, keeping its square corners so the brackets line up. Every variant uses the same spring press.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/frame-button.tsx`, installs `clsx` and `tailwind-merge`, and `motion` as a registry dependency.
+The registry item includes `components/evil-buttons/frame-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.

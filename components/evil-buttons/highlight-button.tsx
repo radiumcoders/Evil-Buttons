@@ -1,127 +1,196 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
-import { Button, type buttonVariants } from "@/components/ui/button"
-import type { VariantProps } from "class-variance-authority"
+import * as React from "react";
+import { motion } from "motion/react";
+import { cn } from "@/lib/utils";
 
-interface HighlightButtonProps
-  extends React.ComponentProps<"button">,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  highlightColor?: string
-  highlightSize?: number
-  borderColor?: string
+export interface HighlightButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "onDrag" | "onDragStart" | "onDragEnd" | "onAnimationStart"
+> {
+  /** Surface style of the button. */
+  variant?: "default" | "secondary" | "outline";
+  /** Color of the cursor spotlight and click ripple. */
+  highlightColor?: string;
+  /** Radius in px of the cursor spotlight. */
+  highlightSize?: number;
+  /** Color the border lights up with near the cursor. */
+  borderColor?: string;
 }
 
-function HighlightButton({
-  className,
-  variant = "default",
-  size = "default",
-  asChild = false,
-  highlightColor = "color-mix(in oklab, currentColor 55%, transparent)",
-  highlightSize = 56,
-  borderColor = "color-mix(in oklab, currentColor 58%, transparent)",
-  children,
-  onClick,
-  ...props
-}: HighlightButtonProps) {
-  const buttonRef = React.useRef<HTMLButtonElement>(null)
-  const [position, setPosition] = React.useState({ x: 0, y: 0 })
-  const [isHovering, setIsHovering] = React.useState(false)
-  const [isClicked, setIsClicked] = React.useState(false)
-  const [clickPosition, setClickPosition] = React.useState({ x: 0, y: 0 })
+type Ripple = { id: number; x: number; y: number; size: number };
 
-  const handleMouseMove = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (!buttonRef.current || isClicked) return
-      const rect = buttonRef.current.getBoundingClientRect()
-      setPosition({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      })
+const VARIANTS = {
+  // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
+  default:
+    "border-transparent text-neutral-50 hover:brightness-110 active:brightness-95 bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)] active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
+  secondary:
+    "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
+  outline: "border-border bg-background text-foreground hover:bg-accent/40 shadow-[0_1px_2px_rgb(0_0_0/0.05),0_2px_6px_-3px_rgb(0_0_0/0.07),inset_0_-1px_0_rgb(0_0_0/0.03)] dark:shadow-[0_1px_2px_rgb(0_0_0/0.4),inset_0_1px_0_rgb(255_255_255/0.05)]",
+} as const;
+
+// Paints only the 1px border ring: the content box is cut out of the full box.
+const BORDER_MASK = {
+  padding: 1,
+  mask: "linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0)",
+  WebkitMask:
+    "linear-gradient(#000 0 0) content-box xor, linear-gradient(#000 0 0)",
+} satisfies React.CSSProperties;
+
+export const HighlightButton = React.forwardRef<
+  HTMLButtonElement,
+  HighlightButtonProps
+>(
+  (
+    {
+      variant = "default",
+      highlightColor = "color-mix(in oklab, currentColor 28%, transparent)",
+      highlightSize = 90,
+      borderColor = "color-mix(in oklab, currentColor 75%, transparent)",
+      className,
+      style,
+      children,
+      onPointerMove,
+      onPointerDown,
+      onClick,
+      type = "button",
+      ...props
     },
-    [isClicked]
-  )
+    ref,
+  ) => {
+    const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+    const rippleIdRef = React.useRef(0);
+    const [ripples, setRipples] = React.useState<Ripple[]>([]);
 
-  const handleMouseEnter = React.useCallback(() => {
-    setIsHovering(true)
-  }, [])
+    const setRefs = React.useCallback(
+      (node: HTMLButtonElement | null) => {
+        buttonRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
+      },
+      [ref],
+    );
 
-  const handleMouseLeave = React.useCallback(() => {
-    setIsHovering(false)
-    setIsClicked(false)
-  }, [])
+    /** Cursor position relative to the button, written to CSS vars without re-rendering. */
+    const track = (clientX: number, clientY: number) => {
+      const button = buttonRef.current;
+      if (!button) return null;
+      const rect = button.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      button.style.setProperty("--hl-x", `${x}px`);
+      button.style.setProperty("--hl-y", `${y}px`);
+      return { x, y, rect };
+    };
 
-  const handleClick = React.useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (!buttonRef.current) return
-      const rect = buttonRef.current.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-      setClickPosition({ x, y })
-      setIsClicked(true)
-      onClick?.(e)
-    },
-    [onClick]
-  )
+    const addRipple = (x: number, y: number, rect: DOMRect) => {
+      // Big enough to reach the farthest corner from where it starts.
+      const size =
+        2 *
+        Math.hypot(Math.max(x, rect.width - x), Math.max(y, rect.height - y));
+      const id = ++rippleIdRef.current;
+      setRipples((current) => [...current, { id, x, y, size }]);
+    };
 
-  return (
-    <Button
-      ref={buttonRef}
-      variant={variant}
-      size={size}
-      asChild={asChild}
-      className={cn(
-        "relative overflow-hidden px-6 py-5 shadow-sm transition-[border-color,box-shadow,transform]",
-        className
-      )}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onClick={handleClick}
-      style={{
-        borderColor: isHovering ? borderColor : undefined,
-        borderWidth: isHovering ? "1px" : undefined,
-      }}
-      {...props}
-    >
-      {isHovering && !isClicked && (
-        <div
-          className="pointer-events-none absolute rounded-full transition-transform duration-100 ease-out"
+    const handlePointerMove = (
+      event: React.PointerEvent<HTMLButtonElement>,
+    ) => {
+      onPointerMove?.(event);
+      track(event.clientX, event.clientY);
+    };
+
+    const handlePointerDown = (
+      event: React.PointerEvent<HTMLButtonElement>,
+    ) => {
+      onPointerDown?.(event);
+      const hit = track(event.clientX, event.clientY);
+      if (hit) addRipple(hit.x, hit.y, hit.rect);
+    };
+
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event);
+      // Keyboard activation has no pointer, so ripple from the center.
+      if (event.detail === 0 && buttonRef.current) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        addRipple(rect.width / 2, rect.height / 2, rect);
+      }
+    };
+
+    return (
+      <motion.button
+        ref={setRefs}
+        type={type}
+        onPointerMove={handlePointerMove}
+        onPointerDown={handlePointerDown}
+        onClick={handleClick}
+        style={
+          {
+            "--hl-color": highlightColor,
+            "--hl-border": borderColor,
+            "--hl-size": `${highlightSize}px`,
+            ...style,
+          } as React.CSSProperties
+        }
+        className={cn(
+          "group/highlight relative inline-flex h-9 cursor-pointer items-center justify-center rounded-[10px] border px-4 text-sm font-medium whitespace-nowrap outline-none select-none",
+          // Press eases in fast and settles; release springs back on the slower base curve.
+          "transition-[scale,filter,box-shadow,background-color,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] active:scale-[0.97] active:duration-100 active:ease-out motion-reduce:active:scale-100",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50",
+          VARIANTS[variant],
+          className,
+        )}
+        {...props}
+      >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
+        >
+          {/* Soft spotlight under the cursor. */}
+          <span
+            className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/highlight:opacity-100"
+            style={{
+              background:
+                "radial-gradient(var(--hl-size) circle at var(--hl-x, 50%) var(--hl-y, 50%), var(--hl-color), transparent 70%)",
+            }}
+          />
+          {ripples.map((ripple) => (
+            <motion.span
+              key={ripple.id}
+              className="absolute rounded-full"
+              style={{
+                left: ripple.x - ripple.size / 2,
+                top: ripple.y - ripple.size / 2,
+                width: ripple.size,
+                height: ripple.size,
+                background: "var(--hl-color)",
+              }}
+              initial={{ scale: 0, opacity: 1 }}
+              animate={{ scale: 1, opacity: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              onAnimationComplete={() =>
+                setRipples((current) =>
+                  current.filter(({ id }) => id !== ripple.id),
+                )
+              }
+            />
+          ))}
+        </span>
+        {/* Border that lights up near the cursor. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute -inset-px rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover/highlight:opacity-100"
           style={{
-            left: position.x,
-            top: position.y,
-            width: highlightSize,
-            height: highlightSize,
-            backgroundColor: highlightColor,
-            transform: "translate(-50%, -50%)",
-            opacity: isHovering ? 1 : 0,
-            filter: "blur(24px)",
+            ...BORDER_MASK,
+            background:
+              "radial-gradient(calc(var(--hl-size) * 0.9) circle at var(--hl-x, 50%) var(--hl-y, 50%), var(--hl-border), transparent 75%)",
           }}
         />
-      )}
+        <span className="relative inline-flex items-center gap-1.5">
+          {children}
+        </span>
+      </motion.button>
+    );
+  },
+);
 
-      <div className="pointer-events-none absolute inset-0 rounded-md bg-current/[0.04]" />
-
-      {isClicked && (
-        <div
-          className="pointer-events-none absolute rounded-full"
-          style={{
-            left: clickPosition.x,
-            top: clickPosition.y,
-            backgroundColor: highlightColor,
-            transform: "translate(-50%, -50%)",
-            animation: "highlight-button-ripple 0.6s ease-out forwards",
-          }}
-        />
-      )}
-
-      <span className="relative z-10 inline-flex items-center justify-center text-inherit [&>p]:!m-0 [&>p]:!inline [&>p]:!text-sm [&>p]:!font-medium [&>p]:!leading-none [&>p]:!text-inherit">
-        {children}
-      </span>
-    </Button>
-  )
-}
-
-export { HighlightButton, type HighlightButtonProps }
+HighlightButton.displayName = "HighlightButton";

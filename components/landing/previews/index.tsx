@@ -4,10 +4,8 @@ import type { ComponentType } from "react";
 import {
   RevealButtonPreview,
   HoldButtonPreview,
-  HoldConfirmButtonPreview,
   SlideToDetonatePreview,
   DoubtButtonPreview,
-  CaptchaButtonPreview,
   CooldownButtonPreview,
   MorphStatusButtonPreview,
 } from "./interaction";
@@ -26,27 +24,24 @@ import {
   CommandButtonPreview,
   CopyButtonPreview,
   ClickPowerUpPreview,
-  PillButtonPreview,
+  RealisticSwitchPreview,
 } from "./utility";
 import {
   DemonicButtonPreview,
   ChromeButtonPreview,
-  GridButtonPreview,
   MinimalButtonPreview,
   MoviePassButtonPreview,
   ShinyButtonPreview,
   StickyButtonPreview,
   ThreeDButtonPreview,
   TrollButtonPreview,
-  DontPressButtonPreview,
+  MinecraftButtonPreview,
 } from "./simple";
 import {
   StaticRevealButtonPreview,
   StaticHoldButtonPreview,
-  StaticHoldConfirmButtonPreview,
   StaticSlideToDetonatePreview,
   StaticDoubtButtonPreview,
-  StaticCaptchaButtonPreview,
   StaticCooldownButtonPreview,
   StaticMorphStatusButtonPreview,
   StaticBrutalButtonPreview,
@@ -58,20 +53,19 @@ import {
   StaticHighlightButtonPreview,
   StaticConfettiButtonPreview,
   StaticAshBurstButtonPreview,
-  StaticDontPressButtonPreview,
   StaticCommandButtonPreview,
   StaticCopyButtonPreview,
   StaticClickPowerUpPreview,
-  StaticPillButtonPreview,
+  StaticRealisticSwitchPreview,
   StaticDemonicButtonPreview,
   StaticChromeButtonPreview,
-  StaticGridButtonPreview,
   StaticMinimalButtonPreview,
   StaticMoviePassButtonPreview,
   StaticShinyButtonPreview,
   StaticStickyButtonPreview,
   StaticThreeDButtonPreview,
   StaticTrollButtonPreview,
+  StaticMinecraftButtonPreview,
 } from "./static";
 
 const dialButtonPreviews: Record<string, ComponentType> = {
@@ -88,7 +82,6 @@ const dialButtonPreviews: Record<string, ComponentType> = {
   "chrome-button": ChromeButtonPreview,
   "frame-button": FrameButtonPreview,
   "glitch-button": GlitchButtonPreview,
-  "grid-button": GridButtonPreview,
   "highlight-button": HighlightButtonPreview,
   minimal: MinimalButtonPreview,
   "movie-pass": MoviePassButtonPreview,
@@ -96,16 +89,14 @@ const dialButtonPreviews: Record<string, ComponentType> = {
   sticky: StickyButtonPreview,
   "3d-button": ThreeDButtonPreview,
   "troll-button": TrollButtonPreview,
-  "captcha-button": CaptchaButtonPreview,
   "doubt-button": DoubtButtonPreview,
   "slide-to-detonate": SlideToDetonatePreview,
   "morph-status-button": MorphStatusButtonPreview,
   "cooldown-button": CooldownButtonPreview,
-  "pill-button": PillButtonPreview,
+  "realistic-switch": RealisticSwitchPreview,
   "confetti-button": ConfettiButtonPreview,
-  "hold-confirm-button": HoldConfirmButtonPreview,
-  "dont-press-button": DontPressButtonPreview,
   "ash-burst-button": AshBurstButtonPreview,
+  "minecraft-button": MinecraftButtonPreview,
 };
 
 const staticButtonPreviews: Record<string, ComponentType> = {
@@ -122,7 +113,6 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   "chrome-button": StaticChromeButtonPreview,
   "frame-button": StaticFrameButtonPreview,
   "glitch-button": StaticGlitchButtonPreview,
-  "grid-button": StaticGridButtonPreview,
   "highlight-button": StaticHighlightButtonPreview,
   minimal: StaticMinimalButtonPreview,
   "movie-pass": StaticMoviePassButtonPreview,
@@ -130,17 +120,19 @@ const staticButtonPreviews: Record<string, ComponentType> = {
   sticky: StaticStickyButtonPreview,
   "3d-button": StaticThreeDButtonPreview,
   "troll-button": StaticTrollButtonPreview,
-  "captcha-button": StaticCaptchaButtonPreview,
   "doubt-button": StaticDoubtButtonPreview,
   "slide-to-detonate": StaticSlideToDetonatePreview,
   "morph-status-button": StaticMorphStatusButtonPreview,
   "cooldown-button": StaticCooldownButtonPreview,
-  "pill-button": StaticPillButtonPreview,
+  "realistic-switch": StaticRealisticSwitchPreview,
   "confetti-button": StaticConfettiButtonPreview,
-  "hold-confirm-button": StaticHoldConfirmButtonPreview,
-  "dont-press-button": StaticDontPressButtonPreview,
   "ash-burst-button": StaticAshBurstButtonPreview,
+  "minecraft-button": StaticMinecraftButtonPreview,
 };
+
+export function hasDialPreview(registryName: string) {
+  return registryName in dialButtonPreviews;
+}
 
 export function ButtonPreview({
   registryName,

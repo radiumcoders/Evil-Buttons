@@ -74,21 +74,13 @@ export function HeroSection({ trapped = false }: HeroSectionProps) {
           <div className="pointer-events-auto flex shrink-0 items-center gap-2 sm:gap-3">
             <ThemeToggle />
             {!trapped ? (
-              <>
-                <Link
-                  href="/playground"
-                  className="hidden text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
-                >
-                  Playground
-                </Link>
-                <Link
-                  href="/docs"
-                  className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Docs
-                  <ArrowUpRight className="size-3.5" />
-                </Link>
-              </>
+              <Link
+                href="/docs"
+                className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Docs
+                <ArrowUpRight className="size-3.5" />
+              </Link>
             ) : null}
           </div>
         </div>
@@ -125,12 +117,6 @@ export function HeroSection({ trapped = false }: HeroSectionProps) {
         </p>
         {!trapped ? (
           <div className="pointer-events-auto flex items-center gap-3 sm:gap-4">
-            <Link
-              href="/playground"
-              className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground sm:hidden sm:text-sm"
-            >
-              Playground
-            </Link>
             <a
               href={siteConfig.github}
               target="_blank"

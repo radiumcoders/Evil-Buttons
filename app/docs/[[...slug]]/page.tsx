@@ -1,12 +1,16 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Metadata } from "next";
+import type { ComponentProps } from "react";
 import { notFound } from "next/navigation";
 import { DocsPageActions } from "@/components/docs-page-actions";
 import { getMDXComponents } from "@/components/mdx";
+import { PreviewCard } from "@/components/preview-card";
 import { PageToc } from "@/components/page-toc";
+import { TracwellCard } from "@/components/tracwell-card";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getPageMarkdown } from "@/lib/markdown";
+import { DEFAULT_DOCS_SLUG } from "@/lib/docs-categories";
 import { source } from "@/lib/source";
 import {
   absoluteUrl,
@@ -46,37 +50,66 @@ export default async function DocsPage({ params }: DocsPageProps) {
         )}`
       : undefined;
 
+  const importLine = getUsageImport(page.path);
+  const liveSource =
+    registryName !== null && hasRegistryItem && importLine !== null
+      ? {
+          registryName,
+          installCommand: `npx shadcn@latest add ${absoluteUrl(`/r/${registryName}.json`)}`,
+          importLine,
+          docsUrl: absoluteUrl(page.url),
+        }
+      : undefined;
+
   return (
-    <div className="relative mx-auto w-full max-w-3xl px-6 pb-10 pt-14 md:px-8 md:pt-10 xl:max-w-6xl xl:pr-56">
-      <JsonLd
-        data={[
-          createTechArticleJsonLd({
-            title: page.data.title,
-            description: page.data.description,
-            path: page.url,
-          }),
-          createBreadcrumbJsonLd(breadcrumbs),
-        ]}
-      />
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-4xl font-semibold tracking-tight text-foreground">
-          {page.data.title}
-        </h1>
-        <DocsPageActions
-          markdown={markdown}
-          githubUrl={`${siteConfig.github}/blob/main/content/docs/${page.path}`}
-          markdownUrl={rawPath}
-          markdownAbsoluteUrl={absoluteUrl(rawPath)}
-          v0Url={v0Url}
+    <div className="flex w-full justify-center gap-10">
+      <div className="min-h-dvh w-full max-w-4xl min-w-0 px-6 pt-16 pb-24 md:border-x md:border-dashed md:border-border md:px-10 md:pt-12">
+        <JsonLd
+          data={[
+            createTechArticleJsonLd({
+              title: page.data.title,
+              description: page.data.description,
+              path: page.url,
+            }),
+            createBreadcrumbJsonLd(breadcrumbs),
+          ]}
         />
+        <header className="mb-10 flex flex-col gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+            <h1 className="font-heading text-[2.25rem] leading-[1.1] font-semibold tracking-[-0.03em] text-foreground">
+              {page.data.title}
+            </h1>
+            <DocsPageActions
+              markdown={markdown}
+              githubUrl={`${siteConfig.github}/blob/main/content/docs/${page.path}`}
+              markdownUrl={rawPath}
+              markdownAbsoluteUrl={absoluteUrl(rawPath)}
+              v0Url={v0Url}
+            />
+          </div>
+          {page.data.description ? (
+            <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground">
+              {page.data.description}
+            </p>
+          ) : null}
+        </header>
+        <article className="docs-content min-w-0">
+          <MDX
+            components={getMDXComponents({
+              PreviewCard: (props: ComponentProps<typeof PreviewCard>) => (
+                <PreviewCard {...props} source={liveSource} />
+              ),
+            })}
+          />
+        </article>
       </div>
-      <article className="docs-content min-w-0">
-        <MDX components={getMDXComponents()} />
-      </article>
-      <aside className="fixed top-8 right-6 hidden w-44 xl:block">
-        <div className="docs-scroll flex max-h-[calc(100dvh-4rem)] flex-col gap-2 overflow-y-auto pl-4">
-          <p className="text-xs text-muted-foreground">On this page</p>
+      <aside className="sticky top-3 hidden h-fit w-52 shrink-0 self-start pt-12 xl:block">
+        <div className="docs-scroll flex max-h-[calc(100dvh-6rem)] flex-col gap-3 overflow-y-auto pr-2">
+          <p className="text-xs font-medium text-muted-foreground">On this page</p>
           <PageToc />
+          <div className="mt-6">
+            <TracwellCard />
+          </div>
         </div>
       </aside>
     </div>
@@ -126,20 +159,33 @@ function getRegistryItemName(mdxPath: string): string | null {
   }
 }
 
+/**
+ * The component import from the page's Usage snippet, e.g.
+ * `import { HoldButton } from "@/components/evil-buttons/hold-button";`.
+ */
+function getUsageImport(mdxPath: string): string | null {
+  try {
+    const contents = readFileSync(
+      join(process.cwd(), "content", "docs", mdxPath),
+      "utf8",
+    );
+    const match = contents.match(
+      /^import .+ from "@\/components\/evil-buttons\/[^"]+";$/m,
+    );
+    return match?.[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
 function getDocsPage(slug?: string[]) {
   if (slug && slug.length > 0) {
     return source.getPage(slug);
   }
 
-  const defaultPage = source
-    .getPages()
-    .filter(
-      (page) =>
-        !page.url.startsWith("/docs/icons") &&
-        !page.url.startsWith("/docs/logos") &&
-        !page.url.startsWith("/docs/scroll-bars"),
-    )
-    .sort((a, b) => a.url.localeCompare(b.url))[0];
-
-  return defaultPage ?? source.getPages().sort((a, b) => a.url.localeCompare(b.url))[0] ?? null;
+  return (
+    source.getPage([DEFAULT_DOCS_SLUG]) ??
+    source.getPages().sort((a, b) => a.url.localeCompare(b.url))[0] ??
+    null
+  );
 }

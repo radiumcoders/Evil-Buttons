@@ -1,39 +1,18 @@
 ---
 title: HighlightButton
-description: A button with a mouse-following highlight that darkens light surfaces and expands on click.
+description: A button with a cursor spotlight, a border that lights up near the pointer, and a ripple from wherever you click.
+category: Effects
 ---
+
+HighlightButton follows the cursor with a soft spotlight and lights up the section of its border nearest the pointer, so the edge seems to catch the light as you move. Clicking sends a ripple out from the exact spot you pressed, and the spotlight stays on through the click.
 
 ## Preview
 
-<PreviewCard title="HighlightButton" note="Interactive">
-  <div className="flex gap-4">
+<PreviewCard live>
+  <div className="flex flex-wrap items-center justify-center gap-4">
     <HighlightButton>Hover Me</HighlightButton>
     <HighlightButton variant="secondary">Click Me</HighlightButton>
-  </div>
-</PreviewCard>
-
-### Custom Colors
-
-<PreviewCard title="Custom Colors" note="Interactive">
-  <div className="flex flex-col md:flex-row gap-4">
-    <HighlightButton
-      highlightColor="rgba(59, 130, 246, 0.65)"
-      borderColor="rgba(59, 130, 246, 0.8)"
-    >
-      Blue Glow
-    </HighlightButton>
-    <HighlightButton
-      highlightColor="rgba(168, 85, 247, 0.65)"
-      borderColor="rgba(168, 85, 247, 0.8)"
-    >
-      Purple Glow
-    </HighlightButton>
-    <HighlightButton
-      highlightColor="rgba(34, 197, 94, 0.65)"
-      borderColor="rgba(34, 197, 94, 0.8)"
-    >
-      Green Glow
-    </HighlightButton>
+    <HighlightButton variant="outline">Outline</HighlightButton>
   </div>
 </PreviewCard>
 
@@ -49,37 +28,45 @@ Add the item with the shadcn CLI.
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
 
 export function ButtonDemo() {
-  return (
-    <HighlightButton>Click Me</HighlightButton>
-  );
-}
-
-export function CustomColorsDemo() {
-  return (
-    <HighlightButton
-      highlightColor="rgba(59, 130, 246, 0.65)"
-      borderColor="rgba(59, 130, 246, 0.8)"
-    >
-      Blue Glow
-    </HighlightButton>
-  );
+  return <HighlightButton variant="outline">Click Me</HighlightButton>;
 }
 ```
 
+## Variants
+
+### Custom colors
+
+Any CSS color works for the spotlight and the border.
+
+<PreviewCard>
+  <div className="flex flex-wrap items-center justify-center gap-4">
+    <HighlightButton variant="outline" highlightColor="rgb(59 130 246 / 0.3)" borderColor="rgb(59 130 246)">Blue Glow</HighlightButton>
+    <HighlightButton variant="outline" highlightColor="rgb(168 85 247 / 0.3)" borderColor="rgb(168 85 247)">Purple Glow</HighlightButton>
+    <HighlightButton variant="outline" highlightColor="rgb(34 197 94 / 0.3)" borderColor="rgb(34 197 94)">Green Glow</HighlightButton>
+  </div>
+</PreviewCard>
+
 ## Props
+
+The component spreads native `button` props and forwards its ref to the button.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `"default" \| "outline" \| "secondary" \| "ghost" \| "destructive" \| "link"` | `"default"` | Button variant style. |
-| `size` | `"default" \| "xs" \| "sm" \| "lg" \| "icon" \| "icon-xs" \| "icon-sm" \| "icon-lg"` | `"default"` | Button size. |
-| `highlightColor` | `string` | `"color-mix(in oklab, currentColor 55%, transparent)"` | Color of the mouse-following highlight and click ripple. |
-| `highlightSize` | `number` | `56` | Diameter of the highlight glow in pixels. |
-| `borderColor` | `string` | `"color-mix(in oklab, currentColor 58%, transparent)"` | Border color when hovering. |
+| `children` | `React.ReactNode` | - | The button label or content. |
+| `variant` | `"default" \| "secondary" \| "outline"` | `"default"` | Surface style of the button. |
+| `highlightColor` | `string` | `"color-mix(in oklab, currentColor 28%, transparent)"` | Color of the cursor spotlight and click ripple. |
+| `highlightSize` | `number` | `90` | Radius in px of the cursor spotlight. |
+| `borderColor` | `string` | `"color-mix(in oklab, currentColor 75%, transparent)"` | Color the border lights up with near the cursor. |
 | `className` | `string` | - | Extra classes passed to the button. |
-| `children` | `React.ReactNode` | - | The visible button label or content. |
 
-All other `<button>` attributes (`onClick`, `disabled`, `type`, etc.) are forwarded.
+## Notes
+
+- The cursor position is written straight to CSS variables, so moving the pointer never re-renders the component.
+- The lit border is a gradient masked down to a 1px ring, so it follows the button's radius.
+- Keyboard activation sends the ripple out from the center.
+- The defaults mix from `currentColor`, so the effect adapts to every variant and theme without extra props.
+- The `default` variant is the graded dark surface with the hairline ring shared by MinimalButton and CommandButton. Every variant uses the same spring press.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/highlight-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.
+The registry item includes `components/evil-buttons/highlight-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.

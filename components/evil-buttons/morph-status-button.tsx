@@ -2,13 +2,12 @@
 
 import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type MorphStatus = "idle" | "loading" | "success" | "error";
 
 export interface MorphStatusButtonProps
-  extends Omit<React.ComponentProps<typeof Button>, "onClick"> {
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   /** Idle label. Falls back to `label`. */
   children?: React.ReactNode;
   /** Idle label used when no children are provided. */
@@ -109,8 +108,6 @@ export const MorphStatusButton = React.forwardRef<
       onClick,
       status: controlledStatus,
       resetAfter = 1800,
-      variant = "outline",
-      size = "lg",
       className,
       disabled,
       ...props
@@ -194,18 +191,27 @@ export const MorphStatusButton = React.forwardRef<
     );
 
     return (
-      <Button
+      <button
         ref={ref}
         type="button"
-        variant={status === "error" ? "destructive" : variant}
-        size={size}
         onClick={handleClick}
         disabled={disabled || status === "loading"}
         aria-live="polite"
         aria-busy={status === "loading"}
         data-state={status}
         className={cn(
-          "relative overflow-hidden rounded-md px-4 font-semibold transition-colors",
+          "relative inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-[10px] px-4 text-sm font-medium text-neutral-50 outline-none select-none",
+          // Graded dark surface matching MinimalButton: dark outer hairline, faint inner ring, top highlight, soft drop.
+          "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+          "transition-[scale,filter,box-shadow,color] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
+          "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
+          "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+          // In flight, not disabled: stay solid with a dimmed label.
+          status === "loading" &&
+            "text-neutral-50/70 hover:brightness-100 disabled:opacity-100",
+          // Error keeps the dark face; a red label and inner ring carry the blame.
+          status === "error" &&
+            "text-red-300 shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(248_113_113/0.35),inset_0_1px_0_rgb(255_255_255/0.1),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(185_28_28/0.45)]",
           className,
         )}
         {...props}
@@ -248,7 +254,7 @@ export const MorphStatusButton = React.forwardRef<
             </AnimatePresence>
           </span>
         </span>
-      </Button>
+      </button>
     );
   },
 );

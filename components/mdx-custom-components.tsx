@@ -7,7 +7,6 @@ import type { MDXComponents } from "mdx/types";
 import { isValidElement, type ReactNode } from "react";
 import MoviePassButton from "./evil-buttons/movie-pass";
 import ShinyButton from "./evil-buttons/shiny-button";
-import GridButton from "./evil-buttons/grid-button";
 import DitherButton from "./evil-buttons/dither-button";
 import EvilEyeButton from "./evil-buttons/evil-eye-button";
 import TrollButton from "./evil-buttons/troll-button";
@@ -23,16 +22,14 @@ import { CopyButton } from "./evil-buttons/copy-button";
 import { RevealButton } from "./evil-buttons/reveal-button";
 import {DemonicButton} from "./evil-buttons/demonic-button";
 import { HoldButton } from "./evil-buttons/hold-button";
-import { CaptchaButton } from "./evil-buttons/captcha-button";
 import { DoubtButton } from "./evil-buttons/doubt-button";
 import { SlideToDetonate } from "./evil-buttons/slide-to-detonate";
 import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
-import { PillButton } from "./evil-buttons/pill-button";
+import { RealisticSwitch } from "./evil-buttons/realistic-switch";
 import { ConfettiButton } from "./evil-buttons/confetti-button";
-import { HoldConfirmButton } from "./evil-buttons/hold-confirm-button";
-import { DontPressButton } from "./evil-buttons/dont-press-button";
 import { AshBurstButton } from "./evil-buttons/ash-burst-button";
+import { MinecraftButton } from "./evil-buttons/minecraft-button";
 import {
   MorphStatusButtonDemo,
   MorphStatusButtonFailDemo,
@@ -106,7 +103,6 @@ export function getCustomMDXComponents(): MDXComponents {
     MoviePassButton,
     MinimalButton,
     EvilButton: ClickPowerUp,
-    GridButton,
     DitherButton,
     EvilEyeButton,
     Link,
@@ -123,17 +119,15 @@ export function getCustomMDXComponents(): MDXComponents {
     RevealButton,
     DemonicButton,
     HoldButton,
-    CaptchaButton,
     DoubtButton,
     SlideToDetonate,
     MorphStatusButton,
     MorphStatusButtonDemo,
     MorphStatusButtonFailDemo,
     CooldownButton,
-    PillButton,
+    RealisticSwitch,
     ConfettiButton,
-    HoldConfirmButton,
-    DontPressButton,
     AshBurstButton,
+    MinecraftButton,
   };
 }

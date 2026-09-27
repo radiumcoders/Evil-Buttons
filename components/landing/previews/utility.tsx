@@ -1,12 +1,15 @@
 "use client";
 
 import { useDialKit } from "dialkit";
-import { useIsDarkMode } from "@/hooks/use-app-theme";
-import { pillClassNames, useThemedDialKit } from "./theme";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import { PillButton } from "@/components/evil-buttons/pill-button";
+import {
+  RealisticSwitch,
+  type RealisticSwitchSize,
+  type RealisticSwitchTone,
+} from "@/components/evil-buttons/realistic-switch";
+import { LiveProps } from "./live-props";
 
 export function CommandButtonPreview() {
   const p = useDialKit(
@@ -21,13 +24,15 @@ export function CommandButtonPreview() {
   );
 
   return (
-    <CommandButton
-      shortcut={p.shortcut}
-      showShortcut={p.showShortcut}
-      preventDefault={p.preventDefault}
-    >
-      {p.label}
-    </CommandButton>
+    <LiveProps>
+      <CommandButton
+        shortcut={p.shortcut}
+        showShortcut={p.showShortcut}
+        preventDefault={p.preventDefault}
+      >
+        {p.label}
+      </CommandButton>
+    </LiveProps>
   );
 }
 
@@ -38,18 +43,24 @@ export function CopyButtonPreview() {
       value: "npx evil-buttons@latest init",
       copyLabel: "Copy",
       copiedLabel: "Copied",
+      errorLabel: "Failed",
       timeout: [1500, 500, 5000],
+      showValue: true,
     },
     { id: "copy-button" },
   );
 
   return (
-    <CopyButton
-      value={p.value}
-      copyLabel={p.copyLabel}
-      copiedLabel={p.copiedLabel}
-      timeout={p.timeout}
-    />
+    <LiveProps>
+      <CopyButton
+        value={p.value}
+        copyLabel={p.copyLabel}
+        copiedLabel={p.copiedLabel}
+        errorLabel={p.errorLabel}
+        timeout={p.timeout}
+        showValue={p.showValue}
+      />
+    </LiveProps>
   );
 }
 
@@ -59,33 +70,46 @@ export function ClickPowerUpPreview() {
     {
       label: "Doom",
       tapDuration: [500, 200, 2000],
+      accentColor: { type: "color", default: "#2CD4BD" },
     },
     { id: "click-powerup" },
   );
 
-  return <ClickPowerUp tapDuration={p.tapDuration}>{p.label}</ClickPowerUp>;
+  return (
+    <LiveProps>
+      <ClickPowerUp tapDuration={p.tapDuration} accentColor={p.accentColor}>
+        {p.label}
+      </ClickPowerUp>
+    </LiveProps>
+  );
 }
 
-export function PillButtonPreview() {
-  const p = useThemedDialKit(
-    "PillButton",
-    () => ({
-      primaryLabel: "Off",
-      secondaryLabel: "On",
-      defaultOpen: false,
-    }),
-    { id: "pill-button" },
+export function RealisticSwitchPreview() {
+  const p = useDialKit(
+    "RealisticSwitch",
+    {
+      color: { type: "color", default: "#e1261c" },
+      markColor: { type: "color", default: "#ffffff" },
+      tone: { type: "select", options: ["auto", "light", "dark"], default: "auto" },
+      illuminated: true,
+      sound: true,
+      defaultChecked: false,
+      size: { type: "select", options: ["sm", "default", "lg"], default: "lg" },
+    },
+    { id: "realistic-switch" },
   );
-  const isDark = useIsDarkMode();
-  const classes = pillClassNames(isDark);
 
   return (
-    <PillButton
-      primaryLabel={p.primaryLabel}
-      secondaryLabel={p.secondaryLabel}
-      defaultOpen={p.defaultOpen}
-      primaryClassName={classes.primaryClassName}
-      secondaryClassName={classes.secondaryClassName}
-    />
+    <LiveProps>
+      <RealisticSwitch
+        color={p.color}
+        markColor={p.markColor}
+        tone={p.tone as RealisticSwitchTone}
+        illuminated={p.illuminated}
+        sound={p.sound}
+        defaultChecked={p.defaultChecked}
+        size={p.size as RealisticSwitchSize}
+      />
+    </LiveProps>
   );
 }

@@ -1,13 +1,14 @@
 ---
 title: AshBurstButton
-description: A button that burns on click and erupts ash that collides with the button via Matter.js physics, piling onto its surface.
+description: A ringed dark button that glows like an ember on click and erupts ash that collides with it via Matter.js physics, piling onto its surface.
+category: Effects
 ---
 
-AshBurstButton is the evil twin of ConfettiButton. Click it and the control scorches while ash, blood shards, and skulls erupt — then Matter.js gravity makes them bounce off the button and pile onto its top edge.
+AshBurstButton is the darker twin of ConfettiButton. It looks like a calm, ringed dark button with a small flame icon. Click it and the face glows like an ember while charcoal ash and a few sparks erupt, then Matter.js gravity makes them bounce off the button and pile onto its top edge.
 
 ## Preview
 
-<PreviewCard title="AshBurstButton" note="Click — ash piles on the button">
+<PreviewCard live title="AshBurstButton" note="Click — ash piles on the button">
   <AshBurstButton />
 </PreviewCard>
 
@@ -25,7 +26,7 @@ import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
 export function ButtonDemo() {
   return (
     <AshBurstButton
-      colors={["#0a0a0a", "#7f1d1d", "#ea580c", "#fef3c7"]}
+      colors={["#171717", "#404040", "#737373", "#f97316"]}
       particleCount={120}
       onDestroy={() => console.log("Burned.")}
     >
@@ -37,27 +38,26 @@ export function ButtonDemo() {
 
 ## Props
 
-The component spreads shadcn `Button` props except `onClick`.
+The component spreads native `button` props. `onClick` still fires before the burst; call `event.preventDefault()` to skip it.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
-| `label` | `React.ReactNode` | `"Destroy"` | Label used when no children are provided. |
-| `particleCount` | `number` | `96` | Physics particles per burst. |
-| `spread` | `number` | `120` | Explosion spread in degrees. |
-| `startVelocity` | `number` | `48` | Launch velocity (mapped into Matter). |
-| `colors` | `string[]` | ash/ember palette | Custom particle colors. |
+| `label` | `React.ReactNode` | `"Delete"` | Label used when no children are provided. |
+| `particleCount` | `number` | `80` | Physics particles per burst. |
+| `spread` | `number` | `110` | Explosion spread in degrees. |
+| `startVelocity` | `number` | `42` | Launch velocity (mapped into Matter). |
+| `colors` | `string[]` | charcoal/ember palette | Custom particle colors. Warm reds and oranges get a soft glow. |
+| `icon` | `boolean` | `true` | Show the leading flame icon. |
 | `onDestroy` | `() => void` | - | Fired after each ash burst. |
-| `variant` | `Button` variant | `"destructive"` | Passed through to the shadcn button. |
-| `size` | `Button` size | `"default"` | Passed through to the shadcn button. |
-| `className` | `string` | - | Extra classes passed to the button. |
+| `className` | `string` | - | Extra classes merged onto the button. |
 
 ## Notes
 
-- Built on the shadcn `Button` with a destructive default so it reads as a kill switch.
-- Each click runs a burn spring and spawns Matter.js bodies on a full-viewport overlay canvas. The button itself is a live static collider (synced every frame), so ash bounces off the sides and settles on top.
+- Shares the graded dark surface, hairline ring, and spring press used by MinimalButton and CommandButton.
+- Each click adds a short ember glow to the button and spawns Matter.js bodies on a full-viewport overlay canvas. The button itself is a live static collider (synced every frame), so ash bounces off the sides and settles on top.
 - Physics is skipped when the user prefers reduced motion.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/ash-burst-button.tsx`, installs the shadcn `button` registry item, and adds `matter-js`, `clsx`, `tailwind-merge`, and `motion` as dependencies.
+The registry item includes `components/evil-buttons/ash-burst-button.tsx`, and adds `matter-js`, `clsx`, and `tailwind-merge` as dependencies.
