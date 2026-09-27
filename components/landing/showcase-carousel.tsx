@@ -8,7 +8,13 @@ import {
   type Variants,
 } from "motion/react";
 import Link from "next/link";
-import { type PointerEvent, useEffect, useRef, useState } from "react";
+import {
+  type PointerEvent,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { packageCommands } from "@/components/cli-block";
 import { FitToContainer } from "@/components/landing/fit-to-container";
 import { ShowcasePreview } from "@/components/landing/showcase-preview";
@@ -47,12 +53,32 @@ const slots = [
   { x: 2.12, z: -560, rotate: 58, scale: 0.78, opacity: 0, blur: 4 },
 ];
 
-function slotStyle(offset: number) {
+/**
+ * Narrow cards sit under the same perspective as wide ones, which pulls their
+ * neighbours in until the gaps close, so phones spread the slots a touch.
+ */
+const NARROW_SPREAD = 1.05;
+const narrowQuery = "(max-width: 639px)";
+
+function useSpread() {
+  const narrow = useSyncExternalStore(
+    (onChange) => {
+      const query = window.matchMedia(narrowQuery);
+      query.addEventListener("change", onChange);
+      return () => query.removeEventListener("change", onChange);
+    },
+    () => window.matchMedia(narrowQuery).matches,
+    () => false,
+  );
+  return narrow ? NARROW_SPREAD : 1;
+}
+
+function slotStyle(offset: number, spread = 1) {
   const distance = Math.abs(offset);
   const side = Math.sign(offset);
   const slot = slots[distance];
   return {
-    x: `${side * slot.x * 100}%`,
+    x: `${side * slot.x * spread * 100}%`,
     z: slot.z,
     // Turns each side card away from the center, so its inner edge stays
     // nearest the viewer and the stage bulges outward like a drum.
@@ -64,10 +90,12 @@ function slotStyle(offset: number) {
   };
 }
 
+type Motion = { direction: number; spread: number };
+
 const cardVariants: Variants = {
   // `direction` is +1 when the row shifts left (next), -1 when it shifts right.
-  enter: (direction: number) => slotStyle(3 * direction),
-  exit: (direction: number) => slotStyle(-3 * direction),
+  enter: ({ direction, spread }: Motion) => slotStyle(3 * direction, spread),
+  exit: ({ direction, spread }: Motion) => slotStyle(-3 * direction, spread),
 };
 
 function wrap(index: number) {
@@ -241,6 +269,8 @@ export function ShowcaseCarousel({
   const [held, setHeld] = useState(false);
   const reducedMotion = useReducedMotion();
   const { packageManager } = useConfig();
+  const spread = useSpread();
+  const custom: Motion = { direction, spread };
   const autoplay = !held && !reducedMotion;
 
   const step = (delta: number) =>
@@ -297,17 +327,17 @@ export function ShowcaseCarousel({
         }}
         className="relative mx-auto grid h-full w-[min(30rem,calc(100vw-3rem))] touch-pan-y grid-rows-[minmax(0,1fr)] items-center select-none [perspective:1400px]"
       >
-        <AnimatePresence initial={false} custom={direction}>
+        <AnimatePresence initial={false} custom={custom}>
           {visible.map(({ offset, item }) => {
             const main = offset === 0;
 
             return (
               <motion.div
                 key={item.registryName}
-                custom={direction}
+                custom={custom}
                 variants={cardVariants}
                 initial="enter"
-                animate={slotStyle(offset)}
+                animate={slotStyle(offset, spread)}
                 exit="exit"
                 transition={{ duration: 0.8, ease }}
                 style={{ transformOrigin: "50% 50%" }}
