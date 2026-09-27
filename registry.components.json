@@ -77,10 +77,9 @@
     "exportName": "ChromeButton",
     "docSlug": "chrome-button",
     "title": "ChromeButton",
-    "description": "A button with an animated liquid chrome background.",
+    "description": "A liquid-metal pill with a machined bezel whose WebGL chrome bulges under the pointer and ripples on press.",
     "file": "components/evil-buttons/chrome-button.tsx",
-    "registryDependencies": ["@react-bits/LiquidChrome-TS-TW"],
-    "dependencies": []
+    "dependencies": ["clsx", "tailwind-merge"]
   },
   {
     "name": "brutal-button",

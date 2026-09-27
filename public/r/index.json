@@ -79,7 +79,7 @@
       "name": "chrome-button",
       "type": "registry:ui",
       "title": "ChromeButton",
-      "description": "A button with an animated liquid chrome background.",
+      "description": "A liquid-metal pill with a machined bezel whose WebGL chrome bulges under the pointer and ripples on press.",
       "files": [
         "components/evil-buttons/chrome-button.tsx"
       ]

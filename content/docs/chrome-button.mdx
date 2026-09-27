@@ -1,15 +1,19 @@
 ---
 title: ChromeButton
-description: A button with an animated liquid chrome background.
+description: A liquid-metal pill with a machined bezel whose WebGL chrome bulges under the pointer and ripples on press.
 category: Effects
 ---
 
-ChromeButton uses the `@react-bits/LiquidChrome` component to render a stunning, animated liquid chrome background behind the button label.
+ChromeButton is a pill of liquid metal set in a machined bezel. The face is a flowing mirror surface that reflects a studio environment: bright sky, a hot softbox stripe, and a dark floor. Hover it and the metal swells under your cursor while the flow speeds up; press it and a ripple rings out from where you clicked. Silver gets an engraved label, black chrome a light one.
 
 ## Preview
 
-<PreviewCard live title="ChromeButton" note="Interactive">
+<PreviewCard live title="ChromeButton" note="Hover and press">
   <ChromeButton>Deploy Doom</ChromeButton>
+</PreviewCard>
+
+<PreviewCard live title="Black chrome" note="tone=&quot;black&quot;">
+  <ChromeButton tone="black">Deploy Doom</ChromeButton>
 </PreviewCard>
 
 ## Install
@@ -21,14 +25,12 @@ Add the item with the shadcn CLI.
 ## Usage
 
 ```tsx
-import ChromeButton from "@/components/evil-buttons/chrome-button";
+import { ChromeButton } from "@/components/evil-buttons/chrome-button";
 
 export function ButtonDemo() {
   return (
-    <ChromeButton>
-      <span className="relative z-10 text-white font-bold tracking-widest text-lg drop-shadow-md">
-        CHROME
-      </span>
+    <ChromeButton tone="black" speed={1.4} onClick={() => console.log("Polished.")}>
+      Chrome
     </ChromeButton>
   );
 }
@@ -36,10 +38,24 @@ export function ButtonDemo() {
 
 ## Props
 
-| Prop       | Type              | Default | Description                          |
-| ---------- | ----------------- | ------- | ------------------------------------ |
-| `children` | `React.ReactNode` | -       | The visible button label or content. |
+The component spreads native `button` props and forwards its ref.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | Button label. Falls back to `label`. |
+| `label` | `React.ReactNode` | `"Chromy"` | Label used when no children are provided. |
+| `tone` | `"silver" \| "black"` | `"silver"` | Polished silver with an engraved label, or black chrome with a light label. |
+| `speed` | `number` | `1` | Flow speed multiplier for the liquid surface. |
+| `interactive` | `boolean` | `true` | Bulge the metal under the pointer and ripple it on press. |
+| `className` | `string` | - | Extra classes merged onto the bezel. |
+
+## Notes
+
+- Self-contained: the shader is plain WebGL in the component file, with no `ogl` or external registry dependency.
+- The chrome only animates while the button is on screen and the tab is visible. A CSS gradient shows until the first frame paints, and stays if WebGL is unavailable.
+- Keyboard presses ripple from the center.
+- With reduced motion, the surface renders as a still frame: no flow, bulge, or ripple.
 
 ## Registry
 
-The registry item includes `components/evil-buttons/chrome-button.tsx` and installs `@react-bits/LiquidChrome-TS-TW` as a registry dependency.
+The registry item includes `components/evil-buttons/chrome-button.tsx`, and adds `clsx` and `tailwind-merge` as dependencies.

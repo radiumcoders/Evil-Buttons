@@ -2,7 +2,9 @@
 
 import { useDialKit } from "dialkit";
 import { DemonicButton } from "@/components/evil-buttons/demonic-button";
-import ChromeButton from "@/components/evil-buttons/chrome-button";
+import ChromeButton, {
+  type ChromeTone,
+} from "@/components/evil-buttons/chrome-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton, {
   type MoviePassVariant,
@@ -32,14 +34,25 @@ export function DemonicButtonPreview() {
 export function ChromeButtonPreview() {
   const p = useDialKit(
     "ChromeButton",
-    { label: "Chromy" },
+    {
+      label: "Chromy",
+      tone: { type: "select", options: ["silver", "black"], default: "silver" },
+      speed: [1, 0.2, 3],
+      interactive: true,
+    },
     { id: "chrome-button" },
   );
 
   return (
     <DeferredWebGLPreview label={p.label}>
       <LiveProps>
-        <ChromeButton>{p.label}</ChromeButton>
+        <ChromeButton
+          tone={p.tone as ChromeTone}
+          speed={p.speed}
+          interactive={p.interactive}
+        >
+          {p.label}
+        </ChromeButton>
       </LiveProps>
     </DeferredWebGLPreview>
   );
