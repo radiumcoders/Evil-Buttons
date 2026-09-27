@@ -24,7 +24,7 @@ import { trackOutcome } from "@/lib/tracwell";
 import { cn } from "@/lib/utils";
 
 /** How long the carousel sits untouched before rotating. */
-const IDLE_MS = 5000;
+const IDLE_MS = 3500;
 
 /** Horizontal travel, in px, that turns a drag into a step. */
 const SWIPE_PX = 40;
@@ -339,7 +339,7 @@ export function ShowcaseCarousel({
                 initial="enter"
                 animate={slotStyle(offset, spread)}
                 exit="exit"
-                transition={{ duration: 0.8, ease }}
+                transition={{ duration: 0.6, ease }}
                 style={{ transformOrigin: "50% 50%" }}
                 className="relative h-full max-h-[27rem] [grid-area:1/1]"
                 aria-hidden={!main}
