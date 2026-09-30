@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/landing-page";
+import { SponsorsSection } from "@/components/landing/sponsors-section";
+import { StatsSection } from "@/components/landing/stats-section";
+import { getLandingStats } from "@/lib/landing-stats";
 import { source } from "@/lib/source";
 
 export const metadata: Metadata = {
@@ -23,10 +26,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
+// The 30-day stats refresh every 10 minutes; live visitors poll on their own.
+export const revalidate = 600;
+
+export default async function HomePage() {
   const categories = Object.fromEntries(
     source.getPages().map((page) => [page.url, page.data.category]),
   );
 
-  return <LandingPage categories={categories} />;
+  const stats = await getLandingStats();
+
+  return (
+    <LandingPage categories={categories}>
+      <StatsSection stats={stats} />
+      <SponsorsSection visitors={stats.visitors} />
+    </LandingPage>
+  );
 }

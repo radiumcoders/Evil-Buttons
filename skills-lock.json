@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "bklit-ui": {
+      "source": "bklit/bklit-ui",
+      "sourceType": "github",
+      "skillPath": "skills/bklit-ui/SKILL.md",
+      "computedHash": "ace89f8b9a6d5d8f0367307f886cb9654065356db537df7b57b3d849aa503534"
+    },
     "grill-me": {
       "source": "mattpocock/skills",
       "sourceType": "github",
