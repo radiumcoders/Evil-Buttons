@@ -6,7 +6,6 @@ import {
   RankedBarChart,
 } from "@/components/landing/analytics-charts";
 import { showcase } from "@/components/landing/showcase";
-import { TracwellCard } from "@/components/tracwell-card";
 import type { LandingStats, RankedCount } from "@/lib/landing-stats";
 import { siteConfig } from "@/lib/seo";
 import { cn } from "@/lib/utils";
@@ -203,10 +202,6 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
             ) : null}
           </div>
         ) : null}
-
-        <div className="mt-6 max-w-56">
-          <TracwellCard />
-        </div>
       </div>
     </section>
   );
