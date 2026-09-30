@@ -7,6 +7,9 @@
 const ENDPOINT = "https://tracwell.app/mcp";
 const PROTOCOL_VERSION = "2025-06-18";
 
+/** Tracwell's id for this site (not a secret; the MCP key is). */
+export const TRACWELL_PROJECT_ID = "888fa603-1018-468a-8e07-6275b95d2226";
+
 type JsonRpcResponse = {
   id?: number;
   result?: unknown;

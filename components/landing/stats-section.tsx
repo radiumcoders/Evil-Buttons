@@ -1,7 +1,13 @@
 import { ArrowUpRightIcon, GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import type { ReactNode } from "react";
+import {
+  DailyVisitorsChart,
+  LiveVisitorsCard,
+  RankedBarChart,
+} from "@/components/landing/analytics-charts";
 import { showcase } from "@/components/landing/showcase";
 import { TracwellCard } from "@/components/tracwell-card";
-import type { LandingStats } from "@/lib/landing-stats";
+import type { LandingStats, RankedCount } from "@/lib/landing-stats";
 import { siteConfig } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -18,6 +24,77 @@ const lgColumns: Record<number, string> = {
   3: "lg:grid-cols-3",
   4: "lg:grid-cols-4",
 };
+
+function ChartCard({
+  title,
+  caption,
+  aside,
+  className,
+  children,
+}: {
+  title?: string;
+  caption?: string;
+  /** A direct label for the one value worth reading off the chart. */
+  aside?: ReactNode;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <figure className={cn("rounded-xl border border-border bg-background p-5 sm:p-6", className)}>
+      {title ? (
+        <figcaption className="mb-4 flex items-start justify-between gap-4">
+          <span>
+            <span className="block text-sm font-medium">{title}</span>
+            {caption ? (
+              <span className="block text-xs text-muted-foreground">{caption}</span>
+            ) : null}
+          </span>
+          {aside}
+        </figcaption>
+      ) : null}
+      {children}
+    </figure>
+  );
+}
+
+const dayLabel = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
+function PeakDay({ daily }: { daily: LandingStats["daily"] }) {
+  const peak = daily.reduce((best, day) => (day.visitors > best.visitors ? day : best));
+  return (
+    <span className="shrink-0 text-right text-xs text-muted-foreground">
+      Peak{" "}
+      <span className="font-medium text-foreground">{compact.format(peak.visitors)}</span>
+      <span className="block">{dayLabel.format(new Date(peak.date))}</span>
+    </span>
+  );
+}
+
+/** The numbers behind a bar chart, for screen readers. */
+function RankedTable({ rows, label }: { rows: RankedCount[]; label: string }) {
+  return (
+    <table className="sr-only">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>{label}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr key={row.name}>
+            <td>{row.name}</td>
+            <td>{row.count}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
 export function StatsSection({ stats }: { stats: LandingStats }) {
   // Numbers that couldn't be fetched are left out rather than shown as zero.
@@ -90,6 +167,42 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
             </div>
           ))}
         </dl>
+
+        <div className="mt-3 grid gap-3 lg:grid-cols-3">
+          {stats.daily.length > 1 ? (
+            <ChartCard
+              title="Visitors per day"
+              caption="Last 30 days. Today is still counting."
+              aside={<PeakDay daily={stats.daily} />}
+              className="lg:col-span-2"
+            >
+              <DailyVisitorsChart daily={stats.daily} />
+            </ChartCard>
+          ) : null}
+          <ChartCard className={stats.daily.length > 1 ? undefined : "lg:col-span-3"}>
+            <LiveVisitorsCard />
+          </ChartCard>
+        </div>
+
+        {stats.sources.length > 0 || stats.mostCopied.length > 0 ? (
+          <div className="mt-3 grid gap-3 md:grid-cols-2">
+            {stats.sources.length > 0 ? (
+              <ChartCard title="Where visitors come from" caption="Top referrers, last 30 days">
+                <RankedBarChart rows={stats.sources} label="Visitors" />
+                <RankedTable rows={stats.sources} label="Visitors" />
+              </ChartCard>
+            ) : null}
+            {stats.mostCopied.length > 0 ? (
+              <ChartCard
+                title="Most-copied components"
+                caption="Install commands copied, last 30 days"
+              >
+                <RankedBarChart rows={stats.mostCopied} label="Copies" />
+                <RankedTable rows={stats.mostCopied} label="Copies" />
+              </ChartCard>
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="mt-6 max-w-56">
           <TracwellCard />
