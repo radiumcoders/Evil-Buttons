@@ -21,10 +21,10 @@ const layout: Record<TierId, { size: string; slots: Slot[] }> = {
   },
 };
 
-function TierLabel({ label, dot }: { label: string; dot: string }) {
+function TierLabel({ label, accent }: { label: string; accent: string }) {
   return (
     <h3 className="mt-12 mb-4 flex items-center justify-center gap-2 font-mono text-[11px] tracking-[0.18em] text-muted-foreground uppercase">
-      <span aria-hidden className={cn("size-1.5 rounded-full", dot)} />
+      <span aria-hidden className="size-1.5 rounded-full" style={{ background: accent }} />
       {label}
     </h3>
   );
@@ -91,7 +91,7 @@ export function SponsorsSection({ visitors }: { visitors: number | null }) {
           const { size, slots } = layout[tier.id];
           return (
             <div key={tier.id}>
-              <TierLabel label={tier.label} dot={tier.dot} />
+              <TierLabel label={tier.label} accent={tier.accent} />
               {/* Centered rows, so a tier that isn't full still sits balanced. */}
               <div className="flex flex-wrap justify-center gap-3">
                 {slots.map((slot, index) =>

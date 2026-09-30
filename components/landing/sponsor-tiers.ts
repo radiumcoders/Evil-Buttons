@@ -17,8 +17,11 @@ export type SponsorTier = {
   name: string;
   /** Heading above the tier's cards on the landing. */
   label: string;
-  /** Rarity color for the tier's dot, game-loot style. */
-  dot: string;
+  /** Rarity color, game-loot style: the tier's dot, glow and checks. */
+  accent: string;
+  /** USD. */
+  price: number;
+  cadence: "month" | "once";
   spots: string;
   summary: string;
   /** What each perk means at this tier. A missing perk isn't included. */
@@ -30,7 +33,9 @@ export const sponsorTiers: SponsorTier[] = [
     id: "mythic",
     name: "Mythic",
     label: "Mythic sponsors",
-    dot: "bg-brand",
+    accent: "var(--brand)",
+    price: 200,
+    cadence: "month",
     spots: "1 spot",
     summary: "Top billing everywhere Evil Buttons shows up.",
     perks: {
@@ -46,7 +51,9 @@ export const sponsorTiers: SponsorTier[] = [
     id: "legendary",
     name: "Legendary",
     label: "Legendary sponsors",
-    dot: "bg-amber-500",
+    accent: "oklch(0.77 0.17 70)",
+    price: 100,
+    cadence: "month",
     spots: "2 spots",
     summary: "Front-page placement and a spot across the docs.",
     perks: {
@@ -61,7 +68,9 @@ export const sponsorTiers: SponsorTier[] = [
     id: "sponsor",
     name: "Sponsor",
     label: "Sponsors",
-    dot: "bg-muted-foreground/60",
+    accent: "var(--muted-foreground)",
+    price: 100,
+    cadence: "once",
     spots: "Open",
     summary: "Back the project and get listed where developers look.",
     perks: {
