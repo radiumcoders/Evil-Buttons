@@ -102,8 +102,10 @@ function BackedBy() {
 
 export function LandingPage({ categories, children }: LandingPageProps) {
   return (
-    // <body> never scrolls, so the page is its own scroll container.
-    <div className="h-full overflow-y-auto bg-background text-foreground">
+    // <body> never scrolls, so the page is its own scroll container. Its
+    // scrollbar is hidden like the docs', since a native one reads as a
+    // grey rail beside the rounded frames.
+    <div className="docs-scroll h-full overflow-y-auto bg-background text-foreground">
       {/* First screen: an inset, rounded frame that also clips the carousel. */}
       <div className="relative isolate m-1 flex h-[calc(100dvh-0.5rem)] flex-col overflow-hidden rounded-2xl border border-border sm:m-1.5 sm:h-[calc(100dvh-0.75rem)] sm:rounded-3xl">
         <div className="absolute inset-0 -z-10 overflow-hidden rounded-[inherit] landing-bg">

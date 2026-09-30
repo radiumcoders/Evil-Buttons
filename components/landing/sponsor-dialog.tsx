@@ -101,7 +101,7 @@ export function SponsorDialog({
           <div className="absolute inset-0 bg-[linear-gradient(100deg,var(--popover)_15%,color-mix(in_oklch,var(--popover)_65%,transparent)_55%,transparent_90%)]" />
         </div>
 
-        <div className="relative flex flex-col gap-5 overflow-y-auto p-5">
+        <div className="docs-scroll relative flex flex-col gap-5 overflow-y-auto p-5">
           <div>
             <p className="font-mono text-[10px] tracking-[0.18em] text-muted-foreground uppercase">
               Sponsorship

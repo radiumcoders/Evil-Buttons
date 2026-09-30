@@ -191,6 +191,11 @@
   }
   html {
     @apply font-sans;
+    /* Native scrollbars and form controls follow the site theme. */
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
   }
   ::selection {
     background-color: color-mix(in oklch, var(--brand) 28%, transparent);
