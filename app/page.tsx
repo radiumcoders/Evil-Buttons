@@ -39,7 +39,7 @@ export default async function HomePage() {
   return (
     <LandingPage categories={categories}>
       <StatsSection stats={stats} />
-      <SponsorsSection />
+      <SponsorsSection visitors={stats.visitors} />
     </LandingPage>
   );
 }
