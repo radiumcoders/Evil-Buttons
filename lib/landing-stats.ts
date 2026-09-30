@@ -6,9 +6,6 @@ import { createTracwellMcp, TRACWELL_PROJECT_ID } from "@/lib/tracwell-mcp";
 /** Seconds a fetched number is served before it's refreshed. */
 const REVALIDATE = 10 * 60;
 
-/** One UTC day of traffic. `date` is `YYYY-MM-DD` so it survives the cache. */
-export type DailyTraffic = { date: string; visitors: number; views: number };
-
 export type RankedCount = { name: string; count: number };
 
 export type LandingStats = {
@@ -17,8 +14,6 @@ export type LandingStats = {
   pageViews: number | null;
   /** `install_command_copied` events over the last 30 days. */
   installsCopied: number | null;
-  /** Page views and visitors per day over the last 30 days, oldest first. */
-  daily: DailyTraffic[];
   /** Referrers by page views over the last 30 days, largest first. */
   sources: RankedCount[];
   /** Components by install commands copied over the last 30 days. */
@@ -30,7 +25,6 @@ type TracwellStats = Omit<LandingStats, "stars">;
 const EMPTY_TRACWELL: TracwellStats = {
   pageViews: null,
   installsCopied: null,
-  daily: [],
   sources: [],
   mostCopied: [],
 };
@@ -61,7 +55,6 @@ type Breakdown = { value: string; count: number; share: number; views?: number }
 
 type Overview = {
   metrics?: { views?: { value?: number } };
-  trend?: { date: string; visitors: number; views: number }[];
   breakdowns?: { sources?: Breakdown[] };
 };
 
@@ -112,11 +105,6 @@ const fetchTracwell = unstable_cache(
     return {
       pageViews: traffic?.metrics?.views?.value ?? null,
       installsCopied: eventTotal(copies),
-      daily: (traffic?.trend ?? []).map(({ date, visitors, views }) => ({
-        date,
-        visitors,
-        views,
-      })),
       // "Others" lumps the long tail together, so it isn't a source to rank.
       // Tracwell orders sources by visitors, so re-rank them by page views.
       sources: (traffic?.breakdowns?.sources ?? [])

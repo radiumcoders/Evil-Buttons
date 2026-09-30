@@ -1,6 +1,6 @@
 import { ArrowUpRightIcon, GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import type { ReactNode } from "react";
-import { DailyViewsChart, RankedBarChart } from "@/components/landing/analytics-charts";
+import { RankedBarChart } from "@/components/landing/analytics-charts";
 import { showcase } from "@/components/landing/showcase";
 import type { LandingStats, RankedCount } from "@/lib/landing-stats";
 import { siteConfig } from "@/lib/seo";
@@ -23,14 +23,11 @@ const lgColumns: Record<number, string> = {
 function ChartCard({
   title,
   caption,
-  aside,
   className,
   children,
 }: {
   title?: string;
   caption?: string;
-  /** A direct label for the one value worth reading off the chart. */
-  aside?: ReactNode;
   className?: string;
   children: ReactNode;
 }) {
@@ -44,28 +41,10 @@ function ChartCard({
               <span className="block text-xs text-muted-foreground">{caption}</span>
             ) : null}
           </span>
-          {aside}
         </figcaption>
       ) : null}
       {children}
     </figure>
-  );
-}
-
-const dayLabel = new Intl.DateTimeFormat("en", {
-  month: "short",
-  day: "numeric",
-  timeZone: "UTC",
-});
-
-function PeakDay({ daily }: { daily: LandingStats["daily"] }) {
-  const peak = daily.reduce((best, day) => (day.views > best.views ? day : best));
-  return (
-    <span className="shrink-0 text-right text-xs text-muted-foreground">
-      Peak{" "}
-      <span className="font-medium text-foreground">{compact.format(peak.views)}</span>
-      <span className="block">{dayLabel.format(new Date(peak.date))}</span>
-    </span>
   );
 }
 
@@ -163,17 +142,6 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
             </div>
           ))}
         </dl>
-
-        {stats.daily.length > 1 ? (
-          <ChartCard
-            title="Page views per day"
-            caption="Last 30 days. Today is still counting."
-            aside={<PeakDay daily={stats.daily} />}
-            className="mt-3"
-          >
-            <DailyViewsChart daily={stats.daily} />
-          </ChartCard>
-        ) : null}
 
         {stats.sources.length > 0 || stats.mostCopied.length > 0 ? (
           <div className="mt-3 grid gap-3 md:grid-cols-2">
