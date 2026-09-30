@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/landing-page";
+import { SponsorsSection } from "@/components/landing/sponsors-section";
 import { StatsSection } from "@/components/landing/stats-section";
 import { getLandingStats } from "@/lib/landing-stats";
 import { source } from "@/lib/source";
@@ -38,6 +39,7 @@ export default async function HomePage() {
   return (
     <LandingPage categories={categories}>
       <StatsSection stats={stats} />
+      <SponsorsSection />
     </LandingPage>
   );
 }
