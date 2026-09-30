@@ -1,17 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { Area, AreaChart } from "@/components/charts/area-chart";
 import { Bar } from "@/components/charts/bar";
 import { BarChart } from "@/components/charts/bar-chart";
 import { Grid } from "@/components/charts/grid";
-import { LiveLine } from "@/components/charts/live-line";
-import { LiveLineChart } from "@/components/charts/live-line-chart";
-import { LiveXAxis } from "@/components/charts/live-x-axis";
 import { ChartTooltip } from "@/components/charts/tooltip";
 import { XAxis } from "@/components/charts/x-axis";
 import type { DailyTraffic, RankedCount } from "@/lib/landing-stats";
-import type { LiveVisitors } from "@/lib/live-visitors";
 
 /** Every series is one entity, so every mark wears the one brand accent. */
 const SERIES = "var(--brand)";
@@ -112,132 +107,6 @@ export function RankedBarChart({ rows, label }: { rows: RankedCount[]; label: st
           </span>
         </div>
       ))}
-    </div>
-  );
-}
-
-const POLL_MS = 20 * 1000;
-const clock = new Intl.DateTimeFormat("en", { hour: "numeric", minute: "2-digit" });
-// Module-level so the live chart's per-frame memos stay stable.
-const formatClock = (ms: number) => clock.format(ms);
-const formatOnline = (value: number) => `${Math.round(value)}`;
-
-/** True while the element is on screen and the tab is in front. */
-function useWatched<T extends Element>() {
-  const ref = useRef<T>(null);
-  const [onScreen, setOnScreen] = useState(false);
-  const [tabVisible, setTabVisible] = useState(true);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
-    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting));
-    observer.observe(element);
-    const onVisibility = () => setTabVisible(document.visibilityState === "visible");
-    document.addEventListener("visibilitychange", onVisibility);
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, []);
-
-  return [ref, onScreen && tabVisible] as const;
-}
-
-/**
- * Visitors online right now, polled from /api/live-visitors while on screen.
- * The route caches for 15s, so every viewer shares the same few reads.
- */
-export function LiveVisitorsCard() {
-  const [ref, watched] = useWatched<HTMLDivElement>();
-  const [live, setLive] = useState<LiveVisitors | null>(null);
-  const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
-
-  useEffect(() => {
-    if (!watched) return;
-    let timer: number | undefined;
-    let cancelled = false;
-
-    async function poll() {
-      try {
-        const response = await fetch("/api/live-visitors", { cache: "no-store" });
-        const { live: next } = (await response.json()) as { live: LiveVisitors | null };
-        if (cancelled) return;
-        if (next) {
-          setLive(next);
-          setStatus("ready");
-        } else {
-          setStatus((current) => (current === "ready" ? current : "unavailable"));
-        }
-      } catch {
-        // A missed poll keeps the last reading; the next one tries again.
-      }
-      if (!cancelled) timer = window.setTimeout(poll, POLL_MS);
-    }
-
-    poll();
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timer);
-    };
-  }, [watched]);
-
-  return (
-    <div ref={ref} className="flex h-full flex-col">
-      <div className="flex items-center gap-2 text-xs text-muted-foreground sm:text-sm">
-        <span className="relative flex size-2">
-          {status === "ready" ? (
-            <span className="absolute inset-0 animate-ping rounded-full bg-brand opacity-60 motion-reduce:animate-none" />
-          ) : null}
-          <span
-            className={
-              status === "ready"
-                ? "relative size-2 rounded-full bg-brand"
-                : "relative size-2 rounded-full bg-muted-foreground/40"
-            }
-          />
-        </span>
-        Live, last 30 minutes
-      </div>
-
-      <div className="mt-3 flex items-baseline gap-2">
-        <span className="font-pixel-display text-4xl tracking-tight sm:text-5xl">
-          {live ? count.format(live.online) : "–"}
-        </span>
-        <span className="text-sm text-muted-foreground">
-          {live?.online === 1 ? "visitor" : "visitors"} online
-        </span>
-      </div>
-      <p className="mt-1 text-xs text-muted-foreground">
-        {status === "unavailable"
-          ? "Live numbers are taking a break."
-          : live
-            ? `${count.format(live.views)} page views in the last 30 minutes`
-            : "Counting who's here…"}
-      </p>
-
-      <div className="mt-4 min-h-40 flex-1">
-        {live && live.points.length > 1 ? (
-          <LiveLineChart
-            data={live.points}
-            value={live.online}
-            window={30 * 60}
-            numXTicks={3}
-            paused={!watched}
-            margin={{ top: 16, right: 44, bottom: 28, left: 8 }}
-            style={{ height: "100%", minHeight: 160 }}
-          >
-            <LiveLine dataKey="value" stroke={SERIES} formatValue={formatOnline} />
-            <LiveXAxis numTicks={3} formatTime={formatClock} />
-            <ChartTooltip
-              showDatePill={false}
-              rows={(point) => [
-                { color: SERIES, label: "Online", value: formatOnline(point.value as number) },
-              ]}
-            />
-          </LiveLineChart>
-        ) : null}
-      </div>
     </div>
   );
 }

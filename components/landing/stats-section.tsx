@@ -1,10 +1,6 @@
 import { ArrowUpRightIcon, GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import type { ReactNode } from "react";
-import {
-  DailyVisitorsChart,
-  LiveVisitorsCard,
-  RankedBarChart,
-} from "@/components/landing/analytics-charts";
+import { DailyVisitorsChart, RankedBarChart } from "@/components/landing/analytics-charts";
 import { showcase } from "@/components/landing/showcase";
 import type { LandingStats, RankedCount } from "@/lib/landing-stats";
 import { siteConfig } from "@/lib/seo";
@@ -167,21 +163,16 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
           ))}
         </dl>
 
-        <div className="mt-3 grid gap-3 lg:grid-cols-3">
-          {stats.daily.length > 1 ? (
-            <ChartCard
-              title="Visitors per day"
-              caption="Last 30 days. Today is still counting."
-              aside={<PeakDay daily={stats.daily} />}
-              className="lg:col-span-2"
-            >
-              <DailyVisitorsChart daily={stats.daily} />
-            </ChartCard>
-          ) : null}
-          <ChartCard className={stats.daily.length > 1 ? undefined : "lg:col-span-3"}>
-            <LiveVisitorsCard />
+        {stats.daily.length > 1 ? (
+          <ChartCard
+            title="Visitors per day"
+            caption="Last 30 days. Today is still counting."
+            aside={<PeakDay daily={stats.daily} />}
+            className="mt-3"
+          >
+            <DailyVisitorsChart daily={stats.daily} />
           </ChartCard>
-        </div>
+        ) : null}
 
         {stats.sources.length > 0 || stats.mostCopied.length > 0 ? (
           <div className="mt-3 grid gap-3 md:grid-cols-2">
