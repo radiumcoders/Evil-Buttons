@@ -25,6 +25,7 @@
     "@evilbuttons": "http://localhost:3000/r/{name}.json",
     "@xcn": "https://ui.radiumcoders.com/r/xcn/{name}.json",
     "@react-bits": "https://reactbits.dev/r/{name}.json",
-    "@ogimagecn": "https://ogimagecn.vercel.app/r/{name}.json"
+    "@ogimagecn": "https://ogimagecn.vercel.app/r/{name}.json",
+    "@bklit": "https://bklit.com/r/{name}.json"
   }
 }
