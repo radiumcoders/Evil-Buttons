@@ -74,10 +74,12 @@ export function SponsorDialog({
           { "--tier": tier.accent, "--cta": tier.cta, "--cta-ink": tier.ctaInk } as CSSProperties
         }
       >
-        {/* Dithered glow in the tier's colors, fading out before the perks. */}
+        {/* Dithered glow in the tier's colors, fading out before the perks. The
+            layer clips itself to the dialog's corners: a masked WebGL canvas can
+            escape the parent's rounded overflow clip and paint square corners. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-64 mask-[linear-gradient(to_bottom,black_35%,transparent)]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-64 overflow-hidden rounded-t-[inherit] mask-[linear-gradient(to_bottom,black_35%,transparent)] [clip-path:inset(0_round_var(--radius-xl)_var(--radius-xl)_0_0)]"
         >
           {shaderFailed ? (
             sponsorTiers.map((option) => (
