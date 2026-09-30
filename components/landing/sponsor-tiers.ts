@@ -1,3 +1,5 @@
+import type { ShaderPalette } from "@/components/landing/sponsor-shader";
+
 export type TierId = "mythic" | "legendary" | "sponsor";
 
 /** Every perk on offer, most prominent first. */
@@ -19,6 +21,11 @@ export type SponsorTier = {
   label: string;
   /** Rarity color, game-loot style: the tier's dot, glow and checks. */
   accent: string;
+  /** Call-to-action fill and text. Usually the accent, but grey reads as disabled. */
+  cta: string;
+  ctaInk: string;
+  /** The dialog shader's colors for this tier. Hues are in turns. */
+  palette: ShaderPalette;
   /** USD. */
   price: number;
   cadence: "month" | "once";
@@ -34,6 +41,9 @@ export const sponsorTiers: SponsorTier[] = [
     name: "Mythic",
     label: "Mythic sponsors",
     accent: "var(--brand)",
+    cta: "var(--brand)",
+    ctaInk: "oklch(0.99 0 0)",
+    palette: { hue: 0.06, hueSpread: 0.07, chroma: 0.19, lightness: 0.62 },
     price: 200,
     cadence: "month",
     spots: "1 spot",
@@ -52,6 +62,9 @@ export const sponsorTiers: SponsorTier[] = [
     name: "Legendary",
     label: "Legendary sponsors",
     accent: "oklch(0.77 0.17 70)",
+    cta: "oklch(0.77 0.17 70)",
+    ctaInk: "oklch(0.22 0.04 70)",
+    palette: { hue: 0.2, hueSpread: -0.06, chroma: 0.15, lightness: 0.74 },
     price: 100,
     cadence: "month",
     spots: "2 spots",
@@ -69,6 +82,11 @@ export const sponsorTiers: SponsorTier[] = [
     name: "Sponsor",
     label: "Sponsors",
     accent: "var(--muted-foreground)",
+    cta: "var(--foreground)",
+    ctaInk: "var(--background)",
+    // Near-zero chroma reads as silver; the hue matches Mythic so switching
+    // between them fades color rather than sweeping around the wheel.
+    palette: { hue: 0.06, hueSpread: 0.07, chroma: 0.012, lightness: 0.68 },
     price: 100,
     cadence: "once",
     spots: "Open",

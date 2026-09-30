@@ -1,14 +1,14 @@
 "use client";
 
-import { CheckIcon, MinusIcon, XLogoIcon } from "@phosphor-icons/react";
+import { ArrowUpRightIcon, CheckIcon, MinusIcon, XLogoIcon } from "@phosphor-icons/react";
 import { type CSSProperties, type ReactNode, useState } from "react";
+import { SponsorShader } from "@/components/landing/sponsor-shader";
 import {
   perks,
   type SponsorTier,
   sponsorTiers,
   type TierId,
 } from "@/components/landing/sponsor-tiers";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -16,16 +16,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAppTheme } from "@/hooks/use-app-theme";
 import { cn } from "@/lib/utils";
 
 const CONTACT_URL = "https://x.com/radiumcoders";
+
+/** The dialog's --popover, so the shader melts into it. */
+const POPOVER = { dark: "#171717", light: "#ffffff" };
 
 const compact = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
 
 const cadenceShort = { month: "/mo", once: " once" } as const;
 const cadenceLong = { month: "per month", once: "one-time" } as const;
 
-/** Tier-colored light from above, over the landing's pixel grid. */
+/** Tier-colored light from above, if the shader can't run. */
 function TierGlow({ tier, active }: { tier: SponsorTier; active: boolean }) {
   return (
     <div
@@ -55,7 +59,9 @@ export function SponsorDialog({
   visitors: number | null;
   children: ReactNode;
 }) {
+  const theme = useAppTheme();
   const [tierId, setTierId] = useState(initialTier);
+  const [shaderFailed, setShaderFailed] = useState(false);
   const tier = sponsorTiers.find((t) => t.id === tierId) ?? sponsorTiers[0];
 
   return (
@@ -64,15 +70,34 @@ export function SponsorDialog({
       <DialogContent
         // Scrolls rather than overflowing on short phones; the footer stays put.
         className="flex max-h-[calc(100dvh-2rem)] flex-col gap-0 overflow-hidden p-0 sm:max-w-md"
-        style={{ "--tier": tier.accent } as CSSProperties}
+        style={
+          { "--tier": tier.accent, "--cta": tier.cta, "--cta-ink": tier.ctaInk } as CSSProperties
+        }
       >
-        {sponsorTiers.map((option) => (
-          <TierGlow key={option.id} tier={option} active={option.id === tierId} />
-        ))}
+        {/* Dithered glow in the tier's colors, fading out before the perks. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[linear-gradient(to_right,var(--landing-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--landing-grid)_1px,transparent_1px)] bg-size-[4px_4px] [--landing-grid:color-mix(in_oklch,var(--foreground)_6%,transparent)] mask-[linear-gradient(to_bottom,black,transparent)]"
-        />
+          className="pointer-events-none absolute inset-x-0 top-0 h-64 mask-[linear-gradient(to_bottom,black_35%,transparent)]"
+        >
+          {shaderFailed ? (
+            sponsorTiers.map((option) => (
+              <TierGlow key={option.id} tier={option} active={option.id === tierId} />
+            ))
+          ) : (
+            <SponsorShader
+              theme={theme}
+              palette={tier.palette}
+              background={POPOVER}
+              onError={(error) => {
+                console.warn("Sponsor shader disabled:", error.message);
+                setShaderFailed(true);
+              }}
+              className="opacity-75"
+            />
+          )}
+          {/* Keeps the left-aligned heading legible; the glow stays vivid on the right. */}
+          <div className="absolute inset-0 bg-[linear-gradient(100deg,var(--popover)_15%,color-mix(in_oklch,var(--popover)_65%,transparent)_55%,transparent_90%)]" />
+        </div>
 
         <div className="relative flex flex-col gap-5 overflow-y-auto p-5">
           <div>
@@ -174,12 +199,19 @@ export function SponsorDialog({
           <p className="text-xs text-muted-foreground">
             Perks are still taking shape. Ask for what you need.
           </p>
-          <Button asChild className="h-9 px-3.5">
-            <a href={CONTACT_URL} target="_blank" rel="noreferrer">
-              <XLogoIcon />
-              DM me about {tier.name}
-            </a>
-          </Button>
+          <a
+            href={CONTACT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-(--cta) px-4 text-sm font-semibold text-(--cta-ink) shadow-[inset_0_1px_0_rgb(255_255_255/0.3),inset_0_-1px_0_rgb(0_0_0/0.15),0_10px_28px_-10px_var(--cta)] transition-[filter,box-shadow,background-color] duration-300 hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.3),inset_0_-1px_0_rgb(0_0_0/0.15),0_12px_36px_-8px_var(--cta)] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover active:translate-y-px"
+          >
+            <XLogoIcon weight="bold" className="size-4" />
+            DM me about {tier.name}
+            <ArrowUpRightIcon
+              weight="bold"
+              className="size-3.5 opacity-70 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </a>
         </div>
       </DialogContent>
     </Dialog>
