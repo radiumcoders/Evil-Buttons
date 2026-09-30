@@ -20,7 +20,7 @@ function HairlineGrid() {
   return <Grid horizontal numTicksRows={4} strokeDasharray="none" />;
 }
 
-export function DailyVisitorsChart({ daily }: { daily: DailyTraffic[] }) {
+export function DailyViewsChart({ daily }: { daily: DailyTraffic[] }) {
   // Local midnight, so the axis names the same day in every timezone.
   const data = daily.map(({ date, visitors, views }) => {
     const [year, month, day] = date.split("-").map(Number);
@@ -36,12 +36,12 @@ export function DailyVisitorsChart({ daily }: { daily: DailyTraffic[] }) {
     >
       <HairlineGrid />
       {/* Today is still counting, so its segment is dashed. */}
-      <Area dataKey="visitors" fill={SERIES} dashFromIndex={data.length - 2} />
+      <Area dataKey="views" fill={SERIES} dashFromIndex={data.length - 2} />
       <XAxis numTicks={5} />
       <ChartTooltip
         rows={(point) => [
-          { color: SERIES, label: "Visitors", value: count.format(point.visitors as number) },
-          { color: MUTED, label: "Page views", value: count.format(point.views as number) },
+          { color: SERIES, label: "Page views", value: count.format(point.views as number) },
+          { color: MUTED, label: "Visitors", value: count.format(point.visitors as number) },
         ]}
       />
     </AreaChart>

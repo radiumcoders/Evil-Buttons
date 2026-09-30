@@ -36,15 +36,15 @@ function TierLabel({ label, accent }: { label: string; accent: string }) {
 
 function OpenSlot({
   tier,
-  visitors,
+  pageViews,
   className,
 }: {
   tier: TierId;
-  visitors: number | null;
+  pageViews: number | null;
   className: string;
 }) {
   return (
-    <SponsorDialog tier={tier} visitors={visitors}>
+    <SponsorDialog tier={tier} pageViews={pageViews}>
       <button
         type="button"
         className={cn(
@@ -127,7 +127,7 @@ function PlatformOpenSlot({ className }: { className: string }) {
   );
 }
 
-export function SponsorsSection({ visitors }: { visitors: number | null }) {
+export function SponsorsSection({ pageViews }: { pageViews: number | null }) {
   return (
     <section className="bg-background px-4 pb-24 sm:px-6 sm:pb-32">
       <div className="mx-auto max-w-5xl">
@@ -149,7 +149,7 @@ export function SponsorsSection({ visitors }: { visitors: number | null }) {
                     <OpenSlot
                       key={`${slot}-${index}`}
                       tier={tier.id}
-                      visitors={visitors}
+                      pageViews={pageViews}
                       className={size}
                     />
                   ),

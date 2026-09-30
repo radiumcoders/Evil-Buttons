@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-// The 30-day stats refresh every 10 minutes; live visitors poll on their own.
+// The 30-day stats refresh every 10 minutes.
 export const revalidate = 600;
 
 export default async function HomePage() {
@@ -39,7 +39,7 @@ export default async function HomePage() {
   return (
     <LandingPage categories={categories}>
       <StatsSection stats={stats} />
-      <SponsorsSection visitors={stats.visitors} />
+      <SponsorsSection pageViews={stats.pageViews} />
     </LandingPage>
   );
 }

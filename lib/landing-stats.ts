@@ -13,13 +13,13 @@ export type RankedCount = { name: string; count: number };
 
 export type LandingStats = {
   stars: number | null;
-  /** Unique visitors over the last 30 days. */
-  visitors: number | null;
+  /** Page views over the last 30 days. */
+  pageViews: number | null;
   /** `install_command_copied` events over the last 30 days. */
   installsCopied: number | null;
-  /** Visitors and views per day over the last 30 days, oldest first. */
+  /** Page views and visitors per day over the last 30 days, oldest first. */
   daily: DailyTraffic[];
-  /** Referrers by visitors over the last 30 days, largest first. */
+  /** Referrers by page views over the last 30 days, largest first. */
   sources: RankedCount[];
   /** Components by install commands copied over the last 30 days. */
   mostCopied: RankedCount[];
@@ -28,7 +28,7 @@ export type LandingStats = {
 type TracwellStats = Omit<LandingStats, "stars">;
 
 const EMPTY_TRACWELL: TracwellStats = {
-  visitors: null,
+  pageViews: null,
   installsCopied: null,
   daily: [],
   sources: [],
@@ -57,10 +57,10 @@ function last30Days() {
   return { from: iso(Date.now() - 29 * day), to: iso(Date.now()) };
 }
 
-type Breakdown = { value: string; count: number; share: number };
+type Breakdown = { value: string; count: number; share: number; views?: number };
 
 type Overview = {
-  metrics?: { visitors?: { value?: number } };
+  metrics?: { views?: { value?: number } };
   trend?: { date: string; visitors: number; views: number }[];
   breakdowns?: { sources?: Breakdown[] };
 };
@@ -110,7 +110,7 @@ const fetchTracwell = unstable_cache(
     const traffic = overview.structuredContent as Overview;
     const copies = installs.structuredContent as EventDetail;
     return {
-      visitors: traffic?.metrics?.visitors?.value ?? null,
+      pageViews: traffic?.metrics?.views?.value ?? null,
       installsCopied: eventTotal(copies),
       daily: (traffic?.trend ?? []).map(({ date, visitors, views }) => ({
         date,
@@ -118,14 +118,17 @@ const fetchTracwell = unstable_cache(
         views,
       })),
       // "Others" lumps the long tail together, so it isn't a source to rank.
+      // Tracwell orders sources by visitors, so re-rank them by page views.
       sources: (traffic?.breakdowns?.sources ?? [])
         .filter((source) => source.value !== "Others")
-        .slice(0, 6)
-        .map(({ value, count }) => ({ name: value, count })),
+        .map(({ value, views = 0 }) => ({ name: value, count: views }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 6),
       mostCopied: copiesByComponent(copies).slice(0, 6),
     };
   },
-  ["landing-tracwell-stats"],
+  // Bump when the shape changes, so a cached entry of the old shape is never served.
+  ["landing-tracwell-stats-v2"],
   { revalidate: REVALIDATE },
 );
 

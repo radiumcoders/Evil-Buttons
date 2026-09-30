@@ -51,12 +51,12 @@ function TierGlow({ tier, active }: { tier: SponsorTier; active: boolean }) {
  */
 export function SponsorDialog({
   tier: initialTier,
-  visitors,
+  pageViews,
   children,
 }: {
   tier: TierId;
-  /** Visitors over the last 30 days, when known. */
-  visitors: number | null;
+  /** Page views over the last 30 days, when known. */
+  pageViews: number | null;
   children: ReactNode;
 }) {
   const theme = useAppTheme();
@@ -113,7 +113,7 @@ export function SponsorDialog({
             </DialogTitle>
             <DialogDescription className="mt-1.5">
               Put your logo in front of developers picking components for their next build
-              {visitors ? `, ${compact.format(visitors)} of them in the last 30 days` : ""}.
+              {pageViews ? `, with ${compact.format(pageViews)} page views in the last 30 days` : ""}.
             </DialogDescription>
           </div>
 

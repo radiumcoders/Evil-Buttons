@@ -1,6 +1,6 @@
 import { ArrowUpRightIcon, GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import type { ReactNode } from "react";
-import { DailyVisitorsChart, RankedBarChart } from "@/components/landing/analytics-charts";
+import { DailyViewsChart, RankedBarChart } from "@/components/landing/analytics-charts";
 import { showcase } from "@/components/landing/showcase";
 import type { LandingStats, RankedCount } from "@/lib/landing-stats";
 import { siteConfig } from "@/lib/seo";
@@ -59,11 +59,11 @@ const dayLabel = new Intl.DateTimeFormat("en", {
 });
 
 function PeakDay({ daily }: { daily: LandingStats["daily"] }) {
-  const peak = daily.reduce((best, day) => (day.visitors > best.visitors ? day : best));
+  const peak = daily.reduce((best, day) => (day.views > best.views ? day : best));
   return (
     <span className="shrink-0 text-right text-xs text-muted-foreground">
       Peak{" "}
-      <span className="font-medium text-foreground">{compact.format(peak.visitors)}</span>
+      <span className="font-medium text-foreground">{compact.format(peak.views)}</span>
       <span className="block">{dayLabel.format(new Date(peak.date))}</span>
     </span>
   );
@@ -98,11 +98,11 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
     tiles.push({ label: "GitHub stars", value: stats.stars, href: siteConfig.github });
   }
   tiles.push({ label: "Components", value: showcase.length });
-  if (stats.visitors !== null) {
-    tiles.push({ label: "Visitors, last 30 days", value: stats.visitors });
+  if (stats.pageViews !== null) {
+    tiles.push({ label: "Page views, last 30 days", value: stats.pageViews });
   }
   if (stats.installsCopied !== null) {
-    tiles.push({ label: "Installs copied, last 30 days", value: stats.installsCopied });
+    tiles.push({ label: "Components copied, last 30 days", value: stats.installsCopied });
   }
 
   return (
@@ -139,7 +139,8 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
           {tiles.map((tile) => (
             <div
               key={tile.label}
-              className="group relative bg-background p-5 transition-colors has-[a:hover]:bg-muted sm:p-6"
+              // Values sit on the tile's floor, so a label that wraps doesn't knock them out of line.
+              className="group relative flex flex-col bg-background p-5 transition-colors has-[a:hover]:bg-muted sm:p-6"
             >
               <dt className="flex items-center gap-1 text-xs text-muted-foreground sm:text-sm">
                 {tile.label}
@@ -147,7 +148,7 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
                   <ArrowUpRightIcon className="size-3 transition-transform group-has-[a:hover]:translate-x-0.5 group-has-[a:hover]:-translate-y-0.5" />
                 ) : null}
               </dt>
-              <dd className="mt-3 font-pixel-display text-4xl tracking-tight tabular-nums sm:text-5xl">
+              <dd className="mt-auto pt-3 font-pixel-display text-4xl tracking-tight tabular-nums sm:text-5xl">
                 {compact.format(tile.value)}
               </dd>
               {tile.href ? (
@@ -165,21 +166,21 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
 
         {stats.daily.length > 1 ? (
           <ChartCard
-            title="Visitors per day"
+            title="Page views per day"
             caption="Last 30 days. Today is still counting."
             aside={<PeakDay daily={stats.daily} />}
             className="mt-3"
           >
-            <DailyVisitorsChart daily={stats.daily} />
+            <DailyViewsChart daily={stats.daily} />
           </ChartCard>
         ) : null}
 
         {stats.sources.length > 0 || stats.mostCopied.length > 0 ? (
           <div className="mt-3 grid gap-3 md:grid-cols-2">
             {stats.sources.length > 0 ? (
-              <ChartCard title="Where visitors come from" caption="Top referrers, last 30 days">
-                <RankedBarChart rows={stats.sources} label="Visitors" />
-                <RankedTable rows={stats.sources} label="Visitors" />
+              <ChartCard title="Top referrers" caption="Page views by referrer, last 30 days">
+                <RankedBarChart rows={stats.sources} label="Page views" />
+                <RankedTable rows={stats.sources} label="Page views" />
               </ChartCard>
             ) : null}
             {stats.mostCopied.length > 0 ? (
