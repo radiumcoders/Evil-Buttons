@@ -59,8 +59,13 @@ export function SponsorsSection() {
         </h2>
 
         <TierLabel>Sponsor</TierLabel>
-        <SponsorCard href={SHADCN_LABS_URL} label="Shadcn Labs" className="h-36 sm:h-44">
-          <ShadcnLabsLogotype className="h-6 w-auto text-foreground transition-colors duration-200 group-hover:text-[#f06292] sm:h-8" />
+        {/* Same footprint as a platform card, centered, rather than a full-width banner. */}
+        <SponsorCard
+          href={SHADCN_LABS_URL}
+          label="Shadcn Labs"
+          className="mx-auto h-32 sm:w-[calc(50%-0.375rem)]"
+        >
+          <ShadcnLabsLogotype className="h-4 w-auto text-foreground transition-colors duration-200 group-hover:text-[#f06292]" />
         </SponsorCard>
 
         <TierLabel>Platform sponsors</TierLabel>
