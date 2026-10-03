@@ -94,6 +94,7 @@ export const rootMetadata: Metadata = {
   },
   other: {
     "msapplication-TileColor": "#000000",
+    "toolfolio-verify": "rT59iZESwGSukRrSAxuf3ljuBSFexdhh",
   },
 };
 
