@@ -1,7 +1,7 @@
 "use client";
 
 import { useDialKit } from "dialkit";
-import { DemonicButton } from "@/components/evil-buttons/demonic-button";
+import { DemonicButton } from "@/components/easter-eggs/buttons";
 import ChromeButton, {
   type ChromeSize,
   type ChromeTone,

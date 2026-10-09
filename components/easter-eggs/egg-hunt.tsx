@@ -32,7 +32,7 @@ export function EggHuntDialog() {
           <DialogDescription className="relative mt-1.5">
             {complete
               ? "You found every one. The buttons fear you now."
-              : `${EASTER_EGGS.length} easter eggs are hidden across this site. Every hint below is a real clue.`}
+              : `${EASTER_EGGS.length} of the buttons hide an easter egg. Play rough with them; every hint below is a real clue.`}
           </DialogDescription>
           <div className="relative mt-4 flex items-center gap-3">
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-foreground/10">

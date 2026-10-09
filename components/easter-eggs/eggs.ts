@@ -3,12 +3,12 @@ import { showEggToast } from "./egg-toast";
 
 export const EASTER_EGGS = [
   "detonate",
-  "boom",
   "hell",
-  "lights",
+  "deleted",
   "eyes",
   "cracks",
-  "tab",
+  "glitch",
+  "lights",
 ] as const;
 
 export type EasterEgg = (typeof EASTER_EGGS)[number];
@@ -17,38 +17,38 @@ export type EasterEgg = (typeof EASTER_EGGS)[number];
 export const EGG_INFO: Record<EasterEgg, { name: string; hint: string; how: string }> = {
   detonate: {
     name: "Detonation",
-    hint: "Some sliders mean exactly what they say.",
-    how: "Slide any SlideToDetonate all the way.",
-  },
-  boom: {
-    name: "Boom",
-    hint: "No slider handy? Type the sound it makes.",
-    how: "Type “boom” anywhere outside an input.",
+    hint: "One slider means exactly what it says.",
+    how: "Slide SlideToDetonate all the way.",
   },
   hell: {
     name: "Hell mode",
-    hint: "Up, up, down, down… the oldest cheat code there is.",
-    how: "↑ ↑ ↓ ↓ ← → ← → B A",
+    hint: "Something with horns wants out. Hold on long enough to let it.",
+    how: "Hold DemonicButton until the demon is summoned.",
   },
-  lights: {
-    name: "Lights out",
-    hint: "Can't pick light or dark? Keep flipping. Fast.",
-    how: "Flip the theme 4 times in a row (or mash D).",
+  deleted: {
+    name: "Everything deleted",
+    hint: "It keeps asking if you're sure. Be sure.",
+    how: "Confirm every doubt on DoubtButton.",
   },
   eyes: {
     name: "Watchers",
-    hint: "Sit perfectly still for a while. You're not alone.",
-    how: "Leave the page untouched for 30 seconds.",
+    hint: "Stare into the eye. Don't blink, don't look away.",
+    how: "Hover EvilEyeButton for a few seconds.",
   },
   cracks: {
     name: "Cracked",
-    hint: "Take your anger out on the empty space.",
-    how: "Rage-click anywhere that isn't a button.",
+    hint: "The brutal one can take a hit. Can the screen?",
+    how: "Smash BrutalButton four times fast.",
   },
-  tab: {
-    name: "Separation anxiety",
-    hint: "Try leaving. See how it takes it.",
-    how: "Switch to another tab, then come back.",
+  glitch: {
+    name: "Corrupted",
+    hint: "The glitch is contained in its button. For now.",
+    how: "Mash GlitchButton four times fast.",
+  },
+  lights: {
+    name: "Lights out",
+    hint: "That switch has old wiring. Flick it like you mean it.",
+    how: "Flip RealisticSwitch four times fast.",
   },
 };
 
@@ -142,12 +142,4 @@ export function findEgg(egg: EasterEgg, toast?: EggToast) {
       next: complete ? "All of them. You are truly evil." : `Next: ${nextHint(found)}`,
     });
   }
-}
-
-const EDITABLE_TAGS = new Set(["INPUT", "TEXTAREA", "SELECT"]);
-
-export function isEditableTarget(target: EventTarget | null) {
-  const element = target as HTMLElement | null;
-  if (!element) return false;
-  return EDITABLE_TAGS.has(element.tagName) || element.isContentEditable;
 }

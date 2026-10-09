@@ -870,3 +870,79 @@ html[data-hell] * {
   93% { transform: rotate(-6deg); }
   96% { transform: rotate(3deg); }
 }
+
+html[data-glitch] body {
+  animation: page-glitch 0.42s steps(1) infinite;
+}
+
+@keyframes page-glitch {
+  0% { transform: none; filter: none; clip-path: none; }
+  12% { transform: translate(-6px, 2px) skewX(-2deg); filter: hue-rotate(90deg) saturate(3); }
+  24% { transform: translate(5px, -1px); filter: invert(1) hue-rotate(180deg); clip-path: inset(18% 0 52% 0); }
+  36% { transform: none; filter: contrast(2.2) saturate(0); clip-path: none; }
+  48% { transform: translate(9px, 0) skewX(4deg); filter: hue-rotate(-60deg); clip-path: inset(0 0 70% 0); }
+  60% { transform: translate(-3px, 3px); filter: none; clip-path: inset(40% 0 20% 0); }
+  72% { transform: translate(2px, -4px) scaleY(1.02); filter: saturate(4) contrast(1.4); clip-path: none; }
+  86% { transform: translate(-8px, 0); filter: invert(1); clip-path: inset(62% 0 8% 0); }
+}
+
+.glitch-storm {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482700;
+  pointer-events: none;
+  overflow: hidden;
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px);
+}
+
+.glitch-storm > span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  mix-blend-mode: difference;
+  opacity: 0.85;
+}
+
+.glitch-storm-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2rem, 7vw, 5rem);
+  color: #fff;
+  mix-blend-mode: difference;
+  text-shadow: 3px 0 #ff2a3c, -3px 0 #00f0ff;
+  animation: glitch-label 0.2s steps(1) infinite;
+}
+
+@keyframes glitch-label {
+  0% { transform: translate(0, 0); opacity: 1; }
+  33% { transform: translate(-4px, 2px); opacity: 0.6; }
+  66% { transform: translate(5px, -2px); opacity: 1; }
+}
+
+.everything-deleted[data-phase="restoring"] {
+  animation: deleted-restore 1.6s ease-in forwards;
+}
+
+.everything-deleted-progress {
+  animation: deleted-progress 1.2s ease-out forwards;
+}
+
+@keyframes deleted-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes deleted-restore {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-glitch] body,
+  .glitch-storm-label {
+    animation: none;
+  }
+}

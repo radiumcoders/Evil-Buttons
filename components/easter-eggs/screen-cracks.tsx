@@ -2,17 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { findEgg } from "./eggs";
+import { onEgg } from "./triggers";
 
-/** Clicks, within STREAK_MS and STREAK_RADIUS px of each other, that count as a rage. */
-const RAGE_CLICKS = 4;
-const STREAK_MS = 1200;
-const STREAK_RADIUS = 90;
 const MAX_CRACKS = 8;
 const SIZE = 420;
-
-/** Clicks on anything you'd legitimately mash are left alone. */
-const INTERACTIVE =
-  "a, button, input, textarea, select, label, summary, canvas, video, [contenteditable], [role=button], [role=slider], [role=switch], [role=tab], [role=link], [role=menuitem], [role=option], [role=checkbox], [role=dialog], [role=alertdialog], [data-detonation]";
 
 type Crack = { id: number; x: number; y: number; seed: number };
 
@@ -93,49 +86,36 @@ function CrackMark({ crack, onDone }: { crack: Crack; onDone: () => void }) {
   );
 }
 
-/** Rage-click empty space and the screen gives way. */
+/** Smash the BrutalButton and the screen gives way around it; keep smashing for more. */
 export function ScreenCracks() {
   const [cracks, setCracks] = useState<Crack[]>([]);
 
   useEffect(() => {
-    let streak: Array<{ x: number; y: number; t: number }> = [];
     let nextId = 0;
-
-    const onPointerDown = (event: PointerEvent) => {
-      if (event.button !== 0) return;
-      const target = event.target as Element | null;
-      if (target?.closest?.(INTERACTIVE)) return;
-
-      const now = performance.now();
-      const point = { x: event.clientX, y: event.clientY, t: now };
-      streak = streak.filter(
-        (click) =>
-          now - click.t < STREAK_MS &&
-          Math.hypot(click.x - point.x, click.y - point.y) < STREAK_RADIUS,
-      );
-      streak.push(point);
-      if (streak.length < RAGE_CLICKS) return;
-
-      if (streak.length === RAGE_CLICKS) {
-        findEgg("cracks", { title: "Easy.", note: "That's a screen, not a button." });
-      }
+    return onEgg("cracks", (point) => {
+      if (!point) return;
+      findEgg("cracks", { title: "Easy.", note: "That's a screen, not a punching bag.", onlyFirst: true });
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         document.body.animate(
           [
             { transform: "translate(0, 0)" },
-            { transform: "translate(-4px, 3px)" },
-            { transform: "translate(3px, -2px)" },
+            { transform: "translate(-5px, 4px)" },
+            { transform: "translate(4px, -3px)" },
             { transform: "translate(0, 0)" },
           ],
-          { duration: 160 },
+          { duration: 180 },
         );
       }
-      const crack = { id: nextId++, x: point.x, y: point.y, seed: Math.floor(Math.random() * 1e9) };
+      // Each hit lands somewhere around the button, not on the same spot.
+      const spread = nextId === 0 ? 0 : 70;
+      const crack = {
+        id: nextId++,
+        x: point.x + (Math.random() - 0.5) * spread * 2,
+        y: point.y + (Math.random() - 0.5) * spread,
+        seed: Math.floor(Math.random() * 1e9),
+      };
       setCracks((current) => [...current, crack].slice(-MAX_CRACKS));
-    };
-
-    window.addEventListener("pointerdown", onPointerDown, { passive: true });
-    return () => window.removeEventListener("pointerdown", onPointerDown);
+    });
   }, []);
 
   if (cracks.length === 0) return null;

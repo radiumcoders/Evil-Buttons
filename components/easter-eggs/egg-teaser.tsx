@@ -21,7 +21,8 @@ export function EggTeaser() {
         localStorage.setItem(TEASED_KEY, "1");
       } catch {}
       showEggToast({
-        title: `Psst. ${EASTER_EGGS.length} easter eggs are hidden on this site.`,
+        title: `Psst. ${EASTER_EGGS.length} of these buttons hide easter eggs.`,
+        note: "Play rough with them.",
         next: "Click for clues.",
       });
     }, TEASE_AFTER);
