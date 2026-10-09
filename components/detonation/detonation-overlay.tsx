@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { eggProgress } from "@/components/easter-eggs/eggs";
+import { openEggHunt } from "@/components/easter-eggs/hunt-store";
 import type { DetonationOrigin } from "./events";
 
 /*
@@ -255,6 +256,7 @@ export default function DetonationOverlay({
   const phaseRef = useRef<Phase>("burning");
   const rebuildRef = useRef<{ start: number; from: number } | null>(null);
   const onDoneRef = useRef(onDone);
+  const huntAfterRef = useRef(false);
   const [phase, setPhase] = useState<Phase>("burning");
   const [progress] = useState(eggProgress);
 
@@ -408,6 +410,7 @@ export default function DetonationOverlay({
           fade = 1 - clamp01((now - doneAt) / 1000 / FADE_OUT);
           if (fade <= 0) {
             onDoneRef.current();
+            if (huntAfterRef.current) openEggHunt();
             return;
           }
         }
@@ -557,6 +560,18 @@ export default function DetonationOverlay({
               Rebuild the page
             </button>
             <p className="mt-3 text-xs text-orange-100/40">or press Esc</p>
+            {progress.found < progress.total ? (
+              <button
+                type="button"
+                onClick={() => {
+                  huntAfterRef.current = true;
+                  rebuild();
+                }}
+                className="mt-6 rounded-sm text-xs text-orange-200/70 underline decoration-orange-200/30 underline-offset-4 transition-colors hover:text-orange-100 focus-visible:ring-2 focus-visible:ring-orange-300 focus-visible:outline-none"
+              >
+                {progress.total - progress.found} more eggs are hidden. Get clues →
+              </button>
+            ) : null}
           </div>
         </div>
       ) : null}

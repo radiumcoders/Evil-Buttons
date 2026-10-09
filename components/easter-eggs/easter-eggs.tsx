@@ -2,6 +2,8 @@
 
 import { BoomWord } from "./boom-word";
 import { ConsoleGreeting } from "./console-greeting";
+import { EggHuntDialog } from "./egg-hunt";
+import { EggTeaser } from "./egg-teaser";
 import { EggToaster } from "./egg-toast";
 import { HellMode } from "./hell-mode";
 import { LightsOut } from "./lights-out";
@@ -20,6 +22,8 @@ export function EasterEggs() {
       <BoomWord />
       <TabTitle />
       <ConsoleGreeting />
+      <EggTeaser />
+      <EggHuntDialog />
       <EggToaster />
     </>
   );

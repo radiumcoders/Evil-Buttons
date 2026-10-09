@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { findEgg } from "./eggs";
 
 /** How long the page must sit untouched before something notices. */
-const IDLE_AFTER = 60_000;
+const IDLE_AFTER = 30_000;
 const PAIRS = 4;
 
 type Point = { x: number; y: number };

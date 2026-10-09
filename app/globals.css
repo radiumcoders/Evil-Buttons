@@ -862,3 +862,11 @@ html[data-hell] * {
     animation: lights-fade 0.4s forwards;
   }
 }
+
+@keyframes egg-wobble {
+  0%, 84%, 100% { transform: none; }
+  87% { transform: rotate(-14deg); }
+  90% { transform: rotate(10deg); }
+  93% { transform: rotate(-6deg); }
+  96% { transform: rotate(3deg); }
+}

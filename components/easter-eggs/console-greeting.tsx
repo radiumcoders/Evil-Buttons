@@ -11,7 +11,7 @@ export function ConsoleGreeting() {
     if (greeted) return;
     greeted = true;
     console.log(
-      "%c EVIL BUTTONS %c\n\nOpening the console? Bold.\n%d easter eggs are hidden on this site. Start with ↑ ↑ ↓ ↓ ← → ← → B A.",
+      "%c EVIL BUTTONS %c\n\nOpening the console? Bold.\n%d easter eggs are hidden on this site. Clues live behind the egg in the header.\nA freebie: ↑ ↑ ↓ ↓ ← → ← → B A.",
       "background:#e5262d;color:#fff;font:700 14px/2 monospace;padding:2px 6px;border-radius:4px",
       "color:inherit;font:12px/1.6 monospace",
       EASTER_EGGS.length,

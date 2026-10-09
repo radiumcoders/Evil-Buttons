@@ -23,6 +23,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { EggHuntButton } from "@/components/easter-eggs/egg-hunt";
 
 type DocsNavPage = {
   title: string;
@@ -175,6 +176,7 @@ function DocsSidebarChrome({
         >
           <XLogoIcon size={15} />
         </a>
+        <EggHuntButton className="text-sidebar-foreground/50 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-sidebar-ring" />
         <a
           href="https://github.com/sponsors/radiumcoders"
           target="_blank"

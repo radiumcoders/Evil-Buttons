@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { findEgg } from "./eggs";
 
 /** Clicks, within STREAK_MS and STREAK_RADIUS px of each other, that count as a rage. */
-const RAGE_CLICKS = 5;
+const RAGE_CLICKS = 4;
 const STREAK_MS = 1200;
 const STREAK_RADIUS = 90;
 const MAX_CRACKS = 8;
