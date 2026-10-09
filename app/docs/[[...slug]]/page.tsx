@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { Metadata } from "next";
 import type { ComponentProps } from "react";
 import { notFound } from "next/navigation";
+import { DocsDither } from "@/components/docs-dither";
 import { DocsPageActions } from "@/components/docs-page-actions";
 import { getMDXComponents } from "@/components/mdx";
 import { PreviewCard } from "@/components/preview-card";
@@ -64,7 +65,8 @@ export default async function DocsPage({ params }: DocsPageProps) {
 
   return (
     <div className="flex w-full justify-center gap-10">
-      <div className="min-h-dvh w-full max-w-4xl min-w-0 bg-background px-6 pt-16 pb-24 md:my-1.5 md:min-h-[calc(100dvh-0.75rem)] md:rounded-2xl md:border md:border-border md:px-10 md:pt-12">
+      <div className="relative min-h-dvh w-full max-w-4xl min-w-0 bg-background px-6 pt-48 pb-24 md:my-1.5 md:min-h-[calc(100dvh-0.75rem)] md:rounded-2xl md:border md:border-border md:px-10 md:pt-56">
+        <DocsDither className="pointer-events-none absolute inset-x-0 top-0 h-40 md:h-48 md:rounded-t-[15px]" />
         <JsonLd
           data={[
             createTechArticleJsonLd({
