@@ -4,7 +4,7 @@ import { useDialKit } from "dialkit";
 import { fromFolder, listFolder } from "./theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
-import { SlideToDetonate } from "@/components/evil-buttons/slide-to-detonate";
+import { SlideToDetonate } from "@/components/detonation/slide-to-detonate";
 import { DoubtButton } from "@/components/evil-buttons/doubt-button";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
