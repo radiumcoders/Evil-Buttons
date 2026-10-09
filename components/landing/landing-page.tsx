@@ -68,7 +68,7 @@ function Navbar() {
           >
             <GithubLogo className="size-4" />
           </a>
-          <EggHuntButton />
+          <EggHuntButton className="mx-1" />
           <button
             type="button"
             onClick={toggleTheme}

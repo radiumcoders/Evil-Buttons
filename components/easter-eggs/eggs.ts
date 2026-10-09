@@ -9,6 +9,9 @@ export const EASTER_EGGS = [
   "cracks",
   "glitch",
   "lights",
+  "flip",
+  "skulls",
+  "creeper",
 ] as const;
 
 export type EasterEgg = (typeof EASTER_EGGS)[number];
@@ -49,6 +52,21 @@ export const EGG_INFO: Record<EasterEgg, { name: string; hint: string; how: stri
     name: "Lights out",
     hint: "That switch has old wiring. Flick it like you mean it.",
     how: "Flip RealisticSwitch four times fast.",
+  },
+  flip: {
+    name: "Trolled",
+    hint: "The one that runs away has a temper. Catch it anyway.",
+    how: "Catch TrollButton once it gets tired.",
+  },
+  skulls: {
+    name: "Party's over",
+    hint: "One burst of confetti is restrained. Five is a different party.",
+    how: "Click ConfettiButton five times fast.",
+  },
+  creeper: {
+    name: "Ssssss",
+    hint: "Break the stone button. Something green was hiding behind it.",
+    how: "Mine MinecraftButton until it breaks.",
   },
 };
 

@@ -34,16 +34,20 @@ export function EggHuntDialog() {
               ? "You found every one. The buttons fear you now."
               : `${EASTER_EGGS.length} of the buttons hide an easter egg. Play rough with them; every hint below is a real clue.`}
           </DialogDescription>
-          <div className="relative mt-4 flex items-center gap-3">
-            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-foreground/10">
-              <div
-                className="h-full rounded-full bg-brand transition-[width] duration-500"
-                style={{ width: `${(found.length / EASTER_EGGS.length) * 100}%` }}
-              />
+          <div className="relative mt-4 flex items-end justify-between gap-4">
+            <div className="flex flex-wrap gap-1" aria-hidden>
+              {EASTER_EGGS.map((egg) =>
+                found.includes(egg) ? (
+                  <EggIcon key={egg} weight="fill" className="size-5 text-brand drop-shadow-[0_0_6px_color-mix(in_oklch,var(--brand)_45%,transparent)]" />
+                ) : (
+                  <EggIcon key={egg} className="size-5 text-foreground/20" />
+                ),
+              )}
             </div>
-            <span className="font-pixel-display text-sm tabular-nums">
-              {found.length}/{EASTER_EGGS.length}
-            </span>
+            <p className="shrink-0 text-sm text-muted-foreground tabular-nums">
+              <span className="text-2xl font-semibold tracking-tight text-foreground">{found.length}</span> of{" "}
+              {EASTER_EGGS.length} found
+            </p>
           </div>
         </div>
 
@@ -92,6 +96,7 @@ export function EggHuntDialog() {
 /** The always-visible way in: an egg with your count, for headers and footers. */
 export function EggHuntButton({ className, label = false }: { className?: string; label?: boolean }) {
   const found = useFoundEggs();
+  const complete = found.length === EASTER_EGGS.length;
   return (
     <button
       type="button"
@@ -99,23 +104,26 @@ export function EggHuntButton({ className, label = false }: { className?: string
       aria-label={`Easter egg hunt: ${found.length} of ${EASTER_EGGS.length} found`}
       title="Easter egg hunt"
       className={cn(
-        "group inline-flex h-8 items-center gap-1.5 rounded-md px-2 text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+        "group inline-flex h-7 items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/[0.03] pr-2.5 pl-2 text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none",
+        found.length > 0 && "border-brand/25 bg-brand/[0.06]",
         className,
       )}
     >
       <EggIcon
-        weight={found.length > 0 ? "fill" : "regular"}
+        weight={found.length > 0 ? "fill" : "bold"}
         className={cn(
-          "size-4 transition-transform group-hover:-rotate-12",
+          "size-3.5 shrink-0 transition-transform group-hover:-rotate-12",
           found.length > 0 && "text-brand",
           // A little wobble until the first egg is found, to invite a click.
           found.length === 0 && "animate-[egg-wobble_4s_ease-in-out_infinite] motion-reduce:animate-none",
         )}
       />
-      <span className="font-mono text-[11px] tabular-nums">
-        {label ? "Egg hunt · " : null}
-        {found.length}/{EASTER_EGGS.length}
+      {label ? <span className="text-xs">Egg hunt</span> : null}
+      <span className="text-xs tabular-nums">
+        <span className={cn("font-semibold", found.length > 0 && "text-foreground")}>{found.length}</span>
+        <span className="opacity-50">/{EASTER_EGGS.length}</span>
       </span>
+      {complete ? <span className="sr-only">All found</span> : null}
     </button>
   );
 }

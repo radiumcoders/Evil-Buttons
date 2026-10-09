@@ -71,9 +71,14 @@ export function EggToaster() {
             transition={{ type: "spring", stiffness: 420, damping: 32 }}
             className="pointer-events-auto flex max-w-md cursor-pointer items-center gap-3 rounded-2xl bg-neutral-950/95 py-2 pr-4 pl-2.5 text-left text-neutral-50 shadow-[0_0_0_1px_rgb(255_255_255/0.08),0_12px_32px_-8px_rgb(0_0_0/0.6),0_0_24px_-6px_rgb(230_40_40/0.5)] backdrop-blur transition-colors hover:bg-neutral-900 focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none"
           >
-            <span className="flex h-7 shrink-0 items-center gap-1 rounded-full bg-brand px-2.5 font-pixel-display text-xs text-white tabular-nums">
+            <span className="flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-brand px-2.5 text-xs text-white tabular-nums">
               <EggIcon weight="fill" className="size-3.5" />
-              {toast.progress ? `${toast.progress.found}/${toast.progress.total}` : null}
+              {toast.progress ? (
+                <span>
+                  <span className="font-semibold">{toast.progress.found}</span>
+                  <span className="opacity-60">/{toast.progress.total}</span>
+                </span>
+              ) : null}
             </span>
             <span className="min-w-0 text-sm leading-tight">
               <span className="font-medium">{toast.title}</span>

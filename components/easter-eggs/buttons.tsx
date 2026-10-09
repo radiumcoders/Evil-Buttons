@@ -2,11 +2,14 @@
 
 import * as React from "react";
 import { BrutalButton as BaseBrutalButton } from "@/components/evil-buttons/brutal-button";
+import { ConfettiButton as BaseConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { DemonicButton as BaseDemonicButton } from "@/components/evil-buttons/demonic-button";
 import { DoubtButton as BaseDoubtButton } from "@/components/evil-buttons/doubt-button";
 import BaseEvilEyeButton from "@/components/evil-buttons/evil-eye-button";
 import { GlitchButton as BaseGlitchButton } from "@/components/evil-buttons/glitch-button";
+import { MinecraftButton as BaseMinecraftButton } from "@/components/evil-buttons/minecraft-button";
 import { RealisticSwitch as BaseRealisticSwitch } from "@/components/evil-buttons/realistic-switch";
+import BaseTrollButton from "@/components/evil-buttons/troll-button";
 import { showEggToast } from "./egg-toast";
 import { useFoundEggs } from "./eggs";
 import { centreOf, createBurstCounter, fireEgg } from "./triggers";
@@ -24,6 +27,7 @@ const SMASH_CLICKS = 4;
 const STARE_MS = 2500;
 const FLIP_WINDOW = 4000;
 const FLIPS = 4;
+const PARTY_CLICKS = 5;
 
 /** Hold until the demon is summoned and it takes the whole site to hell. */
 export function DemonicButton({ onSummon, ...props }: React.ComponentProps<typeof BaseDemonicButton>) {
@@ -136,6 +140,51 @@ export function RealisticSwitch({
           counter.reset();
           fireEgg("lights");
         }
+      }}
+    />
+  );
+}
+
+/** Actually catch the troll and it gets its revenge: the page goes upside down. */
+export function TrollButton({ onClick, ...props }: React.ComponentProps<typeof BaseTrollButton>) {
+  return (
+    <BaseTrollButton
+      {...props}
+      onClick={(event) => {
+        onClick?.(event);
+        fireEgg("flip");
+      }}
+    />
+  );
+}
+
+/** One burst is a celebration; spam it and the party turns. */
+export function ConfettiButton({ onClick, ...props }: React.ComponentProps<typeof BaseConfettiButton>) {
+  const [counter] = React.useState(() => createBurstCounter(SMASH_WINDOW + 600));
+  return (
+    <BaseConfettiButton
+      {...props}
+      onClick={(event) => {
+        onClick?.(event);
+        if (counter.hit() >= PARTY_CLICKS) {
+          counter.reset();
+          fireEgg("skulls", centreOf(event.currentTarget));
+        }
+      }}
+    />
+  );
+}
+
+/** Mine the stone button until it breaks, and something green was waiting behind it. */
+export function MinecraftButton({ onBreak, ...props }: React.ComponentProps<typeof BaseMinecraftButton>) {
+  const buttonRef = React.useRef<HTMLButtonElement | null>(null);
+  return (
+    <BaseMinecraftButton
+      ref={buttonRef}
+      {...props}
+      onBreak={() => {
+        onBreak?.();
+        fireEgg("creeper", buttonRef.current ? centreOf(buttonRef.current) : undefined);
       }}
     />
   );

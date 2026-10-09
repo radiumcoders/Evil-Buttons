@@ -1,6 +1,7 @@
 "use client";
 
 import { ConsoleGreeting } from "./console-greeting";
+import { Creeper } from "./creeper";
 import { EggHuntDialog } from "./egg-hunt";
 import { EggTeaser } from "./egg-teaser";
 import { EggToaster } from "./egg-toast";
@@ -9,6 +10,8 @@ import { GlitchStorm } from "./glitch-storm";
 import { HellMode } from "./hell-mode";
 import { LightsOut } from "./lights-out";
 import { ScreenCracks } from "./screen-cracks";
+import { SkullStorm } from "./skull-storm";
+import { TrollFlip } from "./troll-flip";
 import { WatchingEyes } from "./watching-eyes";
 
 /**
@@ -24,6 +27,9 @@ export function EasterEggs() {
       <ScreenCracks />
       <GlitchStorm />
       <LightsOut />
+      <TrollFlip />
+      <SkullStorm />
+      <Creeper />
       <ConsoleGreeting />
       <EggTeaser />
       <EggHuntDialog />

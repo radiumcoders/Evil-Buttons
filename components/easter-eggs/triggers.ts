@@ -1,5 +1,14 @@
 /** Eggs whose effects live in the root layout, set off by the site's buttons. */
-export type EggEffect = "hell" | "deleted" | "eyes" | "cracks" | "glitch" | "lights";
+export type EggEffect =
+  | "hell"
+  | "deleted"
+  | "eyes"
+  | "cracks"
+  | "glitch"
+  | "lights"
+  | "flip"
+  | "skulls"
+  | "creeper";
 
 export type EggPoint = { x: number; y: number };
 

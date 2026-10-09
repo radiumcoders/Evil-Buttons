@@ -8,7 +8,6 @@ import { isValidElement, type ReactNode } from "react";
 import MoviePassButton from "./evil-buttons/movie-pass";
 import ShinyButton from "./evil-buttons/shiny-button";
 import DitherButton from "./evil-buttons/dither-button";
-import TrollButton from "./evil-buttons/troll-button";
 import ChromeButton from "./evil-buttons/chrome-button";
 import { AquaButton } from "./evil-buttons/aqua-button";
 import { ThreeDButton } from "./evil-buttons/3d-button";
@@ -21,17 +20,18 @@ import { HoldButton } from "./evil-buttons/hold-button";
 import { SlideToDetonate } from "./detonation/slide-to-detonate";
 import {
   BrutalButton,
+  ConfettiButton,
   DemonicButton,
   DoubtButton,
   EvilEyeButton,
   GlitchButton,
+  MinecraftButton,
   RealisticSwitch,
+  TrollButton,
 } from "./easter-eggs/buttons";
 import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
-import { ConfettiButton } from "./evil-buttons/confetti-button";
 import { AshBurstButton } from "./evil-buttons/ash-burst-button";
-import { MinecraftButton } from "./evil-buttons/minecraft-button";
 import {
   MorphStatusButtonDemo,
   MorphStatusButtonFailDemo,

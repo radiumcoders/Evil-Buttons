@@ -540,7 +540,7 @@ export default function DetonationOverlay({
         >
           <div className="flex animate-in flex-col items-center text-center duration-700 fade-in zoom-in-95">
             <p className="font-pixel-display text-xs tracking-[0.3em] text-orange-300/70 uppercase">
-              Easter egg {progress.found}/{progress.total} found
+              Easter egg · {progress.found} of {progress.total} found
             </p>
             <h2
               id="detonation-title"
