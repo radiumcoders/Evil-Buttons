@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { eggProgress } from "@/components/easter-eggs/eggs";
 import type { DetonationOrigin } from "./events";
 
 /*
@@ -255,6 +256,7 @@ export default function DetonationOverlay({
   const rebuildRef = useRef<{ start: number; from: number } | null>(null);
   const onDoneRef = useRef(onDone);
   const [phase, setPhase] = useState<Phase>("burning");
+  const [progress] = useState(eggProgress);
 
   useEffect(() => {
     onDoneRef.current = onDone;
@@ -515,6 +517,7 @@ export default function DetonationOverlay({
   return createPortal(
     <div
       ref={rootRef}
+      data-detonation
       className="fixed inset-0 z-[2147483000] cursor-default touch-none overflow-hidden select-none"
     >
       <canvas
@@ -534,7 +537,7 @@ export default function DetonationOverlay({
         >
           <div className="flex animate-in flex-col items-center text-center duration-700 fade-in zoom-in-95">
             <p className="font-pixel-display text-xs tracking-[0.3em] text-orange-300/70 uppercase">
-              Easter egg found
+              Easter egg {progress.found}/{progress.total} found
             </p>
             <h2
               id="detonation-title"

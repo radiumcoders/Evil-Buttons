@@ -709,3 +709,156 @@ html.dark .docs-content .shiki span {
     100% 100%,
     100% 100%;
 }
+
+/*
+ * Easter eggs (components/easter-eggs). Overlays stack under the detonation
+ * (2147483000) and the egg toast (2147483100).
+ */
+html[data-hell] body {
+  filter: sepia(1) saturate(6) hue-rotate(-48deg) brightness(0.85) contrast(1.15);
+}
+
+html[data-hell],
+html[data-hell] * {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='32' viewBox='0 0 24 32'%3E%3Cpath d='M4 3v7a8 8 0 0 0 16 0V3M12 3v27' fill='none' stroke='%23000' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M4 3v7a8 8 0 0 0 16 0V3M12 3v27' fill='none' stroke='%23ff2a14' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      12 3,
+    auto !important;
+}
+
+.hell-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482000;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgb(110 0 0 / 0.6) 100%);
+  mix-blend-mode: multiply;
+  animation: hell-flicker 3.2s steps(1) infinite;
+}
+
+@keyframes hell-flicker {
+  0%, 100% { opacity: 1; }
+  41% { opacity: 0.7; }
+  43% { opacity: 1; }
+  77% { opacity: 0.85; }
+  78% { opacity: 1; }
+}
+
+.lights-out {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482500;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    transparent 0,
+    transparent 70px,
+    rgb(0 0 0 / 0.9) 150px,
+    rgb(0 0 0 / 0.97) 320px
+  );
+  animation: lights-off 0.7s steps(1);
+}
+
+.lights-out[data-phase="flicker"] {
+  animation: lights-on 1s steps(1) forwards;
+}
+
+@keyframes lights-off {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  30% { opacity: 0.2; }
+  45% { opacity: 1; }
+  60% { opacity: 0.5; }
+  70%, 100% { opacity: 1; }
+}
+
+@keyframes lights-on {
+  0% { opacity: 1; }
+  20% { opacity: 0; }
+  32% { opacity: 1; }
+  50% { opacity: 0.1; }
+  60% { opacity: 0.9; }
+  75%, 100% { opacity: 0; }
+}
+
+@keyframes lights-fade {
+  to { opacity: 0; }
+}
+
+.watching-eyes {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482400;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.watching-eyes::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgb(0 0 0 / 0.85) 100%);
+  animation: eyes-dim 3s ease-out backwards;
+}
+
+.watching-eyes[data-leaving] {
+  opacity: 0;
+}
+
+.watching-eyes-pair {
+  position: absolute;
+  translate: -50% -50%;
+  overflow: visible;
+  filter: drop-shadow(0 0 6px rgb(255 30 20 / 0.85));
+  animation: eyes-open 0.9s ease-out backwards;
+}
+
+.watching-eyes-lids {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: eyes-blink 5s infinite;
+  transition: transform 0.15s;
+}
+
+.watching-eyes[data-leaving] .watching-eyes-lids {
+  animation: none;
+  transform: scaleY(0.05);
+}
+
+@keyframes eyes-dim {
+  from { opacity: 0; }
+}
+
+@keyframes eyes-open {
+  from { opacity: 0; transform: scaleY(0.05); }
+}
+
+@keyframes eyes-blink {
+  0%, 92%, 100% { transform: none; }
+  95% { transform: scaleY(0.08); }
+}
+
+.screen-crack {
+  position: absolute;
+  overflow: visible;
+  animation: crack-life 4.5s ease-out forwards;
+}
+
+@keyframes crack-life {
+  0% { opacity: 0; transform: scale(0.92); }
+  4% { opacity: 1; transform: none; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hell-vignette,
+  .lights-out,
+  .watching-eyes-lids {
+    animation: none;
+  }
+
+  .lights-out[data-phase="flicker"] {
+    animation: lights-fade 0.4s forwards;
+  }
+}
