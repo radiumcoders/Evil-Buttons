@@ -66,7 +66,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
   return (
     <div className="flex w-full justify-center gap-10">
       <div className="relative min-h-dvh w-full max-w-4xl min-w-0 bg-background px-6 pt-16 pb-24 md:my-1.5 md:min-h-[calc(100dvh-0.75rem)] md:rounded-2xl md:border md:border-border md:px-10 md:pt-12">
-        <DocsHeaderShader className="absolute inset-x-0 top-0 h-56 md:h-64 md:rounded-t-[15px]" />
+        <DocsHeaderShader className="absolute inset-x-0 top-0 h-[28rem] md:h-[36rem] md:rounded-t-[15px]" />
         <JsonLd
           data={[
             createTechArticleJsonLd({
@@ -91,7 +91,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
             />
           </div>
           {page.data.description ? (
-            <p className="max-w-2xl text-[15px] leading-7 text-muted-foreground">
+            <p className="max-w-2xl text-[15px] leading-7 text-foreground/80">
               {page.data.description}
             </p>
           ) : null}

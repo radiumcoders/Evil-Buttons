@@ -5,8 +5,8 @@
  *
  * Changes from the original: recoloured to the brand red (oklch hue ~29°,
  * one hue, high chroma) on the page's own backgrounds, and wrapped in
- * DocsHeaderShader, which blurs it progressively from the bottom up with an
- * SVG filter and fades it into the page.
+ * DocsHeaderShader, which shows it as a large header background, blurs it
+ * progressively from the bottom up with an SVG filter and fades it out.
  */
 
 "use client";
@@ -193,28 +193,49 @@ void main() {
 }
 `;
 
-// A vertical ramp, clear at the top and opaque at the bottom, used by the
-// SVG filter below to decide how much of the blurred copy shows.
-const BLUR_RAMP = `data:image/svg+xml,${encodeURIComponent(
-  "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 1 1' preserveAspectRatio='none'><linearGradient id='g' x2='0' y2='1'><stop offset='0.2' stop-opacity='0'/><stop offset='0.85'/></linearGradient><rect width='1' height='1' fill='url(#g)'/></svg>",
-)}`;
+// Vertical ramps for the SVG filter: clear above `from`, opaque below `to`.
+// They decide how much of each blurred copy shows at each height.
+const ramp = (from: number, to: number) =>
+  `data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 1 1' preserveAspectRatio='none'><linearGradient id='g' x2='0' y2='1'><stop offset='${from}' stop-opacity='0'/><stop offset='${to}'/></linearGradient><rect width='1' height='1' fill='url(#g)'/></svg>`,
+  )}`;
+const SOFT_RAMP = ramp(0.12, 0.5);
+const HEAVY_RAMP = ramp(0.4, 0.9);
 
 /**
- * The docs header: the shader, blurred more and more toward the bottom by an
- * SVG filter, then faded out into the page so the title can sit on its tail.
+ * The docs header: the shader as a large background behind the title. An
+ * SVG filter blurs it more and more toward the bottom (sharp dither at the
+ * top, a soft blur through the middle, a heavy one at the bottom), then a
+ * mask fades it into the page.
  */
 export function DocsHeaderShader({ className }: { className?: string }) {
   const theme = useAppTheme();
   const filterId = `docs-header-blur-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
   const [failed, setFailed] = useState(false);
+
+  // The filter works in CSS pixels, so the ramps are sized to the element.
+  useEffect(() => {
+    const element = frameRef.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) => {
+      if (!entry) return;
+      const { width, height } = entry.contentRect;
+      setSize({ width: Math.round(width), height: Math.round(height) });
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   if (failed) return null;
 
   return (
     <div
+      ref={frameRef}
       aria-hidden="true"
       className={cn(
-        "pointer-events-none overflow-hidden [mask-image:linear-gradient(to_bottom,black_40%,transparent)]",
+        "pointer-events-none overflow-hidden [mask-image:linear-gradient(to_bottom,black_55%,transparent)]",
         className,
       )}
     >
@@ -225,13 +246,18 @@ export function DocsHeaderShader({ className }: { className?: string }) {
           y="0"
           width="1"
           height="1"
-          primitiveUnits="objectBoundingBox"
+          filterUnits="objectBoundingBox"
+          primitiveUnits="userSpaceOnUse"
           colorInterpolationFilters="sRGB"
         >
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.012 0.05" edgeMode="duplicate" result="blur" />
-          <feImage href={BLUR_RAMP} x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="ramp" />
-          <feComposite in="blur" in2="ramp" operator="in" result="blurBottom" />
-          <feComposite in="blurBottom" in2="SourceGraphic" operator="over" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" edgeMode="duplicate" result="soft" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="28" edgeMode="duplicate" result="heavy" />
+          <feImage href={SOFT_RAMP} x="0" y="0" width={size.width} height={size.height} preserveAspectRatio="none" result="softRamp" />
+          <feImage href={HEAVY_RAMP} x="0" y="0" width={size.width} height={size.height} preserveAspectRatio="none" result="heavyRamp" />
+          <feComposite in="soft" in2="softRamp" operator="in" result="softBelow" />
+          <feComposite in="softBelow" in2="SourceGraphic" operator="over" result="softened" />
+          <feComposite in="heavy" in2="heavyRamp" operator="in" result="heavyBelow" />
+          <feComposite in="heavyBelow" in2="softened" operator="over" />
         </filter>
       </svg>
       <KshitizShader
@@ -241,8 +267,10 @@ export function DocsHeaderShader({ className }: { className?: string }) {
           console.warn("Docs header shader disabled:", error.message);
           setFailed(true);
         }}
-        style={{ filter: `url(#${filterId})` }}
+        style={size.width > 0 ? { filter: `url(#${filterId})` } : undefined}
       />
+      {/* Calms the field behind the title and description so they stay legible. */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,color-mix(in_oklab,var(--background)_50%,transparent),color-mix(in_oklab,var(--background)_30%,transparent)_35%,transparent_70%)]" />
     </div>
   );
 }
