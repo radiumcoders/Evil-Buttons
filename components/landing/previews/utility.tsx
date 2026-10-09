@@ -5,10 +5,10 @@ import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import {
-  RealisticSwitch,
   type RealisticSwitchSize,
   type RealisticSwitchTone,
 } from "@/components/evil-buttons/realistic-switch";
+import { RealisticSwitch } from "@/components/easter-eggs/buttons";
 import { LiveProps } from "./live-props";
 
 export function CommandButtonPreview() {

@@ -15,6 +15,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TracwellAnalytics } from "@/components/tracwell-analytics";
 import { PageDetonation } from "@/components/detonation/page-detonation";
+import { EasterEggs } from "@/components/easter-eggs/easter-eggs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -93,6 +94,7 @@ export default function RootLayout({
         */}
         <ThemeProvider>{children}</ThemeProvider>
         <PageDetonation />
+        <EasterEggs />
       </body>
     </html>
   );

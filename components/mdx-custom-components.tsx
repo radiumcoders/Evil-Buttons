@@ -8,28 +8,30 @@ import { isValidElement, type ReactNode } from "react";
 import MoviePassButton from "./evil-buttons/movie-pass";
 import ShinyButton from "./evil-buttons/shiny-button";
 import DitherButton from "./evil-buttons/dither-button";
-import EvilEyeButton from "./evil-buttons/evil-eye-button";
-import TrollButton from "./evil-buttons/troll-button";
 import ChromeButton from "./evil-buttons/chrome-button";
-import { BrutalButton } from "./evil-buttons/brutal-button";
 import { AquaButton } from "./evil-buttons/aqua-button";
 import { ThreeDButton } from "./evil-buttons/3d-button";
 import { FrameButton } from "./evil-buttons/frame-button";
 import { HighlightButton } from "./evil-buttons/highlight-button";
-import { GlitchButton } from "./evil-buttons/glitch-button";
 import { CommandButton } from "./evil-buttons/command-button";
 import { CopyButton } from "./evil-buttons/copy-button";
 import { RevealButton } from "./evil-buttons/reveal-button";
-import {DemonicButton} from "./evil-buttons/demonic-button";
 import { HoldButton } from "./evil-buttons/hold-button";
-import { DoubtButton } from "./evil-buttons/doubt-button";
 import { SlideToDetonate } from "./detonation/slide-to-detonate";
+import {
+  BrutalButton,
+  ConfettiButton,
+  DemonicButton,
+  DoubtButton,
+  EvilEyeButton,
+  GlitchButton,
+  MinecraftButton,
+  RealisticSwitch,
+  TrollButton,
+} from "./easter-eggs/buttons";
 import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
-import { RealisticSwitch } from "./evil-buttons/realistic-switch";
-import { ConfettiButton } from "./evil-buttons/confetti-button";
 import { AshBurstButton } from "./evil-buttons/ash-burst-button";
-import { MinecraftButton } from "./evil-buttons/minecraft-button";
 import {
   MorphStatusButtonDemo,
   MorphStatusButtonFailDemo,

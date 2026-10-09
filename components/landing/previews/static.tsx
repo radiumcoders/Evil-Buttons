@@ -4,31 +4,33 @@ import { useIsDarkMode } from "@/hooks/use-app-theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
 import { SlideToDetonate } from "@/components/detonation/slide-to-detonate";
-import { DoubtButton } from "@/components/evil-buttons/doubt-button";
+import {
+  BrutalButton,
+  ConfettiButton,
+  DemonicButton,
+  DoubtButton,
+  EvilEyeButton,
+  GlitchButton,
+  MinecraftButton,
+  RealisticSwitch,
+  TrollButton,
+} from "@/components/easter-eggs/buttons";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
-import { BrutalButton } from "@/components/evil-buttons/brutal-button";
 import DitherButton from "@/components/evil-buttons/dither-button";
-import { GlitchButton } from "@/components/evil-buttons/glitch-button";
-import EvilEyeButton from "@/components/evil-buttons/evil-eye-button";
 import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { FrameButton } from "@/components/evil-buttons/frame-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
-import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
-import { MinecraftButton } from "@/components/evil-buttons/minecraft-button";
 import { CommandButton } from "@/components/evil-buttons/command-button";
 import { CopyButton } from "@/components/evil-buttons/copy-button";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
-import { RealisticSwitch } from "@/components/evil-buttons/realistic-switch";
-import { DemonicButton } from "@/components/evil-buttons/demonic-button";
 import ChromeButton from "@/components/evil-buttons/chrome-button";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
-import TrollButton from "@/components/evil-buttons/troll-button";
 import { DeferredWebGLPreview } from "./shared";
 import { themeColors } from "./theme";
 

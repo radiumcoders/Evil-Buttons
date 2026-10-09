@@ -19,6 +19,7 @@ import {
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { siteConfig } from "@/lib/seo";
 import { toggleTheme } from "@/lib/theme-preference";
+import { EggHuntButton } from "@/components/easter-eggs/egg-hunt";
 
 type LandingPageProps = {
   /** Docs category per showcase href, read from the MDX frontmatter. */
@@ -67,6 +68,7 @@ function Navbar() {
           >
             <GithubLogo className="size-4" />
           </a>
+          <EggHuntButton className="mx-1" />
           <button
             type="button"
             onClick={toggleTheme}

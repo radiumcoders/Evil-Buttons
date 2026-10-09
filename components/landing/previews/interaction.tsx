@@ -5,7 +5,7 @@ import { fromFolder, listFolder } from "./theme";
 import { RevealButton } from "@/components/evil-buttons/reveal-button";
 import { HoldButton } from "@/components/evil-buttons/hold-button";
 import { SlideToDetonate } from "@/components/detonation/slide-to-detonate";
-import { DoubtButton } from "@/components/evil-buttons/doubt-button";
+import { DoubtButton } from "@/components/easter-eggs/buttons";
 import { CooldownButton } from "@/components/evil-buttons/cooldown-button";
 import { MorphStatusButton } from "@/components/evil-buttons/morph-status-button";
 import { LiveProps } from "./live-props";

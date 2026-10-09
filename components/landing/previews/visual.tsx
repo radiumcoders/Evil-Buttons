@@ -1,14 +1,16 @@
 "use client";
 import { useDialKit } from "dialkit";
 
-import { BrutalButton } from "@/components/evil-buttons/brutal-button";
+import {
+  BrutalButton,
+  ConfettiButton,
+  EvilEyeButton,
+  GlitchButton,
+} from "@/components/easter-eggs/buttons";
 import DitherButton from "@/components/evil-buttons/dither-button";
-import { GlitchButton } from "@/components/evil-buttons/glitch-button";
-import EvilEyeButton from "@/components/evil-buttons/evil-eye-button";
 import { AquaButton } from "@/components/evil-buttons/aqua-button";
 import { FrameButton } from "@/components/evil-buttons/frame-button";
 import { HighlightButton } from "@/components/evil-buttons/highlight-button";
-import { ConfettiButton } from "@/components/evil-buttons/confetti-button";
 import { AshBurstButton } from "@/components/evil-buttons/ash-burst-button";
 import { DeferredWebGLPreview } from "./shared";
 import {

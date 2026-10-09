@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SlideToDetonate } from "@/components/detonation/slide-to-detonate";
 
 export default function NotFound() {
   return (
@@ -29,6 +30,8 @@ export default function NotFound() {
           Browse docs
         </Link>
       </div>
+
+      <SlideToDetonate label="Slide to burn this 404" className="mt-4" />
     </main>
   );
 }
