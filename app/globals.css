@@ -572,6 +572,61 @@ html.dark .docs-content .shiki span {
   line-height: 18px;
 }
 
+/* Brand accents: the live props panel wears the site red. */
+.dialkit-root[data-mode="inline"] {
+  --dial-focus-ring: color-mix(in oklab, var(--brand) 55%, transparent);
+  --dial-text-focus: var(--brand);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-fill {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--brand) 14%, transparent),
+    color-mix(in oklab, var(--brand) 22%, transparent)
+  );
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-active .dialkit-slider-fill {
+  background: color-mix(in oklab, var(--brand) 28%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-active .dialkit-slider-hashmark {
+  background: color-mix(in oklab, var(--brand) 45%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-slider-handle {
+  background: var(--brand);
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--brand) 60%, black),
+    0 1px 3px color-mix(in oklab, var(--brand) 40%, transparent),
+    0 2px 8px color-mix(in oklab, var(--brand) 25%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-toggle[data-checked="true"] .dialkit-toggle-track {
+  background: var(--brand);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-segmented-pill,
+.dialkit-root[data-mode="inline"][data-theme="dark"] .dialkit-segmented-pill {
+  background: color-mix(in oklab, var(--brand) 14%, var(--background));
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--brand) 35%, transparent),
+    0 1px 2px color-mix(in oklab, var(--brand) 20%, transparent);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-segmented-button[data-active="true"] {
+  color: var(--brand);
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-button:hover {
+  color: var(--brand);
+  background: color-mix(in oklab, var(--brand) 8%, var(--background));
+}
+
+.dialkit-root[data-mode="inline"] .dialkit-button:active {
+  background: color-mix(in oklab, var(--brand) 14%, var(--background));
+}
+
 /* The docs frame already draws the border; drop the panel's own chrome. */
 .dialkit-root[data-mode="inline"] .dialkit-panel-inner {
   border: 0 !important;

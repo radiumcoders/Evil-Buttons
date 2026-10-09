@@ -11,6 +11,7 @@ import {
   toJsx,
 } from "@/components/landing/previews/live-props";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { cn } from "@/lib/utils";
 
 export type LiveSource = {
   registryName: string;
@@ -52,7 +53,7 @@ Keep every prop value as listed. Wire any event callbacks (onClick, onConfirm, a
 }
 
 const toolbarButton =
-  "inline-flex h-7 cursor-pointer items-center gap-1.5 rounded-md px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
+  "inline-flex h-7 cursor-pointer items-center gap-1.5 rounded-md px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-brand/10 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/50";
 
 /**
  * Docs preview wired to DialKit: the button on top, its props as live
@@ -115,7 +116,7 @@ export function LivePreview({ source, fallback }: LivePreviewProps) {
             <button
               type="button"
               onClick={copyPrompt}
-              className={toolbarButton}
+              className={cn(toolbarButton, copied && "bg-brand/10 text-brand")}
               title="Copy a prompt with the install command and this config"
             >
               {copied ? (
