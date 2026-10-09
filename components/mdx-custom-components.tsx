@@ -23,7 +23,7 @@ import { RevealButton } from "./evil-buttons/reveal-button";
 import {DemonicButton} from "./evil-buttons/demonic-button";
 import { HoldButton } from "./evil-buttons/hold-button";
 import { DoubtButton } from "./evil-buttons/doubt-button";
-import { SlideToDetonate } from "./evil-buttons/slide-to-detonate";
+import { SlideToDetonate } from "./detonation/slide-to-detonate";
 import { MorphStatusButton } from "./evil-buttons/morph-status-button";
 import { CooldownButton } from "./evil-buttons/cooldown-button";
 import { RealisticSwitch } from "./evil-buttons/realistic-switch";

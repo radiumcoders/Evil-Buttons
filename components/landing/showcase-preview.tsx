@@ -10,10 +10,8 @@ import {
   RevealButton,
   type RevealButtonVariant,
 } from "@/components/evil-buttons/reveal-button";
-import {
-  SlideToDetonate,
-  type SlideToDetonateVariant,
-} from "@/components/evil-buttons/slide-to-detonate";
+import { type SlideToDetonateVariant } from "@/components/evil-buttons/slide-to-detonate";
+import { SlideToDetonate } from "@/components/detonation/slide-to-detonate";
 import { ButtonPreview } from "@/components/landing/previews";
 
 type OutlineVariant = "default" | "secondary" | "outline";

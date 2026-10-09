@@ -14,6 +14,7 @@ import {
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TracwellAnalytics } from "@/components/tracwell-analytics";
+import { PageDetonation } from "@/components/detonation/page-detonation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -91,6 +92,7 @@ export default function RootLayout({
           add an unused toaster solely for audit score.
         */}
         <ThemeProvider>{children}</ThemeProvider>
+        <PageDetonation />
       </body>
     </html>
   );
