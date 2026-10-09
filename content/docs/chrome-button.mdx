@@ -4,8 +4,6 @@ description: A metallic pill whose border is a ring of flowing liquid chrome aro
 category: Effects
 ---
 
-ChromeButton is a metallic pill with a liquid-metal border. The face stays solid and readable, following your theme: dark with a white label in dark mode, white with a dark label in light mode. Meanwhile bands of polished chrome travel around the ring and slosh like liquid: broad silver, dark troughs, and thin hot highlights. Hover it and dark and bright ripples swirl out from your cursor while the flow speeds up; press it and a shock front runs around the ring from where you clicked.
-
 ## Preview
 
 <PreviewCard live title="ChromeButton" note="Hover and press">
@@ -13,8 +11,6 @@ ChromeButton is a metallic pill with a liquid-metal border. The face stays solid
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/chrome-button</Cmd>
 
@@ -27,8 +23,6 @@ export function ButtonDemo() {
   return <ChromeButton onClick={() => console.log("Continue")}>Continue</ChromeButton>;
 }
 ```
-
-Icons can sit next to the label; SVGs inside are sized to fit each size.
 
 ## Props
 
@@ -44,14 +38,7 @@ The component spreads native `button` props and forwards its ref.
 | `interactive` | `boolean` | `true` | Swirl the metal around the pointer and speed it up on hover, and send a shock front through it on press. |
 | `className` | `string` | - | Extra classes merged onto the outer ring. |
 
-## Notes
+## Good to know
 
-- Self-contained: the liquid metal is a plain WebGL shader in the component file, with no `ogl` or external registry dependency.
-- The shader fills the whole button and the solid face covers the middle, so only the ring shows. Bands are laid out by angle from the center, so they circle the border rather than drifting across it. A lit top lip and shadowed underside on the ring, plus an inset shadow on the face, make the border read as a raised metal tube.
-- The metal only animates while the button is on screen and the tab is visible. A static silver gradient shows until the first frame paints, and stays if WebGL is unavailable.
-- Keyboard presses send the shock front from the center.
-- With reduced motion, the metal keeps flowing at a fifth of its speed rather than stopping.
-
-## Registry
-
-The registry item includes `components/evil-buttons/chrome-button.tsx`, and adds `clsx` and `tailwind-merge` as dependencies.
+- Self-contained WebGL, no extra dependencies.
+- Only animates while on screen and the tab is visible.

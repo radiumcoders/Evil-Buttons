@@ -4,8 +4,6 @@ description: A button that locks itself behind a draining radial timer after eac
 category: Interactive
 ---
 
-CooldownButton fires your action, then refuses to cooperate again until a cooldown elapses. A radial sweep drains across the face while a rotating taunt counts down the seconds, so users get clear feedback instead of hammering a dead button. It is rate limiting and double-submit protection, with attitude.
-
 ## Preview
 
 <PreviewCard live title="CooldownButton" note="Click, then try to click again">
@@ -28,8 +26,6 @@ Tune `cooldown` and supply your own taunts.
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/cooldown-button</Cmd>
 
@@ -61,14 +57,6 @@ The component spreads any `<button>` HTML attributes.
 | `onClick` | `(e) => void` | - | Fires immediately on a valid click, before the cooldown begins. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- Shares MinimalButton's graded dark surface and springy press, and accepts any native `<button>` attribute.
-- The button is `disabled` for the full cooldown, so it cannot be double-submitted; clicks during the lockout are ignored.
-- The conic-gradient sweep is driven by a Motion value via `useMotionTemplate`, draining 360deg to 0deg over the cooldown for smooth, accurate progress.
-- Call `e.preventDefault()` inside `onClick` to fire the action without starting a cooldown.
-- The sweep animation is skipped when the user prefers reduced motion, and `data-state` (`idle` | `cooldown`) is exposed for styling.
-
-## Registry
-
-The registry item includes `components/evil-buttons/cooldown-button.tsx`, installs `clsx`, `tailwind-merge`, and `motion`.
+- Disabled for the whole cooldown, so no double submits.

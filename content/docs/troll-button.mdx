@@ -4,8 +4,6 @@ description: A button that dodges the cursor until it runs out of stamina, then 
 category: Mischief
 ---
 
-TrollButton refuses to be clicked, at first. As the cursor closes in it springs out of the way, leaning into each dodge, and when it's backed into a corner it slips past you to the other side. Every chase drains a thin stamina bar along its bottom edge. After a few seconds it runs out of breath, slumps back into place, and finally lets you click it.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ TrollButton refuses to be clicked, at first. As the cursor closes in it springs 
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/troll-button</Cmd>
 
@@ -58,13 +54,8 @@ The component spreads native `button` props and forwards its ref to the button.
 | `onClick` | `(event) => void` | - | Only fires once the button has given up. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- Distance is measured from the button's resting slot plus its current offset, so dodges don't jitter as it moves.
-- On touch there is no hover, so tapping makes it dodge instead, and those taps count toward the timer.
-- Keyboard activation always goes through, and `prefers-reduced-motion` turns the fleeing off entirely.
-- Shares the graded dark surface, hairline ring, and spring press used by MinimalButton and CommandButton. The stamina bar drains along its bottom edge while it's chased.
-
-## Registry
-
-The registry item includes `components/evil-buttons/troll-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.
+- On touch, taps make it dodge instead.
+- Keyboard clicks always go through.
+- `prefers-reduced-motion` turns the fleeing off.

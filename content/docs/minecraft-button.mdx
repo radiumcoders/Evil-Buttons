@@ -4,8 +4,6 @@ description: A pixel stone menu button that cracks every few taps, shatters into
 category: Effects
 ---
 
-MinecraftButton looks like a Java Edition menu button carved out of stone: a blocky black outline, a light and dark bevel, and a pixel label with a hard drop shadow. Hover it and your cursor becomes a diamond pickaxe; press to wind up, release to strike. Every hit chips off a few stone pixels. Every fifth tap the crack spreads further, and on the twentieth the button shatters and drops itself as a small spinning block. Click the drop to pick it up and put the button back.
-
 ## Preview
 
 <PreviewCard live title="MinecraftButton" note="Keep clicking — it breaks at 20">
@@ -14,11 +12,7 @@ MinecraftButton looks like a Java Edition menu button carved out of stone: a blo
 
 ## Install
 
-Add the item with the shadcn CLI.
-
 <Cmd>@evilbuttons/minecraft-button</Cmd>
-
-The label reads a pixel font from the `--font-pixel` CSS variable and falls back to monospace. With `next/font`:
 
 ```tsx
 import { Pixelify_Sans } from "next/font/google";
@@ -65,14 +59,7 @@ The component spreads native `button` props. `onClick` fires on every tap before
 | `onRespawn` | `() => void` | - | Fired when the button comes back. |
 | `className` | `string` | - | Extra classes merged onto the button. |
 
-## Notes
+## Good to know
 
-- Everything snaps to a 3px texel grid: the seeded stone texture, the bevels, the crack pixels, and the flying chips.
-- Cracks are generated to fit the button's size and grow along branches, so each stage extends the previous one instead of swapping in a new pattern. A respawned button cracks along a new pattern.
-- The pickaxe is a portal-rendered sprite that follows the pointer, only for mouse and pen, never touch. The native cursor comes back over the dropped item and after the button breaks.
-- On break, focus moves to the dropped item; picking it up returns focus to the button.
-- Chips, shakes, pickaxe swings, and the item bob are skipped when the user prefers reduced motion. Cracks still show.
-
-## Registry
-
-The registry item includes `components/evil-buttons/minecraft-button.tsx` and adds `clsx` and `tailwind-merge` as dependencies.
+- Everything snaps to a 3px texel grid.
+- The pickaxe cursor shows for mouse and pen, never touch.

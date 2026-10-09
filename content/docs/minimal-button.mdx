@@ -4,8 +4,6 @@ description: A quiet dark button with a hairline ring, inner highlight, soft dro
 category: Styles
 ---
 
-MinimalButton is built from light and edge rather than color. A graded dark surface sits inside a black hairline ring, a faint inner ring and a brighter top highlight catch the light, and a small soft shadow lifts it off the page. A muted chevron trails the label and nudges forward on hover.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ MinimalButton is built from light and edge rather than color. A graded dark surf
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/minimal</Cmd>
 
@@ -46,11 +42,7 @@ The component spreads native `button` props and forwards its ref to the button.
 | `arrow` | `boolean` | `true` | Show a trailing chevron that nudges forward on hover. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- The ring, inner highlight, and drop shadow are one layered `box-shadow`, so the button needs no extra wrapper elements.
-- The surface stays dark in both themes; the black hairline and inner ring keep its edge crisp on dark pages.
-
-## Registry
-
-The registry item includes `components/evil-buttons/minimal.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.
+- One layered `box-shadow`, no wrapper elements.
+- Stays dark in both themes.

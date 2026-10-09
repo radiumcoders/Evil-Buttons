@@ -4,8 +4,6 @@ description: A ringed dark button with a sparkle icon that fires a restrained co
 category: Effects
 ---
 
-ConfettiButton is a calm, ringed dark button with a small sparkle icon. Click it and it presses in, the sparkle lights up, and a short burst of soft, muted confetti falls from the button — a tiny celebration that still looks professional.
-
 ## Preview
 
 <PreviewCard live title="ConfettiButton" note="Click for confetti">
@@ -13,8 +11,6 @@ ConfettiButton is a calm, ringed dark button with a small sparkle icon. Click it
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/confetti-button</Cmd>
 
@@ -51,12 +47,7 @@ The component spreads native `button` props. `onClick` still fires before the bu
 | `onCelebrate` | `() => void` | - | Fired after each confetti burst. |
 | `className` | `string` | - | Extra classes merged onto the button. |
 
-## Notes
+## Good to know
 
-- Shares the graded dark surface, hairline ring, and spring press used by MinimalButton and CommandButton.
-- Each click fires one small burst of flat squares and dots from the button via `canvas-confetti`, and the sparkle icon flares briefly.
-- Confetti is skipped automatically when the user prefers reduced motion.
-
-## Registry
-
-The registry item includes `components/evil-buttons/confetti-button.tsx`, and adds `canvas-confetti`, `clsx`, and `tailwind-merge` as dependencies.
+- Confetti comes from `canvas-confetti`.
+- Skipped under `prefers-reduced-motion`.

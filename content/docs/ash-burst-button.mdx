@@ -4,8 +4,6 @@ description: A ringed dark button that glows like an ember on click and erupts a
 category: Effects
 ---
 
-AshBurstButton is the darker twin of ConfettiButton. It looks like a calm, ringed dark button with a small flame icon. Click it and the face glows like an ember while charcoal ash and a few sparks erupt, then Matter.js gravity makes them bounce off the button and pile onto its top edge.
-
 ## Preview
 
 <PreviewCard live title="AshBurstButton" note="Click — ash piles on the button">
@@ -13,8 +11,6 @@ AshBurstButton is the darker twin of ConfettiButton. It looks like a calm, ringe
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/ash-burst-button</Cmd>
 
@@ -52,12 +48,7 @@ The component spreads native `button` props. `onClick` still fires before the bu
 | `onDestroy` | `() => void` | - | Fired after each ash burst. |
 | `className` | `string` | - | Extra classes merged onto the button. |
 
-## Notes
+## Good to know
 
-- Shares the graded dark surface, hairline ring, and spring press used by MinimalButton and CommandButton.
-- Each click adds a short ember glow to the button and spawns Matter.js bodies on a full-viewport overlay canvas. The button itself is a live static collider (synced every frame), so ash bounces off the sides and settles on top.
-- Physics is skipped when the user prefers reduced motion.
-
-## Registry
-
-The registry item includes `components/evil-buttons/ash-burst-button.tsx`, and adds `matter-js`, `clsx`, and `tailwind-merge` as dependencies.
+- Embers are real Matter.js bodies on a full-page canvas.
+- Physics is skipped under `prefers-reduced-motion`.

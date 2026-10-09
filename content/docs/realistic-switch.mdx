@@ -4,8 +4,6 @@ description: A latching push switch, a raised box that sinks into its socket whe
 category: Utility
 ---
 
-RealisticSwitch is a latching push switch. A solid, raised box stands in a recessed socket and casts its shadow into the well. Hover it and it dips a little. Press it and it sinks all the way down, then latches partway down while it is on, lighting up from inside and pooling light in the socket around it. Press again and it springs back up with a small bounce. The socket is ceramic white in light mode and graphite in dark mode. It is a native `role="switch"` button, so clicks, Enter, and Space all work.
-
 ## Preview
 
 <PreviewCard live title="RealisticSwitch" note="Press it">
@@ -16,7 +14,7 @@ RealisticSwitch is a latching push switch. A solid, raised box stands in a reces
 
 ### Colors
 
-Pass any CSS color. The walls, shading, and glow are all mixed from it. Use `markColor` to keep the power mark readable on light caps.
+Pass any CSS color.
 
 <PreviewCard title="Colors" note="Red, blue, white">
   <div className="flex items-center gap-6">
@@ -38,8 +36,6 @@ Pass any CSS color. The walls, shading, and glow are all mixed from it. Use `mar
 
 ## Install
 
-Add the item with the shadcn CLI.
-
 <Cmd>@evilbuttons/realistic-switch</Cmd>
 
 ## Usage
@@ -57,8 +53,6 @@ export function PowerSwitch() {
   );
 }
 ```
-
-Controlled usage:
 
 ```tsx
 <RealisticSwitch checked={isLive} onCheckedChange={setIsLive} color="#1f6feb" />
@@ -81,13 +75,7 @@ Controlled usage:
 | `aria-label` | `string` | `"Power"` | Accessible name for the switch. |
 | `className` | `string` | - | Extra classes on the button. |
 
-## Notes
+## Good to know
 
-- The cap is a box standing on its own walls, and only its height changes, so it sinks and rises as one solid piece with its shadow following it.
-- The click sound is synthesized with the Web Audio API, so there are no audio files to ship. It stays silent where audio is unavailable.
-- Everything is sized in `em`, so `size` just sets the font size the whole switch scales from.
-- The spring is skipped when the user prefers reduced motion, and the hover dip only follows a mouse, not touch.
-
-## Registry
-
-The registry item includes `components/evil-buttons/realistic-switch.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.
+- The click is synthesized with Web Audio, no audio files.
+- `size` scales the whole switch.

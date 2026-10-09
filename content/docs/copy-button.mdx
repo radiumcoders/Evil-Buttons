@@ -4,8 +4,6 @@ description: A copy button that briefly shows the copied text above itself, so y
 category: Utility
 ---
 
-CopyButton writes a string to the clipboard and shows you what it copied. On success, the clipboard icon turns into a check and a small chip above the button shows the exact text that was copied. If the write fails, the button says so in the destructive color. After `timeout` it settles back to idle.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ CopyButton writes a string to the clipboard and shows you what it copied. On suc
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/copy-button</Cmd>
 
@@ -66,12 +62,8 @@ The component spreads native `button` props except `value` and `onCopy`, and for
 | `onCopy` | `(value: string) => void` | - | Fired with the copied text after a successful write. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- Uses `navigator.clipboard.writeText` on secure pages and falls back to a hidden textarea with `document.execCommand("copy")` elsewhere, so it also works over plain HTTP.
-- Every icon and label stays mounted and crossfades in place, so the button never changes width or jumps between states.
-- A visually hidden status region announces "Copied to clipboard" or "Copy failed" to screen readers.
-
-## Registry
-
-The registry item includes `components/evil-buttons/copy-button.tsx` and installs `clsx`, `tailwind-merge`, and `motion` as dependencies.
+- Falls back to `execCommand` on plain HTTP.
+- Never changes width between states.
+- Announces copy success or failure to screen readers.

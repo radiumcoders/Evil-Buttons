@@ -4,8 +4,6 @@ description: A button that reveals a hidden secret value on hold or toggle, with
 category: Interactive
 ---
 
-RevealButton displays a masked value by default and reveals the real secret when activated. In hold mode the secret is visible only while the pointer is held down or Space/Enter is pressed. In toggle mode a click or keypress locks the revealed state until clicked again. The transition uses a blur-fade animation so the text appears to unblur from the mask.
-
 ## Preview
 
 <PreviewCard live title="RevealButton" note="Hold to reveal">
@@ -31,8 +29,6 @@ Click once to reveal, click again to hide.
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/reveal-button</Cmd>
 
@@ -68,14 +64,7 @@ The component spreads any `<button>` HTML attributes except `children`.
 | `onRevealChange` | `(revealed: boolean) => void` | - | Callback fired whenever the revealed state changes. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- In hold mode, releasing the pointer or blurring the button immediately hides the secret again.
-- Keyboard accessible in both modes: in hold mode, pressing and holding Space or Enter reveals; in toggle mode, Space or Enter fires a click as normal.
-- `aria-pressed` reflects the current revealed state for assistive technology.
-- The text value is truncated at `max-w-44` to prevent layout overflow on long secrets. Wrap in a wider container or override via `className` if needed.
-- `secret` accepts `React.ReactNode`, so you can render formatted content rather than plain text.
-
-## Registry
-
-The registry item includes `components/evil-buttons/reveal-button.tsx` and installs `clsx`, `tailwind-merge`, and `motion` as dependencies.
+- In hold mode, letting go or blurring hides it again.
+- `aria-pressed` reflects whether it's revealed.

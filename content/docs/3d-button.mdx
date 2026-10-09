@@ -4,8 +4,6 @@ description: A minimal 3D button with a clean deck-style press and sliding click
 category: Styles
 ---
 
-ThreeDButton is a minimal 3D button with a slim dark base, a lifted zinc face, and a sliding click sheen powered by Motion. Automatically inverts to a white-deck / dark-face look in dark mode via Tailwind `dark:` classes.
-
 ## Preview
 
 <PreviewCard live title="ThreeDButton" note="Click to press">
@@ -19,8 +17,6 @@ ThreeDButton is a minimal 3D button with a slim dark base, a lifted zinc face, a
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/3d-button</Cmd>
 
@@ -46,7 +42,3 @@ export function ButtonDemo() {
 | `className` | `string`          | -                  | Extra classes passed to the button.              |
 
 All other `<button>` attributes (`onClick`, `disabled`, `type`, etc.) are forwarded.
-
-## Registry
-
-The registry item includes `components/evil-buttons/3d-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.

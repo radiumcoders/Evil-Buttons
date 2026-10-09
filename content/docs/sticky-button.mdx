@@ -4,8 +4,6 @@ description: A magnetic button whose body and label are pulled toward the cursor
 category: Mischief
 ---
 
-StickyButton grabs the cursor before it even arrives. Once the pointer comes within `radius` pixels of the button's edge, the body is pulled toward it, and the pull gets stronger the closer you get. The label drifts a little further toward the cursor on a looser spring, staying inside the button's padding, so the two layers separate like a parallax card, while the body tilts toward the cursor and a soft spotlight follows it across the face.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ StickyButton grabs the cursor before it even arrives. Once the pointer comes wit
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/sticky</Cmd>
 
@@ -59,13 +55,7 @@ The component spreads native `button` props and forwards its ref to the button.
 | `tilt` | `number` | `8` | Maximum tilt in degrees while the body is pulled. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- The pull eases out with a smoothstep curve, so it is at full strength over the button and fades to zero at the edge of the field instead of snapping.
-- Distance is measured from a wrapper that never moves, so the button being pulled doesn't change where the field is.
-- Everything runs on motion values and springs, with no React re-renders on pointer move.
-- Touch input and `prefers-reduced-motion` skip the magnetic effect, and so does a disabled button.
-
-## Registry
-
-The registry item includes `components/evil-buttons/sticky.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.
+- The pull fades smoothly to zero at the field's edge.
+- Runs on motion values, with no re-renders on pointer move.

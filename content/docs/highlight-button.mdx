@@ -4,8 +4,6 @@ description: A button with a cursor spotlight, a border that lights up near the 
 category: Effects
 ---
 
-HighlightButton follows the cursor with a soft spotlight and lights up the section of its border nearest the pointer, so the edge seems to catch the light as you move. Clicking sends a ripple out from the exact spot you pressed, and the spotlight stays on through the click.
-
 ## Preview
 
 <PreviewCard live>
@@ -17,8 +15,6 @@ HighlightButton follows the cursor with a soft spotlight and lights up the secti
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/highlight-button</Cmd>
 
@@ -59,14 +55,7 @@ The component spreads native `button` props and forwards its ref to the button.
 | `borderColor` | `string` | `"color-mix(in oklab, currentColor 75%, transparent)"` | Color the border lights up with near the cursor. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- The cursor position is written straight to CSS variables, so moving the pointer never re-renders the component.
-- The lit border is a gradient masked down to a 1px ring, so it follows the button's radius.
-- Keyboard activation sends the ripple out from the center.
-- The defaults mix from `currentColor`, so the effect adapts to every variant and theme without extra props.
-- The `default` variant is the graded dark surface with the hairline ring shared by MinimalButton and CommandButton. Every variant uses the same spring press.
-
-## Registry
-
-The registry item includes `components/evil-buttons/highlight-button.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.
+- Pointer moves never re-render the component.
+- The lit border follows the button's radius.

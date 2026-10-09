@@ -4,8 +4,6 @@ description: A cinema ticket button that tears along its perforation on click, h
 category: Styles
 ---
 
-MoviePassButton is a cinema ticket with a tear-off stub. Click it and the ticket rips along the dashed perforation: the default `tilt` variant hinges both halves outward so they only touch at the bottom, while `snap` splits cleanly with a small gap. It mends itself after a moment, ready to be torn again.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ MoviePassButton is a cinema ticket with a tear-off stub. Click it and the ticket
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/movie-pass</Cmd>
 
@@ -72,13 +68,6 @@ The component spreads native `button` props.
 | `onClick` | `React.MouseEventHandler` | - | Native click handler. Call `preventDefault()` to skip the tear. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- The corner notches are punched with a CSS mask, so the ticket shape works on any background.
-- Each half is notched on all four corners, which forms the half-circle punches at the perforation.
-- The ticket uses the graded dark surface and spring press shared by MinimalButton and CommandButton. Because the notch masks would clip a box-shadow, the hairline ring and soft drop are `drop-shadow` filters that follow the ticket's outline, notches included.
-- Animations are disabled when the user prefers reduced motion; the ticket still toggles between torn and intact.
-
-## Registry
-
-The registry item includes `components/evil-buttons/movie-pass.tsx` and adds `motion`, `clsx`, and `tailwind-merge` as dependencies.
+- Notches are a CSS mask, so it works on any background.

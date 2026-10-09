@@ -4,8 +4,6 @@ description: A slide-to-confirm safety gate that makes you drag a handle across 
 category: Interactive
 ---
 
-SlideToDetonate guards destructive actions behind a deliberate drag gesture. A raised handle sits in a recessed track (dark or light), a soft white trail fills in behind it as you drag, and the handle glows once the fuse is armed. Let go too early and it springs back; release past the threshold and `onConfirm` fires. Tune how hard the fuse pushes back with `resistance` and how softly the handle follows your finger with `smoothness`.
-
 ## Preview
 
 <PreviewCard live title="SlideToDetonate" note="Drag the handle all the way">
@@ -13,8 +11,6 @@ SlideToDetonate guards destructive actions behind a deliberate drag gesture. A r
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/slide-to-detonate</Cmd>
 
@@ -83,16 +79,7 @@ The component spreads native `button` props onto the handle, except `onClick` an
 | `disabled` | `boolean` | `false` | Locks the handle and dims the track. |
 | `className` | `string` | - | Extra classes passed to the track. |
 
-## Notes
+## Good to know
 
-- Resistance bends the pointer-to-handle curve rather than capping it, so a heavy fuse still reaches the end if you drag all the way.
-- Smoothness maps to the follow spring: `0` sets the position directly, and higher values lower the stiffness and damping so the handle trails and settles.
-- Pulling back past the start rubber-bands a few pixels instead of stopping dead.
-- The handle is a `role="slider"` with live `aria-valuenow`. <kbd>←</kbd>/<kbd>→</kbd> step by 10%, <kbd>Home</kbd> resets, and <kbd>End</kbd> or stepping past the threshold detonates. Keyboard progress snaps back when focus leaves.
-- Crossing the threshold arms the fuse: the handle glows, the trail brightens, and phones get a short vibration where supported. `data-state` (`idle` | `sliding` | `success`) and `data-armed` are exposed on both the track and the handle.
-- A `ResizeObserver` re-measures the track so the drag range stays correct across layout changes.
-- With reduced motion, springs and the label shimmer are skipped; the handle moves directly.
-
-## Registry
-
-The registry item includes `components/evil-buttons/slide-to-detonate.tsx` and installs `clsx`, `tailwind-merge`, and `motion`.
+- A heavy `resistance` slows the handle but never blocks it.
+- `smoothness={0}` makes the handle track the pointer exactly.

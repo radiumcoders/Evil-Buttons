@@ -4,8 +4,6 @@ description: A single button that morphs through idle, loading, success, and err
 category: Interactive
 ---
 
-MorphStatusButton is the one async button you reach for everywhere. Hand it an `onClick` that returns a promise and it auto-transitions to a spinner while in flight, then settles into success or a delightfully blameful error state. The label and icon cross-fade in place, and an invisible widest-label sizer keeps the width rock steady so nothing around it jumps. You can also drive it with a controlled `status` prop.
-
 ## Preview
 
 <PreviewCard live title="MorphStatusButton" note="Click to run a fake async action">
@@ -23,8 +21,6 @@ When the returned promise rejects, the button drops into its error state.
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/morph-status-button</Cmd>
 
@@ -46,8 +42,6 @@ export function ButtonDemo() {
   );
 }
 ```
-
-Or drive it from outside with a controlled `status`:
 
 ```tsx
 <MorphStatusButton status={isPending ? "loading" : "idle"}>
@@ -71,14 +65,7 @@ The component spreads any `<button>` HTML attributes except `onClick` (which is 
 | `resetAfter` | `number` | `1800` | Milliseconds to stay in success/error before resetting. Set to `0` to stay. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- Shares MinimalButton's graded dark surface and springy press, and accepts any native `<button>` attribute; the error state turns the label and inner ring red.
-- When `onClick` returns a promise (and `status` is not controlled), the button shows `loading`, then `success` on resolve or `error` on reject.
-- The button is disabled and `aria-busy` while loading so it cannot be double-submitted.
-- An invisible copy of the widest of all four labels reserves the width, so the icon/label swaps never shift surrounding layout.
-- Icon and label cross-fades are skipped when the user prefers reduced motion, and `data-state` exposes the current state for styling.
-
-## Registry
-
-The registry item includes `components/evil-buttons/morph-status-button.tsx`, installs `clsx`, `tailwind-merge`, and `motion`.
+- Return a promise from `onClick` and it shows loading, then success or error.
+- Disabled and `aria-busy` while loading.

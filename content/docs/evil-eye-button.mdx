@@ -4,8 +4,6 @@ description: An obsidian pill with a burning evil eye behind its label that trac
 category: Effects
 ---
 
-EvilEyeButton is an obsidian pill with a burning eye behind its label. Flames lick around the iris, and the slit pupil follows your cursor anywhere on the page. Hover it and the eye focuses on you: the slit narrows, the flames flare, and the ember hairline heats up. Press it and the eye blinks, lids closing across the whole button. It also blinks on its own every few seconds.
-
 ## Preview
 
 <PreviewCard live title="EvilEyeButton" note="Move, hover, and press">
@@ -13,8 +11,6 @@ EvilEyeButton is an obsidian pill with a burning eye behind its label. Flames li
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/evil-eye-button</Cmd>
 
@@ -50,14 +46,7 @@ The component spreads native `button` props and forwards its ref. Every eye prop
 | `labelClassName` | `string` | - | Extra classes for the label. |
 | `className` | `string` | - | Extra classes merged onto the button. |
 
-## Notes
+## Good to know
 
-- Self-contained: the flame shader, ported from React Bits' `EvilEye`, is plain WebGL in the component file, with no `ogl` or registry dependency.
-- The pupil tracks the cursor across the whole page, easing toward it, not just while hovering the button.
-- A soft dark band behind the label and a vignette at the rim keep the text readable over the flames.
-- The eye renders at 2× or more for smooth flames, and only animates while on screen and the tab is visible. A static iris shows until the first frame, and stays if WebGL is unavailable.
-- With reduced motion, the eye is a still frame and it never blinks.
-
-## Registry
-
-The registry item includes `components/evil-buttons/evil-eye-button.tsx`, and adds `clsx` and `tailwind-merge` as dependencies.
+- Self-contained WebGL, ported from React Bits' `EvilEye`.
+- The pupil follows the cursor across the whole page.

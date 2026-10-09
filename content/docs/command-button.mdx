@@ -4,8 +4,6 @@ description: A button with a global keyboard shortcut, shown as keycaps that sin
 category: Utility
 ---
 
-CommandButton binds a keyboard shortcut on `window` and shows it as a row of physical keycaps inside the button. The caps follow your hands: hold ⌘ and the ⌘ cap sinks, add Shift and that one goes down too, and when the final key lands every cap presses and `onCommand` fires. `mod` shows as ⌘ on Apple devices and Ctrl everywhere else.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ CommandButton binds a keyboard shortcut on `window` and shows it as a row of phy
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/command-button</Cmd>
 
@@ -56,7 +52,7 @@ Each part of the shortcut gets its own cap.
 
 ### No keycaps
 
-Hide the caps with `showShortcut={false}`. The shortcut still works.
+Hide the caps with `showShortcut={false}`.
 
 <PreviewCard>
   <CommandButton shortcut="alt+n" showShortcut={false}>New file</CommandButton>
@@ -77,13 +73,8 @@ The component spreads native `button` props and forwards its ref to the button.
 | `className` | `string` | - | Extra classes passed to the button. |
 | `disabled` | `boolean` | - | Disables the button and its shortcut. |
 
-## Notes
+## Good to know
 
-- `mod` matches either ⌘ or Ctrl, so one shortcut works on every platform. Only its label changes.
-- Holding a shortcut down doesn't repeat it; `onCommand` fires once per press.
-- The button sets `aria-keyshortcuts`, and the keycaps carry a readable label, so assistive tech announces the shortcut.
-- The shortcut and the click are separate callbacks. Pass the same handler to both for a single action.
-
-## Registry
-
-The registry item includes `components/evil-buttons/command-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies.
+- `mod` means ⌘ on Mac and Ctrl everywhere else.
+- Holding the shortcut fires `onCommand` once, not on repeat.
+- Sets `aria-keyshortcuts` for screen readers.

@@ -4,8 +4,6 @@ description: A glossy, gradient-styled button with a layered inner glow and a gl
 category: Styles
 ---
 
-ShinyButton is a glossy, candy-like button: a bright indigo rim, lit from below, wraps a flatter, deeper inner face, so the face reads as sunk into the rim. Every click sends a bright glint sweeping across the rim and face while the surface briefly flares, and the button sinks slightly with a tighter shadow for a tactile press.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ ShinyButton is a glossy, candy-like button: a bright indigo rim, lit from below,
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/shiny-button</Cmd>
 
@@ -48,11 +44,7 @@ The component spreads native `button` props and forwards its ref to the button.
 | `shineDuration` | `number` | `650` | Milliseconds the glint takes to sweep across on click. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- The glint runs on the Web Animations API, so it needs no animation library and restarts cleanly on rapid clicks.
-- `prefers-reduced-motion` skips the glint and flare; the press feedback stays.
-
-## Registry
-
-The registry item includes `components/evil-buttons/shiny-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.
+- No animation library: the glint uses the Web Animations API.
+- Glint is skipped under `prefers-reduced-motion`.

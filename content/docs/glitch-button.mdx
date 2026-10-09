@@ -4,8 +4,6 @@ description: A button with randomized RGB-split glitch bursts, a scanline overla
 category: Effects
 ---
 
-GlitchButton simulates a corrupted display. Red and cyan ghost copies of the label flicker over a scanline texture. By default the glitch only fires while you hover, but it can also run automatically on a random interval or stay permanently on.
-
 ## Preview
 
 <PreviewCard live title="GlitchButton" note="Hover to trigger">
@@ -13,8 +11,6 @@ GlitchButton simulates a corrupted display. Red and cyan ghost copies of the lab
 </PreviewCard>
 
 ## Variants
-
-The effect is fully prop driven, so you can recolor it, retime it, change what triggers it, and reshape it with `className`, all without touching the component.
 
 ### Toxic
 
@@ -34,7 +30,7 @@ Crank `intensity` and lengthen the burst for a more violent glitch on hover.
 
 ### Auto
 
-Set `trigger="auto"` to fire timed bursts on a random interval without needing a hover. Tune the cadence with `glitchInterval`.
+Set `trigger="auto"` to fire timed bursts on a random interval without needing a hover.
 
 <PreviewCard title="Auto" note="Fires on its own">
   <GlitchButton trigger="auto" glitchInterval={1400}>SIGNAL DRIFT</GlitchButton>
@@ -57,8 +53,6 @@ Drop the scanlines with `scanlines={false}` and round it off via `className`.
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/glitch-button</Cmd>
 
@@ -87,13 +81,7 @@ The component spreads any `<button>` HTML attributes.
 | `className` | `string` | - | Extra classes passed to the button. |
 | `children` | `React.ReactNode` | - | The visible button label or content. |
 
-## Notes
+## Good to know
 
-- Honors `prefers-reduced-motion`: all motion is suppressed, including `trigger="always"`, and the label stays static.
-- The surface stays a dark "screen" in both themes, because the RGB-split ghosts use `mix-blend-mode: screen` and only read against a dark base.
-- Keyframes are injected into `document.head` once on first mount and shared across every instance on the page.
-- The face is the graded dark surface with the hairline ring and spring press shared by MinimalButton and CommandButton. The press scales via the `scale` property, so it layers cleanly on top of the glitch shake.
-
-## Registry
-
-The registry item includes `components/evil-buttons/glitch-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.
+- Stays a dark screen in both themes.
+- All motion stops under `prefers-reduced-motion`.

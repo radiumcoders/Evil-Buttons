@@ -4,8 +4,6 @@ description: A bracketed button that arms on hover and powers up with an accent 
 category: Utility
 ---
 
-ClickPowerUp is a little arcade cabinet of a button. Hovering arms it: a dark panel wipes across the hatched face and the corner brackets spread out. Pressing snaps the brackets in, and releasing powers it up: an accent flash floods the face, the brackets burst outward, and the label pops.
-
 ## Preview
 
 <PreviewCard live>
@@ -13,8 +11,6 @@ ClickPowerUp is a little arcade cabinet of a button. Hovering arms it: a dark pa
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/click-powerup</Cmd>
 
@@ -54,12 +50,7 @@ The component spreads native `button` props and forwards its ref to the button.
 | `onClick` | `(event) => void` | - | Fired on every click. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
-## Notes
+## Good to know
 
-- The brackets, panel, and label all run off one `rest` / `hover` / `tap` / `powered` variant state, so they stay in sync.
-- The surface and brackets use `foreground` and `background` tokens, so it works in light and dark themes.
-- Touch skips the hover state, so a tap goes straight to the press animation.
-
-## Registry
-
-The registry item includes `components/evil-buttons/click-powerup.tsx` and installs `motion`, `clsx`, and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`, matching the project alias in `components.json`.
+- Works in light and dark themes out of the box.
+- Touch skips hover and goes straight to the press.

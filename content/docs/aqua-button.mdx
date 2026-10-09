@@ -4,8 +4,6 @@ description: A glossy pill button inspired by Apple's Aqua interface, with layer
 category: Styles
 ---
 
-AquaButton is a nostalgic, glossy pill button inspired by Apple's classic Aqua design language. It layers a top highlight, a soft bottom diffusion, and rich inner shadows to create the signature lickable look.
-
 ## Preview
 
 <PreviewCard live title="AquaButton" note="Interactive">
@@ -23,7 +21,7 @@ AquaButton is a nostalgic, glossy pill button inspired by Apple's classic Aqua d
 
 ### Icon Button
 
-Override the pill shape, padding, and min-width via `className` for a compact square icon button. The gloss layers reflow automatically.
+Override the pill shape, padding, and min-width via `className` for a compact square icon button.
 
 <PreviewCard title="Icon Button" note="Interactive">
   <AquaButton
@@ -37,8 +35,6 @@ Override the pill shape, padding, and min-width via `className` for a compact sq
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/aqua-button</Cmd>
 
@@ -80,10 +76,6 @@ export function IconButtonDemo() {
 
 All other `<button>` attributes (`onClick`, `disabled`, `type`, etc.) are forwarded.
 
-## Notes
+## Good to know
 
-Sizing is driven by `font-size`. Padding, height, and the gloss layers use `em` units, so changing the button's `font-size` (via `className` or `style`) scales the entire button proportionally.
-
-## Registry
-
-The registry item includes `components/evil-buttons/aqua-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.
+- Scales with `font-size`: everything is in `em`.

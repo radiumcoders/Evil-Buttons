@@ -4,8 +4,6 @@ description: A NeoBrutalism style button with sharp shadows and stark borders.
 category: Styles
 ---
 
-BrutalButton is a NeoBrutalism style component. It features thick borders, high contrast colors, and a sharp shadow that vanishes on press to create a satisfying physical push effect.
-
 ## Preview
 
 <PreviewCard live title="BrutalButton" note="Interactive">
@@ -23,8 +21,6 @@ You can easily override the default theme-aware colors to create your own flavor
 </PreviewCard>
 
 ## Install
-
-Add the item with the shadcn CLI.
 
 <Cmd>@evilbuttons/brutal-button</Cmd>
 
@@ -54,7 +50,3 @@ export function ButtonDemo() {
 | `shadowColor` | `string`                               | `var(--foreground)` | Color of the shadow.                             |
 | `className`   | `string`                               | -          | Extra classes passed to the wrapper.             |
 | `children`    | `React.ReactNode`                      | -          | The visible button label or content.             |
-
-## Registry
-
-The registry item includes `components/evil-buttons/brutal-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies. The component imports `cn` from `@/lib/utils`.

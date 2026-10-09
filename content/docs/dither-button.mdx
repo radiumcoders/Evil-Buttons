@@ -4,8 +4,6 @@ description: A button with an animated 4x4 ordered-dither wave background and a 
 category: Effects
 ---
 
-DitherButton uses a tiny canvas painter to render a 4x4 ordered (Bayer) dither, animated as a slow rotating sine wave. The label sits in a knockout panel with a hard offset shadow so it stays readable on top of the moving pattern. Colors are read from the current `--color-foreground` / `--color-background` tokens so it tracks the active theme.
-
 ## Preview
 
 <PreviewCard live title="DitherButton" note="Interactive">
@@ -13,8 +11,6 @@ DitherButton uses a tiny canvas painter to render a 4x4 ordered (Bayer) dither, 
 </PreviewCard>
 
 ## Variants
-
-Because the dither colors are read from the resolved `color` and `background-color` of the canvas, you can re-skin the button by overriding text/background utilities via `className`.
 
 ### Rounded pill
 
@@ -48,8 +44,6 @@ Because the dither colors are read from the resolved `color` and `background-col
 
 ## Install
 
-Add the item with the shadcn CLI.
-
 <Cmd>@evilbuttons/dither-button</Cmd>
 
 ## Usage
@@ -74,12 +68,7 @@ The component spreads any `<button>` HTML attributes.
 | `ditherOpacity` | `number` (0–1)    | `1`     | CSS opacity applied to the dither canvas.                                |
 | `ditherSize`    | `number` (1–32)   | `4`     | Pixel scale of the dither particles. Higher = chunkier blocks.           |
 
-## Notes
+## Good to know
 
-- Renders at `1/4` the visual resolution with `image-rendering: pixelated` for crisp pixel edges.
-- Honors `prefers-reduced-motion` by drawing a single static frame.
-- The dither colors follow the resolved CSS `color` and `background-color` of the canvas, so themes work out of the box.
-
-## Registry
-
-The registry item includes `components/evil-buttons/dither-button.tsx` and installs `clsx` and `tailwind-merge` as dependencies.
+- Dither colors follow the canvas's CSS `color` and `background-color`, so it themes itself.
+- Draws one still frame under `prefers-reduced-motion`.
