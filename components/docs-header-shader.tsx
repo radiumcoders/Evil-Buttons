@@ -4,9 +4,11 @@
  * WebGL2 · React component (TypeScript) · dither
  *
  * Changes from the original: recoloured to the brand red (oklch hue ~29°,
- * one hue, high chroma) on the page's own backgrounds, and wrapped in
- * DocsHeaderShader, which shows it as a large header background, blurs all
- * of it with an SVG filter and fades it out.
+ * one hue) on the page's own backgrounds; slowed to a near-still drift
+ * (about 13x slower) and redrawn at most 12 times a second, so it sits
+ * behind the docs without pulling focus; and wrapped in DocsHeaderShader,
+ * which shows it as a large header background, blurs all of it with an SVG
+ * filter and fades it into the page.
  */
 
 "use client";
@@ -57,9 +59,9 @@ const float CENTRE_Y = 0.658467293;
 const float GLOW_SIZE = 0.00131571619;
 const float FALLOFF = 0.329594105;
 const float VIGNETTE = 0.0496363714;
-const float FLOW_SPEED = 0.38670367;
+const float FLOW_SPEED = 0.03;
 const float FLOW_DIRECTION = -1.0;
-const float BREATH_RATE = 0.566204727;
+const float BREATH_RATE = 0.04;
 const float BREATH_AMOUNT = 0.0568796061;
 const float PHASE = 57.4592743;
 const float ECHO = 0.571750879;
@@ -315,6 +317,8 @@ export function KshitizShader({ theme = "dark", background, time, onError, class
 
 const MAX_PIXELS = 2400000;
 const THEME_EASE = 7;
+// The field drifts so slowly that 12 redraws a second look continuous.
+const FRAME_INTERVAL = 1000 / 12;
 
 function parseHex(hex: string): [number, number, number] {
   const match = /^#([0-9a-f]{6})$/i.exec(hex.trim());
@@ -336,6 +340,7 @@ function animate(options: ShaderOptions, draw: (time: number, theme: number, pix
   let elapsed = 0;
   let lastTime = 0;
   let previous: number | null = null;
+  let lastDraw = -Infinity;
 
   function canDraw() {
     return !disposed && !document.hidden && visible && width > 0 && height > 0;
@@ -382,12 +387,17 @@ function animate(options: ShaderOptions, draw: (time: number, theme: number, pix
     if (!canDraw()) { previous = null; return; }
     const delta = previous === null ? 0 : Math.min((now - previous) / 1000, 0.1);
     previous = now;
+    const themeBefore = theme;
     if (autoplay) {
       if (!stillness.matches) elapsed += delta;
       theme += (targetTheme - theme) * (1 - Math.exp(-delta * THEME_EASE));
       if (Math.abs(targetTheme - theme) < 0.002) theme = targetTheme;
     }
-    render(autoplay ? elapsed : lastTime);
+    // Theme fades draw every frame, including the one where they land.
+    if (!autoplay || theme !== themeBefore || now - lastDraw >= FRAME_INTERVAL) {
+      lastDraw = now;
+      render(autoplay ? elapsed : lastTime);
+    }
     if (autoplay && (!stillness.matches || theme !== targetTheme)) schedule();
     else previous = null;
   }
