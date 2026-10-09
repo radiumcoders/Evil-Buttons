@@ -158,7 +158,7 @@ export function DocsPageActions({
         type="button"
         variant="ghost"
         size="sm"
-        className="h-8 rounded-md bg-muted/60 px-3 text-[13px] text-muted-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted"
+        className="h-8 rounded-md bg-background/70 px-3 text-[13px] text-foreground/80 backdrop-blur-md hover:bg-background/90 hover:text-foreground aria-expanded:bg-background/90"
         onClick={onCopy}
         aria-label="Copy page as Markdown"
       >
@@ -176,7 +176,7 @@ export function DocsPageActions({
             type="button"
             variant="ghost"
             size="sm"
-            className="h-8 rounded-md bg-muted/60 px-3 text-[13px] text-muted-foreground hover:bg-muted hover:text-foreground aria-expanded:bg-muted"
+            className="h-8 rounded-md bg-background/70 px-3 text-[13px] text-foreground/80 backdrop-blur-md hover:bg-background/90 hover:text-foreground aria-expanded:bg-background/90"
             aria-label="Open this page in…"
           >
             Open

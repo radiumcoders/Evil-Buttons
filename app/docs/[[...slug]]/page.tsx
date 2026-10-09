@@ -91,7 +91,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
             />
           </div>
           {page.data.description ? (
-            <p className="max-w-2xl text-[15px] leading-7 text-foreground/80">
+            <p className="max-w-2xl text-[15px] leading-7 font-medium text-foreground">
               {page.data.description}
             </p>
           ) : null}
