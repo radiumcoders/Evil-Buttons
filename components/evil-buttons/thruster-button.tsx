@@ -31,6 +31,10 @@ const KP = 90;
 const KD = 2 * 0.55 * Math.sqrt(KP);
 // There are no top jets, so the craft descends by easing off the bottom ones.
 const GRAVITY = 1100;
+// Jet visuals are scaled against this fixed force, not the `thrust` prop, so the
+// same push always looks the same: a stronger craft only blasts harder when it
+// actually accelerates harder.
+const FULL_BLAST = 3200;
 // Valve chatter in px at full blast.
 const RUMBLE = 0.35;
 // Nozzle length in px; gas leaves from its mouth.
@@ -282,7 +286,8 @@ function createSmoke(canvas: HTMLCanvasElement) {
     };
   }
 
-  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  const quad = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
@@ -480,8 +485,17 @@ function createSmoke(canvas: HTMLCanvasElement) {
       gl.uniform1f(u("opacity"), opacity);
       draw(u, null, dye.read);
     },
+    // Frees GPU memory but keeps the context alive: the same canvas can be set
+    // up again (an effect re-run, or Strict Mode's double mount), and a lost
+    // context would come back dead.
     dispose() {
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      for (const target of targets.splice(0)) {
+        gl.deleteTexture(target.texture);
+        gl.deleteFramebuffer(target.fbo);
+      }
+      for (const { program } of Object.values(programs)) gl.deleteProgram(program);
+      gl.deleteShader(vertex);
+      gl.deleteBuffer(quad);
     },
   };
 }
@@ -546,14 +560,17 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
     const jetRight = useMotionValue(0);
     const jetBottom = useMotionValue(0);
 
+    // Read live by the flight loop, so tuning these mid-flight doesn't restart it.
+    const settings = React.useRef({ thrust, tilt });
+    React.useEffect(() => {
+      settings.current = { thrust, tilt };
+    }, [thrust, tilt]);
+
     React.useEffect(() => {
       const playground = playgroundRef.current;
       const craft = craftRef.current;
       if (!playground || !craft || reduceMotion || disabled) return;
 
-      const sideThrust = Math.max(thrust, 1);
-      // The bottom jets also carry the craft's weight.
-      const liftThrust = sideThrust + GRAVITY;
       const pos = { x: x.get(), y: 0 };
       const vel = { x: 0, y: 0 };
       const target = { x: 0, y: 0 };
@@ -623,6 +640,9 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
         const dt = last ? Math.min((now - last) / 1000, 1 / 30) : 1 / 60;
         last = now;
         const jets: Jet[] = [];
+        const sideThrust = Math.max(settings.current.thrust, 1);
+        // The bottom jets also carry the craft's weight.
+        const liftThrust = sideThrust + GRAVITY;
         if (touchdown && smoke) {
           touchdown = false;
           // Trapped air bursts out sideways from under the craft as it settles.
@@ -688,14 +708,14 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
           } else {
             // Pushing right means the left jets fire, and so on.
             const power: Record<Side, number> = {
-              left: jetPower(sideForce, sideThrust),
-              right: jetPower(-sideForce, sideThrust),
-              bottom: jetPower(liftForce, liftThrust),
+              left: jetPower(sideForce, FULL_BLAST),
+              right: jetPower(-sideForce, FULL_BLAST),
+              bottom: jetPower(liftForce, FULL_BLAST + GRAVITY),
             };
             jetLeft.set(power.left);
             jetRight.set(power.right);
             jetBottom.set(power.bottom);
-            bank.set((sideForce / sideThrust) * tilt);
+            bank.set(Math.max(-1, Math.min(1, sideForce / FULL_BLAST)) * settings.current.tilt);
 
             const blast = Math.max(power.left, power.right, power.bottom) * RUMBLE;
             x.set(pos.x + (Math.random() - 0.5) * blast);
@@ -826,8 +846,6 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
         cutJets();
       };
     }, [
-      thrust,
-      tilt,
       reduceMotion,
       disabled,
       x,
