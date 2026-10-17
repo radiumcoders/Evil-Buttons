@@ -12,6 +12,7 @@ import MoviePassButton, {
 } from "@/components/evil-buttons/movie-pass";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
+import ThrusterButton from "@/components/evil-buttons/thruster-button";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import { DeferredWebGLPreview } from "./shared";
 import { LiveProps } from "./live-props";
@@ -145,6 +146,26 @@ export function StickyButtonPreview() {
       >
         {p.label}
       </StickyButton>
+    </LiveProps>
+  );
+}
+
+export function ThrusterButtonPreview() {
+  const p = useDialKit(
+    "ThrusterButton",
+    {
+      label: "Liftoff",
+      thrust: [3200, 400, 8000],
+      tilt: [10, 0, 30],
+    },
+    { id: "thruster-button" },
+  );
+
+  return (
+    <LiveProps>
+      <ThrusterButton thrust={p.thrust} tilt={p.tilt}>
+        {p.label}
+      </ThrusterButton>
     </LiveProps>
   );
 }

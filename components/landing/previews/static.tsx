@@ -30,6 +30,7 @@ import MinimalButton from "@/components/evil-buttons/minimal";
 import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
+import ThrusterButton from "@/components/evil-buttons/thruster-button";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import { DeferredWebGLPreview } from "./shared";
 import { themeColors } from "./theme";
@@ -249,6 +250,15 @@ export function StaticShinyButtonPreview() {
 
 export function StaticStickyButtonPreview() {
   return <StickyButton>Try to Click</StickyButton>;
+}
+
+export function StaticThrusterButtonPreview() {
+  // The card scales its preview, so give the craft a fixed-size playground.
+  return (
+    <div className="relative h-60 w-88">
+      <ThrusterButton>Liftoff</ThrusterButton>
+    </div>
+  );
 }
 
 export function StaticThreeDButtonPreview() {

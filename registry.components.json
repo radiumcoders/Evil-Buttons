@@ -18,6 +18,15 @@
     "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
   {
+    "name": "thruster-button",
+    "exportName": "ThrusterButton",
+    "docSlug": "thruster-button",
+    "title": "ThrusterButton",
+    "description": "A magnetic button that rests on the floor of its container, then flies to the cursor anywhere inside it on compressed-air jets, trailing WebGL smoke, and lands where it is when the cursor leaves.",
+    "file": "components/evil-buttons/thruster-button.tsx",
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
+  },
+  {
     "name": "shiny-button",
     "exportName": "ShinyButton",
     "docSlug": "shiny-button",

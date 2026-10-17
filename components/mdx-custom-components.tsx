@@ -2,6 +2,7 @@ import { CliBlock } from "@/components/cli-block";
 import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import StickyButton from "@/components/evil-buttons/sticky";
+import ThrusterButton from "@/components/evil-buttons/thruster-button";
 import { PreviewCard } from "@/components/preview-card";
 import type { MDXComponents } from "mdx/types";
 import { isValidElement, type ReactNode } from "react";
@@ -101,6 +102,7 @@ export function getCustomMDXComponents(): MDXComponents {
     Cmd,
     ClickPowerUp,
     StickyButton,
+    ThrusterButton,
     ShinyButton,
     MoviePassButton,
     MinimalButton,
