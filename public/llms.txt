@@ -18,6 +18,7 @@ npx shadcn@latest add @evilbuttons/<component-name>
 
 - [ClickPowerUp](https://www.evilbuttons.com/docs/click-power-up): A bracketed button that arms on hover and powers up with an accent flash and bracket burst on every click.
 - [StickyButton](https://www.evilbuttons.com/docs/sticky-button): A magnetic button whose body and label are pulled toward the cursor from a wide field, with parallax depth and tilt.
+- [ThrusterButton](https://www.evilbuttons.com/docs/thruster-button): A magnetic button that rests on the floor of its container, then flies to the cursor anywhere inside it on compressed-air jets, trailing WebGL smoke, and lands where it is when the cursor leaves.
 - [ShinyButton](https://www.evilbuttons.com/docs/shiny-button): A glossy, gradient-styled button with a layered inner glow and a glint that sweeps across on every click.
 - [MoviePassButton](https://www.evilbuttons.com/docs/movie-pass): A cinema ticket button that tears along its perforation on click, hinging open or snapping apart.
 - [MinimalButton](https://www.evilbuttons.com/docs/minimal-button): A quiet dark button with a hairline ring, inner highlight, soft drop shadow, and a chevron that nudges on hover.

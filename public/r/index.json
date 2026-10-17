@@ -22,6 +22,15 @@
       ]
     },
     {
+      "name": "thruster-button",
+      "type": "registry:ui",
+      "title": "ThrusterButton",
+      "description": "A magnetic button that rests on the floor of its container, then flies to the cursor anywhere inside it on compressed-air jets, trailing WebGL smoke, and lands where it is when the cursor leaves.",
+      "files": [
+        "components/evil-buttons/thruster-button.tsx"
+      ]
+    },
+    {
       "name": "shiny-button",
       "type": "registry:ui",
       "title": "ShinyButton",

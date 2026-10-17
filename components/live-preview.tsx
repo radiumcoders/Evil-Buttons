@@ -100,7 +100,7 @@ export function LivePreview({ source, fallback }: LivePreviewProps) {
 
   return (
     <DocsFrame key={theme} innerClassName="flex flex-col">
-      <div className="flex min-h-104 items-center justify-center px-6 py-10">
+      <div className="relative flex min-h-104 items-center justify-center px-6 py-10">
         <LivePropsProvider value={report}>
           <ButtonPreview registryName={source.registryName} dial />
         </LivePropsProvider>

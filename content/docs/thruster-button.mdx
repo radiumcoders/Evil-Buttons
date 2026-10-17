@@ -1,0 +1,68 @@
+---
+title: ThrusterButton
+description: A magnetic button that rests on the floor of its container, then flies to the cursor anywhere inside it on compressed-air jets, trailing WebGL smoke, and lands where it is when the cursor leaves.
+category: Mischief
+---
+
+## Preview
+
+<PreviewCard live>
+  <ThrusterButton>Liftoff</ThrusterButton>
+</PreviewCard>
+
+## Install
+
+<Cmd>@evilbuttons/thruster-button</Cmd>
+
+## Usage
+
+The button fills its nearest positioned ancestor and treats it as its playground, so give it a `relative` container with some height.
+
+```tsx
+import ThrusterButton from "@/components/evil-buttons/thruster-button";
+
+export function ButtonDemo() {
+  return (
+    <div className="relative h-80 w-full">
+      <ThrusterButton>Launch</ThrusterButton>
+    </div>
+  );
+}
+```
+
+## Variants
+
+### Afterburner
+
+High thrust makes it snap across the playground and slam on the brakes.
+
+<PreviewCard>
+  <ThrusterButton thrust={7000}>Full Burn</ThrusterButton>
+</PreviewCard>
+
+### Low Fuel
+
+Weak jets make it drift over slowly, sag and overshoot before it settles.
+
+<PreviewCard>
+  <ThrusterButton thrust={900} tilt={18}>Running on Fumes</ThrusterButton>
+</PreviewCard>
+
+## Props
+
+The component spreads native `button` props and forwards its ref to the button.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | The button label or content. |
+| `thrust` | `number` | `3200` | Net jet acceleration in px/s². Lower values drift, higher values snap. |
+| `tilt` | `number` | `10` | Maximum bank in degrees while the craft accelerates sideways. |
+| `playgroundClassName` | `string` | - | Classes for the playground, which is `absolute inset-0` by default. Use it to inset the floor or walls. |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Good to know
+
+- It starts parked on the floor. Move the cursor into the playground and it lifts off and flies its center onto the pointer, bouncing off the walls and ceiling. Move the cursor out and it comes straight down and lands where it is.
+- Two air jets sit on each of the bottom, left and right edges. There are no top jets, so it descends by easing off the bottom pair and letting gravity pull it down, and it hisses softly to hold a hover.
+- The smoke is a small WebGL2 fluid simulation (advection, pressure projection and vorticity confinement) filling the playground. The jets inject velocity and density into it, so the gas curls, rolls along the floor on landing and drifts where it was vented. Without WebGL2 the button still flies, just without smoke.
+- The loop stops once it has landed and the smoke clears. Reduced motion and `disabled` keep it parked.
