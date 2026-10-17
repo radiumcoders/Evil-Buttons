@@ -41,7 +41,7 @@ const SIDE_SPREAD = 8;
 // Gap kept between the craft and the playground walls.
 const WALL_GAP = 2;
 // How long the smoke keeps drifting after the craft docks.
-const LINGER = 2.8;
+const LINGER = 2.2;
 
 // Two valves per edge. Each is drawn pointing down, then rotated onto its edge.
 const NOZZLES: {
@@ -80,7 +80,7 @@ const DYE_RES = 384;
 const PRESSURE_ITERATIONS = 20;
 const VORTICITY = 25;
 const VELOCITY_DISSIPATION = 0.6;
-const DYE_DISSIPATION = 1.0;
+const DYE_DISSIPATION = 1.5;
 
 const VERTEX = `#version 300 es
 in vec2 aPosition;
@@ -207,20 +207,14 @@ uniform float value;
 void main() {
   fragColor = value * texture(uTexture, vUv);
 }`,
-  // Density becomes soft, self-shadowed smoke lit from the top left.
+  // Density becomes flat, soft smoke in the tint color.
   display: `${HEADER}
 uniform sampler2D uTexture;
 uniform vec3 tint;
 uniform float opacity;
 void main() {
-  float d = texture(uTexture, vUv).r;
-  float dx = texture(uTexture, vR).r - texture(uTexture, vL).r;
-  float dy = texture(uTexture, vT).r - texture(uTexture, vB).r;
-  vec3 normal = normalize(vec3(dx, dy, 0.08));
-  float light = clamp(dot(normal, normalize(vec3(-0.5, 0.6, 1.0))), 0.0, 1.0);
-  float alpha = (1.0 - exp(-d * 2.1)) * opacity;
-  vec3 color = tint * mix(0.72, 1.12, light);
-  fragColor = vec4(color * alpha, alpha);
+  float alpha = (1.0 - exp(-texture(uTexture, vUv).r * 1.8)) * opacity;
+  fragColor = vec4(tint * alpha, alpha);
 }`,
 } as const;
 
@@ -641,7 +635,7 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
                 dx: side,
                 dy: 0.15,
                 speed: 900,
-                density: 1.4,
+                density: 0.8,
               });
             }
           }
@@ -735,7 +729,7 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
                   dx: ex,
                   dy: -ey,
                   speed: (380 + 520 * p) * sputter,
-                  density: (0.1 + p) * 0.55 * sputter * dt * 60,
+                  density: p * 0.3 * sputter * dt * 60,
                 });
               }
             }
@@ -745,7 +739,7 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
         }
 
         if (smoke) {
-          smoke.step(dt, jets, 3.5, width, height);
+          smoke.step(dt, jets, 3, width, height);
           // Ease the last of the smoke out before the loop stops and clears it.
           const fade = mode === "landed" ? Math.min(1, lingering / 1.2) : 1;
           smoke.render(tint, opacity * Math.max(0, fade));
@@ -859,7 +853,7 @@ const ThrusterButton = React.forwardRef<HTMLButtonElement, ThrusterButtonProps>(
           aria-hidden
           width={0}
           height={0}
-          className="absolute inset-0 size-full text-slate-400 [--smoke-opacity:0.8] dark:text-slate-200 dark:[--smoke-opacity:0.72]"
+          className="absolute inset-0 size-full text-slate-400 [--smoke-opacity:0.6] dark:text-slate-200 dark:[--smoke-opacity:0.55]"
         />
         <motion.span
           ref={craftRef}
