@@ -54,9 +54,12 @@ The component spreads any `<button>` HTML attributes.
 | `cooldown` | `number` | `3000` | Lockout duration in milliseconds after each click. Set to `0` to disable the cooldown. |
 | `taunts` | `string[]` | _5 defaults_ | Pool of messages; one is picked at random per cooldown. |
 | `showCountdown` | `boolean` | `true` | Append the remaining whole seconds to the taunt while locked. |
+| `initialCooldown` | `number` | `0` | Milliseconds to start already locked for, like a resend button right after a code went out. Read on mount. |
+| `variant` | `"auto" \| "dark" \| "light"` | `"auto"` | Surface style. `"auto"` is light and turns into the dark graphite face under `.dark`; `"dark"` and `"light"` pin one face. |
 | `onClick` | `(e) => void` | - | Fires immediately on a valid click, before the cooldown begins. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
 ## Good to know
 
 - Disabled for the whole cooldown, so no double submits.
+- With reduced motion the sweep ticks once a second instead of draining smoothly.

@@ -3,6 +3,29 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+export type EvilEyeButtonVariant = "auto" | "dark" | "light";
+
+// The pill stays obsidian in every theme: the eye is light, so it needs a dark
+// socket to burn in. What changes is how it sits on the page. On dark pages it
+// casts a deep black drop; on light pages a soft drop that warms to the eye's
+// color, so the pill glows onto the surface instead of leaving a grey smudge.
+const shells: Record<EvilEyeButtonVariant, string> = {
+  dark: [
+    "shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_30%,black),inset_0_1px_0_rgb(255_255_255/0.1),0_1px_2px_rgb(0_0_0/0.4),0_10px_24px_-10px_rgb(0_0_0/0.7)]",
+    "hover:shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_60%,black),inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(0_0_0/0.4),0_10px_32px_-8px_color-mix(in_oklab,var(--eye)_50%,transparent)]",
+  ].join(" "),
+  light: [
+    "shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_30%,black),inset_0_1px_0_rgb(255_255_255/0.1),0_1px_2px_rgb(0_0_0/0.14),0_14px_32px_-14px_color-mix(in_oklab,var(--eye)_55%,transparent)]",
+    "hover:shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_60%,black),inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(0_0_0/0.14),0_14px_40px_-10px_color-mix(in_oklab,var(--eye)_70%,transparent)]",
+  ].join(" "),
+  auto: [
+    "shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_30%,black),inset_0_1px_0_rgb(255_255_255/0.1),0_1px_2px_rgb(0_0_0/0.14),0_14px_32px_-14px_color-mix(in_oklab,var(--eye)_55%,transparent)]",
+    "hover:shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_60%,black),inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(0_0_0/0.14),0_14px_40px_-10px_color-mix(in_oklab,var(--eye)_70%,transparent)]",
+    "dark:shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_30%,black),inset_0_1px_0_rgb(255_255_255/0.1),0_1px_2px_rgb(0_0_0/0.4),0_10px_24px_-10px_rgb(0_0_0/0.7)]",
+    "dark:hover:shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_60%,black),inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(0_0_0/0.4),0_10px_32px_-8px_color-mix(in_oklab,var(--eye)_50%,transparent)]",
+  ].join(" "),
+};
+
 export interface EvilEyeButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Label used when no children are provided. */
@@ -31,6 +54,12 @@ export interface EvilEyeButtonProps
   eyeClassName?: string;
   /** Extra classes for the label. */
   labelClassName?: string;
+  /**
+   * How the obsidian pill sits on the page. `auto` (default) follows the page
+   * theme: a warm ember drop on a light page, a deep black drop under a
+   * `.dark` ancestor. `dark` and `light` pin one look.
+   */
+  variant?: EvilEyeButtonVariant;
 }
 
 /* ---------- Shader ---------- */
@@ -280,6 +309,7 @@ export const EvilEyeButton = React.forwardRef<
       blink = true,
       eyeClassName,
       labelClassName,
+      variant = "auto",
       className,
       style,
       disabled,
@@ -493,10 +523,10 @@ export const EvilEyeButton = React.forwardRef<
         className={cn(
           "group/eye relative isolate inline-flex h-14 min-w-56 cursor-pointer items-center justify-center overflow-hidden rounded-full px-10 text-sm font-semibold tracking-[0.2em] text-white uppercase outline-none select-none",
           // Obsidian shell with an ember hairline, faint top highlight, and a soft drop.
-          "bg-[#0c0706] shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_30%,black),inset_0_1px_0_rgb(255_255_255/0.1),0_1px_2px_rgb(0_0_0/0.4),0_10px_24px_-10px_rgb(0_0_0/0.7)]",
-          "transition-[scale,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)]",
           // Hover: the hairline heats up and the eye's light spills around the button.
-          "hover:shadow-[0_0_0_1px_color-mix(in_oklab,var(--eye)_60%,black),inset_0_1px_0_rgb(255_255_255/0.12),0_1px_2px_rgb(0_0_0/0.4),0_10px_32px_-8px_color-mix(in_oklab,var(--eye)_50%,transparent)]",
+          "bg-[#0c0706]",
+          shells[variant],
+          "transition-[scale,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)]",
           "active:scale-[0.97] active:duration-100 active:ease-out motion-reduce:active:scale-100",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           "disabled:cursor-not-allowed disabled:opacity-50",
