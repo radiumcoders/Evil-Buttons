@@ -51,6 +51,8 @@ The component spreads native `button` props and forwards its ref to the button.
 | `fleeRadius` | `number` | `56` | How close in px the cursor can get to the button's edge before it dodges. |
 | `range` | `number` | `140` | Maximum distance in px it strays from its resting spot. |
 | `resetAfter` | `number` | `1500` | Milliseconds after a successful click before it starts fleeing again. `0` keeps it caught. |
+| `initialOffset` | `{ x: number; y: number }` | - | Offset in px it starts at, leaning as if it had already dodged once. |
+| `variant` | `"auto" \| "dark" \| "light"` | `"auto"` | Surface palette. `auto` is light on a light page and graphite under `.dark`. |
 | `onClick` | `(event) => void` | - | Only fires once the button has given up. |
 | `className` | `string` | - | Extra classes passed to the button. |
 

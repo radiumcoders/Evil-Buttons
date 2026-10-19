@@ -14,6 +14,34 @@ import {
 } from "motion/react";
 import { cn } from "@/lib/utils";
 
+export type TrollButtonVariant = "auto" | "dark" | "light";
+
+// Graded surfaces: outer hairline, faint inner ring, top highlight, soft drop.
+// `auto` is the light surface on a light page and the dark one under `.dark`.
+const surfaces: Record<
+  TrollButtonVariant,
+  { base: string; pressed: string; stamina: string }
+> = {
+  dark: {
+    base: "text-neutral-50 from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+    pressed:
+      "active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
+    stamina: "bg-neutral-50/35",
+  },
+  light: {
+    base: "text-neutral-900 from-white to-neutral-100 shadow-[0_0_0_1px_rgb(0_0_0/0.1),inset_0_1px_0_rgb(255_255_255/0.9),0_1px_2px_rgb(0_0_0/0.06),0_4px_12px_-4px_rgb(0_0_0/0.14)]",
+    pressed:
+      "active:shadow-[0_0_0_1px_rgb(0_0_0/0.1),inset_0_1px_0_rgb(255_255_255/0.6),0_0_1px_rgb(0_0_0/0.06),0_1px_3px_-2px_rgb(0_0_0/0.12)]",
+    stamina: "bg-neutral-900/25",
+  },
+  auto: {
+    base: "text-foreground from-background to-muted shadow-[0_0_0_1px_color-mix(in_oklab,var(--color-foreground)_12%,transparent),inset_0_1px_0_rgb(255_255_255/0.9),0_1px_2px_rgb(0_0_0/0.06),0_4px_12px_-4px_rgb(0_0_0/0.14)] dark:text-neutral-50 dark:from-[#353535] dark:to-[#272727] dark:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+    pressed:
+      "active:shadow-[0_0_0_1px_color-mix(in_oklab,var(--color-foreground)_12%,transparent),inset_0_1px_0_rgb(255_255_255/0.6),0_0_1px_rgb(0_0_0/0.06),0_1px_3px_-2px_rgb(0_0_0/0.12)] dark:active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
+    stamina: "bg-foreground/25 dark:bg-neutral-50/35",
+  },
+};
+
 export interface TrollButtonProps
   extends Omit<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -31,6 +59,13 @@ export interface TrollButtonProps
   range?: number;
   /** Milliseconds after a successful click before the button starts fleeing again. Set to 0 to stay caught. */
   resetAfter?: number;
+  /**
+   * Surface palette. `auto` (default) follows the page theme: light on a light
+   * page, graphite under a `.dark` ancestor. `dark` and `light` pin one look.
+   */
+  variant?: TrollButtonVariant;
+  /** Offset in px the button starts at, as if it had already dodged once. */
+  initialOffset?: { x: number; y: number };
 }
 
 type TrollState = "fleeing" | "tired";
@@ -53,6 +88,8 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
       fleeRadius = 56,
       range = 140,
       resetAfter = 1500,
+      variant = "auto",
+      initialOffset,
       onClick,
       onPointerDown,
       className,
@@ -63,20 +100,28 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
     ref,
   ) => {
     const wrapperRef = React.useRef<HTMLSpanElement>(null);
-    const offsetRef = React.useRef({ x: 0, y: 0 });
+    const offsetRef = React.useRef({
+      x: initialOffset?.x ?? 0,
+      y: initialOffset?.y ?? 0,
+    });
     const staminaRef = React.useRef<AnimationPlaybackControls | null>(null);
     const resetTimerRef = React.useRef<number | undefined>(undefined);
     const [state, setState] = React.useState<TrollState>("fleeing");
     const reduceMotion = useReducedMotion();
     const evasive = state === "fleeing" && !reduceMotion && !disabled;
 
-    const targetX = useMotionValue(0);
-    const targetY = useMotionValue(0);
+    const targetX = useMotionValue(offsetRef.current.x);
+    const targetY = useMotionValue(offsetRef.current.y);
     const x = useSpring(targetX, DODGE_SPRING);
     const y = useSpring(targetY, DODGE_SPRING);
     // Lean into each dodge based on how fast the button is moving sideways.
     const velocityX = useVelocity(x);
-    const rotate = useTransform(velocityX, [-2400, 0, 2400], [-10, 0, 10]);
+    const velocityLean = useTransform(velocityX, [-2400, 0, 2400], [-10, 0, 10]);
+    // A button that starts mid-dodge also starts leaning, until its first move.
+    const restLean = useMotionValue(
+      Math.max(-8, Math.min(8, (initialOffset?.x ?? 0) / 10)),
+    );
+    const rotate = useTransform(() => velocityLean.get() + restLean.get());
     const stamina = useMotionValue(1);
     const staminaOpacity = useTransform(stamina, (value) => (value < 1 ? 1 : 0));
 
@@ -85,8 +130,9 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
         offsetRef.current = { x: nextX, y: nextY };
         targetX.set(nextX);
         targetY.set(nextY);
+        if (restLean.get() !== 0) animate(restLean, 0, DODGE_SPRING);
       },
-      [targetX, targetY],
+      [restLean, targetX, targetY],
     );
 
     const startTiring = React.useCallback(() => {
@@ -184,6 +230,7 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
     };
 
     const idleLabel = children ?? label;
+    const surface = surfaces[variant];
     const currentLabel = state === "tired" ? surrenderLabel : idleLabel;
 
     return (
@@ -202,13 +249,13 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
           }
           transition={{ duration: 0.45, ease: "easeOut" }}
           className={cn(
-            "relative inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-[10px] px-4 text-sm font-medium text-neutral-50 outline-none select-none",
-            // Graded dark surface: dark outer hairline, faint inner ring, top highlight, soft drop.
-            "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+            "relative inline-flex h-9 cursor-pointer items-center justify-center overflow-hidden rounded-[10px] bg-linear-to-b px-4 text-sm font-medium outline-none select-none",
+            surface.base,
             // Motion owns `transform` for the dodge, lean, and squash, so the press animates the separate `scale` property.
             "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
             // Press eases in fast and settles the shadow; release springs back on the slower base curve.
-            "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
+            "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out motion-reduce:active:scale-100",
+            surface.pressed,
             "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
             className,
           )}
@@ -246,7 +293,10 @@ const TrollButton = React.forwardRef<HTMLButtonElement, TrollButtonProps>(
           {/* Stamina drains while the button is being chased. */}
           <motion.span
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left bg-neutral-50/35"
+            className={cn(
+              "pointer-events-none absolute inset-x-0 bottom-0 h-0.5 origin-left",
+              surface.stamina,
+            )}
             style={{
               scaleX: stamina,
               opacity: state === "fleeing" ? staminaOpacity : 0,
