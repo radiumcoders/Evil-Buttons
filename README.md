@@ -12,28 +12,33 @@ shadcn/ui registry of playful, highly animated button components with evil aesth
 
 ## Sponsors
 
-Evil Buttons is free and open source. These sponsors keep the buttons coming.
+<p align="center">Evil Buttons is free and open source. These sponsors keep the buttons coming.</p>
+
+<br />
 
 <!-- sponsors:start -->
 <table align="center">
   <tbody>
     <!-- Mythic -->
     <tr>
-      <td colspan="6" width="850" align="center"><a href="https://x.com/radiumcoders">Your logo here</a></td>
+      <td colspan="6" width="850" height="140" align="center"><a href="https://x.com/radiumcoders"><sub>Your logo here</sub></a></td>
     </tr>
     <!-- Legendary -->
     <tr>
-      <td colspan="3" width="425" align="center"><a href="https://x.com/radiumcoders">Your logo here</a></td>
-      <td colspan="3" width="425" align="center"><a href="https://x.com/radiumcoders">Your logo here</a></td>
+      <td colspan="3" width="425" height="110" align="center"><a href="https://x.com/radiumcoders"><sub>Your logo here</sub></a></td>
+      <td colspan="3" width="425" height="110" align="center"><a href="https://x.com/radiumcoders"><sub>Your logo here</sub></a></td>
     </tr>
     <!-- Sponsors -->
     <tr>
-      <td colspan="2" width="283" align="center"><a href="https://www.shadcn-labs.com/?utm_source=evilbuttons&utm_medium=referral&utm_campaign=backed_by"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/sponsors/shadcn-labs-light.svg" /><img src="assets/sponsors/shadcn-labs-dark.svg" alt="Shadcn Labs" height="20" align="middle" /></picture></a></td>
-      <td colspan="2" width="283" align="center"><a href="https://x.com/radiumcoders">Your logo here</a></td>
-      <td colspan="2" width="283" align="center"><a href="https://x.com/radiumcoders">Your logo here</a></td>
+      <td colspan="2" width="283" height="90" align="center"><a href="https://www.shadcn-labs.com/?utm_source=evilbuttons&utm_medium=referral&utm_campaign=backed_by"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/sponsors/shadcn-labs-light.svg" /><img src="assets/sponsors/shadcn-labs-dark.svg" alt="Shadcn Labs" height="22" align="middle" /></picture></a></td>
+      <td colspan="2" width="283" height="90" align="center"><a href="https://x.com/radiumcoders"><sub>Your logo here</sub></a></td>
+      <td colspan="2" width="283" height="90" align="center"><a href="https://x.com/radiumcoders"><sub>Your logo here</sub></a></td>
     </tr>
   </tbody>
 </table>
 <!-- sponsors:end -->
 
-[Become a sponsor](https://www.evilbuttons.com) to get your logo on the landing page, in the docs and here.
+<br />
+
+<p align="center"><a href="https://www.evilbuttons.com">Become a sponsor</a> to get your logo on the landing page, in the docs and here.</p>
+
