@@ -11,6 +11,18 @@ import { cn } from "@/lib/utils";
 
 type DoubtState = "idle" | "doubting" | "success";
 
+export type DoubtButtonVariant = "auto" | "dark" | "light";
+
+// Graded surfaces matching MinimalButton: outer hairline, inner ring or top highlight, soft drop,
+// plus the settled shadow of the press. Tailwind only sees literal class names, so the `dark:`
+// half of "auto" is spelled out in full.
+const surfaces: Record<DoubtButtonVariant, string> = {
+  dark: "text-neutral-50 bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)] active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
+  light:
+    "text-neutral-900 bg-linear-to-b from-white to-neutral-100 shadow-[0_0_0_1px_rgb(0_0_0/0.1),inset_0_1px_0_rgb(255_255_255/0.9),0_1px_2px_rgb(0_0_0/0.06),0_4px_12px_-4px_rgb(0_0_0/0.14)] active:shadow-[0_0_0_1px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.6),0_0_1px_rgb(0_0_0/0.05),0_1px_3px_-2px_rgb(0_0_0/0.12)]",
+  auto: "text-foreground bg-linear-to-b from-background to-muted shadow-[0_0_0_1px_rgb(0_0_0/0.1),inset_0_1px_0_rgb(255_255_255/0.9),0_1px_2px_rgb(0_0_0/0.06),0_4px_12px_-4px_rgb(0_0_0/0.14)] active:shadow-[0_0_0_1px_rgb(0_0_0/0.12),inset_0_1px_0_rgb(255_255_255/0.6),0_0_1px_rgb(0_0_0/0.05),0_1px_3px_-2px_rgb(0_0_0/0.12)] dark:text-neutral-50 dark:from-[#353535] dark:to-[#272727] dark:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)] dark:active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)]",
+};
+
 export interface DoubtButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> {
   /** Label shown before any doubt has been cast. Falls back to `label`. */
@@ -29,6 +41,18 @@ export interface DoubtButtonProps
   onConfirm?: () => void;
   /** Milliseconds to stay in the success state before resetting. Set to 0 to stay. */
   resetAfter?: number;
+  /**
+   * How many doubts deep the button starts, from `0` (idle) to
+   * `confirmations.length`. `1` opens on the first prompt. Read on mount only.
+   * @default 0
+   */
+  initialStep?: number;
+  /**
+   * Surface style. `"auto"` is light and switches to the dark graphite face under
+   * a `.dark` ancestor; `"dark"` and `"light"` force one face.
+   * @default "auto"
+   */
+  variant?: DoubtButtonVariant;
 }
 
 const DEFAULT_CONFIRMATIONS: string[] = [
@@ -74,6 +98,8 @@ export const DoubtButton = React.forwardRef<
       successLabel = "Too late.",
       onConfirm,
       resetAfter = 1600,
+      initialStep = 0,
+      variant = "auto",
       className,
       disabled,
       type = "button",
@@ -84,8 +110,12 @@ export const DoubtButton = React.forwardRef<
     const reduceMotion = useReducedMotion();
 
     // 0 = idle; 1..steps show confirmations[index - 1]; clicking the last fires.
-    const [index, setIndex] = React.useState(0);
-    const [state, setState] = React.useState<DoubtState>("idle");
+    const [index, setIndex] = React.useState(() =>
+      Math.max(0, Math.min(confirmations.length, Math.floor(initialStep))),
+    );
+    const [state, setState] = React.useState<DoubtState>(() =>
+      index > 0 ? "doubting" : "idle",
+    );
     const [shakeKey, setShakeKey] = React.useState(0);
 
     const resetTimeoutRef = React.useRef<number | null>(null);
@@ -155,11 +185,11 @@ export const DoubtButton = React.forwardRef<
         data-state={state}
         onClick={handleClick}
         className={cn(
-          "relative inline-flex h-9 min-w-48 cursor-pointer items-center justify-center overflow-hidden rounded-[10px] px-4 text-sm font-medium text-neutral-50 outline-none select-none",
-          // Graded dark surface matching MinimalButton: dark outer hairline, faint inner ring, top highlight, soft drop.
-          "bg-linear-to-b from-[#353535] to-[#272727] shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+          "relative inline-flex h-9 min-w-48 cursor-pointer items-center justify-center overflow-hidden rounded-[10px] px-4 text-sm font-medium outline-none select-none",
+          // Graded surface; the press also settles the shadow (see `surfaces`).
+          surfaces[variant],
           "transition-[scale,filter,box-shadow] duration-300 ease-[cubic-bezier(0.34,1.35,0.64,1)] hover:brightness-110",
-          "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out active:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.05),inset_0_1px_0_rgb(255_255_255/0.08),0_0_1px_rgb(0_0_0/0.2),0_1px_3px_-2px_rgb(0_0_0/0.3)] motion-reduce:active:scale-100",
+          "active:scale-[0.97] active:brightness-95 active:duration-100 active:ease-out motion-reduce:active:scale-100",
           "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
@@ -182,7 +212,7 @@ export const DoubtButton = React.forwardRef<
               aria-hidden
               className="invisible col-start-1 row-start-1 whitespace-nowrap"
             >
-              {[label, successLabel, ...confirmations].reduce<React.ReactNode>(
+              {[children ?? label, successLabel, ...confirmations].reduce<React.ReactNode>(
                 (widest, candidate) =>
                   String(extractText(candidate)).length >
                   String(extractText(widest)).length
