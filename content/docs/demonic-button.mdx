@@ -48,9 +48,13 @@ The component spreads native `button` props except `onClick`.
 | `label` | `React.ReactNode` | `"Summon"` | Label used when no children are provided. |
 | `holdDuration` | `number` | `2200` | Milliseconds of holding needed to fully summon. |
 | `onSummon` | `() => void` | - | Fired once each time the charge reaches 100%. |
+| `idleCharge` | `number` | `0` | Charge it rests at when not held, 0 to 0.95. Above 0 the horns peek out and embers smolder before the first press. |
+| `variant` | `"auto" \| "dark" \| "light"` | `"auto"` | Surface palette. `auto` is light on a light page and graphite under `.dark`; the fire switches to a ramp that reads on white. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
 ## Good to know
 
 - Fire is a canvas particle system; horns are inline SVG.
 - Animates without React re-renders.
+- Horns and flames scale with the button's height, so a tall `className` gets a bigger demon.
+- `prefers-reduced-motion` keeps the horns and shows a still flame instead of a flickering one.
