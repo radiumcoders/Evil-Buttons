@@ -26,9 +26,8 @@ export type SponsorTier = {
   ctaInk: string;
   /** The dialog shader's colors for this tier. Hues are in turns. */
   palette: ShaderPalette;
-  /** USD. */
+  /** USD per month. */
   price: number;
-  cadence: "month" | "once";
   spots: string;
   summary: string;
   /** What each perk means at this tier. A missing perk isn't included. */
@@ -45,7 +44,6 @@ export const sponsorTiers: SponsorTier[] = [
     ctaInk: "oklch(0.99 0 0)",
     palette: { hue: 0.06, hueSpread: 0.07, chroma: 0.19, lightness: 0.62 },
     price: 200,
-    cadence: "month",
     spots: "1 spot",
     summary: "Top billing everywhere Evil Buttons shows up.",
     perks: {
@@ -66,7 +64,6 @@ export const sponsorTiers: SponsorTier[] = [
     ctaInk: "oklch(0.22 0.04 70)",
     palette: { hue: 0.2, hueSpread: -0.06, chroma: 0.15, lightness: 0.74 },
     price: 100,
-    cadence: "month",
     spots: "2 spots",
     summary: "Front-page placement and a spot across the docs.",
     perks: {
@@ -87,8 +84,7 @@ export const sponsorTiers: SponsorTier[] = [
     // Near-zero chroma reads as silver; the hue matches Mythic so switching
     // between them fades color rather than sweeping around the wheel.
     palette: { hue: 0.06, hueSpread: 0.07, chroma: 0.012, lightness: 0.68 },
-    price: 100,
-    cadence: "once",
+    price: 50,
     spots: "Open",
     summary: "Back the project and get listed where developers look.",
     perks: {

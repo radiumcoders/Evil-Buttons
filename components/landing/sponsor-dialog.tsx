@@ -26,9 +26,6 @@ const POPOVER = { dark: "#171717", light: "#ffffff" };
 
 const compact = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
 
-const cadenceShort = { month: "/mo", once: " once" } as const;
-const cadenceLong = { month: "per month", once: "one-time" } as const;
-
 /** Tier-colored light from above, if the shader can't run. */
 function TierGlow({ tier, active }: { tier: SponsorTier; active: boolean }) {
   return (
@@ -145,8 +142,7 @@ export function SponsorDialog({
                     {option.name}
                   </span>
                   <span className="font-mono text-[10px] tracking-wide text-muted-foreground">
-                    ${option.price}
-                    {cadenceShort[option.cadence]}
+                    ${option.price}/mo
                   </span>
                 </button>
               );
@@ -159,7 +155,7 @@ export function SponsorDialog({
                 <span className="font-pixel-display text-5xl leading-none tracking-tight">
                   ${tier.price}
                 </span>
-                <span className="text-sm text-muted-foreground">{cadenceLong[tier.cadence]}</span>
+                <span className="text-sm text-muted-foreground">per month</span>
               </p>
               <span className="mb-1 inline-flex h-6 items-center rounded-full border border-(--tier)/40 bg-[color-mix(in_oklch,var(--tier)_10%,transparent)] px-2.5 font-mono text-[10px] tracking-[0.14em] text-foreground uppercase">
                 {tier.spots}
