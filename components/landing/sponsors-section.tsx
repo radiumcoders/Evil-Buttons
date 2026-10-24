@@ -129,7 +129,7 @@ function PlatformOpenSlot({ className }: { className: string }) {
 
 export function SponsorsSection({ pageViews }: { pageViews: number | null }) {
   return (
-    <section className="bg-background px-4 pb-24 sm:px-6 sm:pb-32">
+    <section className="bg-background px-4 py-24 sm:px-6 sm:py-32">
       <div className="mx-auto max-w-5xl">
         <h2 className="mx-auto max-w-md text-center text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-4xl">
           Evil Buttons is backed and supported by the finest

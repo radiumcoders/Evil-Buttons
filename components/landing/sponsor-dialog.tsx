@@ -158,7 +158,8 @@ export function SponsorDialog({
                 <span className="text-sm text-muted-foreground">per month</span>
               </p>
               <span className="mb-1 inline-flex h-6 items-center rounded-full border border-(--tier)/40 bg-[color-mix(in_oklch,var(--tier)_10%,transparent)] px-2.5 font-mono text-[10px] tracking-[0.14em] text-foreground uppercase">
-                {tier.spots}
+                {/* Trimmed to cap height so the all-caps label centers in the pill. */}
+                <span className="[text-box:trim-both_cap_alphabetic]">{tier.spots}</span>
               </span>
             </div>
             <p className="mt-3 text-sm font-medium">{tier.summary}</p>
