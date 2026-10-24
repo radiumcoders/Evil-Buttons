@@ -8,7 +8,7 @@ const REVALIDATE = 10 * 60;
 
 export type RankedCount = { name: string; count: number };
 
-export type LandingStats = {
+export type SiteStats = {
   stars: number | null;
   /** Page views over the last 30 days. */
   pageViews: number | null;
@@ -20,7 +20,7 @@ export type LandingStats = {
   mostCopied: RankedCount[];
 };
 
-type TracwellStats = Omit<LandingStats, "stars">;
+type TracwellStats = Omit<SiteStats, "stars">;
 
 const EMPTY_TRACWELL: TracwellStats = {
   pageViews: null,
@@ -77,13 +77,69 @@ function eventTotal({ breakdowns }: EventDetail) {
 
 const componentNames = new Map(showcase.map((entry) => [entry.registryName, entry.name]));
 
-/** Copies per component, keyed by the `registry_name` the copy button sends. */
+/** Registry names are sent bare from the carousel and namespaced from the docs. */
+function registryName(name: string) {
+  return name.replace(/^@evilbuttons\//, "");
+}
+
+/**
+ * Copies per component, largest first. The carousel sends one `registry_name`;
+ * the docs CLI block sends a `registry_items` array, so both are tallied.
+ */
 function copiesByComponent({ breakdowns }: EventDetail): RankedCount[] {
-  const values = breakdowns?.properties?.find((p) => p.key === "registry_name")?.values ?? [];
-  return values.map(({ value, count }) => ({
-    name: componentNames.get(value) ?? value,
-    count,
-  }));
+  const property = (key: string) =>
+    breakdowns?.properties?.find((p) => p.key === key)?.values ?? [];
+  const counts = new Map<string, number>();
+  const add = (name: string, count: number) => {
+    const key = registryName(name);
+    counts.set(key, (counts.get(key) ?? 0) + count);
+  };
+  for (const { value, count } of property("registry_name")) add(value, count);
+  for (const { value, count } of property("registry_items")) {
+    try {
+      for (const item of JSON.parse(value) as string[]) add(item, count);
+    } catch {
+      add(value, count);
+    }
+  }
+  return [...counts]
+    .map(([name, count]) => ({ name: componentNames.get(name) ?? name, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+/** Referrers that are the same place under another name. */
+const REFERRER_ALIASES: Record<string, string> = {
+  "t.co": "x.com",
+  "twitter.com": "x.com",
+  "twitter.android": "x.com",
+  "twitter.androie": "x.com",
+  "android.googlequicksearchbox": "google.com",
+};
+
+/** Local dev visits and Tracwell's long-tail bucket aren't sources to rank. */
+const IGNORED_REFERRERS = new Set(["Others", "localhost", "127.0.0.1"]);
+
+/**
+ * Page views per referrer, largest first. Some sites show up both as a bare
+ * name (a utm_source) and as their domain, so "designeer" folds into
+ * "designeer.xyz".
+ */
+function viewsByReferrer(sources: Breakdown[]): RankedCount[] {
+  const names = sources.map((source) => source.value);
+  const canonical = (name: string) => {
+    if (REFERRER_ALIASES[name]) return REFERRER_ALIASES[name];
+    if (name.includes(".")) return name;
+    return names.find((other) => other.startsWith(`${name}.`)) ?? name;
+  };
+  const views = new Map<string, number>();
+  for (const { value, views: count = 0 } of sources) {
+    if (IGNORED_REFERRERS.has(value)) continue;
+    const name = canonical(value);
+    views.set(name, (views.get(name) ?? 0) + count);
+  }
+  return [...views]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count);
 }
 
 /** Reads the 30-day numbers and breakdowns over Tracwell's MCP server. */
@@ -105,23 +161,18 @@ const fetchTracwell = unstable_cache(
     return {
       pageViews: traffic?.metrics?.views?.value ?? null,
       installsCopied: eventTotal(copies),
-      // "Others" lumps the long tail together, so it isn't a source to rank.
-      // Tracwell orders sources by visitors, so re-rank them by page views.
-      sources: (traffic?.breakdowns?.sources ?? [])
-        .filter((source) => source.value !== "Others")
-        .map(({ value, views = 0 }) => ({ name: value, count: views }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 6),
+      // Tracwell orders sources by visitors, so they're re-ranked by page views.
+      sources: viewsByReferrer(traffic?.breakdowns?.sources ?? []).slice(0, 6),
       mostCopied: copiesByComponent(copies).slice(0, 6),
     };
   },
   // Bump when the shape changes, so a cached entry of the old shape is never served.
-  ["landing-tracwell-stats-v2"],
+  ["tracwell-stats-v3"],
   { revalidate: REVALIDATE },
 );
 
 /** Every stat is independent: one failing source never hides the others. */
-export async function getLandingStats(): Promise<LandingStats> {
+export async function getStats(): Promise<SiteStats> {
   const [stars, tracwell] = await Promise.all([
     fetchStars().catch(() => null),
     fetchTracwell().catch((error: unknown) => {

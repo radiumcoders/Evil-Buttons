@@ -1,8 +1,8 @@
 import { ArrowUpRightIcon, GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import type { ReactNode } from "react";
-import { RankedBarChart } from "@/components/landing/analytics-charts";
 import { showcase } from "@/components/landing/showcase";
-import type { LandingStats, RankedCount } from "@/lib/landing-stats";
+import { RankedBarChart } from "@/components/stats/ranked-bar-chart";
+import type { SiteStats } from "@/lib/stats";
 import { siteConfig } from "@/lib/seo";
 import { cn } from "@/lib/utils";
 
@@ -48,29 +48,7 @@ function ChartCard({
   );
 }
 
-/** The numbers behind a bar chart, for screen readers. */
-function RankedTable({ rows, label }: { rows: RankedCount[]; label: string }) {
-  return (
-    <table className="sr-only">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>{label}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.name}>
-            <td>{row.name}</td>
-            <td>{row.count}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-export function StatsSection({ stats }: { stats: LandingStats }) {
+export function StatsSection({ stats }: { stats: SiteStats }) {
   // Numbers that couldn't be fetched are left out rather than shown as zero.
   const tiles: Stat[] = [];
   if (stats.stars !== null) {
@@ -85,16 +63,16 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
   }
 
   return (
-    <section className="bg-background px-4 py-20 sm:px-6 sm:py-28">
+    <section className="bg-background px-4 pt-10 pb-20 sm:px-6 sm:pt-16 sm:pb-28">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div>
             <p className="font-mono text-[11px] tracking-[0.18em] text-muted-foreground uppercase">
               In the open
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-4xl">
+            <h1 className="mt-3 text-3xl font-semibold tracking-[-0.03em] text-balance sm:text-4xl">
               Built in public, measured in public.
-            </h2>
+            </h1>
           </div>
           <a
             href={siteConfig.github}
@@ -148,7 +126,6 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
             {stats.sources.length > 0 ? (
               <ChartCard title="Top referrers" caption="Page views by referrer, last 30 days">
                 <RankedBarChart rows={stats.sources} label="Page views" />
-                <RankedTable rows={stats.sources} label="Page views" />
               </ChartCard>
             ) : null}
             {stats.mostCopied.length > 0 ? (
@@ -157,7 +134,6 @@ export function StatsSection({ stats }: { stats: LandingStats }) {
                 caption="Install commands copied, last 30 days"
               >
                 <RankedBarChart rows={stats.mostCopied} label="Copies" />
-                <RankedTable rows={stats.mostCopied} label="Copies" />
               </ChartCard>
             ) : null}
           </div>

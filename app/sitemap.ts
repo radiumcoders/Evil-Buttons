@@ -25,6 +25,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }
 
   const staticEntries: MetadataRoute.Sitemap = [
+    // Each is unshifted in turn, so the last one here ends up first.
+    {
+      url: absoluteUrl("/stats"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.5,
+    },
     {
       url: absoluteUrl("/"),
       lastModified: now,

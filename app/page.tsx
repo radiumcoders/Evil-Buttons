@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/landing-page";
 import { SponsorsSection } from "@/components/landing/sponsors-section";
-import { StatsSection } from "@/components/landing/stats-section";
-import { getLandingStats } from "@/lib/landing-stats";
 import { source } from "@/lib/source";
+import { getStats } from "@/lib/stats";
 
 export const metadata: Metadata = {
   alternates: {
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
   },
 };
 
-// The 30-day stats refresh every 10 minutes.
+// The sponsor dialog's 30-day page views refresh every 10 minutes.
 export const revalidate = 600;
 
 export default async function HomePage() {
@@ -34,12 +33,11 @@ export default async function HomePage() {
     source.getPages().map((page) => [page.url, page.data.category]),
   );
 
-  const stats = await getLandingStats();
+  const { pageViews } = await getStats();
 
   return (
     <LandingPage categories={categories}>
-      <StatsSection stats={stats} />
-      <SponsorsSection pageViews={stats.pageViews} />
+      <SponsorsSection pageViews={pageViews} />
     </LandingPage>
   );
 }

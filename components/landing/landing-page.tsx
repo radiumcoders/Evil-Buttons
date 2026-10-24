@@ -28,10 +28,15 @@ type LandingPageProps = {
   children?: ReactNode;
 };
 
+const navLinks = [
+  { label: "Docs", href: "/docs" },
+  { label: "Stats", href: "/stats" },
+];
+
 const navIcon =
   "inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
-function Navbar() {
+export function Navbar() {
   const isDark = useAppTheme() === "dark";
 
   return (
@@ -53,12 +58,15 @@ function Navbar() {
           </span>
         </Link>
         <div className="flex items-center gap-1">
-          <Link
-            href="/docs"
-            className="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
-          >
-            Docs
-          </Link>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground"
+            >
+              {link.label}
+            </Link>
+          ))}
           <a
             href={siteConfig.github}
             target="_blank"

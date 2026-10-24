@@ -1,75 +1,50 @@
 "use client";
 
-import { Bar } from "@/components/charts/bar";
-import { BarChart } from "@/components/charts/bar-chart";
-import { ChartTooltip } from "@/components/charts/tooltip";
-import type { RankedCount } from "@/lib/landing-stats";
-
-/** Every series is one entity, so every mark wears the one brand accent. */
-const SERIES = "var(--brand)";
+import { motion, useReducedMotion } from "motion/react";
+import type { RankedCount } from "@/lib/stats";
 
 const count = new Intl.NumberFormat("en");
 const compactCount = new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 });
 
-const ROW = 36;
-const BAR_GAP = 0.45;
-const LABEL_WIDTH = 124;
-const VALUE_WIDTH = 52;
-const BAR_MARGIN = { top: 4, right: VALUE_WIDTH, bottom: 4, left: LABEL_WIDTH };
+/** Room the value takes after each bar, so the longest bar still fits its label. */
+const VALUE_ROOM = "3.5rem";
 
 /**
- * Horizontal bars with names and counts drawn as HTML beside them. BarYAxis
- * caps labels at 70px, too narrow for component names, so rows are placed
- * at the band centers the chart's scaleBand computes.
+ * Horizontal bars, each with its value right where it ends. The longest bar
+ * spans the track, so there's no dead gap between bars and numbers. Hovering a
+ * row swaps the rounded value for the exact one.
  */
 export function RankedBarChart({ rows, label }: { rows: RankedCount[]; label: string }) {
-  const step = (rows.length * ROW) / (rows.length + BAR_GAP);
-  const center = (index: number) => BAR_MARGIN.top + step * (index + (1 + BAR_GAP) / 2);
+  const reduceMotion = useReducedMotion();
+  const max = Math.max(...rows.map((row) => row.count), 1);
 
   return (
-    <div
-      className="relative"
-      style={{ height: rows.length * ROW + BAR_MARGIN.top + BAR_MARGIN.bottom }}
-    >
-      <BarChart
-        data={rows}
-        xDataKey="name"
-        orientation="horizontal"
-        aspectRatio="auto"
-        className="h-full"
-        barGap={BAR_GAP}
-        margin={BAR_MARGIN}
-      >
-        <Bar dataKey="count" fill={SERIES} lineCap={4} />
-        <ChartTooltip
-          showCrosshair={false}
-          showDots={false}
-          rows={(point) => [
-            { color: SERIES, label, value: count.format(point.count as number) },
-          ]}
-        />
-      </BarChart>
+    <ol aria-label={label} className="flex flex-col gap-1">
       {rows.map((row, index) => (
-        <div
+        <li
           key={row.name}
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 flex -translate-y-1/2 items-center text-xs"
-          style={{ top: center(index) }}
+          className="group grid h-8 grid-cols-[minmax(0,7.5rem)_minmax(0,1fr)] items-center gap-3 rounded-md px-1 text-xs transition-colors hover:bg-muted/60"
         >
-          <span
-            className="truncate pr-3 text-right text-muted-foreground"
-            style={{ width: LABEL_WIDTH }}
-          >
+          <span className="truncate text-right text-muted-foreground transition-colors group-hover:text-foreground">
             {row.name}
           </span>
-          <span
-            className="ml-auto pl-2 tabular-nums text-foreground"
-            style={{ width: VALUE_WIDTH }}
-          >
-            {compactCount.format(row.count)}
+          <span className="flex min-w-0 items-center gap-2">
+            <motion.span
+              aria-hidden
+              className="block h-4 min-w-0.5 origin-left rounded-r-[4px] bg-brand"
+              style={{ width: `calc((100% - ${VALUE_ROOM}) * ${row.count / max})` }}
+              initial={reduceMotion ? false : { scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ type: "spring", stiffness: 260, damping: 30, delay: index * 0.04 }}
+            />
+            <span className="tabular-nums text-foreground">
+              <span className="group-hover:hidden">{compactCount.format(row.count)}</span>
+              <span className="hidden group-hover:inline">{count.format(row.count)}</span>
+            </span>
           </span>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
