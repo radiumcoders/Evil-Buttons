@@ -44,8 +44,9 @@ export const sponsorTiers: SponsorTier[] = [
     ctaInk: "oklch(0.99 0 0)",
     palette: { hue: 0.06, hueSpread: 0.07, chroma: 0.19, lightness: 0.62 },
     price: 200,
-    spots: "1 spot",
-    summary: "Top billing everywhere Evil Buttons shows up.",
+    spots: "2 spots",
+    summary:
+      "Largest logo in the hero row, first in the sponsors section, top of every docs page and the README, social preview image, plus X shout-outs.",
     perks: {
       hero: "Your logo in the Backed by chip on the first screen.",
       og: "Your logo on the preview card every time the site is shared.",
@@ -64,8 +65,9 @@ export const sponsorTiers: SponsorTier[] = [
     ctaInk: "oklch(0.22 0.04 70)",
     palette: { hue: 0.2, hueSpread: -0.06, chroma: 0.15, lightness: 0.74 },
     price: 100,
-    spots: "2 spots",
-    summary: "Front-page placement and a spot across the docs.",
+    spots: "4 spots",
+    summary:
+      "Half-width logo in the hero row, a sponsors card, your logo in the docs and README, plus a thank-you post on X.",
     perks: {
       hero: "Your logo in the Backed by chip, after Mythic.",
       x: "A thank-you post when you come on board.",
@@ -86,7 +88,7 @@ export const sponsorTiers: SponsorTier[] = [
     palette: { hue: 0.06, hueSpread: 0.07, chroma: 0.012, lightness: 0.68 },
     price: 50,
     spots: "Open",
-    summary: "Back the project and get listed where developers look.",
+    summary: "Your name in the docs and README sponsors list.",
     perks: {
       section: "A compact card.",
       docs: "A smaller logo on every docs page.",

@@ -1,6 +1,12 @@
 "use client";
 
-import { ArrowUpRightIcon, CheckIcon, MinusIcon, XLogoIcon } from "@phosphor-icons/react";
+import {
+  ArrowUpRightIcon,
+  CheckIcon,
+  EnvelopeSimpleIcon,
+  MinusIcon,
+  XLogoIcon,
+} from "@phosphor-icons/react";
 import { type CSSProperties, type ReactNode, useState } from "react";
 import { SponsorShader } from "@/components/landing/sponsor-shader";
 import {
@@ -20,6 +26,7 @@ import { useAppTheme } from "@/hooks/use-app-theme";
 import { cn } from "@/lib/utils";
 
 const CONTACT_URL = "https://x.com/radiumcoders";
+const CONTACT_EMAIL = "radiumcoders@gmail.com";
 
 /** The dialog's --popover, so the shader melts into it. */
 const POPOVER = { dark: "#171717", light: "#ffffff" };
@@ -196,21 +203,31 @@ export function SponsorDialog({
 
         <div className="relative flex flex-col-reverse gap-3 border-t border-border bg-muted/50 p-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-muted-foreground">
-            Perks are still taking shape. Ask for what you need.
+            Logo live within 24 hours of payment. Cancel any time.
           </p>
-          <a
-            href={CONTACT_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="group inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-(--cta) px-4 text-sm font-semibold text-(--cta-ink) shadow-[inset_0_1px_0_rgb(255_255_255/0.3),inset_0_-1px_0_rgb(0_0_0/0.15),0_10px_28px_-10px_var(--cta)] transition-[filter,box-shadow,background-color] duration-300 hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.3),inset_0_-1px_0_rgb(0_0_0/0.15),0_12px_36px_-8px_var(--cta)] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover active:translate-y-px"
-          >
-            <XLogoIcon weight="bold" className="size-4" />
-            DM me about {tier.name}
-            <ArrowUpRightIcon
-              weight="bold"
-              className="size-3.5 opacity-70 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            />
-          </a>
+          <div className="flex shrink-0 gap-2">
+            <a
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`${tier.name} sponsorship`)}`}
+              aria-label={`Email ${CONTACT_EMAIL} about ${tier.name}`}
+              title={CONTACT_EMAIL}
+              className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg bg-foreground/[0.06] text-muted-foreground transition-colors hover:bg-foreground/[0.1] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover"
+            >
+              <EnvelopeSimpleIcon weight="bold" className="size-4" />
+            </a>
+            <a
+              href={CONTACT_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-(--cta) px-4 text-sm font-semibold text-(--cta-ink) shadow-[inset_0_1px_0_rgb(255_255_255/0.3),inset_0_-1px_0_rgb(0_0_0/0.15),0_10px_28px_-10px_var(--cta)] transition-[filter,box-shadow,background-color] duration-300 hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.3),inset_0_-1px_0_rgb(0_0_0/0.15),0_12px_36px_-8px_var(--cta)] hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-popover active:translate-y-px"
+            >
+              <XLogoIcon weight="bold" className="size-4" />
+              DM me about {tier.name}
+              <ArrowUpRightIcon
+                weight="bold"
+                className="size-3.5 opacity-70 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </a>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
