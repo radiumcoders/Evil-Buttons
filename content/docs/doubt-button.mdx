@@ -76,6 +76,8 @@ The component spreads any `<button>` HTML attributes except `onClick`.
 | `successLabel` | `React.ReactNode` | `"Too late."` | Label flashed after the final confirmation. |
 | `onConfirm` | `() => void` | - | Fired only after the last confirmation is clicked. |
 | `resetAfter` | `number` | `1600` | Milliseconds to stay in the success state before resetting. Set to `0` to stay. |
+| `initialStep` | `number` | `0` | How many doubts deep to start. `1` opens on the first prompt. Read on mount. |
+| `variant` | `"auto" \| "dark" \| "light"` | `"auto"` | Surface style. `"auto"` is light and turns into the dark graphite face under `.dark`; `"dark"` and `"light"` pin one face. |
 | `className` | `string` | - | Extra classes passed to the button. |
 
 ## Good to know

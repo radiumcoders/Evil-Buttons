@@ -20,9 +20,9 @@ Click once to reveal, click again to hide.
   <RevealButton revealMode="toggle" secret="sk_live_abc123_xQ4z9" maskedValue="sk_live_•••••••" label="API Key" hiddenLabel="API Key" />
 </PreviewCard>
 
-### Light
+### Pinned face
 
-`variant="light"` swaps the dark face for a white one with a soft gray rim.
+It follows the theme by default. `variant="light"` or `variant="dark"` pins one face whatever the theme.
 
 <PreviewCard title="Light" note="Hold to reveal">
   <RevealButton variant="light" secret="sk_live_abc123_xQ4z9" maskedValue="sk_live_•••••••" />
@@ -60,7 +60,8 @@ The component spreads any `<button>` HTML attributes except `children`.
 | `label` | `React.ReactNode` | `"Reveal"` | Small label shown above the value when revealed. |
 | `hiddenLabel` | `React.ReactNode` | `"Hidden"` | Small label shown above the value when hidden. |
 | `revealMode` | `"hold" \| "toggle"` | `"hold"` | How the button reveals the secret. `"hold"` requires sustained press; `"toggle"` switches on each click. |
-| `variant` | `"dark" \| "light"` | `"dark"` | Graded surface style. |
+| `variant` | `"auto" \| "dark" \| "light"` | `"auto"` | Surface style. `"auto"` is light and turns into the dark graphite face under `.dark`; `"dark"` and `"light"` pin one face. |
+| `defaultRevealed` | `boolean` | `false` | Start with the secret showing. In hold mode the next release hides it. Read on mount. |
 | `onRevealChange` | `(revealed: boolean) => void` | - | Callback fired whenever the revealed state changes. |
 | `className` | `string` | - | Extra classes passed to the button. |
 

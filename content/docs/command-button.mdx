@@ -69,6 +69,7 @@ The component spreads native `button` props and forwards its ref to the button.
 | `onClick` | `(event) => void` | - | Fired when the button is clicked. The keycaps press on click too. |
 | `preventDefault` | `boolean` | `true` | Stops the browser's own handling of the shortcut, like the save dialog on ⌘S. |
 | `showShortcut` | `boolean` | `true` | Show the shortcut as keycaps inside the button. |
+| `variant` | `"auto" \| "dark" \| "light"` | `"auto"` | Surface style. `"auto"` is light and turns into the dark graphite face under `.dark`; `"dark"` and `"light"` pin one face. |
 | `children` | `React.ReactNode` | `"Save"` | The button label. |
 | `className` | `string` | - | Extra classes passed to the button. |
 | `disabled` | `boolean` | - | Disables the button and its shortcut. |
@@ -78,3 +79,4 @@ The component spreads native `button` props and forwards its ref to the button.
 - `mod` means ⌘ on Mac and Ctrl everywhere else.
 - Holding the shortcut fires `onCommand` once, not on repeat.
 - Sets `aria-keyshortcuts` for screen readers.
+- The keycaps are sized off the button's text, so a bigger `text-*` class scales them too.

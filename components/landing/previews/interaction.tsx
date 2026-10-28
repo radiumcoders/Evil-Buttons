@@ -25,8 +25,8 @@ export function RevealButtonPreview() {
       },
       variant: {
         type: "select",
-        options: ["dark", "light"],
-        default: "dark",
+        options: ["auto", "dark", "light"],
+        default: "auto",
       },
     },
     { id: "reveal-button" },
@@ -40,7 +40,7 @@ export function RevealButtonPreview() {
         maskedValue={p.maskedValue}
         secret={p.secret}
         revealMode={p.revealMode as "hold" | "toggle"}
-        variant={p.variant as "dark" | "light"}
+        variant={p.variant as "auto" | "dark" | "light"}
       />
     </LiveProps>
   );

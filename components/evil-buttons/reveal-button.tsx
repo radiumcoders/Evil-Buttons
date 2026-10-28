@@ -4,10 +4,11 @@ import * as React from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-export type RevealButtonVariant = "dark" | "light";
+export type RevealButtonVariant = "auto" | "dark" | "light";
 
 // Graded surfaces matching MinimalButton: outer hairline, faint inner ring, top highlight, soft drop.
-// Revealed swaps the neutral inner ring for an emerald one.
+// Revealed swaps the neutral inner ring for an emerald one. Tailwind only sees literal class
+// names, so the `dark:` half of "auto" is spelled out in full.
 const surfaces: Record<
   RevealButtonVariant,
   {
@@ -39,6 +40,17 @@ const surfaces: Record<
     chipRevealed:
       "text-emerald-600 shadow-[inset_0_1px_2px_rgb(0_0_0/0.12),0_0_0_1px_rgb(16_185_129/0.35)]",
   },
+  // Light face on theme tokens, the exact dark face under `.dark`.
+  auto: {
+    base: "text-foreground bg-linear-to-b from-background to-muted shadow-[0_0_0_1px_rgb(0_0_0/0.1),inset_0_1px_0_rgb(255_255_255/0.9),0_1px_2px_rgb(0_0_0/0.06),0_4px_12px_-4px_rgb(0_0_0/0.14)] dark:text-neutral-50 dark:from-[#353535] dark:to-[#272727] dark:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(0_0_0/0.4)]",
+    revealed:
+      "shadow-[0_0_0_1px_rgb(16_185_129/0.45),inset_0_1px_0_rgb(255_255_255/0.9),0_1px_2px_rgb(0_0_0/0.06),0_4px_12px_-4px_rgb(16_185_129/0.3)] dark:shadow-[0_0_0_1px_rgb(0_0_0/0.9),inset_0_0_0_1px_rgb(52_211_153/0.35),inset_0_1px_0_rgb(255_255_255/0.14),0_1px_2px_rgb(0_0_0/0.25),0_4px_12px_-4px_rgb(16_185_129/0.35)]",
+    label: "text-muted-foreground dark:text-neutral-400",
+    value: "text-foreground dark:text-neutral-50",
+    chip: "bg-foreground/8 text-muted-foreground shadow-[inset_0_1px_2px_rgb(0_0_0/0.12),0_0_0_1px_rgb(0_0_0/0.06)] dark:bg-black/25 dark:text-neutral-400 dark:shadow-[inset_0_1px_2px_rgb(0_0_0/0.45),0_0_0_1px_rgb(255_255_255/0.07)]",
+    chipRevealed:
+      "text-emerald-600 shadow-[inset_0_1px_2px_rgb(0_0_0/0.12),0_0_0_1px_rgb(16_185_129/0.35)] dark:text-emerald-400 dark:shadow-[inset_0_1px_2px_rgb(0_0_0/0.45),0_0_0_1px_rgb(52_211_153/0.3)]",
+  },
 };
 
 export interface RevealButtonProps
@@ -47,8 +59,18 @@ export interface RevealButtonProps
   label?: React.ReactNode;
   hiddenLabel?: React.ReactNode;
   revealMode?: "hold" | "toggle";
-  /** Dark (default) or light graded surface. */
+  /**
+   * Surface style. `"auto"` is light and switches to the dark graphite face under
+   * a `.dark` ancestor; `"dark"` and `"light"` force one face.
+   * @default "auto"
+   */
   variant?: RevealButtonVariant;
+  /**
+   * Start with the secret showing. In `"hold"` mode the next release hides it.
+   * Read on mount only.
+   * @default false
+   */
+  defaultRevealed?: boolean;
   maskedValue?: string;
   onRevealChange?: (revealed: boolean) => void;
 }
@@ -63,7 +85,8 @@ export const RevealButton = React.forwardRef<
       label = "Reveal",
       hiddenLabel = "Hidden",
       revealMode = "hold",
-      variant = "dark",
+      variant = "auto",
+      defaultRevealed = false,
       maskedValue = "•••• •••• ••••",
       onRevealChange,
       className,
@@ -72,7 +95,7 @@ export const RevealButton = React.forwardRef<
     },
     ref,
   ) => {
-    const [revealed, setRevealed] = React.useState(false);
+    const [revealed, setRevealed] = React.useState(defaultRevealed);
     const surface = surfaces[variant];
 
     const updateRevealed = (next: boolean) => {
