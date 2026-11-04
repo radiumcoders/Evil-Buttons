@@ -10,6 +10,14 @@ export const docs = defineDocs({
     schema: pageSchema.extend({
       category: z.enum(DOCS_CATEGORIES).optional(),
       image: z.string().optional(),
+      /** Credits the original idea a component is based on. */
+      credit: z
+        .object({
+          name: z.string(),
+          handle: z.string().optional(),
+          url: z.string().url(),
+        })
+        .optional(),
       links: z
         .object({
           github: z.string().url().optional(),

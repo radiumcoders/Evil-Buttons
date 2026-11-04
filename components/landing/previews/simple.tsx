@@ -13,6 +13,7 @@ import MoviePassButton, {
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
 import ThrusterButton from "@/components/evil-buttons/thruster-button";
+import StretchyButton from "@/components/evil-buttons/stretchy-button";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import { DeferredWebGLPreview } from "./shared";
 import { LiveProps } from "./live-props";
@@ -166,6 +167,33 @@ export function ThrusterButtonPreview() {
       <ThrusterButton thrust={p.thrust} tilt={p.tilt}>
         {p.label}
       </ThrusterButton>
+    </LiveProps>
+  );
+}
+
+export function StretchyButtonPreview() {
+  const p = useDialKit(
+    "StretchyButton",
+    {
+      label: "Stretch me",
+      color: "#3d9df5",
+      stretch: [70, 20, 160],
+      snap: [220, 80, 400],
+      wobble: [0.6, 0, 1],
+    },
+    { id: "stretchy-button" },
+  );
+
+  return (
+    <LiveProps>
+      <StretchyButton
+        color={p.color}
+        stretch={p.stretch}
+        snap={p.snap}
+        wobble={p.wobble}
+      >
+        {p.label}
+      </StretchyButton>
     </LiveProps>
   );
 }

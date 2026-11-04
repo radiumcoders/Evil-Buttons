@@ -3,6 +3,7 @@ import { ClickPowerUp } from "@/components/evil-buttons/click-powerup";
 import MinimalButton from "@/components/evil-buttons/minimal";
 import StickyButton from "@/components/evil-buttons/sticky";
 import ThrusterButton from "@/components/evil-buttons/thruster-button";
+import StretchyButton from "@/components/evil-buttons/stretchy-button";
 import { PreviewCard } from "@/components/preview-card";
 import type { MDXComponents } from "mdx/types";
 import { isValidElement, type ReactNode } from "react";
@@ -103,6 +104,7 @@ export function getCustomMDXComponents(): MDXComponents {
     ClickPowerUp,
     StickyButton,
     ThrusterButton,
+    StretchyButton,
     ShinyButton,
     MoviePassButton,
     MinimalButton,

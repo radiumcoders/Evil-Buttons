@@ -95,6 +95,20 @@ export default async function DocsPage({ params }: DocsPageProps) {
               {page.data.description}
             </p>
           ) : null}
+          {page.data.credit ? (
+            <p className="text-[13px] leading-6 font-medium text-foreground/75">
+              Original idea by{" "}
+              <a
+                href={page.data.credit.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+              >
+                {page.data.credit.name}
+                {page.data.credit.handle ? ` (@${page.data.credit.handle})` : null}
+              </a>
+            </p>
+          ) : null}
         </header>
         <article className="docs-content relative min-w-0">
           <MDX

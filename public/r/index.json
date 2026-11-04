@@ -31,6 +31,15 @@
       ]
     },
     {
+      "name": "stretchy-button",
+      "type": "registry:ui",
+      "title": "StretchyButton",
+      "description": "A rubbery pill you can grab and pull. Its outline and every letter of its label stretch toward the cursor, and it wobbles back into shape when you let go.",
+      "files": [
+        "components/evil-buttons/stretchy-button.tsx"
+      ]
+    },
+    {
       "name": "shiny-button",
       "type": "registry:ui",
       "title": "ShinyButton",
