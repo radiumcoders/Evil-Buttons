@@ -1,0 +1,143 @@
+diff --git a/dist/color-control.js b/dist/color-control.js
+index 4207801f7acf8d3475437acdc1cb5b80b443123e..f02fce730e4ed52bf185e315c004e2149d2af79d 100644
+--- a/dist/color-control.js
++++ b/dist/color-control.js
+@@ -140,7 +140,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/dropdown-keyboard.js b/dist/dropdown-keyboard.js
+index 8e443c01e9c8d1ed1756869347d4e9ef403e1693..fd7a2a70769a94e7a0abfb1028aa049a90fc45c5 100644
+--- a/dist/dropdown-keyboard.js
++++ b/dist/dropdown-keyboard.js
+@@ -17,7 +17,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/dropdown-position.js b/dist/dropdown-position.js
+index 28bb743a96d5b8cd0f77b58d46c2836e558c48d5..4a562b3ae9ecb372ed4a2364555ea687ceb8313e 100644
+--- a/dist/dropdown-position.js
++++ b/dist/dropdown-position.js
+@@ -17,7 +17,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/image-control.js b/dist/image-control.js
+index eb1f9ec5b0d16d85e2e6d2f4bc3db59acd8b3e66..de76cf90359e4cba2fb81f4cefa085cc35f914ce 100644
+--- a/dist/image-control.js
++++ b/dist/image-control.js
+@@ -25,7 +25,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/index.cjs b/dist/index.cjs
+index e25afc264bc7852c006a978665875592ff36f1e1..25b0d650c4391aa76021f7b3c16d9bedb0a70f47 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -3179,7 +3179,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/index.js b/dist/index.js
+index 7ee83a8bc326ae9f894f30f0dca59c405f18b617..67107a1c9392feef2927d61e515b8513fe364537 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -3130,7 +3130,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/solid/index.js b/dist/solid/index.js
+index e5e3c6f0455ca489bff7ce36614dedc934e278f3..bc5d13d8e8bb185d2c0d5d1e38d4b7bcaf284c5c 100644
+--- a/dist/solid/index.js
++++ b/dist/solid/index.js
+@@ -3330,7 +3330,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/vanilla/browser.global.js b/dist/vanilla/browser.global.js
+index a1af397f3591a34ea9d3990e51b735e41d7d00f3..a30764b97e5b7581f06d2253e2b3b9056d4d85c3 100644
+--- a/dist/vanilla/browser.global.js
++++ b/dist/vanilla/browser.global.js
+@@ -1449,7 +1449,7 @@ Apply these values as the new defaults in the ${hookName} call.`;
+     const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+     let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+     let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-    if (options.preferSide) {
++    if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+       const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+       const before = sideRect.left - width - gap;
+       const after = sideRect.right + gap;
+diff --git a/dist/vanilla/index.cjs b/dist/vanilla/index.cjs
+index b92e10fbbb9d56fdbc2378eea983b2f47733fdc6..e4595e2fdc150d1b8d49459f4ce0e1dac1364515 100644
+--- a/dist/vanilla/index.cjs
++++ b/dist/vanilla/index.cjs
+@@ -1449,7 +1449,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/vanilla/index.js b/dist/vanilla/index.js
+index e6552de6c4b2f12256e37ec077baec72f3ec97a4..0e4f5d4edbcd392ad523488dec7351f7d097b127 100644
+--- a/dist/vanilla/index.js
++++ b/dist/vanilla/index.js
+@@ -1379,7 +1379,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
+diff --git a/dist/vue/index.js b/dist/vue/index.js
+index 85739fa5694aace64e1bb6e447eeae927fe8b0f7..d7e1e549bf0814028bbb4064f3fdc472462867b0 100644
+--- a/dist/vue/index.js
++++ b/dist/vue/index.js
+@@ -2702,7 +2702,7 @@ function getDropdownPosition(trigger, portalRoot, options = {}) {
+   const width = Math.min(options.width ?? triggerRect.width, Math.max(0, viewportWidth - margin * 2));
+   let left = Math.max(viewportLeft + margin, Math.min(triggerRect.left, viewportLeft + viewportWidth - width - margin));
+   let top = Math.max(viewportTop + margin, above ? triggerRect.top - height - gap : triggerRect.bottom + gap);
+-  if (options.preferSide) {
++  if (options.preferSide && !trigger.closest('[data-mode="inline"]')) {
+     const sideRect = trigger.closest(".dialkit-panel-inner")?.getBoundingClientRect() ?? triggerRect;
+     const before = sideRect.left - width - gap;
+     const after = sideRect.right + gap;
