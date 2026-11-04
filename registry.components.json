@@ -27,6 +27,15 @@
     "dependencies": ["motion", "clsx", "tailwind-merge"]
   },
   {
+    "name": "stretchy-button",
+    "exportName": "StretchyButton",
+    "docSlug": "stretchy-button",
+    "title": "StretchyButton",
+    "description": "A rubbery pill you can grab and pull. Its outline and every letter of its label stretch toward the cursor, and it wobbles back into shape when you let go.",
+    "file": "components/evil-buttons/stretchy-button.tsx",
+    "dependencies": ["motion", "clsx", "tailwind-merge"]
+  },
+  {
     "name": "shiny-button",
     "exportName": "ShinyButton",
     "docSlug": "shiny-button",

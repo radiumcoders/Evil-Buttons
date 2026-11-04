@@ -31,6 +31,7 @@ import MoviePassButton from "@/components/evil-buttons/movie-pass";
 import ShinyButton from "@/components/evil-buttons/shiny-button";
 import StickyButton from "@/components/evil-buttons/sticky";
 import ThrusterButton from "@/components/evil-buttons/thruster-button";
+import StretchyButton from "@/components/evil-buttons/stretchy-button";
 import { ThreeDButton } from "@/components/evil-buttons/3d-button";
 import { DeferredWebGLPreview } from "./shared";
 import { themeColors } from "./theme";
@@ -259,6 +260,10 @@ export function StaticThrusterButtonPreview() {
       <ThrusterButton>Liftoff</ThrusterButton>
     </div>
   );
+}
+
+export function StaticStretchyButtonPreview() {
+  return <StretchyButton>Stretch me</StretchyButton>;
 }
 
 export function StaticThreeDButtonPreview() {

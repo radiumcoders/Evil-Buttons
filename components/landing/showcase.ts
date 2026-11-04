@@ -23,6 +23,7 @@ export const showcase: ShowcaseEntry[] = [
   { name: "HighlightButton", href: "/docs/highlight-button", registryName: "highlight-button", variants: ["default", "secondary", "outline"] },
   { name: "MinimalButton", href: "/docs/minimal-button", registryName: "minimal" },
   { name: "MoviePassButton", href: "/docs/movie-pass", registryName: "movie-pass", variants: ["tilt", "snap"] },
+  { name: "StretchyButton", href: "/docs/stretchy-button", registryName: "stretchy-button" },
   { name: "ShinyButton", href: "/docs/shiny-button", registryName: "shiny-button" },
   { name: "StickyButton", href: "/docs/sticky-button", registryName: "sticky" },
   { name: "ThrusterButton", href: "/docs/thruster-button", registryName: "thruster-button" },

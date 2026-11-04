@@ -3,3 +3,5 @@ allowBuilds:
   msw: true
   sharp: true
   unrs-resolver: true
+patchedDependencies:
+  dialkit@2.0.2: patches/dialkit@2.0.2.patch

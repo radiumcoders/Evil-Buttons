@@ -1,0 +1,72 @@
+---
+title: StretchyButton
+description: A rubbery pill you can grab and pull. Its outline and every letter of its label stretch toward the cursor, and it wobbles back into shape when you let go.
+category: Interactive
+credit:
+  name: Adi
+  handle: AdityaSur11
+  url: https://x.com/AdityaSur11/status/2117524680412393581
+---
+
+## Preview
+
+<PreviewCard live>
+  <StretchyButton>Stretch me</StretchyButton>
+</PreviewCard>
+
+## Install
+
+<Cmd>@evilbuttons/stretchy-button</Cmd>
+
+## Usage
+
+```tsx
+import StretchyButton from "@/components/evil-buttons/stretchy-button";
+
+export function ButtonDemo() {
+  return <StretchyButton>Stretch me</StretchyButton>;
+}
+```
+
+## Variants
+
+### Taffy
+
+A long stretch and a far snap point: it pulls a long way before it slips free.
+
+<PreviewCard>
+  <StretchyButton color="#f472b6" stretch={110} snap={320}>Pull harder</StretchyButton>
+</PreviewCard>
+
+### Firm Rubber
+
+Short stretch and almost no wobble, so it barely gives and settles quickly.
+
+<PreviewCard>
+  <StretchyButton color="#22c55e" stretch={35} wobble={0.1}>Barely budges</StretchyButton>
+</PreviewCard>
+
+## Props
+
+The component spreads native `button` props and forwards its ref to the button.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | - | The label. Plain text bends letter by letter; other content bends as one piece. |
+| `color` | `string` | `"#3d9df5"` | Fill color of the rubber body. |
+| `stretch` | `number` | `70` | How far in px the rubber gives before it stiffens up. |
+| `snap` | `number` | `220` | Drag distance in px at which the button slips out of your grip. |
+| `wobble` | `number` | `0.6` | How much it jiggles when let go, from `0` (settles) to `1` (very wobbly). |
+| `className` | `string` | - | Extra classes passed to the button. |
+
+## Good to know
+
+- Press anywhere on the button and drag. The spot you grabbed follows the cursor and the rubber around it comes along: pull from the middle and it bends like a banana, pull from an end and that end stretches out.
+- The label rides the same deformation, so the letters arc, lean and spread with the body.
+- A drag is not a click. Only a press that barely moves fires `onClick`, and it dents the rubber where you hit it.
+- Pull past `snap` and it slips out of your grip and wobbles home.
+- Reduced motion and `disabled` turn it into a plain pill.
+
+## Credits
+
+The original idea and design are by [Adi (@AdityaSur11)](https://x.com/AdityaSur11), from the [Stretchy button](https://x.com/AdityaSur11/status/2117524680412393581) post. This is an independent re-implementation for Evil Buttons. Go give the original some love.

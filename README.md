@@ -42,3 +42,11 @@ shadcn/ui registry of playful, highly animated button components with evil aesth
 
 <p align="center"><a href="https://www.evilbuttons.com">Become a sponsor</a> to get your logo on the landing page, in the docs and here.</p>
 
+
+---
+
+## Credits
+
+Some buttons are re-implementations of ideas other people shared first. Go show them some love.
+
+- **StretchyButton**: original idea and design by [Adi (@AdityaSur11)](https://x.com/AdityaSur11), from the [Stretchy button](https://x.com/AdityaSur11/status/2117524680412393581) post.
