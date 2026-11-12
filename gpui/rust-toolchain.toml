@@ -1,0 +1,7 @@
+# GPUI (gpui-pre) uses recently stabilised std APIs such as `slice::as_array`,
+# so builds need a current stable Rust. CI and the Vercel build honour this.
+[toolchain]
+channel = "stable"
+targets = ["wasm32-unknown-unknown"]
+profile = "minimal"
+components = ["rustfmt", "clippy"]
