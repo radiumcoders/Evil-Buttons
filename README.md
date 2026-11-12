@@ -10,6 +10,17 @@ shadcn/ui registry of playful, highly animated button components with evil aesth
 -  Minimal but Cool
 ---
 
+## GPUI
+
+The same buttons for [GPUI](https://gpui.rs), Zed's Rust UI framework, live in [`gpui/`](gpui).
+Live demos and docs: [gpui.evilbuttons.com](https://gpui.evilbuttons.com).
+
+```sh
+cargo add evilbuttons
+```
+
+---
+
 ## Sponsors
 
 <p align="center">Evil Buttons is free and open source. These sponsors keep the buttons coming.</p>

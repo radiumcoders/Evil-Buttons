@@ -1,13 +1,19 @@
-name: CI
+name: GPUI
 
+# The Rust/GPUI port lives in gpui/. Only run when it changes.
 on:
   push:
     branches: [main]
+    paths: ["gpui/**", ".github/workflows/gpui.yml"]
   pull_request:
+    paths: ["gpui/**", ".github/workflows/gpui.yml"]
 
 jobs:
   rust:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: gpui
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -15,29 +21,12 @@ jobs:
           targets: wasm32-unknown-unknown
           components: clippy, rustfmt
       - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: gpui
       - name: Linux deps for GPUI
         run: sudo apt-get update && sudo apt-get install -y libxkbcommon-dev libxkbcommon-x11-dev libwayland-dev libvulkan-dev libx11-xcb-dev libfontconfig-dev
       - run: cargo fmt --all --check
       - run: cargo clippy -p evilbuttons -- -D warnings
       - run: cargo test -p evilbuttons
-      - name: Build wasm gallery
-        run: cargo build --release --target wasm32-unknown-unknown -p evilbuttons-gallery
-
-  site:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: site
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          package_json_file: site/package.json
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: site/pnpm-lock.yaml
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm build
+      - name: Build for wasm (the browser demos use it)
+        run: cargo build --release --target wasm32-unknown-unknown -p evilbuttons

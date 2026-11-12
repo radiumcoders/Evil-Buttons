@@ -81,6 +81,8 @@ const eslintConfig = defineConfig([
     // with `shadcn add --overwrite`, so local lint fixes wouldn't survive.
     "components/charts/**",
     "components/shimmering-text.tsx",
+    // The Rust/GPUI port (and its cargo target dir).
+    "gpui/**",
   ]),
 ]);
 
