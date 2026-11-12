@@ -1,0 +1,18 @@
+[workspace]
+resolver = "3"
+members = ["crates/evilbuttons", "crates/gallery"]
+
+[workspace.package]
+edition = "2024"
+license = "Apache-2.0"
+repository = "https://github.com/radiumcoders/Evil-Buttons-gpui"
+homepage = "https://gpui.evilbuttons.com"
+
+[workspace.dependencies]
+gpui = { package = "gpui-pre", version = "0.3.9" }
+gpui_platform = { package = "gpui-pre-platform", version = "=0.3.9" }
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
