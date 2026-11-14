@@ -22,6 +22,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { FrameworkSwitch } from "@/components/framework-switch";
 import { cn } from "@/lib/utils";
 import { EggHuntButton } from "@/components/easter-eggs/egg-hunt";
 
@@ -154,6 +155,7 @@ function DocsSidebarChrome({
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="flex h-14 shrink-0 items-center px-4">{brand}</div>
+      <FrameworkSwitch />
       <div className="docs-scroll min-h-0 flex-1 overflow-y-auto px-2 py-2 [mask-image:linear-gradient(to_bottom,transparent,black_12px,black_calc(100%-16px),transparent)]">
         {children}
       </div>

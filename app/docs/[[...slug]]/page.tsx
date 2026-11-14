@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { Metadata } from "next";
 import type { ComponentProps } from "react";
 import { notFound } from "next/navigation";
+import { CounterpartChip } from "@/components/counterpart-chip";
 import { DocsHeaderShader } from "@/components/docs-header-shader";
 import { DocsPageActions } from "@/components/docs-page-actions";
 import { getMDXComponents } from "@/components/mdx";
@@ -95,6 +96,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
               {page.data.description}
             </p>
           ) : null}
+          <CounterpartChip pathname={page.url} />
         </header>
         <article className="docs-content relative min-w-0">
           <MDX
