@@ -65,6 +65,13 @@ export function LandingFooter() {
                 </a>
               </span>
               <span aria-hidden>·</span>
+              <span>
+                Also for{" "}
+                <a href={siteConfig.gpui} target="_blank" rel="noopener" className={smallText}>
+                  GPUI
+                </a>
+              </span>
+              <span aria-hidden>·</span>
               <EggHuntButton label className="h-6 text-foreground/60" />
             </p>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-2">

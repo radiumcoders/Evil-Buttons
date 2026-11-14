@@ -11,6 +11,8 @@ export const siteConfig = {
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? DEFAULT_SITE_URL).replace(/\/$/, ""),
   locale: "en_US",
   github: "https://github.com/radiumcoders/evil-buttons",
+  /** The same buttons for GPUI, Zed's Rust UI framework. */
+  gpui: "https://gpui.evilbuttons.com",
   author: {
     name: "Radium Coders",
     url: "https://radiumcoders.com",

@@ -68,6 +68,16 @@ export function Navbar() {
             </Link>
           ))}
           <a
+            href={siteConfig.gpui}
+            target="_blank"
+            rel="noopener"
+            title="Evil Buttons for GPUI (Rust)"
+            // No room beside the theme toggle on phones; the footer links it there.
+            className="hidden h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/5 hover:text-foreground sm:inline-flex"
+          >
+            GPUI
+          </a>
+          <a
             href={siteConfig.github}
             target="_blank"
             rel="noreferrer"
