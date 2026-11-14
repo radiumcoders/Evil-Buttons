@@ -83,20 +83,22 @@ export default async function DocsPage({ params }: DocsPageProps) {
             <h1 className="font-heading text-[2.25rem] leading-[1.1] font-semibold tracking-[-0.03em] text-foreground">
               {page.data.title}
             </h1>
-            <DocsPageActions
-              markdown={markdown}
-              githubUrl={`${siteConfig.github}/blob/main/content/docs/${page.path}`}
-              markdownUrl={rawPath}
-              markdownAbsoluteUrl={absoluteUrl(rawPath)}
-              v0Url={v0Url}
-            />
+            <div className="flex flex-wrap items-center gap-2">
+              <CounterpartChip pathname={page.url} />
+              <DocsPageActions
+                markdown={markdown}
+                githubUrl={`${siteConfig.github}/blob/main/content/docs/${page.path}`}
+                markdownUrl={rawPath}
+                markdownAbsoluteUrl={absoluteUrl(rawPath)}
+                v0Url={v0Url}
+              />
+            </div>
           </div>
           {page.data.description ? (
             <p className="max-w-2xl text-[15px] leading-7 font-medium text-foreground">
               {page.data.description}
             </p>
           ) : null}
-          <CounterpartChip pathname={page.url} />
         </header>
         <article className="docs-content relative min-w-0">
           <MDX
