@@ -9,6 +9,7 @@ import { DocsPageActions } from "@/components/docs-page-actions";
 import { getMDXComponents } from "@/components/mdx";
 import { PreviewCard } from "@/components/preview-card";
 import { PageToc } from "@/components/page-toc";
+import { BreezeUiCard } from "@/components/breeze-ui";
 import { ShadcnLabsCard } from "@/components/shadcn-labs";
 import { TracwellCard } from "@/components/tracwell-card";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -115,6 +116,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
           <p className="text-xs font-medium text-muted-foreground">On this page</p>
           <PageToc />
           <div className="mt-6 flex flex-col gap-2">
+            <BreezeUiCard />
             <ShadcnLabsCard />
             <TracwellCard />
           </div>

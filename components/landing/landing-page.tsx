@@ -12,6 +12,7 @@ import type { ReactNode } from "react";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { ShaderBackdrop, TopScrim } from "@/components/landing/shader-backdrop";
 import { ShowcaseCarousel } from "@/components/landing/showcase-carousel";
+import { SponsorRibbon } from "@/components/landing/sponsor-ribbon";
 import {
   SHADCN_LABS_URL,
   ShadcnLabsLogomark,
@@ -132,6 +133,7 @@ export function LandingPage({ categories, children }: LandingPageProps) {
           <ShaderBackdrop />
           <TopScrim />
         </div>
+        <SponsorRibbon />
         <Navbar />
 
         <section className="mx-auto flex max-w-3xl shrink-0 flex-col items-center px-4 pt-[clamp(0.75rem,5dvh,4rem)] text-center">
